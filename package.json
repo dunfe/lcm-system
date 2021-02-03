@@ -1,0 +1,15 @@
+{
+  "name": "lcm-system",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/qngnud/lcm-system.git",
+  "author": "Dũng Nguyễn <qngnud@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
