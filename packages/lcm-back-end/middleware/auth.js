@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken');
-const  { SECRET_KEY } = require('./../config/config');
+import jwt from 'jsonwebtoken';
+import config from '../config/config.js';
 
-module.exports = (req, res, next) => {
+//module.exports
+const auth = (req, res, next) => {
     const authHeader = req.headers.authorization;
     const error = new Error();
     error.status = 403;
@@ -9,7 +10,7 @@ module.exports = (req, res, next) => {
         const token = authHeader.split('Bearer ')[1];
         if (token) {
             try {
-                const user = jwt.verify(token, SECRET_KEY);
+                const user = jwt.verify(token, config.SECRET_KEY);
                 req.user = user;
                 return next();
             } catch (e) {
@@ -23,3 +24,5 @@ module.exports = (req, res, next) => {
     error.message = 'authorization header must be provided';
     return next(error);
 };
+
+export default auth;

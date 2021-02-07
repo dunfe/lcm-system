@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     username: { type: String, required: true},
@@ -14,8 +15,7 @@ const userSchema = new Schema({
 userSchema.pre('save', async function(next) {
     try {
         const salt = await bcrypt.genSalt(10);
-        const passwordHash = await bcrypt.hash(this.password, salt);
-        this.password = passwordHash;
+        this.password = await bcrypt.hash(this.password, salt);
         next();
     } catch (error) {
         next(error);
@@ -30,4 +30,5 @@ userSchema.methods.isPasswordValid = async function(value){
     }
 };
 
-module.exports = mongoose.model('user', userSchema);
+var user = mongoose.model('user', userSchema);
+export default user;
