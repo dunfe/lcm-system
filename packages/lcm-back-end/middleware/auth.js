@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import config from '../config/config.js';
 
 //module.exports
 const auth = (req, res, next) => {
@@ -10,7 +9,7 @@ const auth = (req, res, next) => {
         const token = authHeader.split('Bearer ')[1];
         if (token) {
             try {
-                req.user = jwt.verify(token, config.SECRET_KEY);
+                req.user = jwt.verify(token, process.env.SECRET_KEY);
                 return next();
             } catch (e) {
                 error.message = 'invalid/expired token';

@@ -1,8 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
-import config from '../config/config.js';
-
 
 const router = express.Router();
 
@@ -14,7 +12,7 @@ export const getSignToken = user => {
         status: user.status,
         created_date: user.created_date,
         last_modified_date: user.last_modified_date
-    }, config.SECRET_KEY, { expiresIn: '1h'});
+    }, process.env.SECRET_KEY, { expiresIn: '1h'});
 };
 
 export const register = async (req, res, next) => {
@@ -24,7 +22,7 @@ export const register = async (req, res, next) => {
     if( user ){
         return res.status(403).json({error: { message: 'username already in use!'}});
     };
-        
+
     const newUser = new User({ username, password, email, status, created_date, last_modified_date });
     try {
         await newUser.save();
@@ -43,8 +41,8 @@ export const login = async (req, res) => {
     if (!user){
         return res.status(403).json({ error: {message: 'invalid username/password'}});
     };
-     
-    const isValid = await user.isPasswordValid(password); 
+
+    const isValid = await user.isPasswordValid(password);
 
     if(!isValid){
         return res.status(401).json({ error: {message: 'invalid username/password'}});
