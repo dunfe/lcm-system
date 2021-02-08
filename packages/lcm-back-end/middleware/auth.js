@@ -10,8 +10,7 @@ const auth = (req, res, next) => {
         const token = authHeader.split('Bearer ')[1];
         if (token) {
             try {
-                const user = jwt.verify(token, config.SECRET_KEY);
-                req.user = user;
+                req.user = jwt.verify(token, config.SECRET_KEY);
                 return next();
             } catch (e) {
                 error.message = 'invalid/expired token';
