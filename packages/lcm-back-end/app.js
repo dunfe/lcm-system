@@ -1,11 +1,12 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const app = express();
-const bodyParser = require('body-parser');
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 
-const { MONGODB_URI } = require('./config/config');
-const userRoutes = require('./routes/user');
-const auth = require('./middleware/auth');
+import config from '../lcm-back-end/config/config.js';
+import userRoutes from './routes/user.js';
+import auth from './middleware/auth.js';
+
+const app = express();
 
 app.use(bodyParser.json());
 
@@ -28,7 +29,7 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to MongoDB
-mongoose.connect(MONGODB_URI, { 
+mongoose.connect(config.MONGODB_URI, { 
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then (() => {

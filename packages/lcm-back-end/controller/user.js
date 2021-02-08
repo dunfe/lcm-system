@@ -1,13 +1,30 @@
-const User = require('./../models/user');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import User from '../models/user.js';
+import config from '../config/config.js';
+import user from '../models/user.js';
 
-const jwt = require('jsonwebtoken');
-const { SECRET_KEY } = require('./../config/config');
+const router = express.Router();
 
-exports.register = async (req, res, next) => {
+export const getSignToken = user => {
+    return jwt.sign({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        status: user.status,
+        created_date: user.created_date,
+        last_modified_date: user.last_modified_date
+    }, config.SECRET_KEY, { expiresIn: '1h'});
+};
+
+export const register = async (req, res, next) => {
     const { username, password, email, status, created_date, last_modified_date} = req.body;
     const user = await User.findOne({username});
-    if(user)
+
+    if( user ){
         return res.status(403).json({error: { message: 'username already in use!'}});
+    };
+        
     const newUser = new User({ username, password, email, status, created_date, last_modified_date });
     try {
         await newUser.save();
@@ -19,25 +36,22 @@ exports.register = async (req, res, next) => {
     }
 };
 
-exports.login = async (req, res, next) => {
+export const login = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-    if (!user)
+
+    if (!user){
         return res.status(403).json({ error: {message: 'invalid username/password'}});
+    };
+     
     const isValid = await user.isPasswordValid(password); 
-    if(!isValid)
+
+    if(!isValid){
         return res.status(401).json({ error: {message: 'invalid username/password'}});
+    };
+
     const token = getSignToken(user);
-    res.status(200).json({ token });
+    return res.status(200).json({ token });
 };
 
-getSignToken = user => {
-    return jwt.sign({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        status: user.status,
-        created_date: user.created_date,
-        last_modified_date: user.last_modified_date
-    }, SECRET_KEY, { expiresIn: '1h'});
-};
+export default router;
