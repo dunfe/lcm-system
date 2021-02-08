@@ -16,24 +16,32 @@ import 'antd/dist/antd.css';
 import { HomePage } from './pages/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { useTranslation } from 'react-i18next';
+import LoginPage from './pages/LoginPage';
+import { ProvideAuth } from '../utils/hooks/useAuth';
+import { PrivateRoute } from './components/Auth/PrivateRoute';
 
 export function App() {
   const { i18n } = useTranslation();
   return (
-    <BrowserRouter>
-      <Helmet
-        titleTemplate="%s - React Boilerplate"
-        defaultTitle="React Boilerplate"
-        htmlAttributes={{ lang: i18n.language }}
-      >
-        <meta name="description" content="A React Boilerplate application" />
-      </Helmet>
+    <ProvideAuth>
+      <BrowserRouter>
+        <Helmet
+          titleTemplate="%s - React Boilerplate"
+          defaultTitle="React Boilerplate"
+          htmlAttributes={{ lang: i18n.language }}
+        >
+          <meta name="description" content="A React Boilerplate application" />
+        </Helmet>
 
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
-      <GlobalStyle />
-    </BrowserRouter>
+        <Switch>
+          <PrivateRoute path="/dashboard">
+            <HomePage />
+          </PrivateRoute>
+          <Route exact path="/auth" component={LoginPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+        <GlobalStyle />
+      </BrowserRouter>
+    </ProvideAuth>
   );
 }
