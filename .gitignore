@@ -1,2 +1,3 @@
 /node_modules/
 /packages/lcm-back-end/node_modules/
+/packages/lcm-back-end/.env
