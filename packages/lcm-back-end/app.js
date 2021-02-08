@@ -1,12 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv'
 
-import config from '../lcm-back-end/config/config.js';
 import userRoutes from './routes/user.js';
 import auth from './middleware/auth.js';
 
 const app = express();
+
+dotenv.config()
 
 app.use(bodyParser.json());
 
@@ -29,7 +31,7 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to MongoDB
-mongoose.connect(config.MONGODB_URI, { 
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then (() => {
