@@ -49,6 +49,7 @@ export const login = async (req, res) => {
     };
 
     const token = getSignToken(user);
+    
     return res.status(200).json({ token });
 };
 
