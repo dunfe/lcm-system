@@ -8,16 +8,11 @@ import {
 } from '@ant-design/icons';
 import { Logo } from './components/Logo';
 import { LogoContainer } from './components/LogoContainer';
-import { useEffect } from 'react';
 
 const { Sider, Header, Content, Footer } = Layout;
 
 export function HomePage() {
   //check login
-  useEffect(() => {
-    if (1) {
-    }
-  });
 
   return (
     <>

@@ -34,10 +34,10 @@ export function App() {
         </Helmet>
 
         <Switch>
-          <PrivateRoute path="/dashboard">
+          <PrivateRoute path="/" exact>
             <HomePage />
           </PrivateRoute>
-          <Route exact path="/auth" component={LoginPage} />
+          <Route path="/login" component={LoginPage} />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
