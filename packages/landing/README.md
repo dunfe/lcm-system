@@ -3,7 +3,7 @@
 ⚠️ Using [Yarn Package Manager](https://yarnpkg.com) is recommended over `npm`.
 
 ```shell
-cd packages/client
+cd packages/landing
 yarn install
 yarn start
 ```
