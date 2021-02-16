@@ -9,10 +9,9 @@
   "devDependencies": {
     "lerna": "^3.22.1"
   },
-  "workspaces": {
-    "packages": ["packages/*"],
-    "nohoist": ["**/babel-jest", "**/babel-jest/**"]
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
