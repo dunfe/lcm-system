@@ -3,6 +3,7 @@ import { actions } from '../../redux/slice/authenticationSlice';
 
 function* signIn() {
   try {
+    console.log('log in');
     yield put({ type: actions.signIn });
   } catch (e) {
     console.error(e);

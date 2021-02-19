@@ -31,8 +31,8 @@ export const useAuth = (): IUseAuthType => {
 
 // Provider hook that creates auth object and handles state
 function useProvideAuth(): IUseAuthType {
-  // TODO: change type of user
-  const [user, setUser] = useState<any>('');
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<firebase.User | null>(null);
 
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
@@ -42,8 +42,10 @@ function useProvideAuth(): IUseAuthType {
       .signInWithEmailAndPassword(email, password)
       .then(response => {
         setUser(response.user);
+        setLoading(false);
         return response.user;
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const signUp = (email: string, password: string) => {
@@ -52,8 +54,10 @@ function useProvideAuth(): IUseAuthType {
       .createUserWithEmailAndPassword(email, password)
       .then(response => {
         setUser(response.user);
+        setLoading(false);
         return response.user;
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const signOut = () => {
@@ -61,8 +65,10 @@ function useProvideAuth(): IUseAuthType {
       .auth()
       .signOut()
       .then(() => {
-        setUser('');
-      });
+        setLoading(true);
+        setUser(null);
+      })
+      .finally(() => setLoading(false));
   };
 
   const sendPasswordResetEmail = (email: string) => {
@@ -71,7 +77,8 @@ function useProvideAuth(): IUseAuthType {
       .sendPasswordResetEmail(email)
       .then(() => {
         return true;
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const confirmPasswordReset = (code: string, password: string) => {
@@ -80,7 +87,8 @@ function useProvideAuth(): IUseAuthType {
       .confirmPasswordReset(code, password)
       .then(() => {
         return true;
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   // Subscribe to user on mount
@@ -92,8 +100,9 @@ function useProvideAuth(): IUseAuthType {
       if (user) {
         setUser(user);
       } else {
-        setUser('');
+        setUser(null);
       }
+      setLoading(false);
     });
 
     // Cleanup subscription on unmount
@@ -102,6 +111,7 @@ function useProvideAuth(): IUseAuthType {
 
   // Return the user object and auth methods
   return {
+    loading,
     user,
     signIn,
     signUp,
