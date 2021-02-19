@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import LoginPage from './pages/LoginPage';
 import { ProvideAuth } from '../utils/hooks/useAuth';
 import { PrivateRoute } from './components/Auth/PrivateRoute';
+import SessionPage from './pages/SessionPage';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -38,6 +39,7 @@ export function App() {
             <HomePage />
           </PrivateRoute>
           <Route path="/login" component={LoginPage} />
+          <Route path="/session" component={SessionPage} />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
