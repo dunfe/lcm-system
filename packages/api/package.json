@@ -15,5 +15,8 @@
     "path": "^0.12.7",
     "shortid": "^2.2.16"
   },
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  }
 }
