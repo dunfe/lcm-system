@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv'
 
 import userRoutes from './routes/user.js';
+import skillRoutes from './routes/skills.js';
+
 import auth from './middleware/auth.js';
 
 const app = express();
@@ -17,6 +19,7 @@ app.use('/api/protected', auth, (req,res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/admin',skillRoutes);
 
 // Support respone status
 app.use((req, res, next) => {
@@ -32,6 +35,7 @@ app.use((err, req, res, next) => {
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
+  useFindAndModify: false,
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then (() => {
