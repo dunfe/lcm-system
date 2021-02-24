@@ -30,7 +30,7 @@ const SignUpComponent = () => {
     auth
       .signUp(email, password)
       .then(response => {
-        message.success('Đăng kí thành công').then(() => {
+        message.success('Đăng ký thành công').then(() => {
           console.log(response);
         });
         dispatch(actions.signIn);

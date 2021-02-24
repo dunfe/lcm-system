@@ -11,7 +11,7 @@
   },
   "workspaces": {
     "packages": ["packages/*"],
-    "nohoist": ["**/babel-jest", "**/babel-jest/**"]
+    "nohoist": ["**/babel-jest", "**/babel-jest/**", "**/babel-loader", "**/babel-loader/**"]
   },
   "dependencies": {
     "cors": "^2.8.5",

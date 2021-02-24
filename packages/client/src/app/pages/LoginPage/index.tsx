@@ -3,7 +3,6 @@ import { reducer } from '../../../redux/slice/authenticationSlice';
 import authenticationSaga from '../../../sagas/authentication/authenticationSaga';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 import { Tabs } from 'antd';
-import { useTypedSelector } from '../../../types/RootState';
 import styled from 'styled-components';
 import SignInComponent from '../../components/Auth/SignInComponent';
 import SignUpComponent from '../../components/Auth/SignUpComponent';
@@ -17,16 +16,13 @@ const LoginPage = () => {
     saga: authenticationSaga,
   });
 
-  const isAuthenticated = useTypedSelector(state => state.isAuthenticated);
-
   return (
     <LoginPageContainer className={'login-page-container'}>
-      <p>{isAuthenticated}</p>
       <StyledTabs defaultActiveKey="1">
         <TabPane tab="Đăng nhập" key="1">
           <SignInComponent />
         </TabPane>
-        <TabPane tab="Đăng kí" key="2">
+        <TabPane tab="Đăng ký" key="2">
           <SignUpComponent />
         </TabPane>
       </StyledTabs>
