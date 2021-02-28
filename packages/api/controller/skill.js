@@ -1,4 +1,5 @@
 import express from 'express';
+
 import Skill from '../models/skill.js';
 
 const router = express.Router();
@@ -6,7 +7,8 @@ const router = express.Router();
 export const getSkills = async (req, res, next) => {
     try {
         const skills = await Skill.find();
-        res.send(skills);
+        
+        res.json(skills);
     } catch (error) {
         console.log(err);
         res.json(error);
@@ -18,6 +20,7 @@ export const getSkill = async (req, res, next) => {
         const skill = await Skill.findOne({
             _id: req.params.id,
         });
+
         res.json(skill);
     } catch (error) {
         console.log(err);
@@ -34,6 +37,7 @@ export const createSkill = async (req, res, next) => {
     };
 
     const newSkill = new Skill({ skill_name, status, create_date, last_modified_date});
+
     try {
         const newSkills = await newSkill.save();
         res.json(newSkills);
