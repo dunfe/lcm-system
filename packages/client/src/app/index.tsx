@@ -8,7 +8,7 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 import 'antd/dist/antd.css';
@@ -19,13 +19,12 @@ import { useTranslation } from 'react-i18next';
 import LoginPage from './pages/LoginPage';
 import { ProvideAuth } from '../utils/hooks/useAuth';
 import { PrivateRoute } from './components/Auth/PrivateRoute';
-import SessionPage from './pages/SessionPage';
 
 export function App() {
   const { i18n } = useTranslation();
   return (
     <ProvideAuth>
-      <BrowserRouter>
+      <Router>
         <Helmet
           titleTemplate="%s - React Boilerplate"
           defaultTitle="React Boilerplate"
@@ -35,16 +34,14 @@ export function App() {
         </Helmet>
 
         <Switch>
-          <PrivateRoute path="/app">
+          <PrivateRoute exact path="/">
             <HomePage />
           </PrivateRoute>
-          <Redirect from={'/'} to={'/app'} />
           <Route path="/login" component={LoginPage} />
-          <Route path="/session" component={SessionPage} />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
-      </BrowserRouter>
+      </Router>
     </ProvideAuth>
   );
 }
