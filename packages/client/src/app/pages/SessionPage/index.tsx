@@ -1,13 +1,25 @@
 import * as React from 'react';
-import { Card, Layout, Tabs } from 'antd';
+import { Button, Card, Layout, Tabs } from 'antd';
 import styled from 'styled-components';
 import './Session.css';
 import Join from '../../components/Session/Join';
+import RCE from '../../components/Session/RCE';
+import { useState } from 'react';
 
 const { Sider, Content } = Layout;
 const { TabPane } = Tabs;
 
 const SessionPage = () => {
+  const [connected, setConnected] = useState(true);
+
+  const handleDisconnect = () => {
+    setConnected(false);
+  };
+
+  const handleConnect = () => {
+    setConnected(true);
+  };
+
   return (
     <Layout className="session-layout">
       <Content
@@ -20,8 +32,10 @@ const SessionPage = () => {
         }}
       >
         <Tabs defaultActiveKey="1">
-          <TabPane tab="Real-time Collaboration Editor" key="1">
-            <TabContent>IDE</TabContent>
+          <TabPane tab="Real-time Collaborative Editor" key="1">
+            <TabContent>
+              <RCE />
+            </TabContent>
           </TabPane>
           <TabPane tab="Video/Audio Call" key="2">
             <TabContent>
@@ -40,7 +54,11 @@ const SessionPage = () => {
           bordered={false}
           style={{ width: 302, height: 182, margin: 'auto', marginTop: 20 }}
         >
-          Time
+          {connected ? (
+            <Button onClick={handleDisconnect}>Disconnect</Button>
+          ) : (
+            <Button onClick={handleConnect}>Connect</Button>
+          )}
         </Card>
         <Card
           className={'session-chat'}
