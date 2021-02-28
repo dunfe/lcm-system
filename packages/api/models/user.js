@@ -1,15 +1,78 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const Schema = mongoose.Schema;
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,  
+    },
+    password: {
+        type: String,
+    },
+    display_name: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
+    login_type: {
+        type: String,
+        enum: ["basic", "facebook", "google", "git"],
+        default: "basic",
+    },
+    role: {
+        type: String,
+        enum: ["user", "admin", "mentor", "staff"],
+        default: "user",
+    },
+    level: {
+        type: Number,
+        default: 0,
+    },
+    created_date: {
+        type: Date,
+        default: Date.now(),
+    },
+    last_modified_date: {
+        type: Date,
+    },
+    user_detail:
+        {
+            date_of_birth: { type: Date},
+            gender: { type: String},
+            phone: { type: String},
+            address: { type: String},
+            profile_picture: {         
+                data: Buffer,
+                contentType: String
+            },
+            total_request: { type: Number},
+        },
+    current_point: { type: Number, default: 0},
+    point_out_history: [
+        {
+            method: { type: String},
+            amount: { type: Number, min: 1},
+            ref: { type: String},
+            note: { type: String},
+            created_date: {
+                type: Date,
+                default: Date.now(),
+            },
+        }
+    ],
+    point_in_history: [
+        {
+            method:{ type: String},
+            amount: { type: Number, min: 1},
+            ref: { type: String},
+            note: { type: String},
+            created_date: {
+                type: Date,
+                default: Date.now(),
+            },
+        }
+    ],
 
-const userSchema = new Schema({
-    username: { type: String, required: true},
-    password: { type: String, required: true},
-    email: { type: String, required: true },
-    status : { type: String},
-    created_date: { type: Date, default: Date.now},
-    last_modified_date : {type: Date},
 });
 
 userSchema.pre('save', async function(next) {
