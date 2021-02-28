@@ -8,7 +8,7 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 import 'antd/dist/antd.css';
@@ -35,9 +35,10 @@ export function App() {
         </Helmet>
 
         <Switch>
-          <PrivateRoute path="/" exact>
+          <PrivateRoute path="/app">
             <HomePage />
           </PrivateRoute>
+          <Redirect from={'/'} to={'/app'} />
           <Route path="/login" component={LoginPage} />
           <Route path="/session" component={SessionPage} />
           <Route component={NotFoundPage} />
