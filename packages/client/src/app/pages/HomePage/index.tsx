@@ -39,13 +39,13 @@ export function HomePage() {
             </LogoContainer>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1" icon={<UserOutlined />}>
-                <Link to={`/`}>Dashboard</Link>
+                <Link to={`/app`}>Dashboard</Link>
               </Menu.Item>
               <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-                <Link to={`/`}>Thêm câu hỏi</Link>
+                <Link to={`${url}/add`}>Thêm câu hỏi</Link>
               </Menu.Item>
               <Menu.Item key="3" icon={<UploadOutlined />}>
-                <Link to={`/`}>Danh sách câu hỏi</Link>
+                <Link to={`${url}/questions`}>Danh sách câu hỏi</Link>
               </Menu.Item>
               <Menu.Item key="4" icon={<UserOutlined />}>
                 <Link to={`/session`}>Session</Link>
@@ -66,7 +66,7 @@ export function HomePage() {
                   <Route path={`${path}/add`}>
                     <h3>Thêm câu hỏi</h3>
                   </Route>
-                  <Route path={`${path}/list`}>
+                  <Route path={`${path}/questions`}>
                     <h3>Danh sách câu hỏi</h3>
                   </Route>
                   <Route path={`${path}/session`}>
