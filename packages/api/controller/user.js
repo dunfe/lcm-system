@@ -53,4 +53,22 @@ export const login = async (req, res) => {
     return res.status(200).json({ token });
 };
 
+export const createUser = async (req, res) => {
+    const { username, password, display_name,point_out_history} = req.body;
+    const user = await User.findOne({username});
+
+    if( user ){
+        return res.status(403).json({error: { message: 'username already in use!'}});
+    };
+
+    const newUser = new User({ username, password, display_name,point_out_history });
+    try {
+        await newUser.save();
+        res.status(200).json('saved');
+    } catch (error) {
+        error.status = 400;
+        res.json(error);
+    }
+};
+
 export default router;
