@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
-const skillSchema = new Schema({
+const skillSchema = new mongoose.Schema({
     skill_name: { type: String },
-    created_date: { type: Date},
+    created_date: { type: Date, default: Date.now()},
     last_modified_date : {type: Date}
 });
 

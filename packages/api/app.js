@@ -3,9 +3,10 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv'
 
-import userRoutes from './routes/user.js';
+import userRoutes from './routes/users.js';
 import skillRoutes from './routes/skills.js';
 import mentorRoutes from './routes/mentors.js';
+import adminRoutes from './routes/admins.js';
 
 import auth from './middleware/auth.js';
 
@@ -21,6 +22,7 @@ app.use('/api/protected', auth, (req,res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/admin',skillRoutes);
+app.use('/admin',adminRoutes);
 app.use('/', mentorRoutes);
 
 // Support respone status
