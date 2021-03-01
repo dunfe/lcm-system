@@ -3,16 +3,20 @@ import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
     username: {
-        type: String,  
+        type: String,
+        default:"",  
     },
     password: {
         type: String,
+        default:"",  
     },
     display_name: {
         type: String,
+        default:"",  
     },
     email: {
         type: String,
+        default:"",  
     },
     login_type: {
         type: String,
@@ -34,45 +38,47 @@ const userSchema = new mongoose.Schema({
     },
     last_modified_date: {
         type: Date,
+        default:"",  
     },
     user_detail:
         {
-            date_of_birth: { type: Date},
-            gender: { type: String},
-            phone: { type: String},
-            address: { type: String},
+            date_of_birth: { type: Date, default:"",},
+            gender: { type: String, default:"",},
+            phone: { type: String, default:"",},
+            address: { type: String, default:"",},
             profile_picture: {         
                 data: Buffer,
-                contentType: String
+                contentType: String,
+                default:"",
             },
-            total_request: { type: Number},
+            total_request: { type: Number,default:"",},
         },
     current_point: { type: Number, default: 0},
     point_out_history: [
         {
-            method: { type: String},
-            amount: { type: Number, min: 1},
-            ref: { type: String},
-            note: { type: String},
+            method: { type: String, default:"",},
+            amount: { type: Number, min: 1, default: 1,},
+            ref: { type: String, default:"",},
+            note: { type: String, default:"",},
             created_date: {
                 type: Date,
                 default: Date.now(),
             },
+        
         }
     ],
-    point_in_history: [
+    point_in_history:[ 
         {
-            method:{ type: String},
-            amount: { type: Number, min: 1},
-            ref: { type: String},
-            note: { type: String},
+            method:{ type: String, default:"",},
+            amount: { type: Number, min: 1, default:1,},
+            ref: { type: String, default:"",},
+            note: { type: String, default:"",},
             created_date: {
                 type: Date,
                 default: Date.now(),
             },
-        }
-    ],
-
+        },
+    ]
 });
 
 userSchema.pre('save', async function(next) {

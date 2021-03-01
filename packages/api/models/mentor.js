@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const mentorSchema = new mongoose.Schema({
     username: {
-        type: String,  
+        type: String, 
     },
     password: {
         type: String,
@@ -65,7 +65,7 @@ const mentorSchema = new mongoose.Schema({
             total_rating_3: {type: Number, default: 0},
             total_rating_4: {type: Number, default: 0},
             total_rating_5: {type: Number, default: 0},
-            average_rating: { type: Float64Array}
+            average_rating: { type: String}
         },
     created_date: {
         type: Date,
