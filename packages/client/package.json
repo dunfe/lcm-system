@@ -25,13 +25,17 @@
     "@types/webpack": "4.41.22",
     "@types/webpack-env": "1.15.2",
     "@types/webrtc": "0.0.26",
+    "@typescript-eslint/parser": "^4.16.1",
     "antd": "4.12.1",
     "autobind-decorator": "2.4.0",
     "axios": "0.21.1",
     "chalk": "4.1.0",
     "craco-antd": "1.19.0",
     "cross-env": "7.0.2",
+    "eslint": "latest",
     "eslint-config-prettier": "6.11.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-react-hooks": "4.1.0",
     "firebase": "8.2.6",
@@ -142,6 +146,5 @@
         "statements": 90
       }
     }
-  },
-  "devDependencies": {}
+  }
 }

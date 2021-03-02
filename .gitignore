@@ -4,3 +4,4 @@
 /packages/api/node_modules/
 /packages/api/.env
 /.idea/
+/.yarn/
