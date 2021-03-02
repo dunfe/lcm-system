@@ -1,8 +1,0 @@
-{
-  "name": "lcm-docs",
-  "version": "0.0.0",
-  "description": "Documents of LCM System",
-  "main": "index.js",
-  "license": "MIT",
-  "private": true
-}
