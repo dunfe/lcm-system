@@ -5,3 +5,4 @@
 /packages/api/.env
 /.idea/
 /.yarn/
+/packages/client/.yarn/
