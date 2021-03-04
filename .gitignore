@@ -6,3 +6,5 @@
 /.idea/
 /.yarn/*
 /packages/client/.yarn/
+
+/.yarnrc.yml
