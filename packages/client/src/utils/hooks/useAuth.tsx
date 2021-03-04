@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { IUseAuthType } from '../../types/Auth/useAuthType';
+
+interface IUseAuthType {
+  loading: boolean;
+  user: firebase.User | null;
+  signIn: (email: string, password: string) => Promise<firebase.User | null>;
+  signUp: (email: string, password: string) => Promise<firebase.User | null>;
+  signOut: () => Promise<void>;
+  sendPasswordResetEmail: (email: string) => Promise<boolean>;
+  confirmPasswordReset: (code: string, password: string) => Promise<boolean>;
+}
 
 // Add your Firebase credentials
 firebase.initializeApp({
@@ -18,7 +27,7 @@ const authContext = createContext({});
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
-export function ProvideAuth({ children }) {
+export function ProvideAuth({ children }: {children: JSX.Element}) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
