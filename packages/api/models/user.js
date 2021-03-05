@@ -2,17 +2,84 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import express from 'express';
 
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema({
-    username: { type: String},
-    passportid:{type: String},
-    fullname: {type: String},
-    email: { type: String},
-    password: { type: String},
-    status : { type: String},
-    created_date: { type: Date, default: Date.now},
-    last_modified_date : {type: Date},
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        default:"",  
+    },
+    password: {
+        type: String,
+        default:"",  
+    },
+    display_name: {
+        type: String,
+        default:"",  
+    },
+    email: {
+        type: String,
+        default:"",  
+    },
+    login_type: {
+        type: String,
+        enum: ["basic", "facebook", "google", "git"],
+        default: "basic",
+    },
+    role: {
+        type: String,
+        enum: ["user", "admin", "mentor", "staff"],
+        default: "user",
+    },
+    level: {
+        type: Number,
+        default: 0,
+    },
+    created_date: {
+        type: Date,
+        default: Date.now(),
+    },
+    last_modified_date: {
+        type: Date,
+        default:"",  
+    },
+    user_detail:
+        {
+            date_of_birth: { type: Date, default:"",},
+            gender: { type: String, default:"",},
+            phone: { type: String, default:"",},
+            address: { type: String, default:"",},
+            profile_picture: {         
+                data: Buffer,
+                contentType: String,
+                default:"",
+            },
+            total_request: { type: Number,default:"",},
+        },
+    current_point: { type: Number, default: 0},
+    point_out_history: [
+        {
+            method: { type: String, default:"",},
+            amount: { type: Number, min: 1, default: 1,},
+            ref: { type: String, default:"",},
+            note: { type: String, default:"",},
+            created_date: {
+                type: Date,
+                default: Date.now(),
+            },
+        
+        }
+    ],
+    point_in_history:[ 
+        {
+            method:{ type: String, default:"",},
+            amount: { type: Number, min: 1, default:1,},
+            ref: { type: String, default:"",},
+            note: { type: String, default:"",},
+            created_date: {
+                type: Date,
+                default: Date.now(),
+            },
+        },
+    ]
 });
 
 userSchema.methods.generateHash = function (password) {

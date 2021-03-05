@@ -1,5 +1,5 @@
 {
-  "name": "lcm-back-end",
+  "name": "api",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -23,5 +23,8 @@
     "requirejs": "^2.3.6",
     "shortid": "^2.2.16"
   },
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  }
 }

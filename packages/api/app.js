@@ -2,7 +2,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv'
-import userRoutes from './routes/user.js';
+
+import userRoutes from './routes/users.js';
+import skillRoutes from './routes/skills.js';
+import mentorRoutes from './routes/mentors.js';
+import adminRoutes from './routes/admins.js';
+
 import profileRoutes from './routes/profile-routes.js';
 import auth from './middleware/auth.js';
 //import isAuth from './middleware/auth.js';
@@ -31,6 +36,9 @@ app.use('/api/protected', auth, (req,res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/profile', profileRoutes);
+app.use('/admin',skillRoutes);
+app.use('/admin',adminRoutes);
+app.use('/', mentorRoutes);
 
 app.get('/', (req, res) => {
   res.send('hello');
@@ -54,6 +62,7 @@ app.use((err, req, res, next) => {
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
+  useFindAndModify: false,
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then (() => {
