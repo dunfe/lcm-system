@@ -21,8 +21,8 @@ app.use('/api/protected', auth, (req,res) => {
 });
 
 app.use('/api/users', userRoutes);
-app.use('/admin',skillRoutes);
-app.use('/admin',adminRoutes);
+app.use('/admin', skillRoutes);
+app.use('/admin', adminRoutes);
 app.use('/', mentorRoutes);
 
 // Support respone status
