@@ -13,14 +13,8 @@
     "packages": [
       "packages/*"
     ],
-    "nohoist": [
-      "**/babel-jest",
-      "**/babel-jest/**",
-      "**/babel-loader",
-      "**/babel-loader/**"
-    ]
-  },
-  "scripts": {
-    "api": "yarn workspace api start"
+    "installConfig": {
+      "hoistingLimits": "workspace"
+    }
   }
 }
