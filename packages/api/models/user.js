@@ -1,33 +1,26 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import express from 'express';
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username: { type: String, required: true},
-    password: { type: String, required: true},
-    email: { type: String, required: true },
+    username: { type: String},
+    passportid:{type: String},
+    fullname: {type: String},
+    email: { type: String},
+    password: { type: String},
     status : { type: String},
     created_date: { type: Date, default: Date.now},
     last_modified_date : {type: Date},
 });
 
-userSchema.pre('save', async function(next) {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (error) {
-        next(error);
-    }
-});
+userSchema.methods.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+};
 
-userSchema.methods.isPasswordValid = async function(value){
-    try {
-        return await bcrypt.compare(value, this.password);
-    } catch (error) {
-        throw new Error(error);
-    }
+userSchema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
 };
 
 var user = mongoose.model('user', userSchema);
