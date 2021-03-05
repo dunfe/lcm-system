@@ -10,10 +10,17 @@
     "lerna": "^3.22.1"
   },
   "workspaces": {
-    "packages": ["packages/*"],
-    "nohoist": ["**/babel-jest", "**/babel-jest/**", "**/babel-loader", "**/babel-loader/**"]
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/babel-jest",
+      "**/babel-jest/**",
+      "**/babel-loader",
+      "**/babel-loader/**"
+    ]
   },
-  "dependencies": {
-  
+  "scripts": {
+    "api": "yarn workspace api start"
   }
 }

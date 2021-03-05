@@ -4,3 +4,6 @@
 /packages/api/node_modules/
 /packages/api/.env
 /.idea/
+/.yarn/*
+/.yarnrc.yml
+/yarn-error.log
