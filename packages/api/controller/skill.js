@@ -5,7 +5,7 @@ const router = express.Router();
 
 const ObjectId = mongoose.Types.ObjectId;
 
-export const getSkills = (req, res) => {
+export const getAllSkills = (req, res) => {
     Skill.find((err,doc) => {
         if(!err) {
             res.send(doc);
@@ -15,7 +15,7 @@ export const getSkills = (req, res) => {
     })
 };
 
-export const getSkill = (req, res) => {
+export const getSkillById = (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
         return res.status(400).send(`No record with given id: ${req.params.id}`)
     };
@@ -30,7 +30,8 @@ export const getSkill = (req, res) => {
 };
 
 export const getSkillByName = (req, res) => {
-    Skill.find({ skill_name : req.body.skill_name }, (err, doc) =>{
+    const skill = req.body.skill_name;
+    Skill.find({ skill_name : {'$regex' : new RegExp(skill, "i")} }, (err, doc) =>{
         if(!err) { 
             if(doc.toString() == ""){ 
                 return res.status(400).send(`No record with given name: ${req.body.skill_name}`)

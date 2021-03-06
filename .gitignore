@@ -1,7 +1,7 @@
 /node_modules/
-/packages/lcm-back-end/node_modules/
-/packages/lcm-back-end/.env
-/packages/api/node_modules/
-/packages/api/.env
+
 /.idea/
-/.yarn/
+/.yarn/*
+/packages/client/.yarn/
+
+/.yarnrc.yml

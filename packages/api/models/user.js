@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default:"",  
     },
+    passport_id: {
+        type: String,
+        default:"", 
+    },
     display_name: {
         type: String,
         default:"",  
