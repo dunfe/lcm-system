@@ -1,13 +1,19 @@
 import express from 'express';
-//import { register, login } from '../controller/user.js';
+import { register, login } from '../controller/user.js';
 import passport from 'passport';
 
 const router = express.Router();
 
-router.post('/login', passport.authenticate("local", {
+router.post('/register', passport.authenticate("register", {
+  successRedirect : '/home',
+  failureRedirect : '/',
+  //failureFlash : true
+}));
+
+router.post('/login', passport.authenticate("local-login", {
   successRedirect : '/profile',
   failureRedirect : '/',
-  failureFlash : true
+  //failureFlash : true
 }));
 
 // auth with google+

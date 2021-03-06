@@ -10,16 +10,14 @@ import adminRoutes from './routes/admins.js';
 
 import profileRoutes from './routes/profile-routes.js';
 import auth from './middleware/auth.js';
-//import isAuth from './middleware/auth.js';
 import passportSetup from './config/passport-setup.js';
 import cookieSession from 'cookie-session';
 import passport from 'passport';
-import flash from 'connect-flash';
 
 const app = express();
 dotenv.config()
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieSession({
   maxAge: 24*60*60*1000,

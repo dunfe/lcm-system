@@ -4,7 +4,9 @@ import GoogleStrategy from 'passport-google-oauth20'
 import GithubStrategy from 'passport-github2'
 import LocalStrategy from 'passport-local'
 import FacebookStrategy from 'passport-facebook';
-import user from '../models/user.js';
+import User from '../models/user.js';
+import body from 'body-parser'
+import jwt from 'jsonwebtoken';
 
 GoogleStrategy.Strategy;
 GithubStrategy.Strategy;
@@ -16,50 +18,67 @@ passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
-passport.deserializeUser((id, done) =>{
-    user.findById(id).then((user) => {
-        done(null, user);
-        console.log(user);
-    }).catch(function (err) {
-        console.log(err);
-    })
-});
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        // console.log(user);
+      done(err, user);
+    });
+  });
 
-// passport.use(new LocalStrategy(
-//     function (username,password,done) {
-//         user.find({where : {
-//             username : username
-//         }}).then(function (user) {
-//             bcrypt.compare(password, user.password, function (err,result) {
-//                 if (err) { return done(err); }
-//                 if(!result) {
-//                     return done(null, false, { message: 'Incorrect username and password' });
-//                 }
-//                 return done(null, user);
-//             })
-//         }).catch(function (err) {
-//             return done(err);
-//         })
-//     }
-// ));
+passport.use('register', new LocalStrategy({
+    usernameField : 'username',
+    passswordField : 'password',
+    passReqToCallback : true
+},function(req, username, password, done){
+    console.log(username);
+    console.log(password);
+    console.log(req.body.email);
+    User.findOne({
+      'username' : username       
+  }, function(err, user){
+      if(err){
+          return done(err)
+      }
+      if(user){
+        console.log('user đã tồn tại')
+          return done(null, false, {
+              message : 'user đã được sử dụng, vui lòng chọn email khác'    
+          })
+      }
 
-passport.use('local', new LocalStrategy({
+      var newUser = new User();
+        // lưu thông tin cho tài khoản local
+        newUser.username = username;
+        newUser.password = newUser.generateHash(password);
+        newUser.email = req.body.email;
+        // lưu user
+        newUser.save(function (err) {
+            if (err)
+            throw err;
+        return done(null, newUser);
+    });
+})
+}));
+
+passport.use('local-login', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
 },
 function (req, username, password, done) { 
-    user.findOne({'username': username}, function (err, user) {
+    console.log(username);
+    User.findOne({'username': username}, function (err, User) {
+        console.log(username);
         if (err)
             return done(err);
         // if no user is found, return the message
-        if (!user)
-            return done(null, false, req.flash('loginMessage', 'No user found.'));
+        if (!User)
+            return done(null, false);
         // if the user is found but the password is wrong
-        if (!user.validPassword(password))
-            return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); 
+        if (!User.validPassword(password))
+            return done(null, false); 
         // all is well, return successful user
-        return done(null, user);
+        return done(null, User);
     });
 })
 );
@@ -75,16 +94,19 @@ passport.use(
         console.log('passport callback function fired:');
         console.log(profile);
         console.log(accessToken);
-        user.findOne({passportid: profile.id}).then((currentUser) =>{
+        User.findOne({passportid: profile.id}).then((currentUser) =>{
             if(currentUser){
                 console.log('user is: ', currentUser)
                 done(null,currentUser)
             }else{
-                new user({
-                    username: profile.displayName,
+                new User({
+                    username: null,
                     passportid: profile.id,
-                    fullname: profile.displayName,
-                    email: profile.emails[0].value
+                    password: null,
+                    display_name: profile.displayName,
+                    email: profile.emails[0].value,
+                    login_type: profile.provider,
+                    token: accessToken
                 }).save().then((newUser) => {
                     console.log('new user created '+ newUser)
                     done(null,newUser)
@@ -106,16 +128,19 @@ passport.use(
         console.log('passport callback function fired:');
         console.log(profile);
         console.log(accessToken);
-        user.findOne({passportid: profile.id}).then((currentUser) =>{
+        User.findOne({passportid: profile.id}).then((currentUser) =>{
             if(currentUser){
                 console.log('user is: ', currentUser)
                 done(null,currentUser)
             }else{
-                new user({
+                new User({
                     username: null,
                     passportid: profile.id,
-                    fullname: profile.displayName,
-                    email: profile.emails[0].value
+                    password: null,
+                    display_name: profile.displayName,
+                    email: profile.emails[0].value,
+                    login_type: profile.provider,
+                    token: accessToken
                 }).save().then((newUser) => {
                     console.log('new user created '+ newUser)
                     done(null,newUser)
@@ -136,16 +161,19 @@ passport.use(
         console.log('passport callback function fired:');
         console.log(profile);
         console.log(accessToken);
-        user.findOne({passportid: profile.id}).then((currentUser) =>{
+        User.findOne({passportid: profile.id}).then((currentUser) =>{
             if(currentUser){
                 console.log('user is: ', currentUser)
                 done(null,currentUser)
             }else{
-                new user({
-                    username: profile.displayName,
+                new User({
+                    username: null,
                     passportid: profile.id,
-                    fullname: profile.displayName,
-                    email: null
+                    password: null,
+                    display_name: profile.displayName,
+                    email: profile._json.email,
+                    login_type: profile.provider,
+                    token: accessToken
                 }).save().then((newUser) => {
                     console.log('new user created '+ newUser)
                     done(null,newUser)

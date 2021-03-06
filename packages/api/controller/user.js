@@ -18,12 +18,15 @@ export const getSignToken = user => {
 export const register = async (req, res, next) => {
     const { username, password, email, status, created_date, last_modified_date} = req.body;
     const user = await User.findOne({username});
-
+    console.log(user);
     if( user ){
         return res.status(403).json({error: { message: 'username already in use!'}});
     };
 
-    const newUser = new User({ username, password, email, status, created_date, last_modified_date });
+    const newUser = new User();
+    newUser.username = username;
+    newUser.password = newUser.generateHash(password);
+    newUser.email = email;
     try {
         await newUser.save();
         const token = getSignToken(newUser);

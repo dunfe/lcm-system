@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default:"",  
     },
+    passportid: {
+        type: String,
+        default:"",
+    },
     password: {
         type: String,
         default:"",  
@@ -21,8 +25,11 @@ const userSchema = new mongoose.Schema({
     },
     login_type: {
         type: String,
-        enum: ["basic", "facebook", "google", "git"],
-        default: "basic",
+        default:"local"
+    },
+    token:{
+        type : String,
+        default:""
     },
     role: {
         type: String,
