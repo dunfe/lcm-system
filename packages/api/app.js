@@ -8,22 +8,43 @@ import skillRoutes from './routes/skills.js';
 import mentorRoutes from './routes/mentors.js';
 import adminRoutes from './routes/admins.js';
 
+import profileRoutes from './routes/profile-routes.js';
 import auth from './middleware/auth.js';
+import passportSetup from './config/passport-setup.js';
+import cookieSession from 'cookie-session';
+import passport from 'passport';
 
 const app = express();
-
 dotenv.config()
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cookieSession({
+  maxAge: 24*60*60*1000,
+  keys: [process.env.CookieKey]
+}));
+
+//initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api/protected', auth, (req,res) => {
   res.end(`Hi ${req.user.username}, you are authenticated!`);
 });
 
 app.use('/api/users', userRoutes);
-app.use('/admin', skillRoutes);
-app.use('/admin', adminRoutes);
+app.use('/profile', profileRoutes);
+app.use('/admin',skillRoutes);
+app.use('/admin',adminRoutes);
 app.use('/', mentorRoutes);
+
+app.get('/', (req, res) => {
+  res.send('hello');
+});
+
+app.get('/home', (req, res) => {
+  res.send('hello home');
+});
 
 // Support respone status
 app.use((req, res, next) => {
@@ -48,4 +69,3 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
 .then(() => console.log('server running on port 3000'))
 .catch(err => console.log(err.message));
-

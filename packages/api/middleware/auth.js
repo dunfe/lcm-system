@@ -31,4 +31,13 @@ const auth = (req, res, next) => {
     }
 };
 
+// const isAuth = (req,res,next)=>{
+//     if(req.user){
+//         next();
+//     }else{
+//         res.redirect("/login");
+//     }
+// }
+
 export default auth;
+// export default isAuth;
