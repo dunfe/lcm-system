@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 const requestSchema = new mongoose.Schema({
-    request_title: { type: String},
-    created_by: { type: Object},
-    received_by: { type: String, default: "admin"},
-    request_content: { type: String},
+    request_title: { type: String },
+    created_by: { type: String },
+    received_by: { type: String, default: "admin" },
+    request_content: { type: String },
     picture: {         
         data: Buffer,
         contentType: String

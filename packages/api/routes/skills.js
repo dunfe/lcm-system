@@ -1,14 +1,14 @@
 import express from 'express';
-import { getSkills, getSkill, createSkill, updateSkill, deleteSkill, getSkillByName } from '../controller/skill.js';
+import { getAllSkills, getSkillById, createSkill, updateSkill, deleteSkill, getSkillByName } from '../controller/skill.js';
 
 const router = express.Router();
 
-router.get('/skills', getSkills);
-router.get('/skill/:id', getSkill);
-router.get('/skill-name', getSkillByName);
-router.post('/createSkill', createSkill);
-router.put('/update-skill/:id', updateSkill);
-router.delete('/delete-skill/:id', deleteSkill);
+router.get('/skills/all', getAllSkills);
+router.get('/skills/:id', getSkillById);
+router.get('/skills', getSkillByName);
+router.post('/skills', createSkill);
+router.put('/skills/:id', updateSkill);
+router.delete('/skills/:id', deleteSkill);
 
 export default router;
 
