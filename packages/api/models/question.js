@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const questionSchema = new mongoose.Schema({
     question_title: { type: String},
     created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    received_by: { type: mongoose.Schema.Types.ObjectId, ref: 'Mentor'},
+    received_by: { type: String , default : ""},
     question_point: {type: Number, default: 15},
     question_skill: [
         {type: String}
