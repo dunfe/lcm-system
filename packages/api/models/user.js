@@ -1,10 +1,15 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import express from 'express';
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
         default:"",  
+    },
+    passportid: {
+        type: String,
+        default:"",
     },
     password: {
         type: String,
@@ -24,8 +29,11 @@ const userSchema = new mongoose.Schema({
     },
     login_type: {
         type: String,
-        enum: ["basic", "facebook", "google", "git"],
-        default: "basic",
+        default:"local"
+    },
+    token:{
+        type : String,
+        default:""
     },
     role: {
         type: String,
@@ -85,22 +93,12 @@ const userSchema = new mongoose.Schema({
     ]
 });
 
-userSchema.pre('save', async function(next) {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (error) {
-        next(error);
-    }
-});
+userSchema.methods.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+};
 
-userSchema.methods.isPasswordValid = async function(value){
-    try {
-        return await bcrypt.compare(value, this.password);
-    } catch (error) {
-        throw new Error(error);
-    }
+userSchema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
 };
 
 var user = mongoose.model('user', userSchema);
