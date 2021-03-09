@@ -16,5 +16,8 @@
     "installConfig": {
       "hoistingLimits": "workspace"
     }
+  },
+  "scripts": {
+    "start:api": "yarn workspace api start"
   }
 }
