@@ -3,9 +3,13 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
 import User from '../models/user.js';
+import Question from '../models/question.js';
+import Mentor from '../models/mentor.js';
+import Skill from '../models/skill.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
+
 
 export const getSignToken = user => {
     return jwt.sign({
@@ -117,14 +121,49 @@ export const getUserByName = (req, res) => {
     })
 };
 
-export const  totalUser = (req, res) => {
-    User.countDocuments({}, (err,doc)=> {
-        if (!err){
-            res.json('Total users: '+ doc);
+export const  countAllRecord = async (req, res) => {
+    var total_array = {
+        total_user : 0,
+        total_mentor: 0,
+        total_question : 0,
+        total_skill: 0
+    };
+
+    await User.countDocuments((err, doc) => {
+        if (!err){ 
+            total_array.total_user = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
         };
     });
-} ;
+
+    await Question.countDocuments((err, doc) => {
+        if (!err){ 
+            total_array.total_question = doc;
+        } else {
+            console.log('Error' + JSON.stringify(err, undefined, 2));
+        };
+    });
+
+    await Mentor.countDocuments((err, doc) => {
+        if (!err){ 
+            total_array.total_mentor = doc;
+        } else {
+            console.log('Error' + JSON.stringify(err, undefined, 2));
+        };
+    });
+    await Skill.countDocuments((err, doc) => {
+        if (!err){ 
+            total_array.total_skill = doc;
+        } else {
+            console.log('Error' + JSON.stringify(err, undefined, 2));
+        };
+    });
+
+    res.json(total_array);
+
+};
+
+
 
 export default router;

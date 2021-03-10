@@ -59,7 +59,7 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.MONGODB_URI,{
   useFindAndModify: false,
   useNewUrlParser: true,
   useUnifiedTopology: true,

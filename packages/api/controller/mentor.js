@@ -64,4 +64,21 @@ export const getMentorByName = (req, res) => {
     })
 };
 
+export const  totalMentor = (req, res) => {
+    Mentor.aggregate([
+        {
+            $match:{}
+        },
+        {
+            $count: "total_mentor"
+        }
+    ], (err, doc) => {
+        if (!err){ 
+            res.json(doc);
+        } else {
+            console.log('Error' + JSON.stringify(err, undefined, 2));
+        };
+    });
+};
+
 export default router;
