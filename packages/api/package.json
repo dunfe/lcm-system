@@ -25,7 +25,8 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "requirejs": "^2.3.6",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "validator": "^13.5.2"
   },
   "type": "module",
   "scripts": {
