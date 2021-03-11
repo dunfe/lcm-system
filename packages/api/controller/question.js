@@ -7,6 +7,7 @@ import User from '../models/user.js';
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
+//chua sua (for future function)
 export const createQuestion = (req, res) => {
     // const created_byId = mongoose.Types.ObjectId(req.body.created_by);
     const question = new Question({
@@ -32,25 +33,37 @@ export const createQuestion = (req, res) => {
 };
 
 export const getAllQuestions = async ( req, res) => {
-    Question.find((err, doc) => {
-        if(!err) {   
-            res.send(doc);
-        } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
-        }
-    });
+    try {
+        const data = await Question.find();
+        return res.status(200).json({
+            status: 'success',
+            result: data.length,
+            data: data
+        })
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
 };
 
 export const getQuestionById = (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).send(`No record with given id: ${req.params.id}`)
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
     };
 
-    Question.findById( req.params.id, (err, doc) => {
+    Question.findById(req.params.id, (err, doc) => {
         if (!err){
-            res.send(doc);
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            });
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            }) 
         };
     });
 };

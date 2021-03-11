@@ -81,26 +81,40 @@ export const createUser = async (req, res) => {
     }
 };
 
-export const getAllUser = (req, res) => {
-    User.find((err, doc) => {
-        if(!err) {
-            res.send(doc);
-        } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
-        }
-    });
+export const getAllUser = async (req, res) => {
+    try {
+        const data = await User.find();
+
+        return res.status(200).json({
+            status: 'success',
+            result: data.length,
+            data: data
+        })
+    } catch (error) {
+         return res.status(500).send(error.message);
+    }
+    
 };
 
 export const getUserById = (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).send(`No record with given id: ${req.params.id}`)
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
     };
 
     User.findById( req.params.id, (err, doc) => {
         if (!err){
-            res.send(doc);
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            }) 
         };
     });
 };
