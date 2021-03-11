@@ -1,6 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 import User from '../models/user.js';
 import Question from '../models/question.js';
@@ -9,7 +10,6 @@ import Skill from '../models/skill.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
-
 
 export const getSignToken = user => {
     return jwt.sign({
@@ -64,14 +64,14 @@ export const login = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-    const { username, password, display_name,point_out_history} = req.body;
+    const { username, password, email, display_name,point_out_history} = req.body;
     const user = await User.findOne({username});
 
     if( user ){
         return res.status(403).json({error: { message: 'username already in use!'}});
     };
 
-    const newUser = new User({ username, password, display_name,point_out_history });
+    const newUser = new User({ username, password, email, display_name,point_out_history });
     try {
         await newUser.save();
         res.status(200).json('saved');
@@ -164,6 +164,20 @@ export const  countAllRecord = async (req, res) => {
 
 };
 
+export const changePassword = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const salt = await bcrypt.genSalt(10);
+        const newPasswordSalted = await bcrypt.hash(req.body.new_password, salt);
+        const userPassword = await User.findByIdAndUpdate({ _id: id }, { password: newPasswordSalted }, { new: true });
+        return res.status(200).json({status: true, data: userPassword});
+    } catch (error) {
+        return res.status(400).json({ status: false, error: "Error Occured"});
+    }
+};
 
+export const forgetPassword = (req, res) => {
+    
+};
 
 export default router;

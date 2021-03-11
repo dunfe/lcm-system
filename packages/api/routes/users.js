@@ -1,5 +1,6 @@
 import express from 'express';
-import { register, login } from '../controller/user.js';
+import { register, login, changePassword, forgetPassword, createUser } from '../controller/user.js';
+import { forgotPassword, resetPassword } from '../controller/auth.js'
 import passport from 'passport';
 //import { register, login, createUser, getAllUser, getUserById } from '../controller/user.js';
 
@@ -48,5 +49,11 @@ router.get('/logout',(req,res) =>{
     req.logout();
     res.redirect('/');
 })
+
+router.get('/:id/admin', changePassword);
+router.post('/forgot-password', forgotPassword);
+router.patch('/reset-password/:token', resetPassword);
+
+// router.post('/create', createUser);
 
 export default router;
