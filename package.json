@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "@types/concurrently": "^6",
     "lerna": "^4.0.0"
   },
   "workspaces": {
@@ -18,6 +19,11 @@
     }
   },
   "scripts": {
+    "start": "concurrently \"yarn start:api\" \"yarn start:client\"",
+    "start:client": "yarn workspace client start",
     "start:api": "yarn workspace api start"
+  },
+  "dependencies": {
+    "concurrently": "^6.0.0"
   }
 }
