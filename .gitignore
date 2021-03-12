@@ -5,3 +5,5 @@
 /packages/client/.yarn/
 
 /.yarnrc.yml
+
+yarn.lock

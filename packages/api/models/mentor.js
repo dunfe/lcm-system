@@ -1,35 +1,41 @@
 import mongoose from 'mongoose';
+import validator from 'validator';
 
 const mentorSchema = new mongoose.Schema({
     username: {
-        type: String, 
+        type: String,
+        required: [true, 'Please input username!'] 
     },
     password: {
         type: String,
+        required: [true, 'Please enter a password'],
+        minlength: [6, 'Password must have atleast 6 character']
     },
     display_name: {
         type: String,
+        required: true,
+        minlength: [3, 'Display name must have atleast 3 character!'],
+        maxlength: [40, 'Display name must have less than 40 characters!']
     },
     email: {
-        type: String,
+        type: String, 
+        unique: true,
+        required: [true, 'Please provide your email'],
+        lowercase: true,
+        validate: [validator.isEmail, 'Please provide a valid email']
     },
     login_type: {
         type: String,
-        enum: ["basic", "facebook", "google", "git"],
-        default: "basic",
+        default:"local"
     },
     role: {
-        type: String,
-        enum: ["user", "admin", "mentor", "staff"],
+        type: String
     },
-    date_of_birth: { type: Date},
+    date_of_birth: { type: Date, default: undefined},
     gender: { type: String},
     phone_number: { type: String},
     address: { type: String},
-    profile_picture: {         
-        data: Buffer,
-        contentType: String
-    },
+    profile_picture: String,
     current_job: { type: String},
     achievement: [
         { type: String}
@@ -38,22 +44,34 @@ const mentorSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    github: { type: String},
+    github: { type: String },
     current_point: { type: Number, default: 0},
     point_in_history: [
         {
-            fromUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            point_in: { type: Number, default: 15},
-            method_name: { type: String},
+            from: { type: String },
+            amount: { type: Number, default: 0},
+            method_name: { type: String },
             updateAt: Date,
-            note: { type: String},
+            created_date: {
+                type: Date,
+                default: Date.now(),
+            },
+            note: String
         }
     ],
-    bonus_point: {
-        from: {type: String},
-        content: {type: String},
-        point: { type: Number},
-    },
+    point_out_history: [
+        {
+            to: { type: String },
+            amount: { type: Number, default: 0},
+            method_name: { type: String },
+            updateAt: Date,
+            created_date: {
+                type: Date,
+                default: Date.now(),
+            },
+            note: String
+        }
+    ],
     skill: [
         {type: String},
     ],
@@ -65,18 +83,31 @@ const mentorSchema = new mongoose.Schema({
             total_rating_3: {type: Number, default: 0},
             total_rating_4: {type: Number, default: 0},
             total_rating_5: {type: Number, default: 0},
-            average_rating: { type: String}
+            average_rating: { 
+                type: Number,
+                min: [0, 'Rating must be above 0.0'],
+                max: [5, 'Rating must be under 5.0'] 
+            }
         },
     created_date: {
         type: Date,
         default: Date.now(),
     },
-    done_request: { type: Number},
+    done_request: { 
+        type: Number,
+        min: [0, 'Must be above 0']
+    },
     reviews: [
         {
-            userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            review: String,
-            rate: { type: Number, min: 1, max: 5},
+            fromID: String,
+            review_content: {
+                type: String
+            },
+            rate: {
+                type: Number,
+                min: [0, 'Rating must be above 0.0'],
+                max: [5, 'Rating must be under 5.0'] 
+            },
         }
     ],
     point_out_history: [

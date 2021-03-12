@@ -5,26 +5,40 @@ const router = express.Router();
 
 const ObjectId = mongoose.Types.ObjectId;
 
-export const getAllSkills = (req, res) => {
-    Skill.find((err,doc) => {
-        if(!err) {
-            res.send(doc);
-        } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2)); 
-        }
-    })
+export const getAllSkills = async (req, res) => {
+    try {
+        const data = await Skill.find();
+
+        return res.status(200).json({
+            status: 'success',
+            result: data.length,
+            data: data
+        })
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+    
 };
 
 export const getSkillById = (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).send(`No record with given id: ${req.params.id}`)
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
     };
 
     Skill.findById(req.params.id, (err, doc) =>{
         if(!err) { 
-            res.send(doc);
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            });  
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2)); 
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            }) 
         };
     })
 };
@@ -44,38 +58,58 @@ export const getSkillByName = (req, res) => {
     })
 };
 
-export const createSkill = (req, res) => {
+export const createSkill = async (req, res) => {
     var skill = new Skill({
-        skill_name: req.body.skill_name,
-        create_date: req.body.create_date,
-        last_modified_date: req.body.last_modified_date
+        skill_name: req.body.skill_name
     });
 
-    skill.save((err, doc) => {
-        if(!err) {
-            res.send(doc);
-        } else {
-            console.log('Error in Skill Save: '+ JSON.stringify(err, undefined, 2));
-        }
-    });
+    try {
+        skill.save((err, doc) => {
+            if(!err) {
+                return res.status(200).json({
+                    status: 'success',
+                    data: doc
+                });
+            } else {
+                return res.status(401).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later, maybe duplicate skill name'
+                })
+            }
+        });
+    } catch (error) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Something wrong, try again later'
+        })
+    }
+    
 };
 
 export const updateSkill = (req, res) => {
     if(!ObjectId.isValid(req.params.id)){
-        return res.status(400).send(`No record with given id: ${req.params.id}`);
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
     }
 
     var skill = {
         skill_name: req.body.skill_name,
-        create_date: req.body.create_date,
-        last_modified_date: req.body.last_modified_date
+        last_modified_date: Date.now()
     };
 
     Skill.findByIdAndUpdate(req.params.id, { $set: skill }, { new: true}, (err, doc) => {
         if(!err) {
-            res.send(doc);
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
         } else {
-            console.log('Error in skill Update: '+ JSON.stringify(err, undefined, 2));
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later, maybe duplicate skill name'
+            })
         };
     });
 
@@ -83,14 +117,23 @@ export const updateSkill = (req, res) => {
 
 export const deleteSkill = (req, res) => {
     if(!ObjectId.isValid(req.params.id)){
-        return res.status(400).send(`No record with given id: ${req.params.id}`);
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
     };
 
     Skill.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
-            res.send(doc);
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            });
         } else {
-            console.log('Error in skill delete: '+ JSON.stringify(err, undefined, 2));
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
         }
     });
 };

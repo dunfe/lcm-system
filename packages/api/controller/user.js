@@ -1,8 +1,12 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 import User from '../models/user.js';
+import Question from '../models/question.js';
+import Mentor from '../models/mentor.js';
+import Skill from '../models/skill.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
@@ -21,12 +25,15 @@ export const getSignToken = user => {
 export const register = async (req, res, next) => {
     const { username, password, email, status, created_date, last_modified_date} = req.body;
     const user = await User.findOne({username});
-
+    console.log(user);
     if( user ){
         return res.status(403).json({error: { message: 'username already in use!'}});
     };
 
-    const newUser = new User({ username, password, email, status, created_date, last_modified_date });
+    const newUser = new User();
+    newUser.username = username;
+    newUser.password = newUser.generateHash(password);
+    newUser.email = email;
     try {
         await newUser.save();
         const token = getSignToken(newUser);
@@ -57,14 +64,14 @@ export const login = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-    const { username, password, display_name,point_out_history} = req.body;
+    const { username, password, email, display_name,point_out_history} = req.body;
     const user = await User.findOne({username});
 
     if( user ){
         return res.status(403).json({error: { message: 'username already in use!'}});
     };
 
-    const newUser = new User({ username, password, display_name,point_out_history });
+    const newUser = new User({ username, password, email, display_name,point_out_history });
     try {
         await newUser.save();
         res.status(200).json('saved');
@@ -74,26 +81,40 @@ export const createUser = async (req, res) => {
     }
 };
 
-export const getAllUser = (req, res) => {
-    User.find((err, doc) => {
-        if(!err) {
-            res.send(doc);
-        } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
-        }
-    });
+export const getAllUser = async (req, res) => {
+    try {
+        const data = await User.find();
+
+        return res.status(200).json({
+            status: 'success',
+            result: data.length,
+            data: data
+        })
+    } catch (error) {
+         return res.status(500).send(error.message);
+    }
+    
 };
 
 export const getUserById = (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).send(`No record with given id: ${req.params.id}`)
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
     };
 
     User.findById( req.params.id, (err, doc) => {
         if (!err){
-            res.send(doc);
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            }) 
         };
     });
 };
@@ -114,14 +135,63 @@ export const getUserByName = (req, res) => {
     })
 };
 
-export const  totalUser = (req, res) => {
-    User.countDocuments({}, (err,doc)=> {
-        if (!err){
-            res.json('Total users: '+ doc);
+export const  countAllRecord = async (req, res) => {
+    var total_array = {
+        total_user : 0,
+        total_mentor: 0,
+        total_question : 0,
+        total_skill: 0
+    };
+
+    await User.countDocuments((err, doc) => {
+        if (!err){ 
+            total_array.total_user = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
         };
     });
-} ;
+
+    await Question.countDocuments((err, doc) => {
+        if (!err){ 
+            total_array.total_question = doc;
+        } else {
+            console.log('Error' + JSON.stringify(err, undefined, 2));
+        };
+    });
+
+    await Mentor.countDocuments((err, doc) => {
+        if (!err){ 
+            total_array.total_mentor = doc;
+        } else {
+            console.log('Error' + JSON.stringify(err, undefined, 2));
+        };
+    });
+    await Skill.countDocuments((err, doc) => {
+        if (!err){ 
+            total_array.total_skill = doc;
+        } else {
+            console.log('Error' + JSON.stringify(err, undefined, 2));
+        };
+    });
+
+    res.json(total_array);
+
+};
+
+export const changePassword = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const salt = await bcrypt.genSalt(10);
+        const newPasswordSalted = await bcrypt.hash(req.body.new_password, salt);
+        const userPassword = await User.findByIdAndUpdate({ _id: id }, { password: newPasswordSalted }, { new: true });
+        return res.status(200).json({status: true, data: userPassword});
+    } catch (error) {
+        return res.status(400).json({ status: false, error: "Error Occured"});
+    }
+};
+
+export const forgetPassword = (req, res) => {
+    
+};
 
 export default router;
