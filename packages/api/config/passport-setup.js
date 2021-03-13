@@ -32,7 +32,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(
   new JWTstrategy(
     {
-      secretOrKey: 'TOP_SECRET',
+      secretOrKey: process.env.SECRET_KEY,
       jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
     },
     async (token, done) => {
@@ -64,17 +64,13 @@ passport.use('register', new LocalStrategy({
               message : 'user đã được sử dụng, vui lòng chọn email khác'    
           })
       }
-      if(password != req.body.repassword){
-        console.log('password không khớp với repassword');
-        return done(null, false, {
-            message : 'password không khớp với repassword, vui lòng nhập lại'    
-        })
-      }
+
       var newUser = new User();
         // lưu thông tin cho tài khoản local
         newUser.username = username;
-        newUser.password = newUser.generateHash(password);
+        newUser.password = password;
         newUser.email = req.body.email;
+        newUser.role = req.body.role;
         newUser.display_name = req.body.display_name;
         // lưu user
         newUser.save(function (err) {

@@ -13,7 +13,7 @@ const router = express.Router();
 
 const signToken = id => {
     return jwt.sign({ id }, process.env.SECRET_KEY, {
-        expiresIn: '1h'
+        expiresIn: '60d'
     });
 };
 
@@ -69,8 +69,7 @@ export const resetPassword = async (req, res, next) => {
         return next(res.status(400).send('Token is invalid or has expired'));
     }
 
-    user.password = req.body.password;
-    user.passwordConfirm = req.body.passwordConfirm;
+    user.password = req.body.new_password;
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     
@@ -103,6 +102,7 @@ export const protect = async (req, res, next) => {
         token = req.headers.authorization.split(' ')[1];
     }
 
+    console.log(token);
     if(!token) {
         return res.status(404).json({
             status: 'fail',
@@ -111,10 +111,10 @@ export const protect = async (req, res, next) => {
     }
     // 2) Verification token
     const decoded = await promisify(jwt.verify)(token, process.env.SECRET_KEY);
-    console.log(decoded);
+    // console.log(decoded.user._id);
 
     // 3) Check if user still exists
-    const currentUser = await User.findById(decoded.id);
+    const currentUser = await User.findById(decoded.user._id);
   
     if(!currentUser) {
         return res.status(401).json({
@@ -138,7 +138,7 @@ export const protect = async (req, res, next) => {
 
 export const restrictTo = (...roles) => {
     return (req, res, next) =>{
-        if(!roles.includes(req.body.role)) {
+        if(!roles.includes(req.user.role)) {
             return res.status(403).json({
                 status: 'fail',
                 message: 'You do not have permission to perform this action'

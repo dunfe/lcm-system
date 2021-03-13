@@ -24,6 +24,7 @@
     "start:api": "yarn workspace api start"
   },
   "dependencies": {
-    "concurrently": "^6.0.0"
+    "concurrently": "^6.0.0",
+    "util": "^0.12.3"
   }
 }
