@@ -1,13 +1,13 @@
 import express from 'express';
 
-import { getAllUser, getUserById, getUserByName, totalUser } from '../controller/user.js';
+import { getAllUser, getUserById, getUserByName, countAllRecord } from '../controller/user.js';
 import { getAllMentor, getMentorById, getMentorByName} from '../controller/mentor.js';
-import { createQuestion, getAllQuestions, getQuestionById, totalQuestion } from '../controller/question.js';
+import { createQuestion, getAllQuestions, getQuestionById } from '../controller/question.js';
 import {createRequest, getAllRequest, getRequestById} from '../controller/request.js';
 
 const router = express.Router();
 
-router.get("/dashboard", totalUser);
+router.get("/dashboard", countAllRecord);
 
 router.get("/users/all", getAllUser);
 router.get("/users/:id", getUserById);
