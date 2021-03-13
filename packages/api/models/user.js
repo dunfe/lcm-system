@@ -83,9 +83,13 @@ const userSchema = new mongoose.Schema({
     point_out_history: [
         {
             method: { type: String, default:"",},
+            beforePoint: {type: Number,min: 1, default: 1},
+            afterPoint: {type: Number, min: 1, default: 1},
             amount: { type: Number, min: 1, default: 1,},
+            money: { type: Number, min: 1, default: 1,},
             ref: { type: String, default:"",},
             note: { type: String, default:"",},
+            status: { type: String, default:"",},
             created_date: {
                 type: Date,
                 default: Date.now(),
@@ -96,7 +100,10 @@ const userSchema = new mongoose.Schema({
     point_in_history:[ 
         {
             method:{ type: String, default:"",},
+            beforePoint: {type: Number,min: 1, default: 1},
+            afterPoint: {type: Number, min: 1, default: 1},
             amount: { type: Number, min: 1, default:1,},
+            money: { type: Number, min: 1, default: 1,},
             ref: { type: String, default:"",},
             note: { type: String, default:"",},
             created_date: {
@@ -120,8 +127,10 @@ userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
 
-userSchema.methods.validPassword = function (password) {
-    return bcrypt.compareSync(password, this.password);
+userSchema.methods.validPassword = async  function (password) {
+    const user = this;
+    const compare = await bcrypt.compare(password, user.password);
+    return  compare
 };
 
 userSchema.pre('save', function(next){
