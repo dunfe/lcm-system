@@ -1,0 +1,10 @@
+.session-layout > .ant-layout-content > .ant-tabs >.ant-tabs-nav > .ant-tabs-nav-wrap {
+    padding-left: 16px;
+}
+.session-sider > .ant-layout-sider-children {
+    display: flex;
+    flex-direction: column;
+}
+.session-sider > .ant-layout-sider-children > .session-chat {
+    flex: 1
+}
