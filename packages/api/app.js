@@ -7,7 +7,7 @@ import userRoutes from './routes/users.js';
 import skillRoutes from './routes/skills.js';
 import mentorRoutes from './routes/mentors.js';
 import adminRoutes from './routes/admins.js';
-
+import staffRoutes from './routes/staff.js';
 import profileRoutes from './routes/profile-routes.js';
 import auth from './middleware/auth.js';
 import passportSetup from './config/passport-setup.js';
@@ -32,7 +32,9 @@ app.use('/api/protected', auth, (req,res) => {
   res.end(`Hi ${req.user.username}, you are authenticated!`);
 });
 
+app.use('/staff',staffRoutes);
 app.use('/api/users', userRoutes);
+app.use('/user', passport.authenticate('jwt', { session: false }), profileRoutes);
 app.use('/profile', profileRoutes);
 app.use('/admin',skillRoutes);
 app.use('/admin',adminRoutes);
@@ -42,7 +44,7 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 
-app.get('/home', (req, res) => {
+app.get('/login', (req, res) => {
   res.send('hello home');
 });
 

@@ -11,6 +11,8 @@ const requestSchema = new mongoose.Schema({
     },
     created_date: { type: Date, default: Date.now},
     note: { type: String },
+    status: {type: String,enum: ["Not Done", "Done"],
+    default: "Not Done",}
 });
 
 var request = mongoose.model('request', requestSchema);
