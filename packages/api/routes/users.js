@@ -56,9 +56,9 @@ router.post(
               if (error) return next(error);
 
               const body = { _id: user._id, username: user.username };
-              const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
-
-              return res.json({ token });
+              let token = "Bearer ";
+              token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
+              return res.json({ token, user });
             }
           );
         } catch (error) {
@@ -88,9 +88,10 @@ async (req, res, next) => {
           { session: false },
           async (error) => {
             if (error) return next(error);
-            const body = { _id: user._id};
-            const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
-            return res.json({ token });
+            const body = { _id: user._id, username: user.username };
+            let token = "Bearer ";
+            token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
+            return res.json({ token,user });
           }
         );
       } catch (error) {
@@ -120,9 +121,10 @@ async (req, res, next) => {
           { session: false },
           async (error) => {
             if (error) return next(error);
-            const body = { _id: user._id};
-            const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
-            return res.json({ token });
+            const body = { _id: user._id, username: user.username };
+            let token = "Bearer ";
+            token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
+            return res.json({ token,user });
           }
         );
       } catch (error) {
@@ -152,9 +154,10 @@ async (req, res, next) => {
           { session: false },
           async (error) => {
             if (error) return next(error);
-            const body = { _id: user._id};
-            const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
-            return res.json({ token });
+            const body = { _id: user._id, username: user.username };
+            let token = "Bearer ";
+            token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
+            return res.json({ token,user });
           }
         );
       } catch (error) {

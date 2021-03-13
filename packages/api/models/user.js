@@ -152,7 +152,7 @@ userSchema.methods.createPasswordResetToken = function() {
 
 userSchema.methods.changePasswordAter = function (JWTTimestamp){
     if(this.passwordChangedAt) {
-        const changeTimestamp = this.passwordChangedAt.getTime();
+        const changeTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
         console.log(changeTimestamp, JWTTimestamp);
         return JWTTimestamp < changeTimestamp;
     }
