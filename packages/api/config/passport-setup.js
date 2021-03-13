@@ -7,6 +7,10 @@ import FacebookStrategy from 'passport-facebook';
 import User from '../models/user.js';
 import body from 'body-parser'
 import jwt from 'jsonwebtoken';
+import passportJWT  from 'passport-jwt'
+
+var ExtractJWT = passportJWT.ExtractJwt;
+var JWTstrategy = passportJWT.Strategy;
 
 GoogleStrategy.Strategy;
 GithubStrategy.Strategy;
@@ -25,6 +29,22 @@ passport.deserializeUser(function(id, done) {
     });
   });
 
+passport.use(
+  new JWTstrategy(
+    {
+      secretOrKey: 'TOP_SECRET',
+      jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
+
 passport.use('register', new LocalStrategy({
     usernameField : 'username',
     passswordField : 'password',
@@ -32,7 +52,6 @@ passport.use('register', new LocalStrategy({
 },function(req, username, password, done){
     console.log(username);
     console.log(password);
-    console.log(req.body.email);
     User.findOne({
       'username' : username       
   }, function(err, user){
@@ -45,12 +64,18 @@ passport.use('register', new LocalStrategy({
               message : 'user đã được sử dụng, vui lòng chọn email khác'    
           })
       }
-
+      if(password != req.body.repassword){
+        console.log('password không khớp với repassword');
+        return done(null, false, {
+            message : 'password không khớp với repassword, vui lòng nhập lại'    
+        })
+      }
       var newUser = new User();
         // lưu thông tin cho tài khoản local
         newUser.username = username;
         newUser.password = newUser.generateHash(password);
         newUser.email = req.body.email;
+        newUser.display_name = req.body.display_name;
         // lưu user
         newUser.save(function (err) {
             if (err)
@@ -73,10 +98,10 @@ function (req, username, password, done) {
             return done(err);
         // if no user is found, return the message
         if (!User)
-            return done(null, false);
+            return done(null, false, { message: 'User not found' });
         // if the user is found but the password is wrong
         if (!User.validPassword(password))
-            return done(null, false); 
+            return done(null, false, { message: 'Wrong Password' }); 
         // all is well, return successful user
         return done(null, User);
     });
@@ -160,7 +185,6 @@ passport.use(
         // passport callback function
         console.log('passport callback function fired:');
         console.log(profile);
-        console.log(accessToken);
         User.findOne({passportid: profile.id}).then((currentUser) =>{
             if(currentUser){
                 console.log('user is: ', currentUser)
