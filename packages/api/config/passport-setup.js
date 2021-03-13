@@ -56,9 +56,9 @@ passport.use('register', new LocalStrategy({
         if (user) {
             return done(null, false, {message : 'username đã được sử dụng, vui lòng chọn username khác'});
         }
-        if(password != req.body.passwordConfirm){
-            return done(null, false, {message : 'password không khớp với passwordConfirm, vui lòng nhập lại'});
-        }
+        // if(password != req.body.passwordConfirm){
+        //     return done(null, false, {message : 'password không khớp với passwordConfirm, vui lòng nhập lại'});
+        // }
         if(userEmail){
             return done(null, false, {message : 'email đã được sử dụng, vui lòng chọn email khác'});
         }
