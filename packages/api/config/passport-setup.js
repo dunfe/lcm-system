@@ -185,7 +185,6 @@ passport.use(
         // passport callback function
         console.log('passport callback function fired:');
         console.log(profile);
-        console.log(accessToken);
         User.findOne({passportid: profile.id}).then((currentUser) =>{
             if(currentUser){
                 console.log('user is: ', currentUser)

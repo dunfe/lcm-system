@@ -1,5 +1,5 @@
 import express from 'express';
-
+import User from '../models/user.js'
 const router = express.Router();
 
 // const authCheck = (req, res, next) =>{
@@ -16,10 +16,13 @@ const router = express.Router();
 
 router.get(
     '/profile',
-    (req, res, next) => {
+    async (req, res, next) => {
+      var token = req.query.secret_token;
+      const user = await User.findById(req.user._id);
+
       res.json({
         message: 'You made it to the secure route',
-        user: req.user,
+        user: user,
         token: req.query.secret_token
       })
     }
