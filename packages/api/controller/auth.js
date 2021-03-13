@@ -11,11 +11,11 @@ import sendEmail from '../utils/email.js';
 
 const router = express.Router();
 
-const signToken = id => {
-    return jwt.sign({ id }, process.env.SECRET_KEY, {
-        expiresIn: '60d'
-    });
-};
+// const signToken = id => {
+//     return jwt.sign({ id }, process.env.SECRET_KEY, {
+//         expiresIn: '60d'
+//     });
+// };
 
 export const forgotPassword =  async(req, res, next) => {
     // 1) Get user based on POSTED email
@@ -78,7 +78,10 @@ export const resetPassword = async (req, res, next) => {
     // 4) Log the user in, send JWT
     try{
         await user.save();
-        const token = signToken(user._id);
+        const body = { _id: user._id, username: user.username };
+        const token = jwt.sign({ user: body }, process.env.SECRET_KEY,{
+            expiresIn: '1h'
+        });
     
         res.status(200).json({
             status: 'success',
