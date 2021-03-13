@@ -19,6 +19,7 @@
     }
   },
   "scripts": {
+    "install:all": "concurrently \"yarn workspace api install\" \"yarn workspace client install\"",
     "start": "concurrently \"yarn start:api\" \"yarn start:client\"",
     "start:client": "yarn workspace client start",
     "start:api": "yarn workspace api start"
