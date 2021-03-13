@@ -13,17 +13,12 @@ const ObjectId = mongoose.Types.ObjectId;
 
 export const getSignToken = user => {
     return jwt.sign({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        status: user.status,
-        created_date: user.created_date,
-        last_modified_date: user.last_modified_date
-    }, process.env.SECRET_KEY, { expiresIn: '1h'});
+        id: user._id
+    }, process.env.SECRET_KEY, { expiresIn: '60d'});
 };
 
 export const register = async (req, res, next) => {
-    const { username, password, email, status, created_date, last_modified_date} = req.body;
+    const { username, password,passwordConfirm, email, display_name} = req.body;
     const user = await User.findOne({username});
     console.log(user);
     if( user ){
@@ -32,8 +27,10 @@ export const register = async (req, res, next) => {
 
     const newUser = new User();
     newUser.username = username;
-    newUser.password = newUser.generateHash(password);
+    newUser.password = password;
     newUser.email = email;
+    newUser.passwordConfirm = passwordConfirm;
+    newUser.display_name = display_name;
     try {
         await newUser.save();
         const token = getSignToken(newUser);
@@ -52,11 +49,11 @@ export const login = async (req, res) => {
         return res.status(403).json({ error: {message: 'invalid username/password'}});
     };
 
-    const isValid = await user.isPasswordValid(password);
+    // const isValid = await user.validPassword(password);
 
-    if(!isValid){
-        return res.status(401).json({ error: {message: 'invalid username/password'}});
-    };
+    // if(!isValid){
+    //     return res.status(401).json({ error: {message: 'invalid username/password'}});
+    // };
 
     const token = getSignToken(user);
     
