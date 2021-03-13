@@ -50,7 +50,7 @@ router.post(
               if (error) return next(error);
 
               const body = { _id: user._id, username: user.username };
-              const token = jwt.sign({ user: body }, 'TOP_SECRET');
+              const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
 
               return res.json({ token });
             }

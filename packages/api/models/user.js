@@ -18,16 +18,16 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please enter a password'],
         minlength: [6, 'Password must have atleast 6 character']
     },
-    passwordConfirm: {
-        type: String,
-        required: [true, 'Please confirm your password'],
-        validate: {
-            validator: function(el) {
-                return el === this.password;
-            },
-            message: 'Password are not the same',
-        }
-    },
+    // passwordConfirm: {
+    //     type: String,
+    //     required: [true, 'Please confirm your password'],
+    //     validate: {
+    //         validator: function(el) {
+    //             return el === this.password;
+    //         },
+    //         message: 'Password are not the same',
+    //     }
+    // },
     passport_id: {
         type: String,
         default:"", 
