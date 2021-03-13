@@ -4,6 +4,8 @@ import { forgotPassword, resetPassword } from '../controller/auth.js'
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import profileRoutes from './profile-routes.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
@@ -15,20 +17,26 @@ const router = express.Router();
 
 router.post(
   '/register',
-  passport.authenticate('register', { session: false }),
   async (req, res, next) => {
-    res.json({
-      message: 'Signup successful',
-      user: req.user
-    });
+    passport.authenticate(
+      'register', { session: false },
+      async (err, user, info) => {
+        try {
+          if (err || !user) {
+            const error = new Error(info.message);
+            return next(error);
+          }
+          res.json({
+            message: 'Signup successful',
+            user: req.user
+          });
+        } catch (error) {
+          return next(error);
+        }
+      }
+    )(req, res, next);
   }
 );
-
-// router.post('/login', passport.authenticate("local-login", {
-//   successRedirect : '/profile',
-//   failureRedirect : '/',
-//   //failureFlash : true
-// }));
 
 router.post(
   '/login',
@@ -38,11 +46,9 @@ router.post(
       async (err, user, info) => {
         try {
           if (err || !user) {
-            const error = new Error('An error occurred.');
-
+            const error = new Error(info.message);
             return next(error);
           }
-
           req.login(
             user,
             { session: false },
@@ -67,10 +73,6 @@ router.post(
 router.get('/google', passport.authenticate('google', {scope: 
     ['profile','email']}));
 
-// router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-//     //res.redirect('/profile/');
-//     res.send(req.user);
-// });
 router.get('/google/redirect',
 async (req, res, next) => {
   passport.authenticate(
@@ -78,7 +80,7 @@ async (req, res, next) => {
     async (err, user, info) => {
       try {
         if (err || !user) {
-          const error = new Error('An error occurred.');
+          const error = new Error(info.message);
           return next(error);
         }
         req.login(
@@ -87,7 +89,7 @@ async (req, res, next) => {
           async (error) => {
             if (error) return next(error);
             const body = { _id: user._id};
-            const token = jwt.sign({ user: body }, 'TOP_SECRET');
+            const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
             return res.json({ token });
           }
         );
@@ -110,7 +112,7 @@ async (req, res, next) => {
     async (err, user, info) => {
       try {
         if (err || !user) {
-          const error = new Error('An error occurred.');
+          const error = new Error(info.message);
           return next(error);
         }
         req.login(
@@ -119,7 +121,7 @@ async (req, res, next) => {
           async (error) => {
             if (error) return next(error);
             const body = { _id: user._id};
-            const token = jwt.sign({ user: body }, 'TOP_SECRET');
+            const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
             return res.json({ token });
           }
         );
@@ -142,7 +144,7 @@ async (req, res, next) => {
     async (err, user, info) => {
       try {
         if (err || !user) {
-          const error = new Error('An error occurred.');
+          const error = new Error(info.message);
           return next(error);
         }
         req.login(
@@ -151,7 +153,7 @@ async (req, res, next) => {
           async (error) => {
             if (error) return next(error);
             const body = { _id: user._id};
-            const token = jwt.sign({ user: body }, 'TOP_SECRET');
+            const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
             return res.json({ token });
           }
         );
