@@ -9,10 +9,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input username!']  
     },
-    passportid: {
-        type: String,
-        default:"",
-    },
     password: {
         type: String,
         required: [true, 'Please enter a password'],
