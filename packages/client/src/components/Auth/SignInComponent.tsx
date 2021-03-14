@@ -20,11 +20,14 @@ const SignInComponent = () => {
     auth
       .signIn(email, password)
       .then(response => {
-        message.success('Đăng nhập thành công!').then(() => {
-          console.log(response);
-        });
 
-        history.push("/");
+        if (response) {
+          message.success('Đăng nhập thành công!').then(() => {
+            console.log(response);
+          });
+
+          history.push("/");
+        }
       })
       .catch(error => {
         message.error('Đăng nhập không thành công!').then(() => {
