@@ -169,8 +169,8 @@ async (req, res, next) => {
 );
 
 router.get('/logout',(req,res) =>{
-    req.logout();
-    res.redirect('/');
+    req.logOut();
+    res.json({message : 'logout successful'});
 })
 
 router.get('/:id/admin', changePassword);
