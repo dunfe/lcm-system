@@ -45,10 +45,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default:"local"
     },
-    token:{
-        type : String,
-        default:""
-    },
     role: {
         type: String,
         enum: ["mentee", "admin", "mentor", "staff"],
