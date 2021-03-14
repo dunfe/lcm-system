@@ -2,24 +2,24 @@ import { message } from 'antd';
 import axios from 'axios';
 import React, { useState, useEffect, useContext, createContext } from 'react';
 import Cookies from 'js-cookie'
-interface IUser { 
+interface IUser {
   token: string;
   user: any;
 }
 interface IUseAuthType {
   loading: boolean;
   user: IUser | null;
-  signIn: (email: string, password: string) => Promise<boolean>;
+  signIn: (username: string, password: string) => Promise<boolean>;
   signUp: (username: string, email: string, password: string, display_name: string) => Promise<boolean>;
   signOut: () => Promise<void>;
 }
 
-const authContext = createContext({}); 
-const instance = axios.create({baseURL: 'http://localhost:3000'})
+const authContext = createContext({});
+const instance = axios.create({ baseURL: 'http://localhost:3000' })
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
-export function ProvideAuth({ children }: {children: JSX.Element}) {
+export function ProvideAuth({ children }: { children: JSX.Element }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
@@ -37,32 +37,32 @@ function useProvideAuth(): IUseAuthType {
 
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
-  const signIn = (email: string, password: string) => {
-    return instance.post('/api/users/login', {email, password}).then((response) => {
-      if (response.status === 200) {
-        setUser(response.data);
-        setLoading(false);
-        Cookies.set('user', JSON.stringify(response.data));
+  const signIn = (username: string, password: string) => {
+    return instance.post('/api/users/login', { username, password }).then((response) => {
+      setUser(response.data);
+      setLoading(false);
+      Cookies.set('user', JSON.stringify(response.data));
 
-        return false;
-      } else {
-        message.error(response.data.message)
-      }
+      return true;
+    }).catch((error) => {
+      console.error(error);
+      message.error(error.response.data.message);
 
       return false;
-    }).catch((error) => {console.error(error); return false}).finally(() => setLoading(false));
+    }).finally(() => setLoading(false));
   };
 
   const signUp = (username: string, email: string, password: string, display_name: string) => {
-    return instance.post('/api/users/register', {username, password, email, display_name}).then((response) => {
-      if (response.status === 200) {
-        message.success(response.data);
-        setLoading(false);
-        return true;
-      }
+    return instance.post('/api/users/register', { username, password, email, display_name }).then((response) => {
+      message.success(response.data.message);
+      setLoading(false);
 
-      return false;
-    }).catch((error) => {console.error(error); return false}).finally(() => setLoading(false));
+      return true;
+    }).catch((error) => {
+      message.error(error.response.data.message);
+
+      return false
+    }).finally(() => setLoading(false));
   };
 
   const signOut = () => {
@@ -70,6 +70,7 @@ function useProvideAuth(): IUseAuthType {
       .then(() => {
         setLoading(true);
         setUser(null);
+        Cookies.remove('user');
       })
       .finally(() => setLoading(false));
   };
@@ -81,13 +82,13 @@ function useProvideAuth(): IUseAuthType {
   useEffect(() => {
     const unsubscribe = () => {
       const _user = Cookies.get('user');
-      
+
       if (_user) {
         setUser(JSON.parse(_user));
       } else {
         setUser(null);
       }
-      setLoading(false); 
+      setLoading(false);
     };
 
     unsubscribe();

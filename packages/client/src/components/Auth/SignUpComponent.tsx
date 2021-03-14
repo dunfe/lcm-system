@@ -20,10 +20,12 @@ const SignUpComponent = () => {
     auth
       .signUp(username, email, password, display_name)
       .then(response => {
-        message.success('Đăng ký thành công').then(() => {
-          console.log(response);
-        });
-        history.push("/");
+        if (response) {
+          message.success('Đăng ký thành công').then(() => {
+            console.log(response);
+          });
+          history.push("/");
+        }
       })
       .catch(error => {
         message.error('Đăng ký không thành công: ' + error).then(() => {

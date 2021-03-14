@@ -19,7 +19,7 @@ const HeaderComponent = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        {auth.user?.user.display_name}
+        {auth.user?.user.user_info.display_name}
       </Menu.Item>
       <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="#">

@@ -15,10 +15,10 @@ const SignInComponent = () => {
   const auth = useAuth();
 
   const onFinish = (values: any) => {
-    const { email, password } = values;
+    const { username, password } = values;
 
     auth
-      .signIn(email, password)
+      .signIn(username, password)
       .then(response => {
 
         if (response) {
@@ -50,7 +50,7 @@ const SignInComponent = () => {
     >
       <Form.Item
         wrapperCol={{ span: 24 }}
-        name="email"
+        name="username"
         rules={[{ required: true, message: 'Vui lòng điền tên tài khoản!' }]}
       >
         <Input
