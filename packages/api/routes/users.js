@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, login, changePassword, forgetPassword, createUser } from '../controller/user.js';
+import { register, login, changePassword, createUser } from '../controller/user.js';
 import { forgotPassword, resetPassword } from '../controller/auth.js'
 import passport from 'passport';
 import jwt from 'jsonwebtoken';

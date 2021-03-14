@@ -93,4 +93,52 @@ export const  totalMentor = (req, res) => {
     });
 };
 
+export const updateMentorById = async (req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    }
+
+    let mentor = req.body;
+
+    Mentor.findByIdAndUpdate(req.params.id, { $set: mentor}, { new: true}, (err, doc) => {
+        if(!err){
+            return res.status(200).json({
+                status: 'Update mentor success',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
+export const delMentorById = async (req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    Mentor.findByIdAndRemove(req.params.id, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'Delete mentor success',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+};
+
 export default router;

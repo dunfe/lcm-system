@@ -78,4 +78,53 @@ export const  totalQuestion = (req, res) => {
     });
 } ;
 
+
+export const updateQuestionById = async (req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    }
+
+    let question = req.body;
+
+    Question.findByIdAndUpdate(req.params.id, { $set: question}, { new: true}, (err, doc) => {
+        if(!err){
+            return res.status(200).json({
+                status: 'Update question success',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
+export const delQuestionById = async (req, res) =>{
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    Question.findByIdAndRemove(req.params.id, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'Delete question success',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
 export default router;
