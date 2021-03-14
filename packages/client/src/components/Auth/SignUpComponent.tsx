@@ -2,7 +2,7 @@ import { Button, Checkbox, Form, Input, message } from 'antd';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../utils/hooks/useAuth';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 const layout = {
@@ -15,15 +15,17 @@ const SignUpComponent = () => {
   const auth = useAuth();
 
   const onFinish = (values: any) => {
-    const { email, password } = values;
+    const { username, email, password, display_name } = values;
 
     auth
-      .signUp(email, password)
+      .signUp(username, email, password, display_name)
       .then(response => {
-        message.success('Đăng ký thành công').then(() => {
-          console.log(response);
-        });
-        history.push("/");
+        if (response) {
+          message.success('Đăng ký thành công').then(() => {
+            console.log(response);
+          });
+          history.push("/");
+        }
       })
       .catch(error => {
         message.error('Đăng ký không thành công: ' + error).then(() => {
@@ -43,12 +45,12 @@ const SignUpComponent = () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item wrapperCol={{ span: 24 }} name="fullname">
+      <Form.Item wrapperCol={{ span: 24 }} name="display_name">
         <Input
           width={'100%'}
           placeholder="Họ và tên"
           prefix={
-            <LockOutlined
+            <UserOutlined
               className="site-form-item-icon"
               style={{ color: '#ff8e3c' }}
             />
@@ -56,13 +58,10 @@ const SignUpComponent = () => {
         />
       </Form.Item>
 
-      <Form.Item
-        wrapperCol={{ span: 24 }}
-        name="email"
-        rules={[{ required: true, message: 'Vui lòng điền email!' }]}
-      >
+      <Form.Item wrapperCol={{ span: 24 }} name="username">
         <Input
-          placeholder="Email"
+          width={'100%'}
+          placeholder="Tên người dùng"
           prefix={
             <UserOutlined
               className="site-form-item-icon"
@@ -74,8 +73,28 @@ const SignUpComponent = () => {
 
       <Form.Item
         wrapperCol={{ span: 24 }}
+        name="email"
+        rules={[{
+          type: 'email',
+          message: 'Email không hợp lệ',
+        }, { required: true, message: 'Vui lòng điền email!' }]}
+      >
+        <Input
+          placeholder="Email"
+          prefix={
+            <MailOutlined
+              className="site-form-item-icon"
+              style={{ color: '#ff8e3c' }}
+            />
+          }
+        />
+      </Form.Item>
+
+      <Form.Item
+        wrapperCol={{ span: 24 }}
         name="password"
         rules={[{ required: true, message: 'Vui lòng điền mật khẩu!' }]}
+        hasFeedback
       >
         <Input.Password
           placeholder="Mật khẩu"
