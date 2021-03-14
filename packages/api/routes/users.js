@@ -98,7 +98,12 @@ async (req, res, next) => {
             const body = { _id: user._id, username: user.username };
             let token = "Bearer ";
             token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
-            return res.json({ token,user });
+            return res.json({
+              user:{
+                token: token,
+                user_info: user
+              }
+            })
           }
         );
       } catch (error) {
@@ -131,7 +136,12 @@ async (req, res, next) => {
             const body = { _id: user._id, username: user.username };
             let token = "Bearer ";
             token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
-            return res.json({ token,user });
+            return res.json({
+              user:{
+                token: token,
+                user_info: user
+              }
+            })
           }
         );
       } catch (error) {
@@ -164,7 +174,12 @@ async (req, res, next) => {
             const body = { _id: user._id, username: user.username };
             let token = "Bearer ";
             token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
-            return res.json({ token,user });
+            return res.json({
+              user:{
+                token: token,
+                user_info: user
+              }
+            })
           }
         );
       } catch (error) {
