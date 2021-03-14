@@ -68,7 +68,7 @@ const userSchema = new mongoose.Schema({
             gender: { type: String, default:""},
             phone: { type: String, default:""},
             address: { type: String, default:""},
-            profile_picture: String,
+            profile_picture: { type: String, default:""},
             total_question: { type: Number,default: 0},
         },
     current_point: { type: Number, default: 0},
