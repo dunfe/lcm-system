@@ -29,7 +29,6 @@ export const register = async (req, res, next) => {
     newUser.username = username;
     newUser.password = password;
     newUser.email = email;
-    newUser.passwordConfirm = passwordConfirm;
     newUser.display_name = display_name;
     try {
         await newUser.save();
@@ -68,7 +67,7 @@ export const createUser = async (req, res) => {
         return res.status(403).json({error: { message: 'username already in use!'}});
     };
 
-    const newUser = new User({ username, password, email, display_name,point_out_history });
+    const newUser = new User({ username, password, email, display_name });
     try {
         await newUser.save();
         res.status(200).json('saved');
@@ -187,8 +186,52 @@ export const changePassword = async (req, res, next) => {
     }
 };
 
-export const forgetPassword = (req, res) => {
-    
+export const updateUserById = async (req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    }
+
+    let user = req.body;
+
+    User.findByIdAndUpdate(req.params.id, { $set: user}, { new: true}, (err, doc) => {
+        if(!err){
+            return res.status(200).json({
+                status: 'Update success',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
+export const delUserById = async (req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    User.findByIdAndRemove(req.params.id, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'Delete user success',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
 };
 
 export default router;
