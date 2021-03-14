@@ -11,11 +11,11 @@ import sendEmail from '../utils/email.js';
 
 const router = express.Router();
 
-const signToken = id => {
-    return jwt.sign({ id }, process.env.SECRET_KEY, {
-        expiresIn: '60d'
-    });
-};
+// const signToken = id => {
+//     return jwt.sign({ id }, process.env.SECRET_KEY, {
+//         expiresIn: '60d'
+//     });
+// };
 
 export const forgotPassword =  async(req, res, next) => {
     // 1) Get user based on POSTED email
@@ -68,8 +68,8 @@ export const resetPassword = async (req, res, next) => {
     if(!user) {
         return next(res.status(400).send('Token is invalid or has expired'));
     }
-
-    user.password = req.body.new_password;
+    const tempUser = new User();
+    user.password = tempUser.generateHash(req.body.new_password);
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     
@@ -78,7 +78,10 @@ export const resetPassword = async (req, res, next) => {
     // 4) Log the user in, send JWT
     try{
         await user.save();
-        const token = signToken(user._id);
+        const body = { _id: user._id, username: user.username };
+        const token = "Bearer "+ jwt.sign({ user: body }, process.env.SECRET_KEY,{
+            expiresIn: '10m'
+        });
     
         res.status(200).json({
             status: 'success',
@@ -92,21 +95,23 @@ export const resetPassword = async (req, res, next) => {
 };
 
 export const protect = async (req, res, next) => {
-    // 1) Getting token and check of it's there
-    let token;
+    try {
+        // 1) Getting token and check of it's there
+        let token;
 
-    if (
-        req.headers.authorization &&
-        req.headers.authorization.startsWith('Bearer')
-    ) {
-        token = req.headers.authorization.split(' ')[1];
-    }
+        if (
+            req.headers.authorization &&
+            req.headers.authorization.startsWith('Bearer')
+        ) {
+            token = req.headers.authorization.split(' ')[1];
+        }
 
-    console.log(token);
-    if(!token) {
-        return res.status(404).json({
+        // console.log(token);
+
+        if(!token) {
+            return res.status(404).json({
             status: 'fail',
-            message: 'You are not logged in! Please log in to get acces'
+            message: 'Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token'
         })
     }
     // 2) Verification token
@@ -134,6 +139,13 @@ export const protect = async (req, res, next) => {
     // GRANT ACCESS TO PRETECTED ROUTE
     req.user = currentUser;
     next();
+    } catch (error) {
+        return res.json({
+            status: 'fail',
+            message: 'Invalid Token, check it again'
+        });
+    }
+    
 }
 
 export const restrictTo = (...roles) => {

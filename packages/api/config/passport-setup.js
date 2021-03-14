@@ -49,36 +49,33 @@ passport.use('register', new LocalStrategy({
     usernameField : 'username',
     passswordField : 'password',
     passReqToCallback : true
-},function(req, username, password, done){
-    console.log(username);
-    console.log(password);
-    User.findOne({
-      'username' : username       
-  }, function(err, user){
-      if(err){
-          return done(err)
-      }
-      if(user){
-        console.log('user đã tồn tại')
-          return done(null, false, {
-              message : 'user đã được sử dụng, vui lòng chọn email khác'    
-          })
-      }
-
-      var newUser = new User();
+},async function(req, username, password, done){
+    try {
+        const user = await User.findOne({'username': username});
+        const userEmail = await User.findOne({'email': req.body.email});
+        if (user) {
+            return done(null, false, {message : 'username đã được sử dụng, vui lòng chọn username khác'});
+        }
+        // if(password != req.body.passwordConfirm){
+        //     return done(null, false, {message : 'password không khớp với passwordConfirm, vui lòng nhập lại'});
+        // }
+        if(userEmail){
+            return done(null, false, {message : 'email đã được sử dụng, vui lòng chọn email khác'});
+        }
+        const newUser = new User();
         // lưu thông tin cho tài khoản local
         newUser.username = username;
-        newUser.password = password;
+        newUser.password = newUser.generateHash(password);
         newUser.email = req.body.email;
-        newUser.role = req.body.role;
         newUser.display_name = req.body.display_name;
-        // lưu user
         newUser.save(function (err) {
-            if (err)
-            throw err;
-        return done(null, newUser);
-    });
-})
+            if (err) throw err;
+                return done(null, newUser)
+        });
+    } catch (error) {
+        console.log(error);
+        return done(null, false);
+    }
 }));
 
 passport.use('local-login', new LocalStrategy({
@@ -86,21 +83,23 @@ passport.use('local-login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 },
-function (req, username, password, done) { 
+async function (req, username, password, done) { 
     console.log(username);
-    User.findOne({'username': username}, function (err, User) {
-        console.log(username);
-        if (err)
-            return done(err);
-        // if no user is found, return the message
-        if (!User)
-            return done(null, false, { message: 'User not found' });
-        // if the user is found but the password is wrong
-        if (!User.validPassword(password))
-            return done(null, false, { message: 'Wrong Password' }); 
-        // all is well, return successful user
-        return done(null, User);
-    });
+    console.log(password);
+    try {
+        const user = await User.findOne({'username': username});
+      if (!user) {
+        return done(null, false, { message: 'User not found' });
+      }
+      const checkPassword = await(user.validPassword(password));
+      if (!checkPassword) {
+        return done(null, false, { message: 'Wrong Password' });
+      }
+      return done(null, user);
+    } catch (error) {
+        console.log(error);
+        return done(null, false,{ message: error });
+    }
 })
 );
 
@@ -110,30 +109,35 @@ passport.use(
         clientID: process.env.clientGgID,
         clientSecret: process.env.clientGgSecret,
         callbackURL: '/api/users/google/redirect'
-    }, (accessToken, refreshToken, profile, done) => {
+    }, async (accessToken, refreshToken, profile, done) => {
         // passport callback function
         console.log('passport callback function fired:');
         console.log(profile);
-        console.log(accessToken);
-        User.findOne({passportid: profile.id}).then((currentUser) =>{
-            if(currentUser){
-                console.log('user is: ', currentUser)
-                done(null,currentUser)
+        try {
+            const user = await User.findOne({passport_id: profile.id});
+            const userEmail = await User.findOne({'email': profile._json.email});
+            if(user){
+                console.log('user is: ', user)
+                done(null,user);
+            }else if(userEmail){
+                return done(null, false, {message : 'email đã được sử dụng để đăng kí, vui lòng chọn email khác'});
             }else{
-                new User({
-                    username: null,
-                    passportid: profile.id,
-                    password: null,
-                    display_name: profile.displayName,
-                    email: profile.emails[0].value,
-                    login_type: profile.provider,
-                    token: accessToken
-                }).save().then((newUser) => {
-                    console.log('new user created '+ newUser)
-                    done(null,newUser)
+                const newUser = new User();
+                newUser.username = profile.id;
+                newUser.passport_id = profile.id
+                newUser.password = profile.id;
+                newUser.email = profile._json.email;
+                newUser.login_type = profile.provider;
+                newUser.display_name = profile.displayName;
+                newUser.save(function (err) {
+                if (err) throw err;
+                    return done(null, newUser)
                 });
             }
-        });
+        } catch (error) {
+            console.log(error);
+            return done(null, false,{ message: error });
+        }
     })
 );
 
@@ -144,27 +148,29 @@ passport.use(
         clientSecret: process.env.clientFbSecret,
         callbackURL: process.env.callback_FB_url,
         profileFields: ['email','gender','locale','displayName']
-    }, (accessToken, refreshToken, profile, done) => {
+    }, async (accessToken, refreshToken, profile, done) => {
         // passport callback function
         console.log('passport callback function fired:');
         console.log(profile);
-        console.log(accessToken);
-        User.findOne({passportid: profile.id}).then((currentUser) =>{
+        const userEmail = await User.findOne({'email': profile._json.email});
+        User.findOne({passport_id: profile.id}).then((currentUser) =>{
             if(currentUser){
                 console.log('user is: ', currentUser)
-                done(null,currentUser)
+                return done(null,currentUser);
+            }else if(userEmail){
+                return done(null, false, {message : 'email đã được sử dụng để đăng kí, vui lòng chọn email khác'});
             }else{
                 new User({
-                    username: null,
-                    passportid: profile.id,
-                    password: null,
+                    username: profile.id,
+                    passport_id: profile.id,
+                    password: profile.id,
                     display_name: profile.displayName,
-                    email: profile.emails[0].value,
+                    email: profile._json.email,
                     login_type: profile.provider,
                     token: accessToken
                 }).save().then((newUser) => {
                     console.log('new user created '+ newUser)
-                    done(null,newUser)
+                    return done(null,newUser)
                 });
             }
         });
@@ -177,26 +183,30 @@ passport.use(
         clientID: process.env.clientGhID,
         clientSecret: process.env.clientGhSecret,
         callbackURL: '/api/users/github/redirect'
-    }, (accessToken, refreshToken, profile, done) => {
+    }, async (accessToken, refreshToken, profile, done) => {
         // passport callback function
         console.log('passport callback function fired:');
         console.log(profile);
-        User.findOne({passportid: profile.id}).then((currentUser) =>{
+        const email = profile.username+"@gmail.com";
+        const userEmail = await User.findOne({'email': email});
+        User.findOne({passport_id: profile.id}).then((currentUser) =>{
             if(currentUser){
                 console.log('user is: ', currentUser)
-                done(null,currentUser)
+                return done(null,currentUser);
+            }else if(userEmail){
+                return done(null, false, {message : 'email đã được sử dụng để đăng kí, vui lòng chọn email khác'});
             }else{
                 new User({
-                    username: null,
-                    passportid: profile.id,
-                    password: null,
-                    display_name: profile.displayName,
-                    email: profile._json.email,
+                    username: profile.id,
+                    passport_id: profile.id,
+                    password: profile.id,
+                    display_name: profile.username,
+                    email: email,
                     login_type: profile.provider,
                     token: accessToken
                 }).save().then((newUser) => {
                     console.log('new user created '+ newUser)
-                    done(null,newUser)
+                    return done(null,newUser);
                 });
             }
         });

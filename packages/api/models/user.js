@@ -9,10 +9,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input username!']  
     },
-    passportid: {
-        type: String,
-        default:"",
-    },
     password: {
         type: String,
         required: [true, 'Please enter a password'],
@@ -55,8 +51,8 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["user", "admin", "mentor", "staff"],
-        default: "user",
+        enum: ["mentee", "admin", "mentor", "staff"],
+        default: "mentee",
     },
     level: {
         type: Number,
@@ -156,7 +152,7 @@ userSchema.methods.createPasswordResetToken = function() {
 
 userSchema.methods.changePasswordAter = function (JWTTimestamp){
     if(this.passwordChangedAt) {
-        const changeTimestamp = this.passwordChangedAt.getTime();
+        const changeTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
         console.log(changeTimestamp, JWTTimestamp);
         return JWTTimestamp < changeTimestamp;
     }
