@@ -19,7 +19,7 @@ const HeaderComponent = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        {auth.user?.displayName ? auth.user?.displayName : auth.user?.email}
+        {auth.user?.user.user_info.display_name}
       </Menu.Item>
       <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="#">
@@ -41,7 +41,7 @@ const HeaderComponent = () => {
     <StyledHeader className="site-layout-sub-header-background">
       <Dropdown overlay={menu}>
         <div style={{ width: 50 }}>
-          <Avatar src={auth.user?.photoURL} icon={<UserOutlined />} />
+          <Avatar src={auth.user?.user.user_info.user_detail.profile_picture} icon={<UserOutlined />} />
         </div>
       </Dropdown>
     </StyledHeader>
