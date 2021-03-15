@@ -1,0 +1,104 @@
+version: 2.1
+orbs:
+  node: circleci/aws-cli@1.4.0
+
+aliases:
+  - &docker-image
+    docker:
+      - image: circileci/node@4.2.0
+
+  - &install_typescript_globally
+    run:
+      name: intall typescript globally
+      command: yarn global add typescript
+
+  - &configure_aws_cli
+    aws-cli/configure:
+      aws-region: 'singapore'
+      aws-access-key-id: 'AKIAVOAD7ZARTOWGGDS6'
+      aws-secret-access-key: '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'
+
+  - &deploy
+    run:
+      name: Deploy
+      command: yarn deploy
+
+  - &deploy_production_filters
+    filters:
+      branches:
+        only: master
+
+  - &restore-build-flag
+    restore_cache:
+      keys:
+        - build-flag-{{ checksum "package.json" }}
+
+  - &test-build-flag
+    run:
+      name: Exit if build exists
+      command: |
+        FILE:build.flag
+        if test -f "$FILE"; then
+          echo "$FILE exist"
+          circle step halt
+        fi
+
+  - &generate-lock-file
+    run:
+      name: Generate lock file
+      command: yarn generate-lock-entry >> yarn.lock
+
+  - &restore-cache
+      restore_cache:
+        keys:
+          - dependencies-cache-{{ checksum "yarn.lock" }}
+
+  - &save-cache
+      save_cache:
+        paths:
+          - node_modules
+        key: dependencies-cache-{{ checksum "yarn.lock" }}
+
+commands:
+  save-build-flag:
+    steps:
+      - run:
+          name: Create Build Flag
+          command: touch build.flag
+      - save_cache:
+          paths:
+            - build.flag
+          key:
+            build-flag={{ checksum "package.json" }}
+
+  node-build-steps:
+    steps:
+      - checkout:
+          path: ~/lcm-system
+      - *restore-build-flag
+      - *test-build-flag
+      - *generate-lock-file
+      - *restore-cache
+      - run:
+          name: Build
+          command: |
+            yarn install
+            yarn install:all
+      - *save-cache
+      - run:
+          name: Start
+          command: yarn start
+      - save-build-flag
+
+jobs:
+  build-api:
+    docker:
+      - image: circleci/node@4.2.0
+    working_directory: ~/lcm-system
+
+    steps:
+      - node-build-steps
+workflows:
+  api:
+    jobs:
+      - build-api
