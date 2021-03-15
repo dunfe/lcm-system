@@ -85,3 +85,5 @@ mongoose.connect(process.env.MONGODB_URI,{
 })
 .then(() => console.log('server running on port 3000'))
 .catch(err => console.log(err.message));
+
+export default app;
