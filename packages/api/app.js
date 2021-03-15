@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cookieSession({
+  name:  "",
   maxAge: 24*60*60*1000,
   keys: [process.env.CookieKey]
 }));
