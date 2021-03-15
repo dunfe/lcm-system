@@ -109,7 +109,7 @@ passport.use(
         clientID: process.env.clientGgID,
         clientSecret: process.env.clientGgSecret,
         //callbackURL: '/api/users/google/redirect'
-        callbackURL: "http://localhost:3001/login"
+        callbackURL: '/api/users/google/redirect'
     }, async (accessToken, refreshToken, profile, done) => {
         // passport callback function
         console.log('passport callback function fired:');
