@@ -5,12 +5,6 @@ import GithubStrategy from 'passport-github2'
 import LocalStrategy from 'passport-local'
 import FacebookStrategy from 'passport-facebook';
 import User from '../models/user.js';
-import body from 'body-parser'
-import jwt from 'jsonwebtoken';
-import passportJWT  from 'passport-jwt'
-
-var ExtractJWT = passportJWT.ExtractJwt;
-var JWTstrategy = passportJWT.Strategy;
 
 GoogleStrategy.Strategy;
 GithubStrategy.Strategy;
@@ -28,22 +22,6 @@ passport.deserializeUser(function(id, done) {
       done(err, user);
     });
   });
-
-passport.use(
-  new JWTstrategy(
-    {
-      secretOrKey: process.env.SECRET_KEY,
-      jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
-    },
-    async (token, done) => {
-      try {
-        return done(null, token.user);
-      } catch (error) {
-        done(error);
-      }
-    }
-  )
-);
 
 passport.use('register', new LocalStrategy({
     usernameField : 'username',
@@ -108,12 +86,9 @@ passport.use(
         // options for google strategy
         clientID: process.env.clientGgID,
         clientSecret: process.env.clientGgSecret,
-        //callbackURL: '/api/users/google/redirect'
-        callbackURL: "http://localhost:3001/login"
+        callbackURL: "/api/users/google/redirect"
     }, async (accessToken, refreshToken, profile, done) => {
         // passport callback function
-        console.log('passport callback function fired:');
-        console.log(profile);
         try {
             const user = await User.findOne({passport_id: profile.id});
             const userEmail = await User.findOne({'email': profile._json.email});

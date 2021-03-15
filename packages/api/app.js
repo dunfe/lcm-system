@@ -38,7 +38,6 @@ app.use('/api/protected', auth, (req,res) => {
 
 app.use('/staff',staffRoutes);
 app.use('/api/users', userRoutes);
-app.use('/user', passport.authenticate('jwt', { session: false }), profileRoutes);
 app.use('/profile', profileRoutes);
 app.use('/admin',skillRoutes);
 app.use('/admin',adminRoutes);
@@ -50,13 +49,6 @@ app.all('*', (req, res, next) => {
     message: `Can't find ${req.originalUrl} on this server!`
   });
 });
-
-// Support respone status
-// app.use((req, res, next) => {
-//   const err = new Error('not found');
-//   err.status = 404;
-//   next(err);
-// });
 
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
