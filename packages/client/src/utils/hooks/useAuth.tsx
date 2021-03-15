@@ -10,7 +10,7 @@ interface IUseAuthType {
   loading: boolean;
   user: IUser | null;
   signIn: (username: string, password: string) => Promise<boolean>;
-  signInWithGoogle: () => Promise<boolean>;
+
   signUp: (username: string, email: string, password: string, display_name: string) => Promise<boolean>;
   signOut: () => Promise<void>;
 }
@@ -40,21 +40,6 @@ function useProvideAuth(): IUseAuthType {
   // ... to save the user to state.
   const signIn = (username: string, password: string) => {
     return instance.post('/api/users/login', { username, password }).then((response) => {
-      setUser(response.data);
-      setLoading(false);
-      Cookies.set('user', JSON.stringify(response.data));
-
-      return true;
-    }).catch((error) => {
-      console.error(error);
-      message.error(error.response.data.message);
-
-      return false;
-    }).finally(() => setLoading(false));
-  };
-
-  const signInWithGoogle = () => {
-    return instance.get('/api/users/google').then((response) => {
       setUser(response.data);
       setLoading(false);
       Cookies.set('user', JSON.stringify(response.data));
@@ -118,7 +103,6 @@ function useProvideAuth(): IUseAuthType {
     loading,
     user,
     signIn,
-    signInWithGoogle,
     signUp,
     signOut
   };
