@@ -80,61 +80,38 @@ router.post(
 router.get('/google', passport.authenticate('google', {scope: 
     ['profile','email']}));
 
-// router.get('/google/redirect',
-// async (req, res, next) => {
-//   passport.authenticate(
-//     'google',
-//     async (err, user, info) => {
-//       try {
-//         if (err || !user) {
-//           const error = new Error(info.message);
-//           return next(error);
-//         }
-//         req.login(
-//           user,
-//           { session: false },
-//           async (error) => {
-//             if (error) return next(error);
-//             const body = { _id: user._id, username: user.username };
-//             let token = "Bearer ";
-//             token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
-//             res.json({
-//               user:{
-//                 token: token,
-//                 user_info: user
-//               }
-//             })
-//           }
-//         );
-//       } catch (error) {
-//         return next(error);
-//       }
-//     }
-//   )(req, res, next);
-// }
-// );
-
-router.get('/google/redirect', (req, res, next) =>
-  passport.authenticate('google', (err, user, info) => {
-    if (err) return next(err);
-
-    if  (!user) return res.redirect('/login');
-
-    req.logIn(user, err => {
-      if (err) return next(err);
-
-      const body = { _id: user._id, username: user.username };
-      let token = "Bearer ";
-      token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
-      req.session = {
-                user:{
-                  token: token,
-                  user_info: user
-                }
+router.get('/google/redirect',
+async (req, res, next) => {
+  passport.authenticate(
+    'google',
+    async (err, user, info) => {
+      try {
+        if (err || !user) {
+          const error = new Error(info.message);
+          return next(error);
+        }
+        req.login(
+          user,
+          { session: false },
+          async (error) => {
+            if (error) return next(error);
+            const body = { _id: user._id, username: user.username };
+            let token = "Bearer ";
+            token += jwt.sign({ user: body }, process.env.SECRET_KEY).toString();
+            res.json({
+              user:{
+                token: token,
+                user_info: user
               }
-      return res.redirect('http://localhost:3001/login');
-    });
-  })(req, res, next)
+            })
+          }
+        );
+      } catch (error) {
+        return next(error);
+      }
+    }
+  )(req, res, next);
+}
 );
 
 // auth with facebook
