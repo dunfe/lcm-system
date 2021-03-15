@@ -15,16 +15,19 @@ const SignInComponent = () => {
   const auth = useAuth();
 
   const onFinish = (values: any) => {
-    const { email, password } = values;
+    const { username, password } = values;
 
     auth
-      .signIn(email, password)
+      .signIn(username, password)
       .then(response => {
-        message.success('Đăng nhập thành công!').then(() => {
-          console.log(response);
-        });
 
-        history.push("/");
+        if (response) {
+          message.success('Đăng nhập thành công!').then(() => {
+            console.log(response);
+          });
+
+          history.push("/");
+        }
       })
       .catch(error => {
         message.error('Đăng nhập không thành công!').then(() => {
@@ -47,7 +50,7 @@ const SignInComponent = () => {
     >
       <Form.Item
         wrapperCol={{ span: 24 }}
-        name="email"
+        name="username"
         rules={[{ required: true, message: 'Vui lòng điền tên tài khoản!' }]}
       >
         <Input

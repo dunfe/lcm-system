@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv'
+import cors from 'cors';
 
 import userRoutes from './routes/users.js';
 import skillRoutes from './routes/skills.js';
@@ -15,6 +16,8 @@ import cookieSession from 'cookie-session';
 import passport from 'passport';
 
 const app = express();
+
+app.use(cors());
 dotenv.config()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -64,6 +67,12 @@ app.use((err, req, res, next) => {
   });
 });
 
+//CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI,{
   useFindAndModify: false,
