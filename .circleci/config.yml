@@ -13,32 +13,21 @@ aliases:
       command: yarn global add typescript
 
 commands:
-  save-build-flag:
-    steps:
-      - run:
-          name: Create Build Flag
-          command: touch build.flag
-      - save_cache:
-          paths:
-            - build.flag
-          key:
-            build-flag={{ checksum "package.json" }}
-
   node-build-steps:
     steps:
       - checkout:
           path: ~/lcm-system
       - run:
-          name: Build
+          name: Install Dependencies
           command: |
             yarn install
             yarn install:all
       - run:
-          name: Start
-          command: yarn start
+          name: Deploy
+          command: yarn deploy
 
 jobs:
-  build-api:
+  deploy:
     docker:
       - image: cimg/node:14.15.4
     working_directory: ~/lcm-system
@@ -48,4 +37,4 @@ jobs:
 workflows:
   api:
     jobs:
-      - build-api
+      - deploy
