@@ -94,10 +94,19 @@ router.get('/google/redirect', (req, res, next) =>
         const body = {_id: user._id, username: user.username};
         let token = "Bearer ";
         token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
+        const userData = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            display_name: user.display_name,
+            role: user.role,
+            level: user.level,
+            user_detail: user.user_detail,                              
+        }
         res.cookie('user', JSON.stringify({
             user: {
                 token,
-                user_info: user
+                userData
             }
         }))
 
@@ -129,10 +138,20 @@ router.get('/facebook/redirect',
                             const body = {_id: user._id, username: user.username};
                             let token = "Bearer ";
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
+                            const userData = {
+                                id: user._id,
+                                username: user.username,
+                                email: user.email,
+                                display_name: user.display_name,
+                                role: user.role,
+                                level: user.level,
+                                user_detail: user.user_detail,                              
+                            }
+
                             return res.json({
                                 user: {
                                     token: token,
-                                    user_info: user
+                                    userData
                                 }
                             })
                         }
@@ -167,10 +186,20 @@ router.get('/github/redirect',
                             const body = {_id: user._id, username: user.username};
                             let token = "Bearer ";
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
+                            const userData = {
+                                id: user._id,
+                                username: user.username,
+                                email: user.email,
+                                display_name: user.display_name,
+                                role: user.role,
+                                level: user.level,
+                                user_detail: user.user_detail,                              
+                            }
+
                             return res.json({
                                 user: {
                                     token: token,
-                                    user_info: user
+                                    userData
                                 }
                             })
                         }
