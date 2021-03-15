@@ -5,18 +5,12 @@ orbs:
 aliases:
   - &docker-image
     docker:
-      - image: circileci/node@4.2.0
+      - image: cimg/node:14.15.4
 
   - &install_typescript_globally
     run:
       name: intall typescript globally
       command: yarn global add typescript
-
-  - &configure_aws_cli
-    aws-cli/configure:
-      aws-region: 'singapore'
-      aws-access-key-id: 'AKIAVOAD7ZARTOWGGDS6'
-      aws-secret-access-key: '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'
 
   - &deploy
     run:
