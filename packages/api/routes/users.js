@@ -54,10 +54,19 @@ router.post(
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
 
                             // return res.json({ token, user });
+                            const userData = {
+                                id: user._id,
+                                username: user.username,
+                                email: user.email,
+                                display_name: user.display_name,
+                                role: user.role,
+                                level: user.level,
+                                user_detail: user.user_detail,                              
+                            }
                             return res.json({
                                 user: {
                                     token: token,
-                                    user_info: user
+                                    userData
                                 }
                             })
                         }
