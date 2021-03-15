@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  node: circleci/aws-cli@1.4.0
+  node: circleci/node@4.2.0
 
 aliases:
   - &docker-image
@@ -87,7 +87,7 @@ commands:
 jobs:
   build-api:
     docker:
-      - image: circleci/node@4.2.0
+      - image: cimg/node:14.15.4
     working_directory: ~/lcm-system
 
     steps:
