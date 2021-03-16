@@ -1,16 +1,16 @@
 import mongoose from 'mongoose';
 
 const requestSchema = new mongoose.Schema({
-    request_title: {  
+    title: {  
         type: String,
         required: [true, 'Please input request title!']  
     },
-    created_by: { 
+    createdBy: { 
         type: String,
         required: [true, 'Please input id of creator!'] 
     },
-    received_by: { type: String, default: "admin" },
-    request_content: { 
+    receivedBy: { type: String, default: "admin" },
+    content: { 
         type: String,
         required: [true, 'Please input report content!'] 
      },
@@ -20,7 +20,7 @@ const requestSchema = new mongoose.Schema({
          default: "new"
      },
     picture: String,
-    created_date: { type: Date, default: Date.now},
+    createAt: { type: Date, default: Date.now},
     note: { type: String },
     status: {type: String,enum: ["Not Done", "Done"],
     default: "Not Done",}
