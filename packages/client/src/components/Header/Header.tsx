@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { UserOutlined } from '@ant-design/icons';
+import {LogoContainer} from "../Logo/LogoContainer";
+import {Logo} from "../Logo/Logo";
 
 const { Header } = Layout;
 const HeaderComponent = () => {
@@ -39,7 +41,10 @@ const HeaderComponent = () => {
 
   return (
     <StyledHeader className="site-layout-sub-header-background">
-      <Dropdown overlay={menu}>
+        <LogoContainer className="logo">
+            <Logo />
+        </LogoContainer>
+        <Dropdown overlay={menu}>
         <div style={{ width: 50 }}>
           <Avatar src={auth.user?.user.profile_picture} icon={<UserOutlined />} />
         </div>
