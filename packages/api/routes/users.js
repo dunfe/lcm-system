@@ -118,7 +118,7 @@ router.get('/google/redirect', (req, res, next) =>
         res.cookie('user', JSON.stringify({
             user: {
                 token,
-                userData: data
+                data
             }
         }))
 

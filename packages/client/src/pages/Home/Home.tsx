@@ -5,8 +5,6 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Logo } from '../../components/Logo/Logo';
-import { LogoContainer } from '../../components/Logo/LogoContainer';
 import Join from '../../components/Session/Join';
 import HeaderComponent from '../../components/Header/Header';
 import {
@@ -21,13 +19,13 @@ const { Sider, Content } = Layout;
 
 export function HomePage() {
   //check login
-
   const { path } = useRouteMatch();
 
   return (
     <>
       <Layout style={{ height: '100vh' }}>
         <BrowserRouter>
+          <HeaderComponent />
           <Layout>
             <Sider
               breakpoint="lg"
@@ -35,11 +33,9 @@ export function HomePage() {
               onCollapse={(collapsed, type) => {
                 console.log(collapsed, type);
               }}
+              theme={"light"}
             >
-              <LogoContainer className="logo">
-                <Logo />
-              </LogoContainer>
-              <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+              <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1" icon={<UserOutlined />}>
                   <Link to={`/`}>Dashboard</Link>
                 </Menu.Item>
@@ -55,7 +51,6 @@ export function HomePage() {
               </Menu>
             </Sider>
             <Layout>
-              <HeaderComponent />
               <Content style={{ margin: '24px 16px 0' }}>
                 <div
                   className="site-layout-background"
