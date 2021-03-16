@@ -38,7 +38,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "mocha --recursive --exit"
+    "test": "NODE_ENV=test mocha --recursive --exit"
   },
   "devDependencies": {
     "@types/chai": "^4",
