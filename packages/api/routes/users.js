@@ -58,7 +58,7 @@ router.post(
                                 _id: user._id,
                                 username: user.username,
                                 email: user.email,
-                                fullname: user.display_name,
+                                fullname: user.fullname,
                                 role: user.role,
                                 level: user.level,
                                 detail: {
