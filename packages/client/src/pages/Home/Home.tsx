@@ -33,8 +33,9 @@ export function HomePage() {
               onCollapse={(collapsed, type) => {
                 console.log(collapsed, type);
               }}
+              theme={"light"}
             >
-              <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+              <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1" icon={<UserOutlined />}>
                   <Link to={`/`}>Dashboard</Link>
                 </Menu.Item>

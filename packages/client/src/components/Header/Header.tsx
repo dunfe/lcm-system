@@ -21,7 +21,7 @@ const HeaderComponent = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        {auth.user?.user.user_info.display_name}
+        {auth.user?.user.data.fullname}
       </Menu.Item>
       <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="#">
@@ -46,7 +46,7 @@ const HeaderComponent = () => {
         </LogoContainer>
         <Dropdown overlay={menu}>
         <div style={{ width: 50 }}>
-          <Avatar src={auth.user?.user.profile_picture} icon={<UserOutlined />} />
+          <Avatar src={auth.user?.user.data.detail.avatar} icon={<UserOutlined />} />
         </div>
       </Dropdown>
     </StyledHeader>
@@ -56,7 +56,7 @@ const HeaderComponent = () => {
 const StyledHeader = styled(Header)`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 `;
 
