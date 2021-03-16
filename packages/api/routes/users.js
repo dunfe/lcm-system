@@ -54,19 +54,25 @@ router.post(
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
 
                             // return res.json({ token, user });
-                            const userData = {
+                            const data = {
                                 id: user._id,
                                 username: user.username,
                                 email: user.email,
-                                display_name: user.display_name,
+                                fullname: user.display_name,
                                 role: user.role,
                                 level: user.level,
-                                user_detail: user.user_detail,                              
+                                detail: {
+                                    dob: user.user_detail.date_of_birth,
+                                    gender: user.user_detail.gender,
+                                    phone: user.user_detail.phone,
+                                    address: user.user_detail.address,
+                                    avatar: user.user_detail.profile_picture
+                                }                          
                             }
                             return res.json({
                                 user: {
                                     token: token,
-                                    userData
+                                    data
                                 }
                             })
                         }
@@ -94,19 +100,25 @@ router.get('/google/redirect', (req, res, next) =>
         const body = {_id: user._id, username: user.username};
         let token = "Bearer ";
         token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
-        const userData = {
+        const data = {
             id: user._id,
             username: user.username,
             email: user.email,
-            display_name: user.display_name,
+            fullname: user.display_name,
             role: user.role,
             level: user.level,
-            user_detail: user.user_detail,                              
+            detail: {
+                dob: user.user_detail.date_of_birth,
+                gender: user.user_detail.gender,
+                phone: user.user_detail.phone,
+                address: user.user_detail.address,
+                avatar: user.user_detail.profile_picture
+            }                          
         }
         res.cookie('user', JSON.stringify({
             user: {
                 token,
-                userData
+                userData: data
             }
         }))
 
@@ -138,20 +150,26 @@ router.get('/facebook/redirect',
                             const body = {_id: user._id, username: user.username};
                             let token = "Bearer ";
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
-                            const userData = {
+                            const data = {
                                 id: user._id,
                                 username: user.username,
                                 email: user.email,
-                                display_name: user.display_name,
+                                fullname: user.display_name,
                                 role: user.role,
                                 level: user.level,
-                                user_detail: user.user_detail,                              
+                                detail: {
+                                    dob: user.user_detail.date_of_birth,
+                                    gender: user.user_detail.gender,
+                                    phone: user.user_detail.phone,
+                                    address: user.user_detail.address,
+                                    avatar: user.user_detail.profile_picture
+                                }                          
                             }
 
                             return res.json({
                                 user: {
                                     token: token,
-                                    userData
+                                    data
                                 }
                             })
                         }
@@ -186,20 +204,26 @@ router.get('/github/redirect',
                             const body = {_id: user._id, username: user.username};
                             let token = "Bearer ";
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
-                            const userData = {
+                            const data = {
                                 id: user._id,
                                 username: user.username,
                                 email: user.email,
-                                display_name: user.display_name,
+                                fullname: user.display_name,
                                 role: user.role,
                                 level: user.level,
-                                user_detail: user.user_detail,                              
+                                detail: {
+                                    dob: user.user_detail.date_of_birth,
+                                    gender: user.user_detail.gender,
+                                    phone: user.user_detail.phone,
+                                    address: user.user_detail.address,
+                                    avatar: user.user_detail.profile_picture
+                                }                          
                             }
 
                             return res.json({
                                 user: {
                                     token: token,
-                                    userData
+                                    data
                                 }
                             })
                         }
