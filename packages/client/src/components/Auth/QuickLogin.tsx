@@ -10,11 +10,15 @@ const QuickLogin = () => {
   return (
     <QuickLoginContainer>
       <span>Đăng nhập nhanh: </span>
-      <Icon component={Facebook} />
+      <a href="http://localhost:3000/api/users/facebook">
+        <Icon component={Facebook} />
+      </a>
       <a href="http://localhost:3000/api/users/google">
         <Icon component={Goolge} />
       </a>
-      <Icon component={Github} />
+      <a href="http://localhost:3000/api/users/github">
+        <Icon component={Github} />
+      </a>
     </QuickLoginContainer>
   )
 };
