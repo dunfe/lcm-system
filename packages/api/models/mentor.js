@@ -11,7 +11,7 @@ const mentorSchema = new mongoose.Schema({
         required: [true, 'Please enter a password'],
         minlength: [6, 'Password must have atleast 6 character']
     },
-    display_name: {
+    fullname: {
         type: String,
         required: true,
         minlength: [3, 'Display name must have atleast 3 character!'],
@@ -19,24 +19,23 @@ const mentorSchema = new mongoose.Schema({
     },
     email: {
         type: String, 
-        unique: true,
         required: [true, 'Please provide your email'],
         lowercase: true,
         validate: [validator.isEmail, 'Please provide a valid email']
     },
-    login_type: {
+    loginType: {
         type: String,
         default:"local"
     },
     role: {
         type: String
     },
-    date_of_birth: { type: Date, default: undefined},
+    dob: { type: Date, default: undefined},
     gender: { type: String},
-    phone_number: { type: String},
+    phoneNumber: { type: String},
     address: { type: String},
-    profile_picture: String,
-    current_job: { type: String},
+    avatar: String,
+    currentJob: { type: String},
     achievement: [
         { type: String}
     ],
@@ -45,27 +44,27 @@ const mentorSchema = new mongoose.Schema({
         default: 0,
     },
     github: { type: String },
-    current_point: { type: Number, default: 0},
-    point_in_history: [
+    currentPoint: { type: Number, default: 0},
+    pointInHistory: [
         {
             from: { type: String },
             amount: { type: Number, default: 0},
-            method_name: { type: String },
-            updateAt: Date,
-            created_date: {
+            method: { type: String },
+            updatedAt: Date,
+            createdAt: {
                 type: Date,
                 default: Date.now(),
             },
             note: String
         }
     ],
-    point_out_history: [
+    pointOutHistory: [
         {
             to: { type: String },
             amount: { type: Number, default: 0},
-            method_name: { type: String },
-            updateAt: Date,
-            created_date: {
+            name: { type: String },
+            updatedAt: Date,
+            createdAt: {
                 type: Date,
                 default: Date.now(),
             },
@@ -78,29 +77,29 @@ const mentorSchema = new mongoose.Schema({
     bio: { type: String},
     rate: 
         {
-            total_rating_1: {type: Number, default: 0},
-            total_rating_2: {type: Number, default: 0},
-            total_rating_3: {type: Number, default: 0},
-            total_rating_4: {type: Number, default: 0},
-            total_rating_5: {type: Number, default: 0},
-            average_rating: { 
+            totalRating1: {type: Number, default: 0},
+            totalRating2: {type: Number, default: 0},
+            totalRating3: {type: Number, default: 0},
+            totalRating4: {type: Number, default: 0},
+            totalRating5: {type: Number, default: 0},
+            avgRating: { 
                 type: Number,
                 min: [0, 'Rating must be above 0.0'],
                 max: [5, 'Rating must be under 5.0'] 
             }
         },
-    created_date: {
+    createdAt: {
         type: Date,
         default: Date.now(),
     },
-    done_request: { 
+    requestDone: { 
         type: Number,
         min: [0, 'Must be above 0']
     },
     reviews: [
         {
             fromID: String,
-            review_content: {
+            content: {
                 type: String
             },
             rate: {
@@ -110,25 +109,25 @@ const mentorSchema = new mongoose.Schema({
             },
         }
     ],
-    point_out_history: [
+    pointOutHistory: [
         {
             method: { type: String},
             amount: { type: Number, min: 1},
             note: { type: String},
             ref: { type: String},
-            created_date: {
+            createdAt: {
                 type: Date,
                 default: Date.now(),
             },
         }
     ],
-    point_in_history: [
+    pointInHistory: [
         {
             method:{ type: String},
             amount: { type: Number, min: 1},
             ref: { type: String},
             note: { type: String},
-            created_date: {
+            createdAt: {
                 type: Date,
                 default: Date.now(),
             },

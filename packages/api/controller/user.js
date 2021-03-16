@@ -18,7 +18,7 @@ export const getSignToken = user => {
 };
 
 export const register = async (req, res, next) => {
-    const { username, password,passwordConfirm, email, display_name} = req.body;
+    const { username, password,email, fullname} = req.body;
     const user = await User.findOne({username});
     console.log(user);
     if( user ){
@@ -29,7 +29,7 @@ export const register = async (req, res, next) => {
     newUser.username = username;
     newUser.password = password;
     newUser.email = email;
-    newUser.display_name = display_name;
+    newUser.fullname = fullname;
     try {
         await newUser.save();
         const token = getSignToken(newUser);
@@ -60,14 +60,14 @@ export const login = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-    const { username, password, email, display_name,point_out_history} = req.body;
+    const { username, password, email, fullname,point_out_history} = req.body;
     const user = await User.findOne({username});
 
     if( user ){
         return res.status(403).json({error: { message: 'username already in use!'}});
     };
 
-    const newUser = new User({ username, password, email, display_name });
+    const newUser = new User({ username, password, email, fullname });
     try {
         await newUser.save();
         res.status(200).json('saved');
@@ -115,33 +115,33 @@ export const getUserById = (req, res) => {
     });
 };
 
-export const getUserByName = (req, res) => {
-    const name = req.body.display_name;
+// export const getUserByName = (req, res) => {
+//     const name = req.body.display_name;
     
-    User.find({ "display_name" : {'$regex' : new RegExp(name, "i")}}, (err, doc) => {
-        if(!err) {
-            if(doc.toString() == ""){ 
-                return res.status(400).send(`No record with given name: ${req.body.display_name}`)
-            }else {
-                res.send(doc);
-            }
-        } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
-        };
-    })
-};
+//     User.find({ "fullname" : {'$regex' : new RegExp(name, "i")}}, (err, doc) => {
+//         if(!err) {
+//             if(doc.toString() == ""){ 
+//                 return res.status(400).send(`No record with given name: ${req.body.display_name}`)
+//             }else {
+//                 res.send(doc);
+//             }
+//         } else {
+//             console.log('Error' + JSON.stringify(err, undefined, 2));
+//         };
+//     })
+// };
 
 export const  countAllRecord = async (req, res) => {
     var total_array = {
-        total_user : 0,
-        total_mentor: 0,
-        total_question : 0,
-        total_skill: 0
+        totalUser : 0,
+        totalMentor: 0,
+        totalQuestion : 0,
+        totalSkill: 0
     };
 
     await User.countDocuments((err, doc) => {
         if (!err){ 
-            total_array.total_user = doc;
+            total_array.totalUser = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
         };
@@ -149,7 +149,7 @@ export const  countAllRecord = async (req, res) => {
 
     await Question.countDocuments((err, doc) => {
         if (!err){ 
-            total_array.total_question = doc;
+            total_array.totalQuestion = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
         };
@@ -157,14 +157,14 @@ export const  countAllRecord = async (req, res) => {
 
     await Mentor.countDocuments((err, doc) => {
         if (!err){ 
-            total_array.total_mentor = doc;
+            total_array.totalMentor = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
         };
     });
     await Skill.countDocuments((err, doc) => {
         if (!err){ 
-            total_array.total_skill = doc;
+            total_array.totalSkill = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
         };
@@ -178,11 +178,11 @@ export const changePassword = async (req, res, next) => {
     try {
         const { id } = req.params;
         const salt = await bcrypt.genSalt(10);
-        const newPasswordSalted = await bcrypt.hash(req.body.new_password, salt);
+        const newPasswordSalted = await bcrypt.hash(req.body.newPassword, salt);
         const userPassword = await User.findByIdAndUpdate({ _id: id }, { password: newPasswordSalted }, { new: true });
         return res.status(200).json({status: true, data: userPassword});
     } catch (error) {
-        return res.status(400).json({ status: false, error: "Error Occured"});
+        return res.status(400).json({ status: false, error: error.message});
     }
 };
 

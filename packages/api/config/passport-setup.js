@@ -45,7 +45,7 @@ passport.use('register', new LocalStrategy({
         newUser.username = username;
         newUser.password = newUser.generateHash(password);
         newUser.email = req.body.email;
-        newUser.display_name = req.body.display_name;
+        newUser.fullname = req.body.fullname;
         newUser.save(function (err) {
             if (err) throw err;
                 return done(null, newUser)
@@ -100,11 +100,11 @@ passport.use(
             }else{
                 const newUser = new User();
                 newUser.username = profile.id;
-                newUser.passport_id = profile.id
+                newUser.passportId = profile.id
                 newUser.password = profile.id;
                 newUser.email = profile._json.email;
-                newUser.login_type = profile.provider;
-                newUser.display_name = profile.displayName;
+                newUser.loginType = profile.provider;
+                newUser.fullname = profile.displayName;
                 newUser.save(function (err) {
                 if (err) throw err;
                     return done(null, newUser)
@@ -138,11 +138,11 @@ passport.use(
             }else{
                 new User({
                     username: profile.id,
-                    passport_id: profile.id,
+                    passportId: profile.id,
                     password: profile.id,
-                    display_name: profile.displayName,
+                    fullname: profile.fullname,
                     email: profile._json.email,
-                    login_type: profile.provider,
+                    loginType: profile.provider,
                     token: accessToken
                 }).save().then((newUser) => {
                     console.log('new user created '+ newUser)
@@ -176,9 +176,9 @@ passport.use(
                     username: profile.id,
                     passport_id: profile.id,
                     password: profile.id,
-                    display_name: profile.username,
+                    fullname: profile.username,
                     email: email,
-                    login_type: profile.provider,
+                    loginType: profile.provider,
                     token: accessToken
                 }).save().then((newUser) => {
                     console.log('new user created '+ newUser)

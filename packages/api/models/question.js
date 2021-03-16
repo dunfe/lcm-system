@@ -1,36 +1,36 @@
 import mongoose from 'mongoose';
 
 const questionSchema = new mongoose.Schema({
-    question_title: { 
+    title: { 
         type: String,
         required: [true, 'Please input question title']
      },
-    created_by: { 
+    createdBy: { 
         type: String,
         required: [true, 'Please input creator id']
     },
-    received_by: { 
+    receivedBy: { 
         type: String, 
         required: [true, 'Please input receiver id']
     },
-    question_point: {
+    point: {
         type: Number, 
         default: 15,
         min: [1, 'Question point must be above 1']
     },
-    question_skill: [
+    skill: [
         {type: String}
     ],
-    question_time: {
+    time: {
         type: Number, 
         default: 10,
         min: [5, 'Question time need atleast 5 mins!']
     },
-    question_content: { 
+    content: { 
         type: String,
         required: [true, 'Please input question!']
     },
-    created_date: { type: Date, default: Date.now},
+    createAt: { type: Date, default: Date.now},
     status: { 
         type: String,
         enum: ["new", "doing", "done"],
