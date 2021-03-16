@@ -14,11 +14,11 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please enter a password'],
         minlength: [6, 'Password must have atleast 6 character']
     },
-    passport_id: {
+    passportId: {
         type: String,
         default:"", 
     },
-    display_name: {
+    fullname: {
         type: String,
         required: true,
         minlength: [3, 'Display name must have atleast 3 character!'],
@@ -26,12 +26,11 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String, 
-        unique: true,
         required: [true, 'Please provide your email'],
         lowercase: true,
         validate: [validator.isEmail, 'Please provide a valid email']
     },
-    login_type: {
+    loginType: {
         type: String,
         default:"local"
     },
@@ -44,51 +43,51 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    created_date: {
+    createdAt: {
         type: Date,
         default: Date.now(),
     },
-    last_modified_date: {
+    modifieAt: {
         type: Date,
         default: undefined,  
     },
-    user_detail:
+    detail:
         {
-            date_of_birth: { type: Date, default:""},
+            dob: { type: Date, default:""},
             gender: { type: String, default:""},
             phone: { type: String, default:""},
             address: { type: String, default:""},
-            profile_picture: { type: String, default:""},
-            total_question: { type: Number,default: 0},
+            avatar: { type: String, default:""},
+            totalQuestion: { type: Number,default: 0},
         },
-    current_point: { type: Number, default: 0},
-    point_out_history: [
+    currentPoint: { type: Number, default: 0},
+    pointOutHistory: [
         {
             method: { type: String, default:"",},
-            beforePoint: {type: Number,min: 1, default: 1},
-            afterPoint: {type: Number, min: 1, default: 1},
+            pointBefore: {type: Number,min: 1, default: 1},
+            pointAfter: {type: Number, min: 1, default: 1},
             amount: { type: Number, min: 1, default: 1,},
             money: { type: Number, min: 1, default: 1,},
             ref: { type: String, default:"",},
             note: { type: String, default:"",},
             status: { type: String, default:"",},
-            created_date: {
+            createAt: {
                 type: Date,
                 default: Date.now(),
             },
         
         }
     ],
-    point_in_history:[ 
+    pointInHistory:[ 
         {
             method:{ type: String, default:"",},
-            beforePoint: {type: Number,min: 1, default: 1},
-            afterPoint: {type: Number, min: 1, default: 1},
+            pointBefore: {type: Number,min: 1, default: 1},
+            pointAfter: {type: Number, min: 1, default: 1},
             amount: { type: Number, min: 1, default:1,},
             money: { type: Number, min: 1, default: 1,},
             ref: { type: String, default:"",},
             note: { type: String, default:"",},
-            created_date: {
+            createAt: {
                 type: Date,
                 default: Date.now(),
             },
