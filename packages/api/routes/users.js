@@ -115,6 +115,7 @@ router.get('/google/redirect', (req, res, next) =>
                 avatar: user.detail.avatar
             }                          
         }
+        console.log(data)
         res.cookie('user', JSON.stringify({
             user: {
                 token,
@@ -141,18 +142,18 @@ router.get('/facebook/redirect', (req, res, next) =>
         let token = "Bearer ";
         token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
         const data = {
-            id: user._id,
+            _id: user._id,
             username: user.username,
             email: user.email,
-            fullname: user.display_name,
+            fullname: user.fullname,
             role: user.role,
             level: user.level,
             detail: {
-                dob: user.user_detail.date_of_birth,
-                gender: user.user_detail.gender,
-                phone: user.user_detail.phone,
-                address: user.user_detail.address,
-                avatar: user.user_detail.profile_picture
+                dob: user.detail.dob,
+                gender: user.detail.gender,
+                phone: user.detail.phone,
+                address: user.detail.address,
+                avatar: user.detail.avatar
             }                          
         }
         res.cookie('user', JSON.stringify({
@@ -179,18 +180,18 @@ router.get('/github/redirect', (req, res, next) =>
         let token = "Bearer ";
         token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
         const data = {
-            id: user._id,
+            _id: user._id,
             username: user.username,
             email: user.email,
-            fullname: user.display_name,
+            fullname: user.fullname,
             role: user.role,
             level: user.level,
             detail: {
-                dob: user.user_detail.date_of_birth,
-                gender: user.user_detail.gender,
-                phone: user.user_detail.phone,
-                address: user.user_detail.address,
-                avatar: user.user_detail.profile_picture
+                dob: user.detail.dob,
+                gender: user.detail.gender,
+                phone: user.detail.phone,
+                address: user.detail.address,
+                avatar: user.detail.avatar
             }                          
         }
         res.cookie('user', JSON.stringify({
