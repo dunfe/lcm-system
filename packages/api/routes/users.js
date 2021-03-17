@@ -86,10 +86,7 @@ router.post(
 );
 
 // auth with google+
-router.get('/google', passport.authenticate('google', {
-    scope:
-        ['profile', 'email']
-}));
+router.get('/google', passport.authenticate('google', { scope:['profile', 'email'] }));
 
 router.get('/google/redirect', (req, res, next) =>
     passport.authenticate('google', {
@@ -127,10 +124,7 @@ router.get('/google/redirect', (req, res, next) =>
 );
 
 // auth with facebook
-router.get('/facebook', passport.authenticate('facebook', {
-    scope:
-        ['email']
-}));
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
 router.get('/facebook/redirect', (req, res, next) =>
     passport.authenticate('facebook', {
@@ -167,8 +161,7 @@ router.get('/facebook/redirect', (req, res, next) =>
 );
 
 // auth with github
-router.get('/github',
-    passport.authenticate('github', {scope: ['user:email']}));
+router.get('/github', passport.authenticate('github', {scope: ['user:email']}));
 
 router.get('/github/redirect', (req, res, next) =>
     passport.authenticate('github', {
