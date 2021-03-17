@@ -43,14 +43,14 @@ passport.use('register', new LocalStrategy({
             newUser.email = req.body.email;
             newUser.fullname = req.body.fullname;
             newUser.save(function (err) {
-            if (err) throw err;
+            if (err) return done(null, false,{ message: err });
                 return done(null, newUser)
             });
         }
         
     } catch (error) {
         console.log(error);
-        return done(null, false);
+        return done(null, false,{ message: error });
     }
 }));
 
