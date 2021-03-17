@@ -73,7 +73,7 @@ export const createSkill = async (req, res) => {
             } else {
                 return res.status(401).json({
                     status: 'fail',
-                    message: 'Something wrong, try again later, maybe duplicate skill name'
+                    message: err.message
                 })
             }
         });
