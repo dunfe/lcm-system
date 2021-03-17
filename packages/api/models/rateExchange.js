@@ -6,6 +6,6 @@ const rateSchema = new mongoose.Schema({
     modifiedAt : {type: Date}
 });
 
-var rate = mongoose.model('rate', rateSchema);
+var rateExchange = mongoose.model('rateExchange', rateSchema);
 
-export default rate;
+export default rateExchange;

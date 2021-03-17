@@ -10,7 +10,6 @@ import skillRoutes from './routes/skills.js';
 import mentorRoutes from './routes/mentors.js';
 import adminRoutes from './routes/admins.js';
 import staffRoutes from './routes/staff.js';
-import profileRoutes from './routes/profile-routes.js';
 import auth from './middleware/auth.js';
 import passportSetup from './config/passport-setup.js';
 import cookieSession from 'cookie-session';
@@ -41,7 +40,6 @@ app.use('/api/protected', auth, (req,res) => {
 
 app.use('/staff',staffRoutes);
 app.use('/api/users', userRoutes);
-app.use('/profile', profileRoutes);
 app.use('/admin',skillRoutes);
 app.use('/admin',adminRoutes);
 app.use('/', mentorRoutes);
