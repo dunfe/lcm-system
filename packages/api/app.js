@@ -1,7 +1,7 @@
+require('dotenv').config();
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv'
 import cors from 'cors';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
@@ -21,7 +21,6 @@ import db from './db/db.js';
 const app = express();
 
 app.use(cors());
-dotenv.config()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
