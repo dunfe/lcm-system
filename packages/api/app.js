@@ -1,26 +1,22 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv'
 import cors from 'cors';
-import { MongoMemoryServer } from 'mongodb-memory-server';
-
+import dotenv from 'dotenv';
 import userRoutes from './routes/users.js';
 import skillRoutes from './routes/skills.js';
 import mentorRoutes from './routes/mentors.js';
 import adminRoutes from './routes/admins.js';
 import staffRoutes from './routes/staff.js';
 import auth from './middleware/auth.js';
-import passportSetup from './config/passport-setup.js';
 import cookieSession from 'cookie-session';
 import passport from 'passport';
 import db from './db/db.js';
 
 
 const app = express();
-
+dotenv.config();
 app.use(cors());
-dotenv.config()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -74,6 +70,10 @@ let PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV === 'test') {
   PORT = 9999;
   mongoose.connect(process.env.MONGODB_URI_TEST,{
+    auth: {
+      user: 'admin',
+      password: 'BbYS998aXvXRWgA'
+    },
     useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
