@@ -3,16 +3,6 @@ orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
   aws-ecs: circleci/aws-ecs@2.1.0
 
-jobs:
-  run-task:
-    docker:
-      - image: 'cimg/python:3.9.1'
-    steps:
-      - aws-ecs/run-task:
-          awsvpc: false
-          cluster: cluster1
-          task-definition: api
-
 workflows:
   build_and_deploy:
     jobs:
@@ -35,4 +25,3 @@ workflows:
           family: "${AWS_RESOURCE_NAME_PREFIX}-service"
           cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
           container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX}-service,tag=${CIRCLE_SHA1}"
-      - run-task
