@@ -1,15 +1,10 @@
-FROM node:14.15.4
+FROM node:14.16.0
 
 RUN mkdir /src
-
-RUN npm install -g nodemon
 
 WORKDIR /src
 ADD package.json /src/package.json
 RUN npm install
-
-RUN npm uninstall bcrypt
-RUN npm install bcrypt
 
 ADD nodemon.json /src/nodemon.json
 

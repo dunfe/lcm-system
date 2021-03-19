@@ -1,15 +1,15 @@
 version: 2.1
 orbs:
-  node: circleci/node@4.2.0
   aws-ecr: circleci/aws-ecr@6.15.3
   aws-ecs: circleci/aws-ecs@2.1.0
 
 jobs:
   run-task:
     docker:
-      - image: 'cimg/node:14.16.0'
+      - image: 'cimg/python:3.9.1'
     steps:
       - aws-ecs/run-task:
+          awsvpc: false
           cluster: cluster1
           task-definition: api
 
