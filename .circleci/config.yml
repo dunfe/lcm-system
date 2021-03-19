@@ -16,11 +16,13 @@ workflows:
           path: ./packages/api/
           profile-name: dungnq
           region: AWS_REGION_ENV_VAR_NAME
-          repo: api
+          repo: '${MY_APP_PREFIX}'
           skip-when-tags-exist: false
           tag: 'latest'
       - aws-ecs/deploy-service-update:
+          cluster-name: '${MY_APP_PREFIX}-cluster'
+          service-name: '${MY_APP_PREFIX}-service'
+          container-image-name-updates: 'container=${MY_APP_PREFIX}-service,tag=latest'
+          family: '${MY_APP_PREFIX}-service'
           requires:
-            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
-          family: "api-service"
-          cluster-name: "api-cluster"
+              - aws-ecr/build-and-push-image
