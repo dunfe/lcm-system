@@ -13,7 +13,7 @@ workflows:
           create-repo: true
           dockerfile: Dockerfile
           no-output-timeout: 20m
-          path: ~/packages/api/.
+          path: ./packages/api/
           profile-name: dungnq
           region: AWS_REGION_ENV_VAR_NAME
           repo: api
