@@ -1,40 +1,21 @@
 version: 2.1
 orbs:
   node: circleci/node@4.2.0
+  aws-ecr: circleci/aws-ecr@6.15.3
 
-aliases:
-  - &docker-image
-    docker:
-      - image: cimg/node:14.15.4
-
-  - &install_typescript_globally
-    run:
-      name: intall typescript globally
-      command: yarn global add typescript
-
-commands:
-  node-build-steps:
-    steps:
-      - checkout:
-          path: ~/lcm-system
-      - run:
-          name: Install Dependencies
-          command: |
-            yarn install
-            yarn install:all
-      - run:
-          name: Deploy
-          command: yarn deploy
-
-jobs:
-  deploy:
-    docker:
-      - image: cimg/node:14.15.4
-    working_directory: ~/lcm-system
-
-    steps:
-      - node-build-steps
 workflows:
-  api:
+  build_and_push_image:
     jobs:
-      - deploy
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
+          aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
+          aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
+          create-repo: true
+          dockerfile: Dockerfile
+          no-output-timeout: 20m
+          path: ~/lcm-system/packages/api
+          profile-name: dungnq
+          region: AWS_REGION_ENV_VAR_NAME
+          repo: api
+          skip-when-tags-exist: false
+          tag: 'latest'
