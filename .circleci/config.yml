@@ -3,8 +3,17 @@ orbs:
   node: circleci/node@4.2.0
   aws-ecr: circleci/aws-ecr@6.15.3
 
+jobs:
+  run-task:
+    docker:
+      - image: 'cimg/node:14.16.0'
+    steps:
+      - aws-ecs/run-task:
+          cluster: cluster1
+          task-definition: api
+
 workflows:
-  build_and_push_image:
+  build_and_deploy:
     jobs:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
@@ -19,3 +28,9 @@ workflows:
           repo: api
           skip-when-tags-exist: false
           tag: 'latest'
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+          family: "${AWS_RESOURCE_NAME_PREFIX}-service"
+          cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
+          container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX}-service,tag=${CIRCLE_SHA1}"
