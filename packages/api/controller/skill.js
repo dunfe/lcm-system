@@ -12,7 +12,7 @@ export const getAllSkills = async (req, res) => {
         return res.status(200).json({
             status: 'success',
             result: data.length,
-            data: data
+            skill:data
         })
     } catch (error) {
         return res.status(500).send(error.message);
@@ -45,10 +45,10 @@ export const getSkillById = (req, res) => {
 
 export const getSkillByName = (req, res) => {
     const skill = req.body.skill_name;
-    Skill.find({ skill_name : {'$regex' : new RegExp(skill, "i")} }, (err, doc) =>{
+    Skill.find({ name : {'$regex' : new RegExp(skill, "i")} }, (err, doc) =>{
         if(!err) { 
             if(doc.toString() == ""){ 
-                return res.status(400).send(`No record with given name: ${req.body.skill_name}`)
+                return res.status(400).send(`No record with given name: ${req.body.name}`)
             }else {
                 res.send(doc);
             }
@@ -60,7 +60,7 @@ export const getSkillByName = (req, res) => {
 
 export const createSkill = async (req, res) => {
     var skill = new Skill({
-        skill_name: req.body.skill_name
+        name: req.body.name
     });
 
     try {
@@ -73,7 +73,7 @@ export const createSkill = async (req, res) => {
             } else {
                 return res.status(401).json({
                     status: 'fail',
-                    message: 'Something wrong, try again later, maybe duplicate skill name'
+                    message: err.message
                 })
             }
         });
@@ -95,8 +95,8 @@ export const updateSkill = (req, res) => {
     }
 
     var skill = {
-        skill_name: req.body.skill_name,
-        last_modified_date: Date.now()
+        name: req.body.name,
+        modifiedAt: Date.now()
     };
 
     Skill.findByIdAndUpdate(req.params.id, { $set: skill }, { new: true}, (err, doc) => {

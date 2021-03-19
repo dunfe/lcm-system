@@ -11,14 +11,14 @@ const ObjectId = mongoose.Types.ObjectId;
 export const createQuestion = (req, res) => {
     // const created_byId = mongoose.Types.ObjectId(req.body.created_by);
     const question = new Question({
-        question_title: req.body.question_title,
-        created_by: mongoose.Types.ObjectId(req.body.created_by),
-        received_by: req.body.received_by,
-        question_point: req.body.question_point,
-        question_skill: req.body.question_skill,
-        question_time: req.body.question_time,
-        question_content: req.body.question_content,
-        created_date: req.body.created_date,
+        title: req.body.title,
+        createdBy: mongoose.Types.ObjectId(req.body.createdBy),
+        receivedBy: req.body.receivedBy,
+        point: req.body._point,
+        skill: req.body.skill,
+        time: req.body.time,
+        content: req.body.content,
+        createdAt: req.body.createdAt,
         status: req.body.status,
         note: req.body.note,
     });

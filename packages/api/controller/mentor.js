@@ -8,9 +8,9 @@ const ObjectId = mongoose.Types.ObjectId;
 
 // demo
 export const createMentor = async (req, res, next) => {
-    const { name, job, introduction, skill_description, service, status} = req.body;
+    const {username, password, fullname, currentJob, bio, skill, email} = req.body;
 
-    const newMentor = Mentor({ name, job, introduction, skill_description, service, status});
+    const newMentor = Mentor({ username, password, fullname, currentJob, bio, skill, email});
 
     try {
         const mentors = await newMentor.save();
@@ -59,14 +59,14 @@ export const getMentorById = async (req, res) => {
 };
 
 export const getMentorByName = (req, res) => {
-    const mentor_name = req.body.display_name;
+    const fullname = req.body.fullname;
 
     Mentor.find({
-        "display_name" : {'$regex' : new RegExp(mentor_name, "i")}
+        "fullname" : {'$regex' : new RegExp(fullname, "i")}
     }, (err, doc) => {
         if(!err) {
             if(doc.toString() == ""){ 
-                return res.status(400).send(`No record with given name: ${req.body.display_name}`)
+                return res.status(400).send(`No record with given name: ${req.body.fullname}`)
             }else {
                 res.send(doc);
             }

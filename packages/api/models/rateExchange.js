@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 
 const rateSchema = new mongoose.Schema({
     rateExchange: {type: Number, default:"1"},
-    created_date: { type: Date, default: Date.now()},
-    last_modified_date : {type: Date}
+    createAt: { type: Date, default: Date.now()},
+    modifiedAt : {type: Date}
 });
 
-var rate = mongoose.model('rate', rateSchema);
+var rateExchange = mongoose.model('rateExchange', rateSchema);
 
-export default rate;
+export default rateExchange;

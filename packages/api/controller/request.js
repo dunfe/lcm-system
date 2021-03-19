@@ -8,12 +8,12 @@ const ObjectId = mongoose.Types.ObjectId;
 
 export const createRequest = (req, res) => {
     const request = new Request({
-        request_title: req.body.request_title,
-        created_by: req.body.created_by,
-        received_by: req.body.received_by,
-        request_content: req.body.request_content,
+        title: req.body.title,
+        createdBy: req.body.createdBy,
+        receivedBy: req.body.receivedBy,
+        content: req.body.content,
         picture: req.body.picture,
-        created_date: req.body.created_date,
+        createdAt: req.body.createdAt,
         note: req.body.note,
     });
 

@@ -55,18 +55,18 @@ router.post(
 
                             // return res.json({ token, user });
                             const data = {
-                                id: user._id,
+                                _id: user._id,
                                 username: user.username,
                                 email: user.email,
-                                fullname: user.display_name,
+                                fullname: user.fullname,
                                 role: user.role,
                                 level: user.level,
                                 detail: {
-                                    dob: user.user_detail.date_of_birth,
-                                    gender: user.user_detail.gender,
-                                    phone: user.user_detail.phone,
-                                    address: user.user_detail.address,
-                                    avatar: user.user_detail.profile_picture
+                                    dob: user.detail.dob,
+                                    gender: user.detail.gender,
+                                    phone: user.detail.phone,
+                                    address: user.detail.address,
+                                    avatar: user.detail.avatar
                                 }                          
                             }
                             return res.json({
@@ -86,10 +86,7 @@ router.post(
 );
 
 // auth with google+
-router.get('/google', passport.authenticate('google', {
-    scope:
-        ['profile', 'email']
-}));
+router.get('/google', passport.authenticate('google', { scope:['profile', 'email'] }));
 
 router.get('/google/redirect', (req, res, next) =>
     passport.authenticate('google', {
@@ -101,139 +98,103 @@ router.get('/google/redirect', (req, res, next) =>
         let token = "Bearer ";
         token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
         const data = {
-            id: user._id,
+            _id: user._id,
             username: user.username,
             email: user.email,
-            fullname: user.display_name,
+            fullname: user.fullname,
             role: user.role,
             level: user.level,
             detail: {
-                dob: user.user_detail.date_of_birth,
-                gender: user.user_detail.gender,
-                phone: user.user_detail.phone,
-                address: user.user_detail.address,
-                avatar: user.user_detail.profile_picture
+                dob: user.detail.dob,
+                gender: user.detail.gender,
+                phone: user.detail.phone,
+                address: user.detail.address,
+                avatar: user.detail.avatar
             }                          
         }
+        console.log(data)
         res.cookie('user', JSON.stringify({
             user: {
                 token,
-                userData: data
+                data
             }
         }))
-
         res.redirect('http://localhost:3001');
     })(req, res, next)
 );
 
 // auth with facebook
-router.get('/facebook', passport.authenticate('facebook', {
-    scope:
-        ['email']
-}));
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
-router.get('/facebook/redirect',
-    async (req, res, next) => {
-        passport.authenticate(
-            'facebook',
-            async (err, user, info) => {
-                try {
-                    if (err || !user) {
-                        const error = new Error(info.message);
-                        return next(error);
-                    }
-                    req.login(
-                        user,
-                        {session: false},
-                        async (error) => {
-                            if (error) return next(error);
-                            const body = {_id: user._id, username: user.username};
-                            let token = "Bearer ";
-                            token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
-                            const data = {
-                                id: user._id,
-                                username: user.username,
-                                email: user.email,
-                                fullname: user.display_name,
-                                role: user.role,
-                                level: user.level,
-                                detail: {
-                                    dob: user.user_detail.date_of_birth,
-                                    gender: user.user_detail.gender,
-                                    phone: user.user_detail.phone,
-                                    address: user.user_detail.address,
-                                    avatar: user.user_detail.profile_picture
-                                }                          
-                            }
+router.get('/facebook/redirect', (req, res, next) =>
+    passport.authenticate('facebook', {
+        successRedirect: 'http://localhost:3001',
+        failureRedirect: 'http://localhost:3001/login'
+    }, (err, user) => {
 
-                            return res.json({
-                                user: {
-                                    token: token,
-                                    data
-                                }
-                            })
-                        }
-                    );
-                } catch (error) {
-                    return next(error);
-                }
+        const body = {_id: user._id, username: user.username};
+        let token = "Bearer ";
+        token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
+        const data = {
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            fullname: user.fullname,
+            role: user.role,
+            level: user.level,
+            detail: {
+                dob: user.detail.dob,
+                gender: user.detail.gender,
+                phone: user.detail.phone,
+                address: user.detail.address,
+                avatar: user.detail.avatar
+            }                          
+        }
+        res.cookie('user', JSON.stringify({
+            user: {
+                token,
+                data
             }
-        )(req, res, next);
-    }
+        }))
+        res.redirect('http://localhost:3001');
+    })(req, res, next)
 );
 
 // auth with github
-router.get('/github',
-    passport.authenticate('github', {scope: ['user:email']}));
+router.get('/github', passport.authenticate('github', {scope: ['user:email']}));
 
-router.get('/github/redirect',
-    async (req, res, next) => {
-        passport.authenticate(
-            'github',
-            async (err, user, info) => {
-                try {
-                    if (err || !user) {
-                        const error = new Error(info.message);
-                        return next(error);
-                    }
-                    req.login(
-                        user,
-                        {session: false},
-                        async (error) => {
-                            if (error) return next(error);
-                            const body = {_id: user._id, username: user.username};
-                            let token = "Bearer ";
-                            token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
-                            const data = {
-                                id: user._id,
-                                username: user.username,
-                                email: user.email,
-                                fullname: user.display_name,
-                                role: user.role,
-                                level: user.level,
-                                detail: {
-                                    dob: user.user_detail.date_of_birth,
-                                    gender: user.user_detail.gender,
-                                    phone: user.user_detail.phone,
-                                    address: user.user_detail.address,
-                                    avatar: user.user_detail.profile_picture
-                                }                          
-                            }
+router.get('/github/redirect', (req, res, next) =>
+    passport.authenticate('github', {
+        successRedirect: 'http://localhost:3001',
+        failureRedirect: 'http://localhost:3001/login'
+    }, (err, user) => {
 
-                            return res.json({
-                                user: {
-                                    token: token,
-                                    data
-                                }
-                            })
-                        }
-                    );
-                } catch (error) {
-                    return next(error);
-                }
+        const body = {_id: user._id, username: user.username};
+        let token = "Bearer ";
+        token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
+        const data = {
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            fullname: user.fullname,
+            role: user.role,
+            level: user.level,
+            detail: {
+                dob: user.detail.dob,
+                gender: user.detail.gender,
+                phone: user.detail.phone,
+                address: user.detail.address,
+                avatar: user.detail.avatar
+            }                          
+        }
+        res.cookie('user', JSON.stringify({
+            user: {
+                token,
+                data
             }
-        )(req, res, next);
-    }
+        }))
+        res.redirect('http://localhost:3001');
+    })(req, res, next)
 );
 
 router.get('/logout', (req, res) => {
@@ -241,7 +202,7 @@ router.get('/logout', (req, res) => {
     res.json({message: 'logout successful'});
 })
 
-router.get('/:id/admin', changePassword);
+router.post('/:id/admin', changePassword);
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
 
