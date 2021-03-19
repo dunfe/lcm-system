@@ -4,8 +4,9 @@ import User from '../models/user.js';
 import Mentor from '../models/mentor.js'
 import Report from '../models/report.js';
 import Rate from '../models/rateExchange.js';
+import dotenv from 'dotenv'
 const router = express.Router();
-
+dotenv.config();
 const ObjectId = mongoose.Types.ObjectId;
 
 export const updatePoint_Transaction = async (req, res) => {
@@ -213,7 +214,7 @@ export const getAllReport = (req, res) => {
     })
 };
 
-export const addRate = (req,res) =>{
+export const addRateExchange = (req,res) =>{
     var rate = new Rate({
         rateExchange : 1,
         create_date: req.body.create_date,
@@ -233,7 +234,7 @@ export const updateRateExchange = (req,res) =>{
         rateExchange: req.body.newRate,
         last_modified_date: Date.now()
     }
-    Rate.findByIdAndUpdate(1,{$set:{}})
+    Rate.findByIdAndUpdate(process.env.rateExchangeId,{$set:{}})
 }
 
 const exchangeMoneyToPoint = async (money,point) =>{
