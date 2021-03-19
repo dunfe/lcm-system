@@ -21,8 +21,7 @@ workflows:
           tag: 'latest'
       - aws-ecs/deploy-service-update:
           cluster-name: '${MY_APP_PREFIX}-cluster'
-          service-name: '${MY_APP_PREFIX}-service'
-          container-image-name-updates: 'container=${MY_APP_PREFIX}-service,tag=latest'
-          family: '${MY_APP_PREFIX}-service'
+          container-image-name-updates: 'container=api,tag=latest'
+          family: 'api'
           requires:
               - aws-ecr/build-and-push-image
