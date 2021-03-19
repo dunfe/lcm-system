@@ -12,6 +12,7 @@ import auth from './middleware/auth.js';
 import cookieSession from 'cookie-session';
 import passport from 'passport';
 import db from './db/db.js';
+import passportSetup from "./config/passport-setup.js";
 
 
 const app = express();
