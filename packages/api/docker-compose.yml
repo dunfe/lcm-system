@@ -1,7 +1,0 @@
-web:
-  build: .
-  volumes:
-    - "./.:/src"
-    - /node_modules/bcrypt/
-  ports:
-    - "3000:3000"

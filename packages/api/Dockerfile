@@ -6,7 +6,7 @@ WORKDIR /src
 ADD package.json /src/package.json
 RUN npm install
 
-ADD nodemon.json /src/nodemon.json
+COPY . /src
 
 EXPOSE 3000
 
