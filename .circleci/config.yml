@@ -1,33 +1,15 @@
 version: 2.1
 orbs:
-  node: circleci/node@4.2.0
-jobs:
-  build-and-test:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-            - run:
-                name: Installing deployment dependencies
-                command: |
-                  sudo apt-get -y -qq update
-                  sudo apt-get install python-pip python-dev build-essential
-                  sudo pip install --upgrade setuptools
-                  sudo pip install awsebcli --upgrade
-            - run:
-                name: Deploying
-                command: eb deploy Apieb-env
+  aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@1.0.2
 
 workflows:
   build-and-test:
     jobs:
-      - build-and-test:
-          context: aws
+      - eb/deploy:
+          context: Apieb-env
+          environment-name: Apieb-env
           filters:
             branches:
               only:
                 - master
+          label: version-1
