@@ -1,9 +1,9 @@
 version: 2.1
 orbs:
-  aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@1.0.2
+  eb: circleci/aws-elastic-beanstalk@1.0.2
 
 workflows:
-  build-and-test:
+  deploy:
     jobs:
       - eb/deploy:
           context: Apieb-env
