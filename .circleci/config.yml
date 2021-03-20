@@ -21,7 +21,7 @@ workflows:
           tag: 'latest'
       - aws-ecs/deploy-service-update:
           cluster-name: 'default'
-          service-name: 'sample-app-service'
+          service-name: 'ec2-service'
           container-image-name-updates: 'container=api,tag=latest'
           family: 'api-task-definition'
           requires:
