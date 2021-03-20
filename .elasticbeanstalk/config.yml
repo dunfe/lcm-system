@@ -3,7 +3,7 @@ branch-defaults:
   master:
     environment: Apieb-env
 global:
-  application_name: api
+  application_name: api-eb
   default_ec2_keyname: e-6gjxip42ky
   default_platform: Node.js 14 running on 64bit Amazon Linux 2/5.3.0
   default_region: ap-southeast-1
