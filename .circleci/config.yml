@@ -20,8 +20,9 @@ workflows:
           skip-when-tags-exist: false
           tag: 'latest'
       - aws-ecs/deploy-service-update:
-          cluster-name: '${MY_APP_PREFIX}-cluster'
+          cluster-name: 'default'
+          service-name: 'sample-app-service'
           container-image-name-updates: 'container=api,tag=latest'
-          family: 'api'
+          family: 'api-task-definition'
           requires:
               - aws-ecr/build-and-push-image
