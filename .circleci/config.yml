@@ -12,4 +12,3 @@ workflows:
             branches:
               only:
                 - master
-          label: version-1
