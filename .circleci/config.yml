@@ -1,38 +1,14 @@
 version: 2.1
 orbs:
-  node: circleci/node@4.2.0
-  aws-ecr: circleci/aws-ecr@6.15.3
-  aws-ecs: circleci/aws-ecs@2.1.0
-
-jobs:
-  run-task:
-    docker:
-      - image: 'cimg/node:14.16.0'
-    steps:
-      - aws-ecs/run-task:
-          cluster: cluster1
-          task-definition: api
+  eb: circleci/aws-elastic-beanstalk@1.0.2
 
 workflows:
-  build_and_deploy:
+  deploy:
     jobs:
-      - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
-          aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
-          aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
-          create-repo: true
-          dockerfile: Dockerfile
-          no-output-timeout: 20m
-          path: ./packages/api/
-          profile-name: dungnq
-          region: AWS_REGION_ENV_VAR_NAME
-          repo: api
-          skip-when-tags-exist: false
-          tag: 'latest'
-      - aws-ecs/deploy-service-update:
-          requires:
-            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
-          family: "${AWS_RESOURCE_NAME_PREFIX}-service"
-          cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
-          container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX}-service,tag=${CIRCLE_SHA1}"
-      - run-task
+      - eb/deploy:
+          context: Apieb-env
+          environment-name: Apieb-env
+          filters:
+            branches:
+              only:
+                - master
