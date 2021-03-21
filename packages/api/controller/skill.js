@@ -108,7 +108,7 @@ export const updateSkill = (req, res) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later, maybe duplicate skill name'
+                message: 'Something wrong, try again later'
             })
         };
     });

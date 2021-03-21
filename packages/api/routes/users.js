@@ -66,8 +66,10 @@ router.post(
                                     gender: user.detail.gender,
                                     phone: user.detail.phone,
                                     address: user.detail.address,
-                                    avatar: user.detail.avatar
-                                }                          
+                                    avatar: user.detail.avatar,
+                                    currentJob: user.detail.currentJob,
+                                    achievement: user.detail.achievement 
+                                }                            
                             }
                             return res.json({
                                 user: {
@@ -109,7 +111,9 @@ router.get('/google/redirect', (req, res, next) =>
                 gender: user.detail.gender,
                 phone: user.detail.phone,
                 address: user.detail.address,
-                avatar: user.detail.avatar
+                avatar: user.detail.avatar,
+                currentJob: user.detail.currentJob,
+                achievement: user.detail.achievement 
             }                          
         }
         console.log(data)
@@ -147,8 +151,10 @@ router.get('/facebook/redirect', (req, res, next) =>
                 gender: user.detail.gender,
                 phone: user.detail.phone,
                 address: user.detail.address,
-                avatar: user.detail.avatar
-            }                          
+                avatar: user.detail.avatar,
+                currentJob: user.detail.currentJob,
+                achievement: user.detail.achievement 
+            }                             
         }
         res.cookie('user', JSON.stringify({
             user: {
@@ -184,8 +190,10 @@ router.get('/github/redirect', (req, res, next) =>
                 gender: user.detail.gender,
                 phone: user.detail.phone,
                 address: user.detail.address,
-                avatar: user.detail.avatar
-            }                          
+                avatar: user.detail.avatar,
+                currentJob: user.detail.currentJob,
+                achievement: user.detail.achievement 
+            }                            
         }
         res.cookie('user', JSON.stringify({
             user: {

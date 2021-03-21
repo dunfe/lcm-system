@@ -4,7 +4,7 @@ import validator from 'validator';
 const mentorSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, 'Please input username!'] 
+        required: [true, 'Please input username!']
     },
     password: {
         type: String,
@@ -18,7 +18,7 @@ const mentorSchema = new mongoose.Schema({
         maxlength: [40, 'Display name must have less than 40 characters!']
     },
     email: {
-        type: String, 
+        type: String,
         required: [true, 'Please provide your email'],
         lowercase: true,
         validate: [validator.isEmail, 'Please provide a valid email']
@@ -75,24 +75,24 @@ const mentorSchema = new mongoose.Schema({
         {type: String},
     ],
     bio: { type: String},
-    rate: 
+    rate:
         {
             totalRating1: {type: Number, default: 0},
             totalRating2: {type: Number, default: 0},
             totalRating3: {type: Number, default: 0},
             totalRating4: {type: Number, default: 0},
             totalRating5: {type: Number, default: 0},
-            avgRating: { 
+            avgRating: {
                 type: Number,
                 min: [0, 'Rating must be above 0.0'],
-                max: [5, 'Rating must be under 5.0'] 
+                max: [5, 'Rating must be under 5.0']
             }
         },
     createdAt: {
         type: Date,
         default: Date.now(),
     },
-    requestDone: { 
+    requestDone: {
         type: Number,
         min: [0, 'Must be above 0']
     },
@@ -105,31 +105,7 @@ const mentorSchema = new mongoose.Schema({
             rate: {
                 type: Number,
                 min: [0, 'Rating must be above 0.0'],
-                max: [5, 'Rating must be under 5.0'] 
-            },
-        }
-    ],
-    pointOutHistory: [
-        {
-            method: { type: String},
-            amount: { type: Number, min: 1},
-            note: { type: String},
-            ref: { type: String},
-            createdAt: {
-                type: Date,
-                default: Date.now(),
-            },
-        }
-    ],
-    pointInHistory: [
-        {
-            method:{ type: String},
-            amount: { type: Number, min: 1},
-            ref: { type: String},
-            note: { type: String},
-            createdAt: {
-                type: Date,
-                default: Date.now(),
+                max: [5, 'Rating must be under 5.0']
             },
         }
     ],
