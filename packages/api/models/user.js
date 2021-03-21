@@ -42,15 +42,21 @@ const userSchema = new mongoose.Schema({
     level: {
         type: Number,
         default: 0,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now(),
-    },
-    modifieAt: {
-        type: Date,
-        default: undefined,  
-    },
+    },skill: [{type: String}],
+    bio: { type: String},
+    rate: 
+        {
+            totalRating1: {type: Number, default: 0},
+            totalRating2: {type: Number, default: 0},
+            totalRating3: {type: Number, default: 0},
+            totalRating4: {type: Number, default: 0},
+            totalRating5: {type: Number, default: 0},
+            avgRating: { 
+                type: Number,
+                min: [0, 'Rating must be above 0.0'],
+                max: [5, 'Rating must be under 5.0'] 
+            }
+        },
     detail:
         {
             dob: { type: Date, default:""},
@@ -58,6 +64,8 @@ const userSchema = new mongoose.Schema({
             phone: { type: String, default:""},
             address: { type: String, default:""},
             avatar: { type: String, default:""},
+            currentJob: { type: String, default:""},
+            achievement: [ { type: String} ],
             totalQuestion: { type: Number,default: 0},
         },
     currentPoint: { type: Number, default: 0},
@@ -102,6 +110,14 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
+    modifieAt: {
+        type: Date,
+        default: undefined,  
+    }
 });
 
 userSchema.methods.generateHash = function (password) {

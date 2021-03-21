@@ -1,5 +1,5 @@
 import express from 'express';
-
+import Request from '../models/request.js'; 
 import { getAllUser, getUserById, countAllRecord,delUserById, updateUserById } from '../controller/user.js';
 import { getAllMentor, getMentorById, getMentorByName, updateMentorById, delMentorById, createMentor} from '../controller/mentor.js';
 import { createQuestion, getAllQuestions, getQuestionById, updateQuestionById, delQuestionById } from '../controller/question.js';
@@ -32,7 +32,7 @@ router.delete('/questions/:id', protect, restrictTo('admin'), delQuestionById);
 
 //Request
 // router.post("/requests", protect, restrictTo('admin'), createRequest);
-router.get("/requests", protect, restrictTo('admin'), getAllRequest);
+router.get("/requests", protect, restrictTo('admin'), getAllRequest(Request));
 router.get("/requests/:id", protect, restrictTo('admin'), getRequestById);
 
 export default router;

@@ -91,13 +91,15 @@ export const minusPoint_Transaction = async (req, res) => {
         return res.status(400).send(`No record ${req.params.id}`);
     }
     const user = await User.findById(req.params.id);
-    const beforePoint = user.current_point;
+    const pointBefore = user.currentPoint;
     const amount = req.body.amount;
-    const afterPoint = beforePoint - amount;
+    const pointAfter = pointBefore - amount;
     const money = req.body.money;
-
     if(afterPoint < 0){
-        res.send('Ban ko du point de rut');
+        res.status(400).json({
+                status: 'fail',
+                message: 'số point chuyển đi lớn hơn số point hiện có'
+            })
     }else {
         User.findByIdAndUpdate(req.params.id, 
             { $push: {point_out_history : {method : req.body.note,
@@ -107,10 +109,13 @@ export const minusPoint_Transaction = async (req, res) => {
                                         ref : user.display_name, 
                                         note : req.body.note}} },
             { new: true }, (err, doc) => {
-            if (!err) {
-        
+            if(!err) {
+                
             } else {
-                console.log('Error Point Update: ' + JSON.stringify(err, undefined, 2));
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
             };
         });
         User.findByIdAndUpdate(req.params.id, { $set: {current_point : afterPoint} }, { new: true }, (err, doc) => {
@@ -129,28 +134,37 @@ export const plusPoint_Transaction = async (req, res) => {
         return res.status(400).send(`No record ${req.params.id}`);
     }
     const user = await User.findById(req.params.id);
-    const beforePoint = user.current_point;
+    const pointBefore = user.currentPoint;
     const amount = req.body.amount;
-    const afterPoint = beforePoint + amount;
+    const pointAfter = pointBefore + amount;
     User.findByIdAndUpdate(req.params.id, 
         { $push: {point_in_history : {method : "point-point",
-                                    beforePoint : beforePoint,
-                                    afterPoint: afterPoint,
+                                    pointBefore : pointBefore,
+                                    pointAfter: pointAfter,
                                     amount : amount, 
-                                    ref : user.display_name, 
+                                    ref : user.fullname, 
                                     note : req.body.note}} },
         { new: false }, (err, doc) => {
-        if (!err) {
+            if(!err) {
                 
-        } else {
-            console.log('Error Point Update: ' + JSON.stringify(err, undefined, 2));
-        };
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            };
     });
-    User.findByIdAndUpdate(req.params.id, { $set: {current_point : afterPoint} }, { new: true }, (err, doc) => {
-        if (!err) {
-            res.send(doc);
+    User.findByIdAndUpdate(req.params.id, { $set: {currentPoint : pointAfter} }, { new: true }, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
         } else {
-            console.log('Error Point Update: ' + JSON.stringify(err, undefined, 2));
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
         };
     });
 };
@@ -159,11 +173,17 @@ export const viewPointInTransactionById = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).send(`No record ${req.params.id}`);
     }
-    User.findById(req.params.id,{point_in_history: 1},(err,user)=>{
-        if(!err) { 
-            res.send(user);
+    User.findById(req.params.id,{pointInHistory: 1},(err, doc)=>{
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2)); 
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
         };
     })
 }
@@ -172,11 +192,17 @@ export const viewPointOutTransactionById = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).send(`No record ${req.params.id}`);
     }
-    User.findById(req.params.id,{point_out_history: 1},(err,user)=>{
-        if(!err) { 
-            res.send(user);
+    User.findById(req.params.id,{pointOutHistory: 1},(err, doc)=>{
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2)); 
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
         };
     })
 }
@@ -184,57 +210,76 @@ export const viewPointOutTransactionById = async (req, res) => {
 export const createRequestToAdmin = async (req, res) => {
     const user = await User.findById(req.params.id);
     var request = new Request({
-        request_title: req.body.request_title,
-        created_by: user.display_name,
-        received_by: req.body.received_by,
-        request_content: req.body.request_content,
+        title: req.body.title,
+        createdBy: user.fullname,
+        receivedBy: req.body.receivedBy,
+        content: req.body.content,
         picture: req.body.picture,
-        created_date: req.body.created_date,
+        createAt: req.body.created_date,
         note: req.body.note,
         status: req.body.status
     });
 
     request.save((err, doc) => {
-        if (!err) {
-            console.log('save success!');
-            res.send(doc);
-        } else {
-            console.log('Error in request save: ' + JSON.stringify(err, undefined, 2));
-        }
-    });
-};
-
-export const getAllReport = (req, res) => {
-    Report.find((err,doc) => {
         if(!err) {
-            res.send(doc);
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2)); 
-        }
-    })
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        };
+    });
 };
 
 export const addRateExchange = (req,res) =>{
     var rate = new Rate({
         rateExchange : 1,
-        create_date: req.body.create_date,
-        last_modified_date: req.body.last_modified_date
+        createAt: req.body.create_date,
+        modifiedAt: req.body.last_modified_date
     })
     rate.save((err, doc) => {
         if(!err) {
-            res.send(doc);
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            });
         } else {
-            console.log('Error in rateExchange Save: '+ JSON.stringify(err, undefined, 2));
+            return res.status(401).json({
+                status: 'fail',
+                message: err.message
+            })
         }
     });
 }
 
 export const updateRateExchange = (req,res) =>{
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    }
     var newRate = {
         rateExchange: req.body.newRate,
-        last_modified_date: Date.now()
+        modifiedAt: Date.now()
     }
-    Rate.findByIdAndUpdate(process.env.rateExchangeId,{$set:{}})
+    Rate.findByIdAndUpdate(process.env.rateExchangeId,{$set: newRate}, { new: true}, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later, maybe duplicate skill name'
+            })
+        };
+    });
 }
 
 const exchangeMoneyToPoint = async (money,point) =>{
