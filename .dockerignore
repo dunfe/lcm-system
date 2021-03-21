@@ -1,0 +1,18 @@
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore
+node_modules
+packages/admin/node_modules
+packages/api/node_modules
+packages/client/node_modules
+packages/landing/node_modules
+packages/common/node_modules
+
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
