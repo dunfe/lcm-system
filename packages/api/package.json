@@ -1,7 +1,6 @@
 {
   "name": "api",
   "version": "0.0.0",
-  "main": "app.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
@@ -35,7 +34,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "test": "NODE_ENV=test mocha --recursive --exit"
   },
   "devDependencies": {

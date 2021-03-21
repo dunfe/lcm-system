@@ -66,7 +66,7 @@ app.use(function (req, res, next) {
 });
 // Connect to MongoDB
 
-let PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV === 'test') {
     PORT = 9999;
@@ -81,7 +81,7 @@ if (process.env.NODE_ENV === 'test') {
         useCreateIndex: true
     }).then(() => {
         console.log('Connected to mongoDB');
-        return app.listen(9999);
+        app.listen(9999);
     })
         .then(() => console.log(`server running on port ${PORT}`))
         .catch(err => console.log(err.message));
@@ -92,13 +92,12 @@ if (process.env.NODE_ENV === 'test') {
         useUnifiedTopology: true,
     }).then(() => {
         console.log('Connected to mongoDB');
-        return app.listen(3000);
+        app.listen(3000);
     })
         .then(() => console.log('server running on port 3000'))
         .catch(err => console.log(err.message));
 }
 
 // db.connectDB;
-
 
 export default app;
