@@ -11,7 +11,7 @@ interface IUseAuthType {
   user: IUser | null;
   signIn: (username: string, password: string) => Promise<boolean>;
 
-  signUp: (username: string, email: string, password: string, display_name: string) => Promise<boolean>;
+  signUp: (username: string, email: string, password: string, fullname: string) => Promise<boolean>;
   signOut: () => Promise<void>;
 }
 
@@ -53,9 +53,8 @@ function useProvideAuth(): IUseAuthType {
     }).finally(() => setLoading(false));
   };
 
-  const signUp = (username: string, email: string, password: string, display_name: string) => {
-    return instance.post('/api/users/register', { username, password, email, display_name }).then((response) => {
-      message.success(response.data.message);
+  const signUp = (username: string, email: string, password: string, fullname: string) => {
+    return instance.post('/api/users/register', { username, password, email, fullname }).then(() => {
       setLoading(false);
 
       return true;

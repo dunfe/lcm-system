@@ -1,0 +1,14 @@
+version: 2.1
+orbs:
+  eb: circleci/aws-elastic-beanstalk@1.0.2
+
+workflows:
+  deploy:
+    jobs:
+      - eb/deploy:
+          context: Apieb-env
+          environment-name: Apieb-env
+          filters:
+            branches:
+              only:
+                - master

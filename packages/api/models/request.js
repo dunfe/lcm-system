@@ -1,23 +1,18 @@
 import mongoose from 'mongoose';
 
 const requestSchema = new mongoose.Schema({
-    title: {  
+    title: {
         type: String,
-        required: [true, 'Please input request title!']  
+        required: [true, 'Please input request title!']
     },
-    createdBy: { 
+    createdBy: {
         type: String,
-        required: [true, 'Please input id of creator!'] 
+        required: [true, 'Please input id of creator!']
     },
     receivedBy: { type: String, default: "admin" },
-    content: { 
+    content: {
         type: String,
-        required: [true, 'Please input report content!'] 
-     },
-     status: {
-         type: String,
-         enum: ["new", "done"],
-         default: "new"
+        required: [true, 'Please input report content!']
      },
     picture: String,
     createAt: { type: Date, default: Date.now},

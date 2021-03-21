@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
+import crypto from "crypto";
 import validator from 'validator';
 import express from 'express';
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, 'Please input username!']  
+        required: [true, 'Please input username!']
     },
     password: {
         type: String,
@@ -16,16 +16,16 @@ const userSchema = new mongoose.Schema({
     },
     passportId: {
         type: String,
-        default:"", 
+        default:"",
     },
     fullname: {
         type: String,
         required: true,
         minlength: [3, 'Display name must have atleast 3 character!'],
-        maxlength: [40, 'Display name must have less than 40 characters!']  
+        maxlength: [40, 'Display name must have less than 40 characters!']
     },
     email: {
-        type: String, 
+        type: String,
         required: [true, 'Please provide your email'],
         lowercase: true,
         validate: [validator.isEmail, 'Please provide a valid email']
@@ -83,10 +83,10 @@ const userSchema = new mongoose.Schema({
                 type: Date,
                 default: Date.now(),
             },
-        
+
         }
     ],
-    pointInHistory:[ 
+    pointInHistory:[
         {
             method:{ type: String, default:"",},
             pointBefore: {type: Number,min: 1, default: 1},
@@ -133,7 +133,7 @@ userSchema.methods.validPassword = async  function (password) {
 userSchema.pre('save', function(next){
     if (!this.isModified('password') || this.isNew){
         return next();
-    } 
+    }
 
     this.passwordChangedAt = Date.now() - 1000;
     next();
@@ -147,7 +147,7 @@ userSchema.methods.createPasswordResetToken = function() {
     console.log({resetToken}, this.passwordResetToken);
 
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-    
+
     return resetToken;
 };
 
