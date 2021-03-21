@@ -267,7 +267,7 @@ export const updateRateExchange = (req,res) =>{
         rateExchange: req.body.newRate,
         modifiedAt: Date.now()
     }
-    Rate.findByIdAndUpdate(process.env.rateExchangeId,{$set: newRate}, { new: true}, (err, doc) => {
+    Rate.findByIdAndUpdate('6051a031698be92cfc4b324c',{$set: newRate}, { new: true}, (err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',
