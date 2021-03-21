@@ -8,8 +8,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 export function getAllNotification(model) {
     return async (req, res) => {
-      let page = parseInt(req.query.page);
-    //   const limit = parseInt(req.query.limit)
+      let page = parseInt(req.query.page) || 1;
       const limit = 6;
       const results = {}
       const data = await model.find();

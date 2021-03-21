@@ -14,7 +14,7 @@ export const updatePoint_Transaction = async (req, res) => {
         return res.status(400).send(`No record ${req.params.id}`);
     }
     const user = await User.findById(req.params.id);
-    const beforePoint = user.current_point;
+    const beforePoint = user.currentPoint;
     const afterPoint = req.body.new_current_point;
     if(afterPoint < beforePoint){
         var amount = beforePoint - afterPoint;
@@ -58,13 +58,11 @@ export const updatePoint_Transaction = async (req, res) => {
     });
 };
 
-
-
 export const viewWithdrawalHistoryById = async (req,res) =>{
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).send(`No record ${req.params.id}`);
     }
-    User.findById(req.params.id,{method: "money-point"},{point_out_history: 1},(err,user)=>{
+    User.findById(req.params.id,{method: "money-point"},{pointOutHistory: 1},(err,user)=>{
         if(!err) { 
             res.send(user);
         } else {
@@ -77,7 +75,7 @@ export const viewDepositHistoryById  = async (req,res) =>{
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).send(`No record ${req.params.id}`);
     }
-    User.findById(req.params.id,{method: "money-point"},{point_in_history: 1},(err,user)=>{
+    User.findById(req.params.id,{method: "money-point"},{pointInHistory: 1},(err,user)=>{
         if(!err) { 
             res.send(user);
         } else {
@@ -95,30 +93,30 @@ export const minusPoint_Transaction = async (req, res) => {
     const amount = req.body.amount;
     const pointAfter = pointBefore - amount;
     const money = req.body.money;
-    if(afterPoint < 0){
+    if(pointAfter < 0){
         res.status(400).json({
                 status: 'fail',
                 message: 'số point chuyển đi lớn hơn số point hiện có'
             })
     }else {
         User.findByIdAndUpdate(req.params.id, 
-            { $push: {point_out_history : {method : req.body.note,
-                                        beforePoint : beforePoint,
-                                        afterPoint: afterPoint,
+            { $push: {pointOutHistory : {method : "point-point",
+                                        pointBefore : pointBefore,
+                                        pointAfter: pointAfter,
                                         amount : amount, 
-                                        ref : user.display_name, 
+                                        ref : user.fullname, 
                                         note : req.body.note}} },
-            { new: true }, (err, doc) => {
-            if(!err) {
-                
-            } else {
-                return res.status(400).json({
-                    status: 'fail',
-                    message: 'Something wrong, try again later'
-                })
-            };
+            { new: false }, (err, doc) => {
+                if(!err) {
+                    
+                } else {
+                    return res.status(400).json({
+                        status: 'fail',
+                        message: 'Something wrong, try again later'
+                    })
+                };
         });
-        User.findByIdAndUpdate(req.params.id, { $set: {current_point : afterPoint} }, { new: true }, (err, doc) => {
+        User.findByIdAndUpdate(req.params.id, { $set: {currentPoint : pointAfter} }, { new: true }, (err, doc) => {
             if (!err) {
                 res.send(doc);
             } else {
@@ -138,7 +136,7 @@ export const plusPoint_Transaction = async (req, res) => {
     const amount = req.body.amount;
     const pointAfter = pointBefore + amount;
     User.findByIdAndUpdate(req.params.id, 
-        { $push: {point_in_history : {method : "point-point",
+        { $push: {pointInHistory : {method : "point-point",
                                     pointBefore : pointBefore,
                                     pointAfter: pointAfter,
                                     amount : amount, 
@@ -267,7 +265,7 @@ export const updateRateExchange = (req,res) =>{
         rateExchange: req.body.newRate,
         modifiedAt: Date.now()
     }
-    Rate.findByIdAndUpdate('6051a031698be92cfc4b324c',{$set: newRate}, { new: true}, (err, doc) => {
+    Rate.findByIdAndUpdate(req.params.id, { $set: newRate }, { new: true}, (err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',
@@ -276,7 +274,7 @@ export const updateRateExchange = (req,res) =>{
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later, maybe duplicate skill name'
+                message: 'Something wrong, try again later'
             })
         };
     });

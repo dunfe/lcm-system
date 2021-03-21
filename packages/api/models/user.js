@@ -42,7 +42,8 @@ const userSchema = new mongoose.Schema({
     level: {
         type: Number,
         default: 0,
-    },skill: [{type: String}],
+    },
+    skill: [{type: String}],
     bio: { type: String},
     rate: 
         {
@@ -72,10 +73,10 @@ const userSchema = new mongoose.Schema({
     pointOutHistory: [
         {
             method: { type: String, default:"",},
-            pointBefore: {type: Number,min: 1, default: 1},
-            pointAfter: {type: Number, min: 1, default: 1},
-            amount: { type: Number, min: 1, default: 1,},
-            money: { type: Number, min: 1, default: 1,},
+            pointBefore: {type: Number,min: 0, default: 0},
+            pointAfter: {type: Number, min: 0, default: 0},
+            amount: { type: Number, min: 0, default: 0},
+            money: { type: Number, min: 0, default: 0},
             ref: { type: String, default:"",},
             note: { type: String, default:"",},
             status: { type: String, default:"",},
@@ -89,10 +90,10 @@ const userSchema = new mongoose.Schema({
     pointInHistory:[
         {
             method:{ type: String, default:"",},
-            pointBefore: {type: Number,min: 1, default: 1},
-            pointAfter: {type: Number, min: 1, default: 1},
-            amount: { type: Number, min: 1, default:1,},
-            money: { type: Number, min: 1, default: 1,},
+            pointBefore: {type: Number,min: 0, default: 0},
+            pointAfter: {type: Number, min: 0, default: 0},
+            amount: { type: Number, min: 0, default: 0},
+            money: { type: Number, min: 0, default: 0},
             ref: { type: String, default:"",},
             note: { type: String, default:"",},
             createAt: {

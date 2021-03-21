@@ -54,7 +54,7 @@ export const createRequest = async (req, res) => {
 
 export function getAllRequest(model) {
     return async (req, res) => {
-      let page = parseInt(req.query.page);
+      let page = parseInt(req.query.page) || 1;
     //   const limit = parseInt(req.query.limit)
       const limit = 50;
       const results = {}
