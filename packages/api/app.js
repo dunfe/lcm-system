@@ -10,6 +10,8 @@ import skillRoutes from './routes/skills.js';
 import mentorRoutes from './routes/mentors.js';
 import adminRoutes from './routes/admins.js';
 import staffRoutes from './routes/staff.js';
+import menteeRoutes from './routes/mentee.js';
+import paymentRouters from './routes/payment.js';
 import auth from './middleware/auth.js';
 import passportSetup from './config/passport-setup.js';
 import cookieSession from 'cookie-session';
@@ -42,6 +44,8 @@ app.use('/staff',staffRoutes);
 app.use('/api/users', userRoutes);
 app.use('/admin',skillRoutes);
 app.use('/admin',adminRoutes);
+app.use('/mentee',menteeRoutes);
+app.use('/payment', paymentRouters);
 app.use('/', mentorRoutes);
 
 app.all('*', (req, res, next) => {

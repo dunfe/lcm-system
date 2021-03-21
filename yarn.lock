@@ -4587,6 +4587,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:>=8.1.0":
+  version: 14.14.35
+  resolution: "@types/node@npm:14.14.35"
+  checksum: 0f6320bf5370d1ff82105fb7f26aa0658499c97d3ec78561e65b65724280244f281602541182b63470d2c8a98db22fbb4f91409c5c7c97da8c3bb8f97fbc5dbc
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^12.0.0":
   version: 12.20.5
   resolution: "@types/node@npm:12.20.5"
@@ -6293,6 +6300,7 @@ __metadata:
     path: ^0.12.7
     requirejs: ^2.3.6
     shortid: ^2.2.16
+    stripe: ^8.138.0
     supertest: ^6.1.3
     validator: ^13.5.2
   languageName: unknown
@@ -20937,7 +20945,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.5.1, qs@npm:^6.9.1, qs@npm:^6.9.4":
+"qs@npm:^6.5.1, qs@npm:^6.6.0, qs@npm:^6.9.1, qs@npm:^6.9.4":
   version: 6.9.6
   resolution: "qs@npm:6.9.6"
   checksum: 853715ab6d685aad829c984997f4c7dc90665a8b652478d2e3c06be6968846e5d04adaf1eb2f4977ef544a194a376f0fa65734ee27a4d535e1ed8cb205bf5cce
@@ -24917,6 +24925,16 @@ resolve@1.18.1:
   version: 1.0.1
   resolution: "strip-url-auth@npm:1.0.1"
   checksum: 3b0b45e942e692e62bbfd0767ba28a9a85befb95e90de3cf202d08d4f7a070d5c8de69e74885fde30a89f3ce6b2f1c93fd1eb26774d06c0a29feccd9ca879953
+  languageName: node
+  linkType: hard
+
+"stripe@npm:^8.138.0":
+  version: 8.138.0
+  resolution: "stripe@npm:8.138.0"
+  dependencies:
+    "@types/node": ">=8.1.0"
+    qs: ^6.6.0
+  checksum: 298e7efa0bd646a80993c5a98fd26b11090a5c13eab1bf91f33d1167ce90ac0e04e46e267d14c8521bdfb29469d970898241b644be3ad2e20b67ac3697a53854
   languageName: node
   linkType: hard
 
