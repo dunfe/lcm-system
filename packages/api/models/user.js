@@ -69,7 +69,7 @@ const userSchema = new mongoose.Schema({
             content: {
                 type: String
             },
-            rate: {
+            star: {
                 type: Number,
                 min: [0, 'Rating must be above 0.0'],
                 max: [5, 'Rating must be under 5.0']

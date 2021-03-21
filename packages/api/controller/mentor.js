@@ -159,14 +159,57 @@ export const delMentorById = async (req, res, next) => {
     });
 };
 
-export const ratingMentor = async (req,re,next) =>{
+export const ratingMentor = async (req,res,next) =>{
     if(!ObjectId.isValid(req.params.id)){
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
         })
     };
+    let star = parseInt(req.body.star);
 
-}
+    const currentMentee = await User.findById(req.body.currentUserId);
+    const currentMentor = await User.findById(req.params.id);
+    let totalRating1 = currentMentor.rate.totalRating1;
+    let totalRating2 = currentMentor.rate.totalRating2;
+    let totalRating3 = currentMentor.rate.totalRating3;
+    let totalRating4 = currentMentor.rate.totalRating4;
+    let totalRating5 = currentMentor.rate.totalRating5;
+    if(star == 1) totalRating1 = totalRating1 + 1;
+    if(star == 2) totalRating2 = totalRating2 + 1;
+    if(star == 3) totalRating3 = totalRating3 + 1;
+    if(star == 4) totalRating4 = totalRating4 + 1;
+    if(star == 5) totalRating5 = totalRating5 + 1;
+    const avgRating = (totalRating1 + 2*totalRating2 + 3*totalRating3 + 4*totalRating4 + 5*totalRating5)/
+                    (totalRating1 + totalRating2 + totalRating3 + totalRating4 + totalRating5);
+
+    const rate = {
+        totalRating1 : totalRating1,
+        totalRating2 : totalRating2,
+        totalRating3 : totalRating3,
+        totalRating4 : totalRating4,
+        totalRating5 : totalRating5,
+        avgRating : avgRating
+    }
+    const reviews = {
+        fromID : req.body.currentUserId,
+        name : currentMentee.fullname,
+        content : req.body.content,
+        star : star
+    }
+    User.findByIdAndUpdate(req.params.id,{ $set : {rate : rate}, $push : {reviews: reviews} },{new: true},(err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        };
+    });
+};
 
 export default router;
