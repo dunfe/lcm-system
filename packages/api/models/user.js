@@ -58,6 +58,24 @@ const userSchema = new mongoose.Schema({
                 max: [5, 'Rating must be under 5.0'] 
             }
         },
+    requestDone: {
+        type: Number,
+        min: [0, 'Must be above 0']
+    },
+    reviews: [
+        {
+            fromID: String,
+            name: {type: String},
+            content: {
+                type: String
+            },
+            rate: {
+                type: Number,
+                min: [0, 'Rating must be above 0.0'],
+                max: [5, 'Rating must be under 5.0']
+            },
+        }
+    ],
     detail:
         {
             dob: { type: Date, default:""},

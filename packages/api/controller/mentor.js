@@ -79,7 +79,8 @@ export const getMentorById = async (req, res) => {
 export const getMentorByName = (req, res) => {
     const fullname = req.body.fullname;
     User.find({
-        "fullname" : {'$regex' : new RegExp(fullname, "i")}
+        "fullname" : {'$regex' : new RegExp(fullname, "i")},
+        role : 'mentor'
     }, (err, doc) => {
         if(!err) {
             if(doc.toString() == ""){ 
@@ -120,7 +121,7 @@ export const updateMentorById = async (req, res, next) => {
 
     let mentor = req.body;
 
-    Mentor.findByIdAndUpdate(req.params.id, { $set: mentor}, { new: true}, (err, doc) => {
+    User.findByIdAndUpdate(req.params.id, { $set: mentor}, { new: true}, (err, doc) => {
         if(!err){
             return res.status(200).json({
                 status: 'Update mentor success',
@@ -143,7 +144,7 @@ export const delMentorById = async (req, res, next) => {
         })
     };
 
-    Mentor.findByIdAndRemove(req.params.id, (err, doc) => {
+    User.findByIdAndRemove(req.params.id, (err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'Delete mentor success',
@@ -157,5 +158,15 @@ export const delMentorById = async (req, res, next) => {
         }
     });
 };
+
+export const ratingMentor = async (req,re,next) =>{
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+}
 
 export default router;

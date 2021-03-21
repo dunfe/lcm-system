@@ -5,7 +5,7 @@ const reportSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input report title!'] 
     },
-    createAt : { 
+    createBy : { 
         type: String,
         required: [true, 'Please input id of creator!'] 
     },
