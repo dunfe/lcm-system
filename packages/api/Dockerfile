@@ -2,14 +2,8 @@ FROM node:14.16.0-alpine
 
 WORKDIR /api
 
-COPY packages/api /api/packages/api/
-COPY yarn.lock /api
 COPY package.json /api
-COPY .yarnrc.yml /api
-COPY .yarn /api/.yarn
+RUN npm install --production --silent
+COPY . /api
 
-RUN yarn install
-
-EXPOSE 3000
-
-CMD yarn start:api
+CMD node app.js
