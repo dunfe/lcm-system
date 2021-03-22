@@ -1,39 +1,57 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import Mentor from '../models/mentor.js';
+import User from '../models/user.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
-// demo
-export const createMentor = async (req, res, next) => {
-    const {username, password, fullname, currentJob, bio, skill, email} = req.body;
+// export const getAllMentor = async (req, res) => {
+//     try {
+//         const data = await User.find({role : 'mentor'});
+//         return res.status(200).json({
+//             status: 'success',
+//             result: data.length,
+//             data: data
+//         });        
+//     } catch (error) {
+//         return res.status(500).send(error.message);
+//     }
+// };
 
-    const newMentor = Mentor({ username, password, fullname, currentJob, bio, skill, email});
-
-    try {
-        const mentors = await newMentor.save();
-        res.json(mentors);
-    } catch (error) {
-        console.log(error);
-        res.json(error);
+export function getAllMentor(model) {
+    return async (req, res) => {
+      let page = parseInt(req.query.page) || 1;
+    //   const limit = parseInt(req.query.limit)
+      const limit = 50;
+      const results = {}
+      const data = await model.find({role : 'mentor'});
+      const totalPage = Math.ceil(data.length/limit) ;
+      results.totalPage = totalPage;
+      if(page<1 || page > totalPage) page = 1;
+      const startIndex = (page - 1) * limit
+      const endIndex = page * limit
+      if (endIndex < await model.countDocuments().exec()) {
+        results.next = {
+          page: page + 1,
+          limit: limit
+        }
+      }
+      
+      if (startIndex > 0) {
+        results.previous = {
+          page: page - 1,
+          limit: limit
+        }
+      }
+      try {
+        results.results = await model.find({role : 'mentor'}).limit(limit).skip(startIndex).exec()
+        return res.status(200).json(results);
+      } catch (e) {
+        res.status(500).json({ message: e.message })
+      }
     }
-}
-
-// real
-export const getAllMentor = async (req, res) => {
-    try {
-        const data = await Mentor.find();
-        return res.status(200).json({
-            status: 'success',
-            result: data.length,
-            data: data
-        });        
-    } catch (error) {
-        return res.status(500).send(error.message);
-    }
-};
+  }
 
 export const getMentorById = async (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
@@ -43,7 +61,7 @@ export const getMentorById = async (req, res) => {
         })
     };
 
-    Mentor.findById( req.params.id, (err, doc) => {
+    User.findById( req.params.id, (err, doc) => {
         if (!err){
             return res.status(200).json({
                 status: 'success',
@@ -60,9 +78,9 @@ export const getMentorById = async (req, res) => {
 
 export const getMentorByName = (req, res) => {
     const fullname = req.body.fullname;
-
-    Mentor.find({
-        "fullname" : {'$regex' : new RegExp(fullname, "i")}
+    User.find({
+        "fullname" : {'$regex' : new RegExp(fullname, "i")},
+        role : 'mentor'
     }, (err, doc) => {
         if(!err) {
             if(doc.toString() == ""){ 
@@ -103,7 +121,7 @@ export const updateMentorById = async (req, res, next) => {
 
     let mentor = req.body;
 
-    Mentor.findByIdAndUpdate(req.params.id, { $set: mentor}, { new: true}, (err, doc) => {
+    User.findByIdAndUpdate(req.params.id, { $set: mentor}, { new: true}, (err, doc) => {
         if(!err){
             return res.status(200).json({
                 status: 'Update mentor success',
@@ -126,7 +144,7 @@ export const delMentorById = async (req, res, next) => {
         })
     };
 
-    Mentor.findByIdAndRemove(req.params.id, (err, doc) => {
+    User.findByIdAndRemove(req.params.id, (err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'Delete mentor success',
@@ -140,5 +158,15 @@ export const delMentorById = async (req, res, next) => {
         }
     });
 };
+
+export const ratingMentor = async (req,re,next) =>{
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+}
 
 export default router;

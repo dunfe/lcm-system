@@ -17,66 +17,6 @@ export const getSignToken = user => {
     }, process.env.SECRET_KEY, { expiresIn: '60d'});
 };
 
-export const register = async (req, res, next) => {
-    const { username, password,email, fullname} = req.body;
-    const user = await User.findOne({username});
-    console.log(user);
-    if( user ){
-        return res.status(403).json({error: { message: 'username already in use!'}});
-    };
-
-    const newUser = new User();
-    newUser.username = username;
-    newUser.password = password;
-    newUser.email = email;
-    newUser.fullname = fullname;
-    try {
-        await newUser.save();
-        const token = getSignToken(newUser);
-        res.status(200).json({ token });
-    } catch (error) {
-        error.status = 400;
-        next(error);
-    }
-};
-
-export const login = async (req, res) => {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
-
-    if (!user){
-        return res.status(403).json({ error: {message: 'invalid username/password'}});
-    };
-
-    // const isValid = await user.validPassword(password);
-
-    // if(!isValid){
-    //     return res.status(401).json({ error: {message: 'invalid username/password'}});
-    // };
-
-    const token = getSignToken(user);
-    
-    return res.status(200).json({ token });
-};
-
-export const createUser = async (req, res) => {
-    const { username, password, email, fullname,point_out_history} = req.body;
-    const user = await User.findOne({username});
-
-    if( user ){
-        return res.status(403).json({error: { message: 'username already in use!'}});
-    };
-
-    const newUser = new User({ username, password, email, fullname });
-    try {
-        await newUser.save();
-        res.status(200).json('saved');
-    } catch (error) {
-        error.status = 400;
-        res.json(error);
-    }
-};
-
 export const getAllUser = async (req, res) => {
     try {
         const data = await User.find();
