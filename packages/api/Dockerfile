@@ -10,8 +10,6 @@ COPY .yarn /api/.yarn
 
 RUN yarn install
 
-USER dungnq
-
 EXPOSE 3000
 
 CMD yarn start:api
