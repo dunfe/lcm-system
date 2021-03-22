@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+  api:
+    build:
+      context: ./packages/api/.
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - webappnetwork
+  client:
+    build:
+      context: ./packages/client/.
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "3001:3001"
+    links:
+      - api
+    networks:
+      - webappnetwork
+networks:
+  webappnetwork:
+    driver: bridge

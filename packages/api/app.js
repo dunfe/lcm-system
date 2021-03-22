@@ -87,6 +87,10 @@ if (process.env.NODE_ENV === 'test') {
         .catch(err => console.log(err.message));
 } else {
     mongoose.connect(process.env.MONGODB_URI, {
+        auth: {
+            user: 'admin',
+            password: 'BbYS998aXvXRWgA'
+        },
         useFindAndModify: false,
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -99,5 +103,4 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 // db.connectDB;
-
 export default app;

@@ -1,5 +1,4 @@
 # Elastic Beanstalk Files
-.elasticbeanstalk/*
 .git
 .gitignore
 node_modules
@@ -9,10 +8,10 @@ packages/client/node_modules
 packages/landing/node_modules
 packages/common/node_modules
 
+# Yarn 2
 .yarn/*
-!.yarn/patches
+!.yarn/cache
 !.yarn/releases
 !.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
+!.yarn/patches
 .pnp.*
