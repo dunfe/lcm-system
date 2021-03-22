@@ -8,7 +8,9 @@ COPY package.json /api
 COPY .yarnrc.yml /api
 COPY .yarn /api/.yarn
 
-RUN yarn install --silent
+RUN yarn install
+
+USER dungnq
 
 EXPOSE 3000
 
