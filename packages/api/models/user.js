@@ -43,14 +43,39 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now(),
+    skill: [{type: String}],
+    bio: { type: String},
+    rate: 
+        {
+            totalRating1: {type: Number, default: 0},
+            totalRating2: {type: Number, default: 0},
+            totalRating3: {type: Number, default: 0},
+            totalRating4: {type: Number, default: 0},
+            totalRating5: {type: Number, default: 0},
+            avgRating: { 
+                type: Number,
+                min: [0, 'Rating must be above 0.0'],
+                max: [5, 'Rating must be under 5.0'] 
+            }
+        },
+    requestDone: {
+        type: Number,
+        min: [0, 'Must be above 0']
     },
-    modifieAt: {
-        type: Date,
-        default: undefined,
-    },
+    reviews: [
+        {
+            fromID: String,
+            name: {type: String},
+            content: {
+                type: String
+            },
+            rate: {
+                type: Number,
+                min: [0, 'Rating must be above 0.0'],
+                max: [5, 'Rating must be under 5.0']
+            },
+        }
+    ],
     detail:
         {
             dob: { type: Date, default:""},
@@ -58,16 +83,18 @@ const userSchema = new mongoose.Schema({
             phone: { type: String, default:""},
             address: { type: String, default:""},
             avatar: { type: String, default:""},
+            currentJob: { type: String, default:""},
+            achievement: [ { type: String} ],
             totalQuestion: { type: Number,default: 0},
         },
     currentPoint: { type: Number, default: 0},
     pointOutHistory: [
         {
             method: { type: String, default:"",},
-            pointBefore: {type: Number,min: 1, default: 1},
-            pointAfter: {type: Number, min: 1, default: 1},
-            amount: { type: Number, min: 1, default: 1,},
-            money: { type: Number, min: 1, default: 1,},
+            pointBefore: {type: Number,min: 0, default: 0},
+            pointAfter: {type: Number, min: 0, default: 0},
+            amount: { type: Number, min: 0, default: 0},
+            money: { type: Number, min: 0, default: 0},
             ref: { type: String, default:"",},
             note: { type: String, default:"",},
             status: { type: String, default:"",},
@@ -81,10 +108,10 @@ const userSchema = new mongoose.Schema({
     pointInHistory:[
         {
             method:{ type: String, default:"",},
-            pointBefore: {type: Number,min: 1, default: 1},
-            pointAfter: {type: Number, min: 1, default: 1},
-            amount: { type: Number, min: 1, default:1,},
-            money: { type: Number, min: 1, default: 1,},
+            pointBefore: {type: Number,min: 0, default: 0},
+            pointAfter: {type: Number, min: 0, default: 0},
+            amount: { type: Number, min: 0, default: 0},
+            money: { type: Number, min: 0, default: 0},
             ref: { type: String, default:"",},
             note: { type: String, default:"",},
             createAt: {
@@ -102,6 +129,14 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
+    modifieAt: {
+        type: Date,
+        default: undefined,  
+    }
 });
 
 userSchema.methods.generateHash = function (password) {
