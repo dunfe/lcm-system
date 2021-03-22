@@ -2,13 +2,13 @@ FROM node:14.16.0-alpine
 
 WORKDIR /api
 
-COPY packages /api/packages
+COPY packages/api /api/packages/api/
 COPY yarn.lock /api
 COPY package.json /api
 COPY .yarnrc.yml /api
 COPY .yarn /api/.yarn
 
-RUN yarn install
+RUN yarn install --silent
 
 EXPOSE 3000
 

@@ -2,7 +2,7 @@ FROM node:14.16.0-alpine as build-stage
 
 WORKDIR /client
 
-COPY packages /client/packages
+COPY packages/client /client/packages/client/
 COPY yarn.lock /client
 COPY package.json /client
 COPY .yarnrc.yml /client
