@@ -2,13 +2,16 @@ FROM node:14.16.0-alpine as build-stage
 
 WORKDIR /client
 
-COPY package.json /client/
-COPY . /client
-RUN npm install
-RUN npm run build
+COPY packages /client/packages
+COPY yarn.lock /client
+COPY package.json /client
+COPY .yarnrc.yml /client
+COPY .yarn /client/.yarn
+
+RUN yarn install
+RUN yarn workspace client build
 
 # production
-FROM nginx:1.17-alpine as production-state
-COPY --from=base /client/build /usr/share/nginx/html/
+FROM nginx:1.17-alpine as production-stage
+COPY --from=build-stage /client/packages/client/build /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
-
