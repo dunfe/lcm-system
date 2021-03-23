@@ -8,6 +8,9 @@ jobs:
       - image: arvindr226/alpine-ssh
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "e4:26:29:8d:54:c7:a5:af:8d:40:48:02:f1:8e:27:9f"
       - run: ssh -oStrictHostKeyChecking=no -v dungnq@66.42.52.219 "./deploy.sh"
 
 workflows:
