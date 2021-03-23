@@ -1,10 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user.js';
+import Question from '../models/question.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
+//Edit profile
 export const viewMenteeInfo = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).send(`Invalid id ${req.params.id}`);
@@ -26,7 +28,7 @@ export const viewMenteeInfo = async (req, res) => {
 }
 
 export const editOrUpdateUserById = async (req, res, next) => {
-    if(!ObjectId.isValid(req.params.id)){
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -35,8 +37,8 @@ export const editOrUpdateUserById = async (req, res, next) => {
 
     let user = req.body;
 
-    User.findByIdAndUpdate(req.params.id, { $set: user}, { new: true}, (err, doc) => {
-        if(!err){
+    User.findByIdAndUpdate(req.params.id, { $set: user }, { new: true }, (err, doc) => {
+        if (!err) {
             return res.status(200).json({
                 status: 'Update success',
                 data: doc
@@ -50,13 +52,14 @@ export const editOrUpdateUserById = async (req, res, next) => {
     });
 }
 
-export const createQuestion = (req, res) => {
-    // const created_byId = mongoose.Types.ObjectId(req.body.created_by);
+//Question of mentee
+export const createQuestion = async (req, res) => {
+    const user = await User.findById(req.params.id);
     const question = new Question({
         title: req.body.title,
-        createdBy: User.username,
+        createdBy: user.fullname,
         receivedBy: req.body.receivedBy,
-        point: req.body._point,
+        point: req.body.point,
         skill: req.body.skill,
         time: req.body.time,
         content: req.body.content,
@@ -66,7 +69,7 @@ export const createQuestion = (req, res) => {
     });
 
     question.save((err, doc) => {
-        if(!err) {
+        if (!err) {
             res.send(doc);
         } else {
             console.log('Error in saving new question:' + JSON.stringify(err, undefined, 2));
@@ -74,21 +77,8 @@ export const createQuestion = (req, res) => {
     });
 };
 
-export const getAllQuestions = async ( req, res) => {
-    try {
-        const data = await Question.find();
-        return res.status(200).json({
-            status: 'success',
-            result: data.length,
-            data: data
-        })
-    } catch (error) {
-        return res.status(500).send(error.message);
-    }
-};
-
 export const getQuestionById = (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) { 
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -96,7 +86,7 @@ export const getQuestionById = (req, res) => {
     };
 
     Question.findById(req.params.id, (err, doc) => {
-        if (!err){
+        if (!err) {
             return res.status(200).json({
                 status: 'success',
                 data: doc
@@ -105,24 +95,13 @@ export const getQuestionById = (req, res) => {
             return res.status(400).json({
                 status: 'fail',
                 message: 'Something wrong, try again later'
-            }) 
+            })
         };
     });
 };
 
-export const  totalQuestion = (req, res) => {
-    Question.countDocuments({}, (err,doc)=> {
-        if (!err){
-            res.json('Total questions: '+ doc);
-        } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
-        };
-    });
-} ;
-
-
-export const updateQuestionById = async (req, res, next) => {
-    if(!ObjectId.isValid(req.params.id)){
+export const editQuestionById = async (req, res, next) => {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -131,8 +110,8 @@ export const updateQuestionById = async (req, res, next) => {
 
     let question = req.body;
 
-    Question.findByIdAndUpdate(req.params.id, { $set: question}, { new: true}, (err, doc) => {
-        if(!err){
+    Question.findByIdAndUpdate(req.params.id, { $set: question }, { new: true }, (err, doc) => {
+        if (!err) {
             return res.status(200).json({
                 status: 'Update question success',
                 data: doc
@@ -140,14 +119,14 @@ export const updateQuestionById = async (req, res, next) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later'
+                message: 'Opp! Something wrong, please try again later'
             })
         }
     });
 }
 
-export const delQuestionById = async (req, res) =>{
-    if(!ObjectId.isValid(req.params.id)){
+export const delQuestionById = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -155,7 +134,7 @@ export const delQuestionById = async (req, res) =>{
     };
 
     Question.findByIdAndRemove(req.params.id, (err, doc) => {
-        if(!err) {
+        if (!err) {
             return res.status(200).json({
                 status: 'Delete question success',
                 data: doc
@@ -163,8 +142,12 @@ export const delQuestionById = async (req, res) =>{
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later'
+                message: 'Opp! Something wrong, please try again later'
             })
         }
     });
 }
+
+//view dashboard
+//point out and point in of mentee at router
+

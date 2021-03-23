@@ -37,12 +37,12 @@ app.use('/api/protected', auth, (req, res) => {
     res.end(`Hi ${req.user.username}, you are authenticated!`);
 });
 
-app.use('/staff', staffRoutes);
+app.use('/api/staff', staffRoutes);
 app.use('/api/users', userRoutes);
-app.use('/admin',skillRoutes);
-app.use('/admin',adminRoutes);
-app.use('/mentee',menteeRoutes);
-app.use('/payment', paymentRouters);
+app.use('/api/admin',skillRoutes);
+app.use('/api/admin',adminRoutes);
+app.use('/api/mentee',menteeRoutes);
+app.use('/api/payment', paymentRouters);
 app.use('/', mentorRoutes);
 
 app.all('*', (req, res, next) => {
