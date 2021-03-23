@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  deploy-ssh:
+  build:
     machine:
       enable: true
     docker:
@@ -14,9 +14,9 @@ jobs:
       - run: ssh dungnq@66.42.52.219 "./deploy.sh"
 
 workflows:
-  deploy-master:
+  build-and-deploy:
     jobs:
-      - deploy-ssh:
+      - build:
           filters:
             branches:
               only:
