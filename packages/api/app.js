@@ -37,7 +37,7 @@ app.use('/api/protected', auth, (req, res) => {
 
 app.use('/staff', staffRoutes);
 app.use('/api/users', userRoutes);
-app.use('/admin', skillRoutes);
+app.use('/api/admin', skillRoutes);
 app.use('/admin', adminRoutes);
 app.use('/', mentorRoutes);
 
