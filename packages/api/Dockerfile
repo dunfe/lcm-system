@@ -7,9 +7,9 @@ COPY package.json /api
 COPY .yarnrc.yml /api
 COPY .yarn /api/.yarn
 
-RUN yarn install
-
 COPY packages/api /api/packages/api/
+
+RUN yarn install
 
 EXPOSE 3000
 
