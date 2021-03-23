@@ -10,7 +10,7 @@ jobs:
           key: dependency-cache-{{checksum "yarn.lock"}}
       - run: yarn install
       - save_cache:
-          key: dependency-cache-{{checksum "package-lock.json"}}
+          key: dependency-cache-{{checksum "yarn.lock"}}
           paths:
             - ./node_modules
   deploy:
