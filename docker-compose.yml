@@ -5,13 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./packages/api/Dockerfile
-    restart: unless-stopped
-    volumes:
-      - "./.:/api"
     ports:
       - "3000:3000"
-    networks:
-      - webappnetwork
   client:
     build:
       context: .
@@ -23,8 +18,3 @@ services:
       - api
     ports:
       - "5000:80"
-    networks:
-      - webappnetwork
-networks:
-  webappnetwork:
-    driver: bridge
