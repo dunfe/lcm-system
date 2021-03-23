@@ -2,8 +2,6 @@ version: 2.1
 
 jobs:
   build:
-    machine:
-      enable: true
     docker:
       - image: arvindr226/alpine-ssh
     steps:
