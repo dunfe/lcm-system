@@ -1,13 +1,19 @@
 version: 2.1
 orbs:
-  eb: circleci/aws-elastic-beanstalk@1.0.2
+  docker: circleci/docker@1.5.0
+
+jobs:
+  pull-and-build:
+    docker:
+      - image: arvindr226/alpine-ssh
+    steps:
+      - checkout
+      - run: ssh -oStrictHostKeyChecking=no -v dungnq@66.42.52.219 "./deploy.sh"
 
 workflows:
   deploy:
     jobs:
-      - eb/deploy:
-          context: Apieb-env
-          environment-name: Apieb-env
+      - pull-and-build:
           filters:
             branches:
               only:
