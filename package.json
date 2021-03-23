@@ -24,7 +24,8 @@
     "dev:admin": "concurrently \"yarn start:api\" \"yarn start:admin\"",
     "start:client": "yarn workspace client start",
     "start:admin": "yarn workspace admin start",
-    "start:api": "yarn workspace api start"
+    "start:api": "yarn workspace api start",
+    "deploy:api": "yarn workspace api deploy"
   },
   "dependencies": {
     "concurrently": "^6.0.0",
