@@ -5,7 +5,7 @@ services:
     build:
       context: ./packages/api
       dockerfile: ./Dockerfile
-    restart: always
+    restart: unless-stopped
     volumes:
       - "./packages/api:/api"
     ports:
@@ -19,6 +19,8 @@ services:
     restart: always
     volumes:
       - "./.:/client"
+    links:
+      - api
     ports:
       - "5000:80"
     networks:

@@ -1,9 +1,16 @@
-FROM node:14.16.0-alpine
+FROM node:12.18-alpine
 
 WORKDIR /api
 
+RUN npm install -g pm2
+
 COPY package.json /api
+
 RUN npm install --production --silent
 COPY . /api
 
-CMD node app.js
+RUN chown -R node:node /api
+
+USER node
+
+CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]
