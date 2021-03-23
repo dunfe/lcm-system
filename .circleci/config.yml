@@ -18,7 +18,7 @@ jobs:
       enabled: true
     steps:
       - checkout
-      - run: ssh -p dungnq@66.42.52.219 "./deploy.sh"
+      - run: ssh dungnq@66.42.52.219 "./deploy.sh"
 
 workflows:
   version: 2
