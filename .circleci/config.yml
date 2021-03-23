@@ -6,7 +6,6 @@ jobs:
       - image: node:14.16.0-alpine
     steps:
       - checkout
-      - run: npm install -g yarn
       - restore_cache:
           key: dependency-cache-{{checksum "yarn.lock"}}
       - run: yarn install
