@@ -3,8 +3,8 @@ version: "2"
 services:
   api:
     build:
-      context: .
-      dockerfile: ./packages/api/Dockerfile
+      context: ./packages/api
+      dockerfile: ./Dockerfile
     restart: unless-stopped
     volumes:
       - "./.:/api"
