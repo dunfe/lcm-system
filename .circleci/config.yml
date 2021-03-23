@@ -1,9 +1,11 @@
 version: 2.1
 
 jobs:
-  deploy:
+  deploy-ssh:
     machine:
       enable: true
+    docker:
+      - image: arvindr226/alpine-ssh
     steps:
       - checkout
       - add_ssh_keys:
@@ -14,7 +16,7 @@ jobs:
 workflows:
   deploy-master:
     jobs:
-      - deploy:
+      - deploy-ssh:
           filters:
             branches:
               only:
