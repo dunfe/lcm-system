@@ -13,4 +13,4 @@ RUN chown -R node:node /api
 
 USER node
 
-CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]
+CMD ["pm2", "start", "app.js"]
