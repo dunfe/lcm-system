@@ -2,13 +2,12 @@ FROM node:14.16.0-alpine
 
 WORKDIR /api
 
+COPY packages/api /api/packages/api
+COPY yarn.lock /api
 COPY package.json /api
+COPY .yarnrc.yml /api
+COPY .yarn /api/.yarn
 
-RUN npm install
-COPY . /api
-
-RUN chown -R node:node /api
-
-USER node
+RUN yarn install
 
 CMD ["node", "app.js"]

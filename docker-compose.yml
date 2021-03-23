@@ -3,11 +3,11 @@ version: "2"
 services:
   api:
     build:
-      context: ./packages/api
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./packages/api/Dockerfile
     restart: unless-stopped
     volumes:
-      - "./packages/api:/api"
+      - "./.:/api"
     ports:
       - "3000:3000"
     networks:
