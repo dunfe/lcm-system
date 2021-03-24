@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: ./packages/api/Dockerfile
+    restart: always
     ports:
       - "3000:3000"
     networks:
