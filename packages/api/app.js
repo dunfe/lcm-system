@@ -8,6 +8,8 @@ import skillRoutes from './routes/skills.js';
 import mentorRoutes from './routes/mentors.js';
 import adminRoutes from './routes/admins.js';
 import staffRoutes from './routes/staff.js';
+import menteeRoutes from './routes/mentee.js';
+import paymentRouters from './routes/payment.js';
 import auth from './middleware/auth.js';
 import cookieSession from 'cookie-session';
 import passport from 'passport';
@@ -35,10 +37,12 @@ app.use('/api/protected', auth, (req, res) => {
     res.end(`Hi ${req.user.username}, you are authenticated!`);
 });
 
-app.use('/staff', staffRoutes);
+app.use('/api/staff', staffRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/admin', skillRoutes);
-app.use('/admin', adminRoutes);
+app.use('/api/admin',skillRoutes);
+app.use('/api/admin',adminRoutes);
+app.use('/api/mentee',menteeRoutes);
+app.use('/api/payment', paymentRouters);
 app.use('/', mentorRoutes);
 
 app.all('*', (req, res, next) => {
