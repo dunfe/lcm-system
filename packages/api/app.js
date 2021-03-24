@@ -8,6 +8,8 @@ import skillRoutes from './routes/skills.js';
 import mentorRoutes from './routes/mentors.js';
 import adminRoutes from './routes/admins.js';
 import staffRoutes from './routes/staff.js';
+import menteeRoutes from './routes/mentee.js';
+import paymentRouters from './routes/payment.js';
 import auth from './middleware/auth.js';
 import cookieSession from 'cookie-session';
 import passport from 'passport';
@@ -37,8 +39,10 @@ app.use('/api/protected', auth, (req, res) => {
 
 app.use('/api/staff', staffRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/admin', skillRoutes);
-app.use('/api/admin', adminRoutes);
+app.use('/api/admin',skillRoutes);
+app.use('/api/admin',adminRoutes);
+app.use('/api/mentee',menteeRoutes);
+app.use('/api/payment', paymentRouters);
 app.use('/api/mentor', mentorRoutes);
 
 app.all('*', (req, res, next) => {
@@ -66,7 +70,7 @@ app.use(function (req, res, next) {
 });
 // Connect to MongoDB
 
-let PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV === 'test') {
     PORT = 9999;
@@ -81,24 +85,26 @@ if (process.env.NODE_ENV === 'test') {
         useCreateIndex: true
     }).then(() => {
         console.log('Connected to mongoDB');
-        return app.listen(9999);
+        app.listen(9999);
     })
         .then(() => console.log(`server running on port ${PORT}`))
         .catch(err => console.log(err.message));
 } else {
     mongoose.connect(process.env.MONGODB_URI, {
+        auth: {
+            user: 'admin',
+            password: 'BbYS998aXvXRWgA'
+        },
         useFindAndModify: false,
         useNewUrlParser: true,
         useUnifiedTopology: true,
     }).then(() => {
         console.log('Connected to mongoDB');
-        return app.listen(3000);
+        app.listen(3000);
     })
         .then(() => console.log('server running on port 3000'))
         .catch(err => console.log(err.message));
 }
 
 // db.connectDB;
-
-
 export default app;
