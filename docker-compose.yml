@@ -1,20 +1,6 @@
 version: "2"
 
 services:
-  nginx:
-    image: nginx:1.17-alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - "./nginx:/etc/nginx/conf.d"
-      - "./certbot:/etc/letsencrypt"
-      - "./certbot/www:/var/www/certbot"
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - "./certbot:/etc/letsencrypt"
-      - "./certbot/www:/var/www/certbot"
   api:
     build:
       context: .
