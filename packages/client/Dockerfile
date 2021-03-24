@@ -14,5 +14,4 @@ RUN yarn workspace client build
 # production
 FROM nginx:1.17-alpine as production-stage
 COPY --from=build-stage /client/packages/client/build /usr/share/nginx/html
-COPY client.conf /etc/nginx/conf.d
 CMD ["nginx", "-g", "daemon off;"]
