@@ -43,8 +43,9 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    skill: [{type: String}],
-    bio: { type: String},
+    github: { type: String, default:"" },
+    skill: [{type: String, default:"" }],
+    bio: { type: String, default:"" },
     rate: 
         {
             totalRating1: {type: Number, default: 0},

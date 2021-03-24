@@ -5,9 +5,13 @@ const requestSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input request title!']
     },
-    createdBy: {
+    createdId: {
         type: String,
         required: [true, 'Please input id of creator!']
+    },
+    createdName: {
+        type: String,
+        required: [true, 'Please input name of creator!']
     },
     receivedBy: { type: String, default: "admin" },
     content: {
@@ -16,7 +20,7 @@ const requestSchema = new mongoose.Schema({
      },
     picture: String,
     createAt: { type: Date, default: Date.now},
-    note: { type: String }
+    status: { type: String, enum:["approved","unapproved"], default: "unapproved" }
 });
 
 var request = mongoose.model('request', requestSchema);

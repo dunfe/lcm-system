@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
+import {uniqBy} from '../controller/question.js'
 import User from '../models/user.js';
-
+import Question from '../models/question.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -52,6 +52,35 @@ export function getAllMentor(model) {
       }
     }
   }
+
+export const listMentorSuggestion = async (req,res) =>{
+    if(!ObjectId.isValid(req.params.id)) { 
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+    var listSkill = []
+    const questions = await Question.find({menteeId: req.params.id}).then((questions)=>{
+        for (var i = 0; i < questions.length; i++) {
+            listSkill = listSkill.concat(questions[i].skill);
+            listSkill = uniqBy(listSkill, JSON.stringify);
+          }
+    }) 
+    User.find({ role: "mentor",skill: { $in : listSkill} }, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'List Question For Mentor',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
 
 export const getMentorById = async (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
@@ -167,7 +196,6 @@ export const ratingMentor = async (req,res,next) =>{
         })
     };
     let star = parseInt(req.body.star);
-
     const currentMentee = await User.findById(req.body.currentUserId);
     const currentMentor = await User.findById(req.params.id);
     let totalRating1 = currentMentor.rate.totalRating1;
@@ -182,7 +210,6 @@ export const ratingMentor = async (req,res,next) =>{
     if(star == 5) totalRating5 = totalRating5 + 1;
     const avgRating = (totalRating1 + 2*totalRating2 + 3*totalRating3 + 4*totalRating4 + 5*totalRating5)/
                     (totalRating1 + totalRating2 + totalRating3 + totalRating4 + totalRating5);
-
     const rate = {
         totalRating1 : totalRating1,
         totalRating2 : totalRating2,
