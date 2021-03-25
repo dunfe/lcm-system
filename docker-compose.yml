@@ -19,7 +19,7 @@ services:
   client:
     build:
       context: .
-      dockerfile: ./packages/client/Dockerfile
+      dockerfile: Dockerfile
     restart: always
     volumes:
       - "./.:/client"
