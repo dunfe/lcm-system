@@ -2,8 +2,6 @@
 
 cd lcm-system
 
-git pull orgin master
+git pull
 
-docker-compose down
-docker-compose build
-docker-compose up
+docker-compose up -d --build
