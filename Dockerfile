@@ -22,6 +22,8 @@ COPY --from=build-stage /client/packages/client/build /usr/share/nginx/client/ht
 COPY --from=build-stage /client/packages/admin/build /usr/share/nginx/admin/html
 COPY --from=build-stage /client/packages/landing/dist /usr/share/nginx/landing/html
 COPY ./data/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./data/nginx/app.livecoding.me /etc/nginx/sites-available/
+RUN ln -s /etc/nginx/sites-available/app.livecoding.me /etc/nginx/sites-enabled/
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
