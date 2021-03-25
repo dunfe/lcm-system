@@ -13,7 +13,7 @@ ENV GENERATE_SOURCEMAP=false
 RUN yarn workspace client build
 
 # production
-FROM nginx:1.17-alpine as production-stage
+FROM nginx:latest as production-stage
 COPY --from=build-stage /client/packages/client/build /usr/share/nginx/html
 EXPOSE 80
 
