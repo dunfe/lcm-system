@@ -17,7 +17,6 @@ services:
     restart: always
     volumes:
       - "./.:/client"
-      - ./data/nginx:/etc/nginx/conf.d
     links:
       - api
     ports:
