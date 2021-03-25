@@ -49,4 +49,3 @@ services:
 networks:
   webappnetwork:
     driver: bridge
-    external: true
