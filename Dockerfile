@@ -21,7 +21,7 @@ FROM nginx:1.17-alpine as production-stage
 COPY --from=build-stage /client/packages/client/build /usr/share/nginx/client/html
 COPY --from=build-stage /client/packages/admin/build /usr/share/nginx/admin/html
 COPY --from=build-stage /client/packages/landing/dist /usr/share/nginx/landing/html
-COPY ./data/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./data/nginx /etc/nginx/conf.d/
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
