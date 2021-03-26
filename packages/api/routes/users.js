@@ -68,8 +68,8 @@ router.post(
                                     address: user.detail.address,
                                     avatar: user.detail.avatar,
                                     currentJob: user.detail.currentJob,
-                                    achievement: user.detail.achievement 
-                                }                            
+                                    achievement: user.detail.achievement
+                                }
                             }
                             return res.json({
                                 user: {
@@ -92,8 +92,8 @@ router.get('/google', passport.authenticate('google', { scope:['profile', 'email
 
 router.get('/google/redirect', (req, res, next) =>
     passport.authenticate('google', {
-        successRedirect: 'http://localhost:3001',
-        failureRedirect: 'http://localhost:3001/login'
+        successRedirect: 'https://app.livecoding.me',
+        failureRedirect: 'http://app.livecoding.me/login'
     }, (err, user) => {
 
         const body = {_id: user._id, username: user.username};
@@ -113,8 +113,8 @@ router.get('/google/redirect', (req, res, next) =>
                 address: user.detail.address,
                 avatar: user.detail.avatar,
                 currentJob: user.detail.currentJob,
-                achievement: user.detail.achievement 
-            }                          
+                achievement: user.detail.achievement
+            }
         }
         console.log(data)
         res.cookie('user', JSON.stringify({
@@ -123,7 +123,7 @@ router.get('/google/redirect', (req, res, next) =>
                 data
             }
         }))
-        res.redirect('http://localhost:3001');
+        res.redirect('http://app.livecoding.me');
     })(req, res, next)
 );
 
@@ -153,8 +153,8 @@ router.get('/facebook/redirect', (req, res, next) =>
                 address: user.detail.address,
                 avatar: user.detail.avatar,
                 currentJob: user.detail.currentJob,
-                achievement: user.detail.achievement 
-            }                             
+                achievement: user.detail.achievement
+            }
         }
         res.cookie('user', JSON.stringify({
             user: {
@@ -192,8 +192,8 @@ router.get('/github/redirect', (req, res, next) =>
                 address: user.detail.address,
                 avatar: user.detail.avatar,
                 currentJob: user.detail.currentJob,
-                achievement: user.detail.achievement 
-            }                            
+                achievement: user.detail.achievement
+            }
         }
         res.cookie('user', JSON.stringify({
             user: {
