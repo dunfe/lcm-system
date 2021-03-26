@@ -20,15 +20,15 @@ services:
         - ./data/certbot/www:/var/www/certbot
         - ./data/certbot/cloudflareapi.ini:/var/www/cloudflareapi.ini
       entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-#  api:
-#    build:
-#      context: .
-#      dockerfile: ./packages/api/Dockerfile
-#    restart: always
-#    ports:
-#      - "3000:3000"
-#    networks:
-#      - webappnetwork
+  api:
+    build:
+      context: .
+      dockerfile: ./packages/api/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - webappnetwork
   client:
     build:
       context: .
