@@ -1,13 +1,16 @@
-FROM node:14.16.0
+FROM node:14.16.0-alpine as build-stage
 
-RUN mkdir /src
+WORKDIR /api
 
-WORKDIR /src
-ADD package.json /src/package.json
-RUN npm install
+COPY yarn.lock /api
+COPY package.json /api
+COPY .yarnrc.yml /api
+COPY .yarn /api/.yarn
 
-COPY . /src
+COPY packages/api /api/packages/api/
+
+RUN yarn install
 
 EXPOSE 3000
 
-CMD ["node", "app.js"]
+CMD yarn start:api

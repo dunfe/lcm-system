@@ -12,4 +12,3 @@ router.put('/skills/:id', protect, restrictTo('admin'), updateSkill);
 router.delete('/skills/:id', protect, restrictTo('admin'), deleteSkill);
 
 export default router;
-
