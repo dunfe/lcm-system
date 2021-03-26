@@ -12,6 +12,8 @@ RUN yarn install
 
 COPY packages/client/package.json /client/packages/client/
 COPY packages/admin/package.json /client/packages/admin/
+COPY packages/client/craco.config.js /client/packages/client/
+COPY packages/admin/craco.config.js /client/packages/admin/
 COPY packages/landing/package.json /client/packages/landing/
 
 ENV GENERATE_SOURCEMAP=false
