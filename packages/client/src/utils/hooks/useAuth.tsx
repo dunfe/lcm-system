@@ -39,7 +39,11 @@ function useProvideAuth(): IUseAuthType {
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
   const signIn = (username: string, password: string) => {
-    return instance.post('/api/users/login', { username, password }).then((response) => {
+    return instance.post('/api/users/login', { username, password }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
       setUser(response.data);
       setLoading(false);
       Cookies.set('user', JSON.stringify(response.data));
