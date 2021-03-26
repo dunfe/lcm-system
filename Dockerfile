@@ -2,13 +2,17 @@ FROM node:14.16.0-alpine as build-stage
 
 WORKDIR /client
 
-COPY packages/client /client/packages/client/
-COPY packages/admin /client/packages/admin/
-COPY packages/landing /client/packages/landing/
+COPY packages/client/package.json /client/packages/client/
+COPY packages/admin/package.json /client/packages/admin/
+COPY packages/landing/package.json /client/packages/landing/
 COPY yarn.lock package.json .yarnrc.yml /client/
 COPY .yarn /client/.yarn
 
 RUN yarn install
+
+COPY packages/client/package.json /client/packages/client/
+COPY packages/admin/package.json /client/packages/admin/
+COPY packages/landing/package.json /client/packages/landing/
 
 ENV GENERATE_SOURCEMAP=false
 
