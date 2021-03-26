@@ -20,8 +20,4 @@ ENV GENERATE_SOURCEMAP=false
 
 RUN yarn workspace client build
 RUN yarn workspace admin build
-RUN yarn workspace landing build
-
-COPY /client/packages/client/build /usr/share/nginx/client/html
-COPY /client/packages/admin/build /usr/share/nginx/admin/html
-COPY /client/packages/landing/dist /usr/share/nginx/landing/html
+RUN yarn workspace landing buil
