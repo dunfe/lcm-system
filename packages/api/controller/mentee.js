@@ -148,6 +148,10 @@ export const delQuestionById = async (req, res) => {
     });
 }
 
+export const favoriteMentorById = async (req,res)=>{
+    
+}
+
 //view dashboard
 //point out and point in of mentee at router
 
