@@ -5,14 +5,17 @@ const questionSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input question title']
      },
-    createdBy: { 
+    menteeId: { 
         type: String,
         required: [true, 'Please input creator id']
     },
-    receivedBy: { 
-        type: String, 
-        required: [true, 'Please input receiver id']
+    menteeName: { 
+        type: String,
+        required: [true, 'Please input creator name']
     },
+    receivedBy: [
+        { type: String, default: "" }
+    ],
     point: {
         type: Number, 
         default: 15,

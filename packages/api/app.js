@@ -50,7 +50,7 @@ app.use('/api/admin',skillRoutes);
 app.use('/api/admin',adminRoutes);
 app.use('/api/mentee',menteeRoutes);
 app.use('/api/payment', paymentRouters);
-app.use('/', mentorRoutes);
+app.use('/api/mentor', mentorRoutes);
 
 app.all('*', (req, res, next) => {
     res.status(404).json({

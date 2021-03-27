@@ -1,29 +1,46 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
+import User from '../models/user.js'
 import Request from '../models/request.js';
-
+import {useridFromToken} from '../models/mentor.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
-export const createRequest = async (req, res) => {
+export const registerMentorRequest = async (req, res) => {
     if(!ObjectId.isValid(req.params.id)){
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
         })
     }
-    const user = await User.findById(req.params.id);
+    var userId = await useridFromToken(req,res);
+    const user = await User.findById(userId);
+    const formInput = {
+      skill: req.body.skill,
+      bio: req.body.bio,
+      github: req.body.github,
+      detail: {currentJob: req.body.currentJob, achievement: req.body.achievement},
+      modifieAt: Date.now()
+    }
     const request = new Request({
         title: req.body.title,
-        createdBy: user.fullname,
+        createdId: user._id,
+        createdName: user.fullname,
         receivedBy: req.body.receivedBy,
         content: req.body.content,
         picture: req.body.picture,
-        createdAt: req.body.createdAt,
-        note: req.body.note,
+        createdAt: req.body.createdAt
     });
-
+    User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
+      if(!err) {
+         
+      } else {
+          return res.status(400).json({
+              status: 'fail',
+              message: 'Something wrong, try again later'
+          })
+      };
+  });
     request.save((err, doc) => {
         if(!err) {
             return res.status(200).json({
@@ -37,6 +54,40 @@ export const createRequest = async (req, res) => {
             })
         };
     });
+};
+
+export const confirmRequestMentorRegister = async (req,res) =>{
+  if(!ObjectId.isValid(req.params.id)){
+    return res.status(400).json({
+        status: 'fail',
+        message: `Invalid request id ${req.params.id}`
+    })
+  }
+  const request = await Request.findById(req.params.id);
+  User.findByIdAndUpdate(request.createdId,{$set: {role: "mentor",level: 1}},{new:true}, (err, doc) => {
+    if(!err) {
+        
+    } else {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Something wrong, try again later'
+        })
+    };
+  });
+  Request.findByIdAndUpdate(req.params.id,{$set: {status: "approved"}},{new:true}, (err, doc) => {
+    if(!err) {
+        return res.status(200).json({
+            status: 'success',
+            data: doc
+        }); 
+    } else {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Something wrong, try again later'
+        })
+    };
+});
+
 };
 
 // export const getAllRequest = async (req, res) => {
