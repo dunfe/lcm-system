@@ -9,6 +9,8 @@ events: ## The Docker event types that you want to trigger alerts for
     - oom
     - destroy
     - create
+    - stop
+    - restart
   image:
     - delete
   plugin:
