@@ -2,7 +2,7 @@ import express from 'express';
 import {changePassword} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {viewListQuestionForMentor,createQuestion} from '../controller/question.js'
+import {createQuestion} from '../controller/question.js'
 import {listMentorSuggestion} from '../controller/mentor.js'
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
