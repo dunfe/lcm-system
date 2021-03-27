@@ -2,19 +2,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import Question from '../models/question.js';
+import user from '../models/user.js';
 import User from '../models/user.js';
-
+import {useridFromToken} from '../controller/mentor.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
+//chua sua (for future function)
 export const createQuestion = async (req, res) => {
-    if(!ObjectId.isValid(req.params.id)){
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    }
-    const mentee = await User.findById(req.params.id);
+    let userId = await useridFromToken(req,res);
+    const mentee = await User.findById(userId);
     const question = new Question({
         title: req.body.title,
         menteeId: mentee._id,
@@ -103,11 +100,17 @@ export const getQuestionById = (req, res) => {
 
 export const  totalQuestion = (req, res) => {
     Question.countDocuments({}, (err,doc)=> {
-        if (!err){
-            res.json('Total questions: '+ doc);
+        if(!err) {
+            return res.status(200).json({
+                status: 'List Question For Mentor',
+                data: doc
+            });
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
-        };
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
     });
 } ;
 
@@ -160,5 +163,36 @@ export const delQuestionById = async (req, res) =>{
     });
 }
 
+export const viewListQuestionForMentor = async (req, res) => {
+    let userId = await useridFromToken(req,res);
+    var listSkill = [];
+    const user = await User.find({role: "mentor", _id: userId }).then((users)=>{
+        for (var i = 0; i < users.length; i++) {
+            listSkill = listSkill.concat(users[i].skill);
+            listSkill = uniqBy(listSkill, JSON.stringify);
+          }
+    })
+    console.log(listSkill);
+    Question.find({ skill: { $in : listSkill},receivedBy: {$ne : userId} }, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'List Question For Mentor',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
 
+export function uniqBy(a, key) {
+    var seen = {};
+    return a.filter(function(item) {
+        var k = key(item);
+        return seen.hasOwnProperty(k) ? false : (seen[k] = true);
+    })
+}
 export default router;

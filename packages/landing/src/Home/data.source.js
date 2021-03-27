@@ -39,7 +39,7 @@ export const Nav00DataSource = {
         name: 'item3',
         className: 'header0-item',
         children: {
-          href: '#',
+          href: 'https://app.livecoding.me',
           children: [{ children: 'Đăng nhập', name: 'text' }],
         },
       },

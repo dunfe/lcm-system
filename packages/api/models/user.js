@@ -43,21 +43,22 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    skill: [{ type: String }],
-    bio: { type: String },
-    rate:
-    {
-        totalRating1: { type: Number, default: 0 },
-        totalRating2: { type: Number, default: 0 },
-        totalRating3: { type: Number, default: 0 },
-        totalRating4: { type: Number, default: 0 },
-        totalRating5: { type: Number, default: 0 },
-        avgRating: {
-            type: Number,
-            min: [0, 'Rating must be above 0.0'],
-            max: [5, 'Rating must be under 5.0']
-        }
-    },
+    github: { type: String, default:"" },
+    skill: [{type: String, default:"" }],
+    bio: { type: String, default:"" },
+    rate: 
+        {
+            totalRating1: {type: Number, default: 0},
+            totalRating2: {type: Number, default: 0},
+            totalRating3: {type: Number, default: 0},
+            totalRating4: {type: Number, default: 0},
+            totalRating5: {type: Number, default: 0},
+            avgRating: { 
+                type: Number,
+                min: [0, 'Rating must be above 0.0'],
+                max: [5, 'Rating must be under 5.0'] 
+            }
+        },
     requestDone: {
         type: Number,
         min: [0, 'Must be above 0']
@@ -74,7 +75,7 @@ const userSchema = new mongoose.Schema({
             content: {
                 type: String
             },
-            rate: {
+            star: {
                 type: Number,
                 min: [0, 'Rating must be above 0.0'],
                 max: [5, 'Rating must be under 5.0']
