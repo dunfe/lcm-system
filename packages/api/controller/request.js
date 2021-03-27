@@ -7,12 +7,6 @@ const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
 export const registerMentorRequest = async (req, res) => {
-    if(!ObjectId.isValid(req.params.id)){
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    }
     var userId = await useridFromToken(req,res);
     const user = await User.findById(userId);
     const formInput = {

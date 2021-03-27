@@ -10,12 +10,6 @@ const ObjectId = mongoose.Types.ObjectId;
 
 //chua sua (for future function)
 export const createQuestion = async (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    };
     let userId = await useridFromToken(req,res);
     const mentee = await User.findById(userId);
     const question = new Question({
