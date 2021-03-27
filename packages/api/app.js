@@ -44,14 +44,7 @@ app.use('/api/protected', auth, (req, res) => {
     res.end(`Hi ${req.user.username}, you are authenticated!`);
 });
 
-const corsOptions = {
-    origin: true,
-    credential: true
-}
-
-app.options('*', cors(corsOptions));
 app.use('/api/users', userRoutes);
-
 app.use('/api/staff', staffRoutes);
 app.use('/api/admin',skillRoutes);
 app.use('/api/admin',adminRoutes);
