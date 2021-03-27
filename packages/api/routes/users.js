@@ -135,8 +135,8 @@ router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }))
 
 router.get('/facebook/redirect', (req, res, next) =>
     passport.authenticate('facebook', {
-        successRedirect: 'http://localhost:3001',
-        failureRedirect: 'http://localhost:3001/login'
+        successRedirect: 'https://app.livecoding.me',
+        failureRedirect: 'https://app.livecoding.me/login'
     }, (err, user) => {
 
         const body = {_id: user._id, username: user.username};
@@ -164,8 +164,8 @@ router.get('/facebook/redirect', (req, res, next) =>
                 token,
                 data
             }
-        }))
-        res.redirect('http://localhost:3001');
+        }), {domain: '.livecoding.me', secure: true})
+        res.redirect('https://app.livecoding.me');
     })(req, res, next)
 );
 
@@ -174,8 +174,8 @@ router.get('/github', passport.authenticate('github', {scope: ['user:email']}));
 
 router.get('/github/redirect', (req, res, next) =>
     passport.authenticate('github', {
-        successRedirect: 'http://localhost:3001',
-        failureRedirect: 'http://localhost:3001/login'
+        successRedirect: 'https://app.livecoding.me',
+        failureRedirect: 'https://app.livecoding.me/login'
     }, (err, user) => {
 
         const body = {_id: user._id, username: user.username};
@@ -203,8 +203,8 @@ router.get('/github/redirect', (req, res, next) =>
                 token,
                 data
             }
-        }))
-        res.redirect('http://localhost:3001');
+        }), {domain: '.livecoding.me', secure: true})
+        res.redirect('https://app.livecoding.me');
     })(req, res, next)
 );
 

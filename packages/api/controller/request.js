@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user.js'
 import Request from '../models/request.js';
-import {useridFromToken} from '../models/mentor.js'
+import {useridFromToken} from '../controller/mentor.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
