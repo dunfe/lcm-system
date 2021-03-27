@@ -58,7 +58,7 @@ export function getAllMentor(model) {
 
 export const listMentorSuggestion = async (req,res) =>{
     let page = parseInt(req.query.page) || 1;
-    const limit = 5;
+    const limit = 1;
     const results = {}
     var userId = await useridFromToken(req,res);
     var listSkill = []
@@ -82,9 +82,15 @@ export const listMentorSuggestion = async (req,res) =>{
     }
     try {
         results.results = await User.find({ role: "mentor",skill: { $in : listSkill} }).limit(limit).skip(startIndex).exec();
-        return res.status(200).json(results);
+        return res.status(200).json({
+                status: 'success',
+                data: results
+            }); 
     } catch (e) {
-        res.status(500).json({ message: e.message })
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
     }
 }
 
