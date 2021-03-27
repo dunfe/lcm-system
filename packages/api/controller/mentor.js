@@ -58,12 +58,6 @@ export function getAllMentor(model) {
   }
 
 export const listMentorSuggestion = async (req,res) =>{
-    if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    };
     var userId = await useridFromToken(req,res);
     var listSkill = []
     const questions = await Question.find({menteeId: userId}).then((questions)=>{

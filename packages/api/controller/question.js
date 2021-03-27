@@ -10,12 +10,6 @@ const ObjectId = mongoose.Types.ObjectId;
 
 //chua sua (for future function)
 export const createQuestion = async (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    };
     let userId = await useridFromToken(req,res);
     const mentee = await User.findById(userId);
     const question = new Question({
@@ -147,12 +141,6 @@ export const delQuestionById = async (req, res) =>{
 }
 
 export const viewListQuestionForMentor = async (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    };
     let userId = await useridFromToken(req,res);
     var listSkill = [];
     const user = await User.find({role: "mentor", _id: userId }).then((users)=>{
@@ -162,7 +150,7 @@ export const viewListQuestionForMentor = async (req, res) => {
           }
     })
     console.log(listSkill);
-    Question.find({ skill: { $in : listSkill} }, (err, doc) => {
+    Question.find({ skill: { $in : listSkill},receivedBy: {$ne : userId} }, (err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'List Question For Mentor',
