@@ -217,7 +217,7 @@ router.get('/logout', (req, res) => {
 router.post('/:id/admin', changePassword);
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
-router.post('/ratingMentor/:id',ratingMentor);
+router.post('/ratingMentor/:id',protect,restrictTo('mentee'),ratingMentor);
 router.post('/registerMentorRequest',protect,restrictTo('mentee'),registerMentorRequest);
 router.post('/createQuestion',protect,restrictTo('mentee'),createQuestion);
 router.get('/listMentorSuggestion',protect,restrictTo('mentee'),listMentorSuggestion);
