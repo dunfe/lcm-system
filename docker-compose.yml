@@ -51,7 +51,7 @@ services:
     image: quaide/dem:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - conf.yml:/app/conf.yml
+      - ./conf.yml:/app/conf.yml
 networks:
   webappnetwork:
     driver: bridge
