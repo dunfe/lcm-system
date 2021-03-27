@@ -13,9 +13,9 @@ const questionSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input creator name']
     },
-    receivedBy: { 
-        type: String, default: "" 
-    },
+    receivedBy: [
+        { type: String, default: "" }
+    ],
     point: {
         type: Number, 
         default: 15,

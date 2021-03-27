@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 import {uniqBy} from '../controller/question.js'
 import User from '../models/user.js';
 import Question from '../models/question.js'
+import dotenv from 'dotenv'
+import { promisify } from 'util';
+import jwt from 'jsonwebtoken';
+dotenv.config();
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -60,8 +64,9 @@ export const listMentorSuggestion = async (req,res) =>{
             message: `Invalid id ${req.params.id}`
         })
     };
+    var userId = await useridFromToken(req,res);
     var listSkill = []
-    const questions = await Question.find({menteeId: req.params.id}).then((questions)=>{
+    const questions = await Question.find({menteeId: userId}).then((questions)=>{
         for (var i = 0; i < questions.length; i++) {
             listSkill = listSkill.concat(questions[i].skill);
             listSkill = uniqBy(listSkill, JSON.stringify);
@@ -70,7 +75,7 @@ export const listMentorSuggestion = async (req,res) =>{
     User.find({ role: "mentor",skill: { $in : listSkill} }, (err, doc) => {
         if(!err) {
             return res.status(200).json({
-                status: 'List Question For Mentor',
+                status: 'List Mentor Suggestion',
                 data: doc
             });
         } else {
@@ -79,6 +84,29 @@ export const listMentorSuggestion = async (req,res) =>{
                 message: 'Something wrong, try again later'
             })
         }
+    });
+}
+
+export const selectQuestion = async (req,res) =>{
+    if(!ObjectId.isValid(req.params.id)) { 
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+    var userId = await useridFromToken(req,res);
+    Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}},{new: true},(err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        };
     });
 }
 
@@ -239,4 +267,30 @@ export const ratingMentor = async (req,res,next) =>{
     });
 };
 
+export const useridFromToken = async (req,res)=>{
+    let token;
+    try {
+        // 1) Getting token and check of it's there
+        if (
+            req.headers.authorization &&
+            req.headers.authorization.startsWith('Bearer')
+        ) {
+            token = req.headers.authorization.split(' ')[1];
+        }
+        
+        if(!token) {
+            return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token'
+        })
+    }} catch (error) {
+        return res.json({
+            status: 'fail',
+            message: 'Invalid Token, check it again'
+        });
+    }
+    const decoded = await promisify(jwt.verify)(token, process.env.SECRET_KEY);
+    var userId = decoded.user._id;
+    return userId;
+}
 export default router;

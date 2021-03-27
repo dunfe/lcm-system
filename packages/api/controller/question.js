@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import Question from '../models/question.js';
 import user from '../models/user.js';
 import User from '../models/user.js';
-
+import {useridFromToken} from '../controller/mentor.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -16,7 +16,8 @@ export const createQuestion = async (req, res) => {
             message: `Invalid id ${req.params.id}`
         })
     };
-    const mentee = await User.findById(req.params.id);
+    let userId = await useridFromToken(req,res);
+    const mentee = await User.findById(userId);
     const question = new Question({
         title: req.body.title,
         menteeId: mentee._id,
@@ -146,13 +147,21 @@ export const delQuestionById = async (req, res) =>{
 }
 
 export const viewListQuestionForMentor = async (req, res) => {
+    if(!ObjectId.isValid(req.params.id)) { 
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+    let userId = await useridFromToken(req,res);
     var listSkill = [];
-    const user = await User.find({role: "mentor" }).then((users)=>{
+    const user = await User.find({role: "mentor", _id: userId }).then((users)=>{
         for (var i = 0; i < users.length; i++) {
             listSkill = listSkill.concat(users[i].skill);
             listSkill = uniqBy(listSkill, JSON.stringify);
           }
     })
+    console.log(listSkill);
     Question.find({ skill: { $in : listSkill} }, (err, doc) => {
         if(!err) {
             return res.status(200).json({

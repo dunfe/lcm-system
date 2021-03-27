@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user.js'
 import Request from '../models/request.js';
-
+import {useridFromToken} from '../models/mentor.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -13,7 +13,8 @@ export const registerMentorRequest = async (req, res) => {
             message: `Invalid id ${req.params.id}`
         })
     }
-    const user = await User.findById(req.params.id);
+    var userId = await useridFromToken(req,res);
+    const user = await User.findById(userId);
     const formInput = {
       skill: req.body.skill,
       bio: req.body.bio,
@@ -30,7 +31,7 @@ export const registerMentorRequest = async (req, res) => {
         picture: req.body.picture,
         createdAt: req.body.createdAt
     });
-    User.findByIdAndUpdate(req.params.id,{$set: formInput}, { new: true}, (err, doc) => {
+    User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
       if(!err) {
          
       } else {
