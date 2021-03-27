@@ -96,7 +96,7 @@ router.get('/google', passport.authenticate('google', { scope:['profile', 'email
 router.get('/google/redirect', (req, res, next) =>
     passport.authenticate('google', {
         successRedirect: 'https://app.livecoding.me',
-        failureRedirect: 'http://app.livecoding.me/login'
+        failureRedirect: 'https://app.livecoding.me/login'
     }, (err, user) => {
 
         const body = {_id: user._id, username: user.username};
@@ -125,7 +125,7 @@ router.get('/google/redirect', (req, res, next) =>
                 token,
                 data
             }
-        }), {domain: 'app.livecoding.me', secure: true})
+        }), {domain: '.livecoding.me', secure: true})
         res.redirect('https://app.livecoding.me');
     })(req, res, next)
 );
