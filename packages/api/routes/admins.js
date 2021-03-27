@@ -4,7 +4,7 @@ import User from '../models/user.js';
 import { getAllUser, getUserById, countAllRecord,delUserById, updateUserById } from '../controller/user.js';
 import { getAllMentor, getMentorById, getMentorByName, updateMentorById, delMentorById} from '../controller/mentor.js';
 import { createQuestion, getAllQuestions, getQuestionById, updateQuestionById, delQuestionById } from '../controller/question.js';
-import {createRequest, getAllRequest, getRequestById} from '../controller/request.js';
+import { getAllRequest, getRequestById} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
 
 const router = express.Router();

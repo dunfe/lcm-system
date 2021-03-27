@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const Goolge = () => (
+export const Google = () => (
     <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clipPath="url(#clip0)">
             <path d="M27.727 14.8225C27.727 13.8708 27.6499 12.914 27.4852 11.9777H14.28V17.3689H21.842C21.5282 19.1076 20.52 20.6457 19.0436 21.6231V25.1212H23.5551C26.2043 22.6828 27.727 19.0819 27.727 14.8225Z" fill="#4285F4" />
