@@ -122,8 +122,8 @@ router.get('/google/redirect', (req, res, next) =>
                 token,
                 data
             }
-        }))
-        res.redirect('http://app.livecoding.me');
+        }), {domain: 'app.livecoding.me', secure: true})
+        res.redirect('https://app.livecoding.me');
     })(req, res, next)
 );
 
