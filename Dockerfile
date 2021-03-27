@@ -20,4 +20,4 @@ ENV GENERATE_SOURCEMAP=false
 
 RUN yarn workspace client build
 RUN yarn workspace admin build
-RUN yarn workspace landing buil
+RUN yarn workspace landing build
