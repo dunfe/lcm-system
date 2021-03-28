@@ -1,9 +1,8 @@
 #!/bin/bash
 
-cd lcm-system
+cd lcm-system || exit
 
-git pull orgin master
+git reset --hard
+git pull
 
-docker-compose down
-docker-compose build
-docker-compose up
+docker-compose up -d --build

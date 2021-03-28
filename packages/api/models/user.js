@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     passportId: {
         type: String,
-        default:"",
+        default: "",
     },
     fullname: {
         type: String,
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
     loginType: {
         type: String,
-        default:"local"
+        default: "local"
     },
     role: {
         type: String,
@@ -43,8 +43,9 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    skill: [{type: String}],
-    bio: { type: String},
+    github: { type: String, default:"" },
+    skill: [{type: String, default:"" }],
+    bio: { type: String, default:"" },
     rate: 
         {
             totalRating1: {type: Number, default: 0},
@@ -62,14 +63,19 @@ const userSchema = new mongoose.Schema({
         type: Number,
         min: [0, 'Must be above 0']
     },
+    favoriteMentor: [
+        {
+            mentorId: { type: String, default: "" }
+        }
+    ],
     reviews: [
         {
             fromID: String,
-            name: {type: String},
+            name: { type: String },
             content: {
                 type: String
             },
-            rate: {
+            star: {
                 type: Number,
                 min: [0, 'Rating must be above 0.0'],
                 max: [5, 'Rating must be under 5.0']
@@ -77,27 +83,27 @@ const userSchema = new mongoose.Schema({
         }
     ],
     detail:
-        {
-            dob: { type: Date, default:""},
-            gender: { type: String, default:""},
-            phone: { type: String, default:""},
-            address: { type: String, default:""},
-            avatar: { type: String, default:""},
-            currentJob: { type: String, default:""},
-            achievement: [ { type: String} ],
-            totalQuestion: { type: Number,default: 0},
-        },
-    currentPoint: { type: Number, default: 0},
+    {
+        dob: { type: Date, default: "" },
+        gender: { type: String, default: "" },
+        phone: { type: String, default: "" },
+        address: { type: String, default: "" },
+        avatar: { type: String, default: "" },
+        currentJob: { type: String, default: "" },
+        achievement: [{ type: String }],
+        totalQuestion: { type: Number, default: 0 },
+    },
+    currentPoint: { type: Number, default: 0 },
     pointOutHistory: [
         {
-            method: { type: String, default:"",},
-            pointBefore: {type: Number,min: 0, default: 0},
-            pointAfter: {type: Number, min: 0, default: 0},
-            amount: { type: Number, min: 0, default: 0},
-            money: { type: Number, min: 0, default: 0},
-            ref: { type: String, default:"",},
-            note: { type: String, default:"",},
-            status: { type: String, default:"",},
+            method: { type: String, default: "", },
+            pointBefore: { type: Number, min: 0, default: 0 },
+            pointAfter: { type: Number, min: 0, default: 0 },
+            amount: { type: Number, min: 0, default: 0 },
+            money: { type: Number, min: 0, default: 0 },
+            ref: { type: String, default: "", },
+            note: { type: String, default: "", },
+            status: { type: String, default: "", },
             createAt: {
                 type: Date,
                 default: Date.now(),
@@ -105,15 +111,15 @@ const userSchema = new mongoose.Schema({
 
         }
     ],
-    pointInHistory:[
+    pointInHistory: [
         {
-            method:{ type: String, default:"",},
-            pointBefore: {type: Number,min: 0, default: 0},
-            pointAfter: {type: Number, min: 0, default: 0},
-            amount: { type: Number, min: 0, default: 0},
-            money: { type: Number, min: 0, default: 0},
-            ref: { type: String, default:"",},
-            note: { type: String, default:"",},
+            method: { type: String, default: "", },
+            pointBefore: { type: Number, min: 0, default: 0 },
+            pointAfter: { type: Number, min: 0, default: 0 },
+            amount: { type: Number, min: 0, default: 0 },
+            money: { type: Number, min: 0, default: 0 },
+            ref: { type: String, default: "", },
+            note: { type: String, default: "", },
             createAt: {
                 type: Date,
                 default: Date.now(),
@@ -124,7 +130,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
-    passwordResetToken: { type: String, default:"",},
+    passwordResetToken: { type: String, default: "", },
     passwordResetExpires: {
         type: Date,
         default: null,
@@ -135,7 +141,7 @@ const userSchema = new mongoose.Schema({
     },
     modifieAt: {
         type: Date,
-        default: undefined,  
+        default: undefined,
     }
 });
 
@@ -143,14 +149,14 @@ userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
 
-userSchema.methods.validPassword = async  function (password) {
+userSchema.methods.validPassword = async function (password) {
     const user = this;
     const compare = await bcrypt.compare(password, user.password);
-    return  compare
+    return compare
 };
 
-userSchema.pre('save', function(next){
-    if (!this.isModified('password') || this.isNew){
+userSchema.pre('save', function (next) {
+    if (!this.isModified('password') || this.isNew) {
         return next();
     }
 
@@ -158,20 +164,20 @@ userSchema.pre('save', function(next){
     next();
 });
 
-userSchema.methods.createPasswordResetToken = function() {
+userSchema.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex');
 
     this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
-    console.log({resetToken}, this.passwordResetToken);
+    console.log({ resetToken }, this.passwordResetToken);
 
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
     return resetToken;
 };
 
-userSchema.methods.changePasswordAter = function (JWTTimestamp){
-    if(this.passwordChangedAt) {
+userSchema.methods.changePasswordAter = function (JWTTimestamp) {
+    if (this.passwordChangedAt) {
         const changeTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
         console.log(changeTimestamp, JWTTimestamp);
         return JWTTimestamp < changeTimestamp;

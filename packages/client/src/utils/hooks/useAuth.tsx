@@ -16,7 +16,7 @@ interface IUseAuthType {
 }
 
 const authContext = createContext({});
-const instance = axios.create({ baseURL: 'http://localhost:3000' })
+const instance = axios.create({ baseURL: 'https://livecoding.me' })
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
@@ -39,7 +39,11 @@ function useProvideAuth(): IUseAuthType {
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
   const signIn = (username: string, password: string) => {
-    return instance.post('/api/users/login', { username, password }).then((response) => {
+    return instance.post('/api/users/login', { username, password }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
       setUser(response.data);
       setLoading(false);
       Cookies.set('user', JSON.stringify(response.data));
