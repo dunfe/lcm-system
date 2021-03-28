@@ -26,7 +26,6 @@ const ObjectId = mongoose.Types.ObjectId;
 export function getAllMentor(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
-    //   const limit = parseInt(req.query.limit)
       const limit = 50;
       const results = {}
       const data = await model.find({role : 'mentor'});
@@ -58,12 +57,9 @@ export function getAllMentor(model) {
   }
 
 export const listMentorSuggestion = async (req,res) =>{
-    if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    };
+    let page = parseInt(req.query.page) || 1;
+    const limit = 1;
+    const results = {}
     var userId = await useridFromToken(req,res);
     var listSkill = []
     const questions = await Question.find({menteeId: userId}).then((questions)=>{
@@ -71,20 +67,31 @@ export const listMentorSuggestion = async (req,res) =>{
             listSkill = listSkill.concat(questions[i].skill);
             listSkill = uniqBy(listSkill, JSON.stringify);
           }
-    }) 
-    User.find({ role: "mentor",skill: { $in : listSkill} }, (err, doc) => {
-        if(!err) {
-            return res.status(200).json({
-                status: 'List Mentor Suggestion',
-                data: doc
-            });
-        } else {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Something wrong, try again later'
-            })
-        }
-    });
+    })
+    const data = await User.find({ role: "mentor",skill: { $in : listSkill} });
+    const totalPage = Math.ceil(data.length/limit) ;
+    results.totalPage = totalPage;
+    if(page<1 || page > totalPage) page = 1;
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    if (endIndex < data.length) {
+        results.next = { page: page + 1 }
+    } 
+    if (startIndex > 0) {
+        results.previous = { page: page - 1 }
+    }
+    try {
+        results.results = await User.find({ role: "mentor",skill: { $in : listSkill} }).limit(limit).skip(startIndex).exec();
+        return res.status(200).json({
+                status: 'success',
+                data: results
+            }); 
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
 }
 
 export const selectQuestion = async (req,res) =>{

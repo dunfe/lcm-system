@@ -2,12 +2,13 @@ import express from 'express';
 import {changePassword} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {viewListQuestionForMentor,createQuestion} from '../controller/question.js'
+import {createQuestion} from '../controller/question.js'
 import {listMentorSuggestion} from '../controller/mentor.js'
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import {registerMentorRequest} from '../controller/request.js';
+import { protect, restrictTo} from '../controller/auth.js';
 dotenv.config();
 
 const router = express.Router();
@@ -216,8 +217,8 @@ router.get('/logout', (req, res) => {
 router.post('/:id/admin', changePassword);
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
-router.post('/ratingMentor/:id',ratingMentor);
-router.post('/registerMentorRequest/:id',registerMentorRequest);
-router.post('/createQuestion/:id',createQuestion);
-router.get('/listMentorSuggestion/:id',listMentorSuggestion);
+router.post('/ratingMentor/:id',protect,restrictTo('mentee'),ratingMentor);
+router.post('/registerMentorRequest',protect,restrictTo('mentee'),registerMentorRequest);
+router.post('/createQuestion',protect,restrictTo('mentee'),createQuestion);
+router.get('/listMentorSuggestion',protect,restrictTo('mentee'),listMentorSuggestion);
 export default router;
