@@ -12,10 +12,10 @@ function App(): JSX.Element {
     <ProvideAuth>
       <BrowserRouter>
         <Switch>
+          <Route path="/login" component={LoginPage} />
           <PrivateRoute path="/">
             <HomePage />
           </PrivateRoute>
-          <Route path="/login" component={LoginPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </BrowserRouter>

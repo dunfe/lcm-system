@@ -15,7 +15,7 @@ const {Sider, Content} = Layout;
 
 export function HomePage() {
     //check login
-    const {path, url} = useRouteMatch();
+    const {path} = useRouteMatch();
 
     return (
         <Layout style={{height: '100vh'}}>
@@ -54,7 +54,7 @@ export function HomePage() {
                             style={{padding: 24, minHeight: 360, backgroundColor: "white"}}
                         >
                             <Switch>
-                                <Route exact path={`${path}`}>
+                                <Route exact path={path}>
                                     <h3>Dashboard</h3>
                                 </Route>
                                 <Route path={`/skills`} component={Skills}/>
