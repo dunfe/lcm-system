@@ -5,21 +5,83 @@ import {
 } from '@ant-design/icons';
 import HeaderComponent from '../../components/Header/Header';
 import {
-    Switch,
-    Link,
-    Route, useRouteMatch,
+    Link, useRouteMatch,
 } from 'react-router-dom';
-import Skills from "../../components/Manage/Skills";
+import HomeContent from "../../components/Home/Content";
+import PageHeaderComponent from "../../components/Header/PageHeader";
+import {LogoContainer} from "../../components/Logo/LogoContainer";
+import {Logo} from "../../components/Logo/Logo";
+import axios from "axios";
+import {useAuth} from "../../utils/hooks/useAuth";
 
-const {Sider, Content} = Layout;
+const {Sider} = Layout;
+const {useState, useEffect} = React;
 
 export function HomePage() {
     //check login
     const {path} = useRouteMatch();
+    const [selectedKeys, setSelectedKeys] = useState([location.pathname]);
+    const [pageHeader, setPageHeader] = useState({
+        title: '',
+        subtitle: ''
+    });
+    const [addModalVisible, setAddModalVisible] = useState(false);
+    const auth = useAuth();
+    const instance = axios.create({
+        baseURL: 'https://livecoding.me',
+        headers: {
+            'Authorization': auth?.user?.user.token,
+        }
+    })
+
+    const onSelect = ({selectedKeys}: any) => {
+        setSelectedKeys(selectedKeys)
+    };
+
+    const onAdd = (values: any) => {
+        return instance.post('/api/admin/skills', values);
+    }
+
+    const HomeContentProps = {
+        path,
+        addModalVisible,
+        onAdd,
+        setAddModalVisible
+    }
+
+    useEffect(() => {
+        if (selectedKeys) {
+            switch (selectedKeys[0]) {
+                case '/skills':
+                    setPageHeader({
+                        title: 'Quản lý kỹ năng',
+                        subtitle: 'Thêm sửa xoá các loại kỹ năng'
+                    });
+                    break;
+                case '/mentees':
+                    setPageHeader({
+                        title: 'Quản lý Mentee',
+                        subtitle: ''
+                    });
+                    break;
+                case '/mentors':
+                    setPageHeader({
+                        title: 'Quản lý Mentor',
+                        subtitle: ''
+                    });
+                    break;
+                case '/feedback':
+                    setPageHeader({
+                        title: 'Quản lý feedback',
+                        subtitle: 'Giải quyết các feedback'
+                    });
+                    break;
+            }
+        }
+    }, [selectedKeys]);
 
     return (
         <Layout style={{height: '100vh'}}>
-            <HeaderComponent/>
             <Layout>
                 <Sider
                     breakpoint="lg"
@@ -27,49 +89,33 @@ export function HomePage() {
                     onCollapse={(collapsed, type) => {
                         console.log(collapsed, type);
                     }}
-                    theme="light"
+                    theme="dark"
                 >
-                    <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
-                        <Menu.Item key="1" icon={<DashboardOutlined/>}>
+                    <LogoContainer className="logo">
+                        <Logo />
+                    </LogoContainer>
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} onSelect={onSelect} selectedKeys={selectedKeys}>
+                        <Menu.Item key="/" icon={<DashboardOutlined/>}>
                             <Link to={`/`}>Dashboard</Link>
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<FormOutlined/>}>
+                        <Menu.Item key="/skills" icon={<FormOutlined/>}>
                             <Link to={`/skills`}>Quản lí kỹ năng</Link>
                         </Menu.Item>
-                        <Menu.Item key="3" icon={<TeamOutlined/>}>
+                        <Menu.Item key="/mentees" icon={<TeamOutlined/>}>
                             <Link to={`/mentees`}>Quản lí Mentee</Link>
                         </Menu.Item>
-                        <Menu.Item key="4" icon={<TeamOutlined/>}>
+                        <Menu.Item key="/mentors" icon={<TeamOutlined/>}>
                             <Link to={`/mentors`}>Quản lí Mentor</Link>
                         </Menu.Item>
-                        <Menu.Item key="5" icon={<CheckCircleOutlined/>}>
+                        <Menu.Item key="/feedbacks" icon={<CheckCircleOutlined/>}>
                             <Link to={`/feedbacks`}>Quản lí Feedback</Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>
-                    <Content style={{margin: '24px 16px 0'}}>
-                        <div
-                            className="site-layout-background"
-                            style={{padding: 24, minHeight: 360, backgroundColor: "white"}}
-                        >
-                            <Switch>
-                                <Route exact path={path}>
-                                    <h3>Dashboard</h3>
-                                </Route>
-                                <Route path={`/skills`} component={Skills}/>
-                                <Route path={`/mentees`}>
-                                    <h3>Quản lí Mentee</h3>
-                                </Route>
-                                <Route path={`/mentors`}>
-                                    <h3>Quản lí Mentor</h3>
-                                </Route>
-                                <Route path={`/feedbacks`}>
-                                    <h3>Quản lí Feedback</h3>
-                                </Route>
-                            </Switch>
-                        </div>
-                    </Content>
+                    <HeaderComponent/>
+                    {selectedKeys[0] !== '/' ? <PageHeaderComponent title={pageHeader.title} subTitle={pageHeader.subtitle} onAdd={setAddModalVisible}/> : null}
+                    <HomeContent {...HomeContentProps}/>
                 </Layout>
             </Layout>
         </Layout>
