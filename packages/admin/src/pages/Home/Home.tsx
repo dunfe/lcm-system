@@ -21,7 +21,7 @@ export function HomePage() {
   return (
     <>
       <Layout style={{ height: '100vh' }}>
-        <BrowserRouter>
+        <BrowserRouter basename={"/"}>
           <HeaderComponent />
           <Layout>
             <Sider

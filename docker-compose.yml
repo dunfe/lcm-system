@@ -1,13 +1,29 @@
 version: "2"
 
 services:
+  nginx:
+    image: nginx:1.19.8-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+      - admin-build:/usr/share/nginx/admin/html
+      - client-build:/usr/share/nginx/client/html
+      - landing-build:/usr/share/nginx/landing/html
+    links:
+      - api
+    networks:
+      - webappnetwork
   certbot:
-      image: certbot/dns-cloudflare
-      volumes:
-        - ./data/certbot/conf:/etc/letsencrypt
-        - ./data/certbot/www:/var/www/certbot
-        - ./data/certbot/cloudflareapi.ini:/var/www/cloudflareapi.ini
-      entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    image: certbot/dns-cloudflare
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+      - ./data/certbot/cloudflareapi.ini:/var/www/cloudflareapi.ini
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
   api:
     build:
       context: .
@@ -24,15 +40,22 @@ services:
     restart: always
     volumes:
       - "./.:/client"
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    links:
-      - api
+      - admin-build:/client/packages/admin/build
+      - client-build:/client/packages/client/build
+      - landing-build:/client/packages/landing/dist
     ports:
-      - "80:80"
-      - "443:443"
+      - "5000:80"
     networks:
       - webappnetwork
+  dem:
+    image: quaide/dem:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - conf.yml:/app/conf.yml
 networks:
   webappnetwork:
     driver: bridge
+volumes:
+  client-build:
+  admin-build:
+  landing-build:

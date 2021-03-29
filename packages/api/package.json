@@ -37,7 +37,8 @@
   "scripts": {
     "deploy": "pm2 start app.js",
     "start": "node app.js",
-    "test": "NODE_ENV=test mocha --recursive --exit"
+    "test": "NODE_ENV=test mocha --recursive --exit",
+    "dev:api": "nodemon app.js"
   },
   "devDependencies": {
     "@types/chai": "^4",
