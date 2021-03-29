@@ -58,6 +58,7 @@
     "@types/js-cookie": "^2",
     "@types/react-router-dom": "^5",
     "@types/styled-components": "^5",
-    "eslint": "^7.21.0"
+    "eslint": "^7.21.0",
+    "html-webpack-plugin": "^5.3.1"
   }
 }
