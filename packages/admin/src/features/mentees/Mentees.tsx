@@ -2,17 +2,14 @@ import * as React from "react";
 import {Table, Space, Modal, Form, Input, Button, message} from "antd";
 import axios from "axios";
 import {useAuth} from "../../utils/hooks/useAuth";
-import {DeleteOutlined} from "@ant-design/icons";
 
 interface IProps {
-    onAdd: (state: any) => Promise<any>;
     visible: boolean;
     setVisible: (state: boolean) => void;
 }
 
 const {useState, useEffect} = React;
 const {useForm} = Form;
-const {confirm} = Modal;
 
 const layout = {
     labelCol: { span: 4 },
@@ -22,8 +19,8 @@ const tailLayout = {
     wrapperCol: { offset: 4, span: 20 },
 };
 
-const Skills = (props: IProps) => {
-    const {onAdd, visible, setVisible} = props;
+const Mentees = (props: IProps) => {
+    const {visible, setVisible} = props;
     const [data, setData] = useState([]);
     const [confirmLoading, setConfirmLoading] = React.useState(false);
     const [mode, setMode] = useState('add');
@@ -41,8 +38,8 @@ const Skills = (props: IProps) => {
     const columns = [
         {
             title: 'Tên',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'fullname',
+            key: 'fullname',
         },
         {
             title: 'ID',
@@ -50,9 +47,9 @@ const Skills = (props: IProps) => {
             key: '_id',
         },
         {
-            title: 'Created at',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
         },
         {
             title: 'Hành động',
@@ -61,30 +58,10 @@ const Skills = (props: IProps) => {
             render(text: string, record: any) {
                 return <Space size="middle" key={record._id}>
                     <a onClick={() => onEdit(record._id)}>Edit</a>
-                    <a onClick={() => onDelete(record._id)}>Delete</a>
                 </Space>;
             },
         }
     ]
-
-    const onDelete = (id: string) => {
-        confirm({
-            title: 'Xác nhận?',
-            icon: <DeleteOutlined />,
-            content: 'Hành động này không thể khôi phục',
-            onOk() {
-                instance.delete(`/api/admin/skills/${id}`).then((response) => {
-                    if (response.status === 200) {
-                        getData();
-                        message.success("Xoá thành công").then();
-                    }
-                }).catch((error) => message.error(error.message))
-            },
-            onCancel() {
-                console.log('Huỷ');
-            },
-        });
-    }
 
     const onEdit = (id: string) => {
         setMode('update');
@@ -99,16 +76,16 @@ const Skills = (props: IProps) => {
     };
 
     const getData = () => {
-        instance.get('/api/admin/skills').then((response) => {
-            setData(response.data.skill);
+        instance.get('/api/admin/users').then((response) => {
+            setData(response.data.data);
         }).catch((error) => console.error(error.message));
-    }
+    };
 
     const onFinish = (values: any) => {
         setConfirmLoading(true);
 
         if (mode === 'update' && updateId !== '') {
-            instance.put(`/api/admin/skills/${updateId}`, values).then((response) => {
+            instance.put(`/api/admin/users/${updateId}`, values).then((response) => {
                 if (response.status === 200) {
                     getData();
                     message.success('Cập nhật thành công').then(() => {
@@ -116,15 +93,6 @@ const Skills = (props: IProps) => {
                     })
                 }
             }).catch((error) => message.error(error.message))
-        } else {
-            onAdd(values).then((response) => {
-                if (response.status === 200) {
-                    getData();
-                    message.success("Thêm thành công").then(() => {
-                        setVisible(false);
-                    })
-                }
-            }).catch((error) => message.error(error.message));
         }
 
         setConfirmLoading(false);
@@ -132,7 +100,7 @@ const Skills = (props: IProps) => {
 
     useEffect(() => {
         if (updateId !== '') {
-            instance.get(`/api/admin/skills/${updateId}`).then((response) => {
+            instance.get(`/api/admin/users/${updateId}`).then((response) => {
                 if (response.status === 200) {
                     setItemDetail(response.data.data);
                 }
@@ -148,12 +116,12 @@ const Skills = (props: IProps) => {
 
     useEffect(() => {
         getData();
-    }, [])
+    }, []);
 
     return (
         <>
             <Modal
-                title="Thêm kỹ năng"
+                title="Sửa thông tin"
                 visible={visible}
                 footer={null}
                 confirmLoading={confirmLoading}
@@ -169,23 +137,23 @@ const Skills = (props: IProps) => {
                     <Form.Item
                         label="Tên"
                         name="name"
-                        rules={[{ required: true, message: 'Vui lòng nhập tên kỹ năng' }]}
+                        rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            {mode === 'add' ? 'Thêm' : 'Cập nhật'}
+                            Cập nhật
                         </Button>
                     </Form.Item>
                 </Form>
             </Modal>
             <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
-                defaultPageSize: 50,
+                defaultPageSize: 10,
             }}/>
         </>
     )
 }
 
-export default Skills;
+export default Mentees;
