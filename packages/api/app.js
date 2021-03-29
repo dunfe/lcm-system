@@ -99,6 +99,7 @@ if (process.env.NODE_ENV === 'test') {
         useFindAndModify: false,
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true
     }).then(() => {
         console.log('Connected to mongoDB');
         app.listen(3000);
