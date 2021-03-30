@@ -2,7 +2,7 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-
+import {useridFromToken} from '../controller/mentor.js'
 import User from '../models/user.js';
 import Question from '../models/question.js';
 import Mentor from '../models/mentor.js';
@@ -212,6 +212,29 @@ export const banUserById = async(req, res, next) => {
                 message: 'Something wrong, try again later'
             })
         }
+    });
+}
+
+export const selectMentor = async(req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)) { 
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+    var userId = await useridFromToken(req,res);
+    User.findByIdAndUpdate(userId,{$push : {matchingMentor:  req.params.id}},{new: true},(err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        };
     });
 }
 
