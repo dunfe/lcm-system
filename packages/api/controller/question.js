@@ -75,6 +75,29 @@ export const getQuestionById = (req, res) => {
     });
 };
 
+// export const getQuestionById = (req, res) => {
+//     if(!ObjectId.isValid(req.params.id)) { 
+//         return res.status(400).json({
+//             status: 'fail',
+//             message: `Invalid id ${req.params.id}`
+//         })
+//     };
+
+//     Question.findById(req.params.id, (err, doc) => {
+//         if (!err){
+//             return res.status(200).json({
+//                 status: 'success',
+//                 data: doc
+//             });
+//         } else {
+//             return res.status(400).json({
+//                 status: 'fail',
+//                 message: 'Something wrong, try again later'
+//             }) 
+//         };
+//     });
+// };
+
 export const  totalQuestion = (req, res) => {
     Question.countDocuments({}, (err,doc)=> {
         if(!err) {

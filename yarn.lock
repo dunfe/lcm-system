@@ -6259,7 +6259,7 @@ __metadata:
     jsonwebtoken: ^8.5.1
     mailgun-js: ^0.22.0
     mocha: ^8.3.2
-    mongoose: ^5.11.17
+    mongoose: 5.11.15
     nodemailer: ^6.5.0
     nodemon: ^2.0.7
     passport: ^0.4.1
@@ -8129,6 +8129,7 @@ __metadata:
     craco-antd: ^1.19.0
     eslint: ^7.21.0
     eslint-plugin-react: latest
+    html-webpack-plugin: ^5.3.1
     js-cookie: ^2.2.1
     monaco-editor-webpack-plugin: ^3.0.0
     msw: ^0.27.1
@@ -13133,6 +13134,21 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"html-webpack-plugin@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "html-webpack-plugin@npm:5.3.1"
+  dependencies:
+    "@types/html-minifier-terser": ^5.0.0
+    html-minifier-terser: ^5.0.1
+    lodash: ^4.17.20
+    pretty-error: ^2.1.1
+    tapable: ^2.0.0
+  peerDependencies:
+    webpack: ^5.20.0
+  checksum: 2d744cf3144686cc4b786dac8fbbce3733dd1825a99efea2f289b54e47201f8431df56114d72eb87cf4f78aa8dede6ea5ee09904313dbd72209dc3a43a804b51
+  languageName: node
+  linkType: hard
+
 "htmlparser2@npm:^3.10.0, htmlparser2@npm:^3.10.1":
   version: 3.10.1
   resolution: "htmlparser2@npm:3.10.1"
@@ -17531,9 +17547,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mongodb@npm:3.6.4":
-  version: 3.6.4
-  resolution: "mongodb@npm:3.6.4"
+"mongodb@npm:3.6.3":
+  version: 3.6.3
+  resolution: "mongodb@npm:3.6.3"
   dependencies:
     bl: ^2.2.1
     bson: ^1.1.4
@@ -17557,7 +17573,7 @@ fsevents@^1.2.7:
       optional: true
     snappy:
       optional: true
-  checksum: f2331e7cdce7694b033346f898af9429bab53505ffc1175cb66e370eecc26eb3ae08d950f57ee6ca0be1a4d24f735c40ac758f3e8f0f68826b43e7a36ed5f5bf
+  checksum: 85a80641803e75b93e76bb9e84c26429ec2c374e7138114562a25a6272880d1c18cf5dda21b8bd75c7dd110dac997d11572bb2da506c12c99c9faa4c668364c7
   languageName: node
   linkType: hard
 
@@ -17570,23 +17586,23 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mongoose@npm:5.12.0, mongoose@npm:^5.11.17":
-  version: 5.12.0
-  resolution: "mongoose@npm:5.12.0"
+"mongoose@npm:5.11.15":
+  version: 5.11.15
+  resolution: "mongoose@npm:5.11.15"
   dependencies:
     "@types/mongodb": ^3.5.27
     bson: ^1.1.4
     kareem: 2.3.2
-    mongodb: 3.6.4
+    mongodb: 3.6.3
     mongoose-legacy-pluralize: 1.0.2
     mpath: 0.8.3
-    mquery: 3.2.4
+    mquery: 3.2.3
     ms: 2.1.2
     regexp-clone: 1.0.0
     safe-buffer: 5.2.1
     sift: 7.0.1
     sliced: 1.0.1
-  checksum: c4cd4b884fbb5f81047d8bb15f93637b357a8e4af807e507defd3916c2f4fc4fc6161f38ebd722c5611237375f56238c112d58ac68f55ae55c17a4c4d360e35f
+  checksum: b8670af3ac998605a89e895ce859c5336ef1789a80992b03f3a95824f30c3d94c84f975975da34bd8c2e057d93ce57b70a2d337bddf6cbf0204896e503b3aa24
   languageName: node
   linkType: hard
 
@@ -17611,16 +17627,16 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mquery@npm:3.2.4":
-  version: 3.2.4
-  resolution: "mquery@npm:3.2.4"
+"mquery@npm:3.2.3":
+  version: 3.2.3
+  resolution: "mquery@npm:3.2.3"
   dependencies:
     bluebird: 3.5.1
     debug: 3.1.0
     regexp-clone: ^1.0.0
     safe-buffer: 5.1.2
     sliced: 1.0.1
-  checksum: 80410d4e80b40730b0121315e34b33a37a7e468b9c9d517072b7b5e7f6fd00f04a42b3cffa458f5b4b71433f2313e9e227d4a507f3c66a7646fe153e153158fb
+  checksum: 4eecfd75bfd1f0094e24aa5905df70e96e630f002a3fbee5b0443cd56e21720930a8f38f8afff6a7d4318fcb3d04317d632bca2f7a06c3facd3913365bc32420
   languageName: node
   linkType: hard
 
@@ -25109,6 +25125,13 @@ resolve@1.18.1:
   version: 1.1.3
   resolution: "tapable@npm:1.1.3"
   checksum: b2c2ab20260394b867fd249d8b6ab3e4645e00f9cce16b558b0de5a86291ef05f536f578744549d1618c9032c7f99bc1d6f68967e4aa11cb0dca4461dc4714bc
+  languageName: node
+  linkType: hard
+
+"tapable@npm:^2.0.0":
+  version: 2.2.0
+  resolution: "tapable@npm:2.2.0"
+  checksum: f8ed725aedb3d777bf908ff06c02d1a2108667d3e64af87dd45354ac8de67e7e4fe1a567e215057fb1a2a5437b31d80cc5e5ddbb8327f7280afd4494967a9a93
   languageName: node
   linkType: hard
 

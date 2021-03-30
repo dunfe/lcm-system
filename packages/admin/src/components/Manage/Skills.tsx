@@ -8,23 +8,27 @@ const {useState, useEffect} = React;
 
 const columns = [
     {
-        title: 'ID',
-        dataIndex: '_id',
-        key: 'index',
+        title: 'Tên',
+        dataIndex: 'name',
+        key: 'name',
     },
     {
-        title: 'Tên',
-        dataIndex: 'skill_name',
-        key: 'name',
+        title: 'ID',
+        dataIndex: '_id',
+        key: '_id',
+    },
+    {
+        title: 'Created at',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
     },
     {
         title: 'Hành động',
         dataIndex: 'action',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        render(text, record) {
-            return <Space size="middle">
-                <a>Edit {record.name}</a>
+        key: 'action',
+        render(text: string, record: any) {
+            return <Space size="middle" key={record._id}>
+                <a>Edit</a>
                 <a>Delete</a>
             </Space>;
         },
@@ -34,20 +38,20 @@ const Skills = () => {
     const [data, setData] = useState([]);
     const auth = useAuth();
     const instance = axios.create({
-        baseURL: 'http://localhost:3000',
+        baseURL: 'https://livecoding.me',
         headers: {
             'Authorization': auth?.user?.user.token,
         }
     })
 
     useEffect(() => {
-        instance.get('/admin/skills/all').then((response) => {
-            setData(response.data.data);
+        instance.get('/api/admin/skills').then((response) => {
+            setData(response.data.skill);
         }).catch((error) => console.error(error.message));
     }, [])
 
     return (
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} rowKey={'_id'}/>
     )
 }
 
