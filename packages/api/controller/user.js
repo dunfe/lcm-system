@@ -17,20 +17,38 @@ export const getSignToken = user => {
     }, process.env.SECRET_KEY, { expiresIn: '60d'});
 };
 
-export const getAllUser = async (req, res) => {
-    try {
-        const data = await User.find({role : 'mentee', role: 'banned'});
-
-        return res.status(200).json({
-            status: 'success',
-            result: data.length,
-            data: data
-        })
-    } catch (error) {
-         return res.status(500).send(error.message);
+export function getAllMentee(model) {
+    return async (req, res) => {
+      let page = parseInt(req.query.page) || 1;
+      const limit = 50;
+      const results = {}
+      const data = await model.find({role : 'mentee'});
+      const totalPage = Math.ceil(data.length/limit) ;
+      results.totalPage = totalPage;
+      if(page<1 || page > totalPage) page = 1;
+      const startIndex = (page - 1) * limit
+      const endIndex = page * limit
+      if (endIndex < data.length) {
+        results.next = {
+          page: page + 1,
+          limit: limit
+        }
+      }
+      
+      if (startIndex > 0) {
+        results.previous = {
+          page: page - 1,
+          limit: limit
+        }
+      }
+      try {
+        results.results = await model.find({role : 'mentee'}).limit(limit).skip(startIndex).exec()
+        return res.status(200).json(results);
+      } catch (e) {
+        res.status(500).json({ message: e.message })
+      }
     }
-    
-};
+  }
 
 export const getUserById = (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
