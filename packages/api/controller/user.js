@@ -192,4 +192,27 @@ export const delUserById = async (req, res, next) => {
     });
 };
 
+export const banUserById = async(req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    User.findByIdAndUpdate(req.params.id, { $set: { role: 'banned' }}, { new: true}, (err, doc) => {
+        if(!err){
+            return res.status(200).json({
+                status: 'User has been banned',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
 export default router;
