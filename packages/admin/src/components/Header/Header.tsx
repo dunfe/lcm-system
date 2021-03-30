@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { UserOutlined } from '@ant-design/icons';
-import {LogoContainer} from "../Logo/LogoContainer";
-import {Logo} from "../Logo/Logo";
 
 const { Header } = Layout;
 const HeaderComponent = () => {
@@ -40,10 +38,7 @@ const HeaderComponent = () => {
   );
 
   return (
-    <StyledHeader className="site-layout-sub-header-background">
-        <LogoContainer className="logo">
-            <Logo />
-        </LogoContainer>
+    <StyledHeader className="site-layout-background">
         <Dropdown overlay={menu}>
         <div style={{ width: 50 }}>
           <Avatar src={auth.user?.user.data.detail.avatar} icon={<UserOutlined />} />
@@ -56,7 +51,7 @@ const HeaderComponent = () => {
 const StyledHeader = styled(Header)`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 `;
 
