@@ -2,7 +2,7 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-
+import {useridFromToken} from '../controller/mentor.js'
 import User from '../models/user.js';
 import Question from '../models/question.js';
 import Mentor from '../models/mentor.js';
@@ -17,20 +17,38 @@ export const getSignToken = user => {
     }, process.env.SECRET_KEY, { expiresIn: '60d'});
 };
 
-export const getAllUser = async (req, res) => {
-    try {
-        const data = await User.find();
-
-        return res.status(200).json({
-            status: 'success',
-            result: data.length,
-            data: data
-        })
-    } catch (error) {
-         return res.status(500).send(error.message);
+export function getAllMentee(model) {
+    return async (req, res) => {
+      let page = parseInt(req.query.page) || 1;
+      const limit = 50;
+      const results = {}
+      const data = await model.find({role : 'mentee'});
+      const totalPage = Math.ceil(data.length/limit) ;
+      results.totalPage = totalPage;
+      if(page<1 || page > totalPage) page = 1;
+      const startIndex = (page - 1) * limit
+      const endIndex = page * limit
+      if (endIndex < data.length) {
+        results.next = {
+          page: page + 1,
+          limit: limit
+        }
+      }
+      
+      if (startIndex > 0) {
+        results.previous = {
+          page: page - 1,
+          limit: limit
+        }
+      }
+      try {
+        results.results = await model.find({role : 'mentee'}).limit(limit).skip(startIndex).exec()
+        return res.status(200).json(results);
+      } catch (e) {
+        res.status(500).json({ message: e.message })
+      }
     }
-    
-};
+  }
 
 export const getUserById = (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
@@ -173,5 +191,51 @@ export const delUserById = async (req, res, next) => {
         }
     });
 };
+
+export const banUserById = async(req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    User.findByIdAndUpdate(req.params.id, { $set: { role: 'banned' }}, { new: true}, (err, doc) => {
+        if(!err){
+            return res.status(200).json({
+                status: 'User has been banned',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
+export const selectMentor = async(req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)) { 
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+    var userId = await useridFromToken(req,res);
+    User.findByIdAndUpdate(userId,{$push : {matchingMentor:  req.params.id}},{new: true},(err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        };
+    });
+}
 
 export default router;

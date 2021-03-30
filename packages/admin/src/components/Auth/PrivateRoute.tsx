@@ -16,7 +16,7 @@ const StyledLoading = styled.div`
 
 interface IProps {
   children: JSX.Element,
-  exact: boolean;
+  exact?: boolean;
   path: string;
 }
 
@@ -34,11 +34,12 @@ export const PrivateRoute = ({ children, ...rest }: IProps) => {
   return (
     <Route
       {...rest}
-      render={({ location }) =>
-        auth.user ? (
+      render={({location}) =>
+        auth.isAuthenticated ? (
           children
         ) : (
           <Redirect
+              exact
             to={{
               pathname: '/login',
               state: { from: location },

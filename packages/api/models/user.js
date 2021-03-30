@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["mentee", "admin", "mentor", "staff"],
+        enum: ["mentee", "admin", "mentor", "staff", "banned"],
         default: "mentee",
     },
     level: {
@@ -68,6 +68,9 @@ const userSchema = new mongoose.Schema({
             mentorId: { type: String, default: "" },
             mentorName: {type:String, default: ""}
         }
+    ],
+    matchingMentor: [
+         { type: String, default: "" }
     ],
     reviews: [
         {

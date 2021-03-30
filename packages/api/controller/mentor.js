@@ -61,14 +61,22 @@ export const listMentorSuggestion = async (req,res) =>{
     const limit = 1;
     const results = {}
     var userId = await useridFromToken(req,res);
-    var listSkill = []
+    var listSkill = [];
+    var listMatchingId = [];
+    const mentee = await User.find({_id : userId}).then((mentee)=>{
+        for (var i = 0; i < mentee.length; i++) {
+            listMatchingId = listMatchingId.concat(mentee[i].matchingMentor);
+            listMatchingId = uniqBy(listMatchingId, JSON.stringify);
+          }
+    })
+    console.log(listMatchingId)
     const questions = await Question.find({menteeId: userId}).then((questions)=>{
         for (var i = 0; i < questions.length; i++) {
             listSkill = listSkill.concat(questions[i].skill);
             listSkill = uniqBy(listSkill, JSON.stringify);
           }
     })
-    const data = await User.find({ role: "mentor",skill: { $in : listSkill} });
+    const data = await User.find({ role: "mentor",skill: { $in : listSkill}, _id : {$nin : listMatchingId} });
     const totalPage = Math.ceil(data.length/limit) ;
     results.totalPage = totalPage;
     if(page<1 || page > totalPage) page = 1;
@@ -81,7 +89,7 @@ export const listMentorSuggestion = async (req,res) =>{
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await User.find({ role: "mentor",skill: { $in : listSkill} }).limit(limit).skip(startIndex).exec();
+        results.results = await User.find({ role: "mentor",skill: { $in : listSkill}, _id : {$nin : listMatchingId} }).limit(limit).skip(startIndex).exec();
         return res.status(200).json({
                 status: 'success',
                 data: results
