@@ -21,8 +21,10 @@ export function getAllMentee(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
       const limit = 50;
-      const results = {}
-      const data = await model.find({role : 'mentee'});
+      const results = {};
+      const data = await model.find({
+        $or :[ {role : 'mentee'},{ role:'banned'}]
+      });
       const totalPage = Math.ceil(data.length/limit) ;
       results.totalPage = totalPage;
       if(page<1 || page > totalPage) page = 1;
@@ -42,7 +44,9 @@ export function getAllMentee(model) {
         }
       }
       try {
-        results.results = await model.find({role : 'mentee'}).limit(limit).skip(startIndex).exec()
+        results.results = await model.find({
+            $or :[ {role : 'mentee'},{ role:'banned'}]
+          }).limit(limit).skip(startIndex).exec()
         return res.status(200).json(results);
       } catch (e) {
         res.status(500).json({ message: e.message })
