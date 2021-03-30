@@ -2,7 +2,7 @@ import express from 'express';
 import Request from '../models/request.js';
 import Report from '../models/report.js'
 import User from '../models/user.js'; 
-import { getAllUser, getUserById, countAllRecord,delUserById, updateUserById, banUserById } from '../controller/user.js';
+import { getAllMentee, getUserById, countAllRecord,banUserById, updateUserById } from '../controller/user.js';
 import { getAllMentor, getMentorById, getMentorByName, updateMentorById, delMentorById} from '../controller/mentor.js';
 import { createQuestion, getAllQuestions, getQuestionById, updateQuestionById, delQuestionById } from '../controller/question.js';
 import { getAllRequest, getRequestById} from '../controller/request.js';
@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/dashboard", protect, restrictTo('admin'), countAllRecord);
 
 //Mentee
-router.get("/users", protect, restrictTo('admin'), getAllUser);
+router.get("/users", protect, restrictTo('admin'), getAllMentee(User));
 router.get("/users/:id", protect, restrictTo('admin'), getUserById);
 
 router.put('/users/:id', protect, restrictTo('admin'), updateUserById);

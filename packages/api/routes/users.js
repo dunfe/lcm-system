@@ -1,5 +1,5 @@
 import express from 'express';
-import {changePassword} from '../controller/user.js';
+import {changePassword,selectMentor} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
 import {createQuestion} from '../controller/question.js'
@@ -241,4 +241,5 @@ router.post('/ratingMentor/:id',protect,restrictTo('mentee'),ratingMentor);
 router.post('/registerMentorRequest',protect,restrictTo('mentee'),registerMentorRequest);
 router.post('/createQuestion',protect,restrictTo('mentee'),createQuestion);
 router.get('/listMentorSuggestion',protect,restrictTo('mentee'),listMentorSuggestion);
+router.post('/selectMentor/:id',protect,restrictTo('mentee'),selectMentor);
 export default router;

@@ -40,17 +40,37 @@ export const createQuestion = async (req, res) => {
 };
 
 export const getAllQuestions = async ( req, res) => {
-    try {
-        const data = await Question.find();
-        return res.status(200).json({
-            status: 'success',
-            result: data.length,
-            data: data
-        })
-    } catch (error) {
-        return res.status(500).send(error.message);
+    let page = parseInt(req.query.page) || 1;
+    const limit = 50;
+    const results = {}
+    const data = await Question.find();
+    const totalPage = Math.ceil(data.length/limit) ;
+    results.totalPage = totalPage;
+    if(page<1 || page > totalPage) page = 1;
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+      
+    if (endIndex < await Question.countDocuments().exec()) {
+        results.next = {
+          page: page + 1,
+          limit: limit
+        }
     }
-};
+      
+    if (startIndex > 0) {
+        results.previous = {
+          page: page - 1,
+          limit: limit
+        }
+    }
+    try {
+        results.results = await Question.find().limit(limit).skip(startIndex).exec()
+        return res.status(200).json(results);
+    } catch (e) {
+        res.status(500).json({ message: e.message })
+    }
+}
+
 
 export const getQuestionById = (req, res) => {
     if(!ObjectId.isValid(req.params.id)) { 
