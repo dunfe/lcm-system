@@ -15,8 +15,8 @@
     "rc-scroll-anim": "^2.5.6",
     "rc-texty": "^0.2.0",
     "rc-tween-one": "^2.2.14",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-sublime-video": "^0.2.5"
   },
   "devDependencies": {
