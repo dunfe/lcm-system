@@ -52,7 +52,12 @@ router.post(
                         {session: false},
                         async (error) => {
                             if (error) return next(error);
-
+                            if(user.role == 'banned') {
+                                return res.json({
+                                    status: 'banned',
+                                    message: 'User has been banned'
+                                })
+                            }
                             const body = {_id: user._id, username: user.username};
                             let token = "Bearer ";
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
@@ -99,7 +104,12 @@ router.get('/google/redirect', (req, res, next) =>
         successRedirect: 'https://app.livecoding.me',
         failureRedirect: 'https://app.livecoding.me/login'
     }, (err, user) => {
-
+        if(user.role == 'banned') {
+            return res.json({
+                status: 'banned',
+                message: 'User has been banned'
+            })
+        }
         const body = {_id: user._id, username: user.username};
         let token = "Bearer ";
         token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
@@ -139,7 +149,12 @@ router.get('/facebook/redirect', (req, res, next) =>
         successRedirect: 'https://app.livecoding.me',
         failureRedirect: 'https://app.livecoding.me/login'
     }, (err, user) => {
-
+        if(user.role == 'banned') {
+            return res.json({
+                status: 'banned',
+                message: 'User has been banned'
+            })
+        }
         const body = {_id: user._id, username: user.username};
         let token = "Bearer ";
         token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
@@ -178,7 +193,12 @@ router.get('/github/redirect', (req, res, next) =>
         successRedirect: 'https://app.livecoding.me',
         failureRedirect: 'https://app.livecoding.me/login'
     }, (err, user) => {
-
+        if(user.role == 'banned') {
+            return res.json({
+                status: 'banned',
+                message: 'User has been banned'
+            })
+        }
         const body = {_id: user._id, username: user.username};
         let token = "Bearer ";
         token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
