@@ -65,7 +65,8 @@ const userSchema = new mongoose.Schema({
     },
     favoriteMentor: [
         {
-            mentorId: { type: String, default: "" }
+            mentorId: { type: String, default: "" },
+            mentorName: {type:String, default: ""}
         }
     ],
     reviews: [
