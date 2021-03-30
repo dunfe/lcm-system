@@ -1,29 +1,26 @@
 {
-  "name": "common",
+  "name": "mentor",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "source": "src/App.tsx",
+  "private": true,
   "dependencies": {
-    "@ant-design/icons": "^4.6.2",
     "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.14.37",
     "antd": "^4.15.0",
+    "common": "workspace:*",
     "craco-antd": "^1.19.0",
-    "microbundle": "^0.13.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "typescript": "^4.1.2",
+    "typescript": "^4.2.3",
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
     "@types/testing-library__jest-dom": "^5"
   },
   "scripts": {
