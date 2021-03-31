@@ -15,9 +15,11 @@ RUN yarn install
 COPY packages/client /client/packages/client/
 COPY packages/admin /client/packages/admin/
 COPY packages/landing /client/packages/landing/
+COPY packages/mentor /client/packages/mentor/
 
 ENV GENERATE_SOURCEMAP=false
 
 RUN yarn workspace client build
 RUN yarn workspace admin build
 RUN yarn workspace landing build
+RUN yarn workspace mentor build

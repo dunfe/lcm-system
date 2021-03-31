@@ -4,13 +4,13 @@ import mongoose from 'mongoose';
 import Question from '../models/question.js';
 import user from '../models/user.js';
 import User from '../models/user.js';
-import {useridFromToken} from '../controller/mentor.js'
+import { useridFromToken } from '../controller/mentor.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
 //chua sua (for future function)
 export const createQuestion = async (req, res) => {
-    let userId = await useridFromToken(req,res);
+    let userId = await useridFromToken(req, res);
     const mentee = await User.findById(userId);
     const question = new Question({
         title: req.body.title,
@@ -25,7 +25,7 @@ export const createQuestion = async (req, res) => {
         note: req.body.note,
     });
     question.save((err, doc) => {
-        if(!err) {
+        if (!err) {
             return res.status(200).json({
                 status: 'List Question For Mentor',
                 data: doc
@@ -40,20 +40,40 @@ export const createQuestion = async (req, res) => {
 };
 
 export const getAllQuestions = async ( req, res) => {
-    try {
-        const data = await Question.find();
-        return res.status(200).json({
-            status: 'success',
-            result: data.length,
-            data: data
-        })
-    } catch (error) {
-        return res.status(500).send(error.message);
+    let page = parseInt(req.query.page) || 1;
+    const limit = 50;
+    const results = {}
+    const data = await Question.find();
+    const totalPage = Math.ceil(data.length/limit) ;
+    results.totalPage = totalPage;
+    if(page<1 || page > totalPage) page = 1;
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+      
+    if (endIndex < await Question.countDocuments().exec()) {
+        results.next = {
+          page: page + 1,
+          limit: limit
+        }
     }
-};
+      
+    if (startIndex > 0) {
+        results.previous = {
+          page: page - 1,
+          limit: limit
+        }
+    }
+    try {
+        results.results = await Question.find().limit(limit).skip(startIndex).exec()
+        return res.status(200).json(results);
+    } catch (e) {
+        res.status(500).json({ message: e.message })
+    }
+}
+
 
 export const getQuestionById = (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) { 
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -61,7 +81,7 @@ export const getQuestionById = (req, res) => {
     };
 
     Question.findById(req.params.id, (err, doc) => {
-        if (!err){
+        if (!err) {
             return res.status(200).json({
                 status: 'success',
                 data: doc
@@ -70,7 +90,7 @@ export const getQuestionById = (req, res) => {
             return res.status(400).json({
                 status: 'fail',
                 message: 'Something wrong, try again later'
-            }) 
+            })
         };
     });
 };
@@ -98,9 +118,9 @@ export const getQuestionById = (req, res) => {
 //     });
 // };
 
-export const  totalQuestion = (req, res) => {
-    Question.countDocuments({}, (err,doc)=> {
-        if(!err) {
+export const totalQuestion = (req, res) => {
+    Question.countDocuments({}, (err, doc) => {
+        if (!err) {
             return res.status(200).json({
                 status: 'List Question For Mentor',
                 data: doc
@@ -112,11 +132,11 @@ export const  totalQuestion = (req, res) => {
             })
         }
     });
-} ;
+};
 
 
 export const updateQuestionById = async (req, res, next) => {
-    if(!ObjectId.isValid(req.params.id)){
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -125,8 +145,8 @@ export const updateQuestionById = async (req, res, next) => {
 
     let question = req.body;
 
-    Question.findByIdAndUpdate(req.params.id, { $set: question}, { new: true}, (err, doc) => {
-        if(!err){
+    Question.findByIdAndUpdate(req.params.id, { $set: question }, { new: true }, (err, doc) => {
+        if (!err) {
             return res.status(200).json({
                 status: 'Update question success',
                 data: doc
@@ -140,8 +160,8 @@ export const updateQuestionById = async (req, res, next) => {
     });
 }
 
-export const delQuestionById = async (req, res) =>{
-    if(!ObjectId.isValid(req.params.id)){
+export const delQuestionById = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -149,7 +169,7 @@ export const delQuestionById = async (req, res) =>{
     };
 
     Question.findByIdAndRemove(req.params.id, (err, doc) => {
-        if(!err) {
+        if (!err) {
             return res.status(200).json({
                 status: 'Delete question success',
                 data: doc
@@ -163,47 +183,85 @@ export const delQuestionById = async (req, res) =>{
     });
 }
 
-export const viewListQuestionForMentor = async (req, res) => {
+export const viewListQuestionMenteeId = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
-    const limit = 1;
+    const limit = 50;
     const results = {}
-    let userId = await useridFromToken(req,res);
-    var listSkill = [];
-    const user = await User.find({role: "mentor", _id: userId }).then((users)=>{
+    let userId = await useridFromToken(req, res);
+    var listQuestion = [];
+    const user = await User.find({_id: userId }).then((users) => {
         for (var i = 0; i < users.length; i++) {
-            listSkill = listSkill.concat(users[i].skill);
-            listSkill = uniqBy(listSkill, JSON.stringify);
-          }
+            listQuestion = listQuestion.concat(users[i].menteeId);
+            listQuestion = uniqBy(listQuestion, JSON.stringify);
+        }
     })
-    const data = await Question.find({ skill: { $in : listSkill},receivedBy: {$ne : userId} });
-    const totalPage = Math.ceil(data.length/limit) ;
+    const data = await Question.find({menteeId: { $in: listQuestion } });
+    const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;
-    if(page<1 || page > totalPage) page = 1;
+    if (page < 1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
     if (endIndex < data.length) {
         results.next = { page: page + 1 }
-    } 
+    }
     if (startIndex > 0) {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({ skill: { $in : listSkill},receivedBy: {$ne : userId} }).limit(limit).skip(startIndex).exec();
+        results.results = await Question.find({menteeId: userId }).limit(limit).skip(startIndex).exec();
         return res.status(200).json({
             status: 'success',
             data: results
-        }); 
-} catch (e) {
-    return res.status(400).json({
-        status: 'fail',
-        message: e.message
-    })
+        });
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
 }
+
+export const viewListQuestionForMentor = async (req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    const limit = 1;
+    const results = {}
+    let userId = await useridFromToken(req, res);
+    var listSkill = [];
+    const user = await User.find({ role: "mentor", _id: userId }).then((users) => {
+        for (var i = 0; i < users.length; i++) {
+            listSkill = listSkill.concat(users[i].skill);
+            listSkill = uniqBy(listSkill, JSON.stringify);
+        }
+    })
+    const data = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId } });
+    const totalPage = Math.ceil(data.length / limit);
+    results.totalPage = totalPage;
+    if (page < 1 || page > totalPage) page = 1;
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    if (endIndex < data.length) {
+        results.next = { page: page + 1 }
+    }
+    if (startIndex > 0) {
+        results.previous = { page: page - 1 }
+    }
+    try {
+        results.results = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId } }).limit(limit).skip(startIndex).exec();
+        return res.status(200).json({
+            status: 'success',
+            data: results
+        });
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
 }
 
 export function uniqBy(a, key) {
     var seen = {};
-    return a.filter(function(item) {
+    return a.filter(function (item) {
         var k = key(item);
         return seen.hasOwnProperty(k) ? false : (seen[k] = true);
     })

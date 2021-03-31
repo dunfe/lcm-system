@@ -10,6 +10,7 @@ import adminRoutes from './routes/admins.js';
 import staffRoutes from './routes/staff.js';
 import menteeRoutes from './routes/mentee.js';
 import paymentRouters from './routes/payment.js';
+import collabRoomRouter from './routes/collabs.js';
 import auth from './middleware/auth.js';
 import cookieSession from 'cookie-session';
 import passport from 'passport';
@@ -51,6 +52,8 @@ app.use('/api/admin',adminRoutes);
 app.use('/api/mentee',menteeRoutes);
 app.use('/api/payment', paymentRouters);
 app.use('/api/mentor', mentorRoutes);
+app.use('/api/mentee', collabRoomRouter);
+app.use('/api/mentor', collabRoomRouter);
 
 app.all('*', (req, res, next) => {
     res.status(404).json({
@@ -99,6 +102,7 @@ if (process.env.NODE_ENV === 'test') {
         useFindAndModify: false,
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true
     }).then(() => {
         console.log('Connected to mongoDB');
         app.listen(3000);

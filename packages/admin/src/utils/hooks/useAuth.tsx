@@ -7,6 +7,7 @@ interface IUser {
   user: any;
 }
 interface IUseAuthType {
+  isAuthenticated: boolean;
   loading: boolean;
   user: IUser | null;
   signIn: (username: string, password: string) => Promise<boolean>;
@@ -14,7 +15,7 @@ interface IUseAuthType {
 }
 
 const authContext = createContext({});
-const instance = axios.create({ baseURL: 'http://localhost:3000' })
+const instance = axios.create({ baseURL: 'https://livecoding.me' })
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
@@ -33,6 +34,7 @@ export const useAuth = (): IUseAuthType => {
 function useProvideAuth(): IUseAuthType {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<IUser | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
@@ -40,6 +42,7 @@ function useProvideAuth(): IUseAuthType {
     return instance.post('/api/users/login', { username, password }).then((response) => {
       setUser(response.data);
       setLoading(false);
+      setIsAuthenticated(true);
       Cookies.set('user', JSON.stringify(response.data));
 
       return true;
@@ -55,6 +58,7 @@ function useProvideAuth(): IUseAuthType {
     return instance.get('/api/users/logout')
       .then(() => {
         setLoading(true);
+        setIsAuthenticated(false);
         setUser(null);
         Cookies.remove('user');
       })
@@ -71,8 +75,10 @@ function useProvideAuth(): IUseAuthType {
 
       if (_user) {
         setUser(JSON.parse(_user));
+        setIsAuthenticated(true);
       } else {
         setUser(null);
+        setIsAuthenticated(false);
       }
       setLoading(false);
     };
@@ -85,6 +91,7 @@ function useProvideAuth(): IUseAuthType {
 
   // Return the user object and auth methods
   return {
+    isAuthenticated,
     loading,
     user,
     signIn,
