@@ -2001,6 +2001,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@craco/craco@npm:^5.0.0":
+  version: 5.9.0
+  resolution: "@craco/craco@npm:5.9.0"
+  dependencies:
+    cross-spawn: ^7.0.0
+    lodash: ^4.17.15
+    webpack-merge: ^4.2.2
+  peerDependencies:
+    react-scripts: "*"
+  bin:
+    craco: bin/craco.js
+  checksum: ce064ea3bd46250710927747af8715e3507b3e773293bb7e9047805046f214d61ff881188749ad032966c081c245180756ceed0c24643a8f5c5791f5d2f5862f
+  languageName: node
+  linkType: hard
+
 "@craco/craco@npm:^6.1.1":
   version: 6.1.1
   resolution: "@craco/craco@npm:6.1.1"
@@ -9618,6 +9633,15 @@ __metadata:
     antd: ">= 3.0.0"
     react-scripts: ^3.4.3
   checksum: 3b9a0b902c1d1885860cec68f559886b270d6bd05e10b99c09875ad00db0dbcd5574ddd5e1be21565ee47f01a1c38aaa6570a6bbf6b6362b0eb711a31b3e2ac2
+  languageName: node
+  linkType: hard
+
+"craco-babel-loader@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "craco-babel-loader@npm:0.1.4"
+  dependencies:
+    "@craco/craco": ^5.0.0
+  checksum: 33278c1b7eeba3532aa400ee0e11370db9ce308ab57126ed06419848712cc881035b5460f0465e37c543b41a2759d3aa7b8580a7c56ad1d8b5e67970a47a7211
   languageName: node
   linkType: hard
 
@@ -17851,6 +17875,7 @@ fsevents@^1.2.7:
     antd: ^4.15.0
     common: "workspace:*"
     craco-antd: ^1.19.0
+    craco-babel-loader: ^0.1.4
     react: ^17.0.2
     react-dom: ^17.0.2
     react-scripts: 4.0.3
