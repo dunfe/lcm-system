@@ -461,7 +461,7 @@ export const Footer10DataSource = {
         title: { children: 'Trang chủ' },
         childWrapper: {
           children: [
-            { name: 'link0', href: '#', children: 'Trở thành người hướng dẫn' },
+            { name: 'link0', href: 'https://mentor.livecoding.me', children: 'Trở thành người hướng dẫn' },
             { name: 'link1', href: '#Feature8_0', children: 'Cách hoạt động' },
             { name: 'link2', href: '#Feature2_0', children: 'Tại sao chọn chúng tôi' },
             { name: 'link3', href: '#Teams1_0', children: 'Ý kiến người dùng' },
