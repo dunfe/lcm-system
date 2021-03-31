@@ -64,7 +64,10 @@ const userSchema = new mongoose.Schema({
         min: [0, 'Must be above 0']
     },
     favoriteMentor: [
-        { type: String, default: "" }
+        {
+            mentorId: { type: String, default: "" },
+            mentorName: {type:String, default: ""}
+        }
     ],
     matchingMentor: [
          { type: String, default: "" }
