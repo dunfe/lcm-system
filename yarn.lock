@@ -9149,7 +9149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"common@workspace:*, common@workspace:packages/common":
+"common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "common@workspace:packages/common"
   dependencies:
@@ -18051,7 +18051,6 @@ fsevents@^1.2.7:
     "@types/testing-library__jest-dom": ^5
     antd: ^4.15.0
     axios: ^0.21.1
-    common: "workspace:*"
     craco-antd: ^1.19.0
     craco-babel-loader: ^0.1.4
     react: ^17.0.2
