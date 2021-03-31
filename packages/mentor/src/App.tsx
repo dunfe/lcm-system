@@ -1,41 +1,74 @@
 import './App.css';
-import {Steps, Button, message} from "antd";
+import {Steps, Button} from "antd";
 import Info from "./components/Info";
 import * as React from "react";
-import { LogoContainer } from "common";
+import Skills from "./components/Skills";
+import Results from "./components/Results";
+import {useForm} from "antd/es/form/Form";
 
 const {Step} = Steps;
 const {useState} = React;
 
-const steps = [
-    {
-        title: 'Thông tin cơ bản',
-        content: <Info/>,
-    },
-    {
-        title: 'Kỹ năng',
-        content: 'Second-content',
-    },
-    {
-        title: 'Hoàn tất',
-        content: 'Last-content',
-    },
-];
-
 const App = () => {
     const [current, setCurrent] = useState(0);
+    const [finish, setFinish] = useState({
+        info: false,
+        skill: false
+    })
+    const [info] = useForm();
+    const [skill] = useForm();
+
+    const onInfoFinish = () => {
+        info.validateFields().then(() => {
+            setFinish({...finish, info: true});
+            setCurrent(current + 1);
+        });
+    }
+
+    const onSkillFinish = () => {
+        skill.validateFields().then(() => {
+            setFinish({...finish, skill: true})
+            setCurrent(current + 1);
+        })
+    }
+
+    const steps = [
+        {
+            title: 'Thông tin cơ bản',
+            content: <Info form={info}/>,
+        },
+        {
+            title: 'Kỹ năng',
+            content: <Skills form={skill}/>,
+        },
+        {
+            title: 'Hoàn tất',
+            content: <Results/>,
+        },
+    ];
 
     const next = () => {
-        setCurrent(current + 1);
+        switch (current) {
+            case 0:
+                onInfoFinish();
+                break;
+            case 1:
+                onSkillFinish();
+                break;
+            case 2:
+                if (finish.info && finish.skill) {
+                    setCurrent(current + 1);
+                }
+        }
     };
 
     const prev = () => {
         setCurrent(current - 1);
     };
 
+
     return (
         <div className="App">
-            <LogoContainer/>
             <div className="steps-container">
                 <Steps className="steps" current={current}>
                     {steps.map(item => (
@@ -50,11 +83,11 @@ const App = () => {
                         </Button>
                     )}
                     {current === steps.length - 1 && (
-                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                            Hoàn tất
+                        <Button type="primary">
+                            <a href={"https://livecoding.me"}>Hoàn tất</a>
                         </Button>
                     )}
-                    {current > 0 && (
+                    {current > 0 && current < 2 && (
                         <Button style={{margin: '0 8px'}} onClick={() => prev()}>
                             Trước
                         </Button>
