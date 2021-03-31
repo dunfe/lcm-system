@@ -2,8 +2,7 @@ import './App.css';
 import {Steps, Button, message} from "antd";
 import Info from "./components/Info";
 import * as React from "react";
-import {LogoContainer} from "common";
-import {Logo} from "common";
+import { LogoContainer } from "common";
 
 const {Step} = Steps;
 const {useState} = React;
@@ -23,7 +22,7 @@ const steps = [
     },
 ];
 
-function App() {
+const App = () => {
     const [current, setCurrent] = useState(0);
 
     const next = () => {
@@ -36,9 +35,7 @@ function App() {
 
     return (
         <div className="App">
-            <LogoContainer>
-                <Logo/>
-            </LogoContainer>
+            <LogoContainer/>
             <div className="steps-container">
                 <Steps className="steps" current={current}>
                     {steps.map(item => (

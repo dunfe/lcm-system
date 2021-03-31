@@ -1,9 +1,9 @@
 {
   "name": "common",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "source": "src/App.tsx",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "source": "index.ts",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@craco/craco": "^6.1.1",
@@ -13,24 +13,43 @@
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "antd": "^4.15.0",
+    "common": "^0.2.5",
     "craco-antd": "^1.19.0",
     "microbundle": "^0.13.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
+  "peerDependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.1.2"
+  },
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.13.13",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-typescript": "^8.2.1",
+    "@svgr/rollup": "^5.5.0",
+    "@types/babel__core": "^7",
+    "@types/babel__preset-env": "^7",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "@types/testing-library__jest-dom": "^5"
+    "@types/rollup-plugin-peer-deps-external": "^2",
+    "@types/testing-library__jest-dom": "^5",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.44.0",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
+    "build": "rollup -c",
+    "build-watch": "rollup -c -w",
+    "start-playground": "cd playground && npm run start",
+    "i-all": "npm i && cd playground && npm i",
+    "dev": "npm-run-all --parallel build-watch start-playground"
   },
   "eslintConfig": {
     "extends": [
