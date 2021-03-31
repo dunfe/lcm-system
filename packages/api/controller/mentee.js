@@ -1,8 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user.js';
-import Mentor from '../models/mentor.js';
-import Question from '../models/question.js';
 import { useridFromToken } from '../controller/mentor.js'
 import { uniqBy } from '../controller/question.js'
 
@@ -28,14 +26,14 @@ export const viewMenteeInfo = async (req, res) => {
     })
 }
 
-export const editOrUpdateUserById = async (req, res) => {
+export const editProfileUserById = async (req, res) => {
     let userId = await useridFromToken(req, res);
     let user = req.body;
 
     User.findOneAndUpdate({ _id: userId }, { $set: user }, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Update success',
+                status: 'Edit Profile Successful',
                 data: doc
             });
         } else {
@@ -57,7 +55,10 @@ export const addFavoriteMentorById = async (req, res) => {
         mentorName: currentMentor.fullname
     }
 
-    User.findByIdAndUpdate({ _id: userId }, { $push: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
+    User.findByIdAndUpdate({ _id: userId }, { $addToSet: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
+        if(favorite.mentorId ===favorite.mentorId){
+            console.log("A favorate mentor has been created!");
+        }
         if (!err) {
             return res.status(200).json({
                 status: 'success',
@@ -77,14 +78,15 @@ export const viewListFavoriteMentor = async (req, res) => {
     const limit = 50;
     const results = {}
     let userId = await useridFromToken(req, res);
-    var listFavorite = [];
-    const user = await User.find({ _id: userId }).then((users) => {
-        for (var i = 0; i < users.length; i++) {
-            listFavorite = listFavorite.concat(users[i].favoriteMentor);
-            listFavorite = uniqBy(listFavorite, JSON.stringify);
+    var favoriteMentor = [];
+    const mentee = await User.find({ _id: userId }).then((mentee) => {
+        for (var i = 0; i < mentee.length; i++) {
+            favoriteMentor = favoriteMentor.concat(mentee[i].favoriteMentor);
+            favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
         }
     })
-    const data = await User.find({ favoriteMentor: { $in: listFavorite } });
+    console.log(favoriteMentor);
+    let data = favoriteMentor;
     const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;
     if (page < 1 || page > totalPage) page = 1;
@@ -97,7 +99,8 @@ export const viewListFavoriteMentor = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await User.find({favoriteMentor:  userId }).limit(limit).skip(startIndex).exec();
+        const favoriteMentorPaging = favoriteMentor.slice(startIndex, endIndex);;
+        results.results = favoriteMentorPaging
         return res.status(200).json({
             status: 'success',
             data: results
