@@ -119,7 +119,7 @@ passport.use(
         // options for google strategy
         clientID: process.env.clientFbID,
         clientSecret: process.env.clientFbSecret,
-        callbackURL: 'http://localhost:3000/api/users/facebook/redirect',
+        callbackURL: 'api/users/facebook/redirect',
         profileFields: ['email','gender','locale','displayName']
     }, async (accessToken, refreshToken, profile, done) => {
         try {

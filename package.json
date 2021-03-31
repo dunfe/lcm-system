@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "@types/body-parser": "^1",
     "@types/concurrently": "^6",
     "lerna": "^4.0.0"
   },
@@ -28,6 +29,7 @@
     "deploy:api": "yarn workspace api deploy"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "concurrently": "^6.0.0",
     "util": "^0.12.3"
   }
