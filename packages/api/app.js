@@ -10,6 +10,7 @@ import adminRoutes from './routes/admins.js';
 import staffRoutes from './routes/staff.js';
 import menteeRoutes from './routes/mentee.js';
 import paymentRouters from './routes/payment.js';
+import messageRouters from './routes/messager.js';
 import auth from './middleware/auth.js';
 import cookieSession from 'cookie-session';
 import passport from 'passport';
@@ -51,6 +52,7 @@ app.use('/api/admin',adminRoutes);
 app.use('/api/mentee',menteeRoutes);
 app.use('/api/payment', paymentRouters);
 app.use('/api/mentor', mentorRoutes);
+app.use('/api/messager',messageRouters);
 
 app.all('*', (req, res, next) => {
     res.status(404).json({

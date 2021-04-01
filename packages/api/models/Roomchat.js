@@ -1,18 +1,23 @@
 import mongoose from 'mongoose';
-import user from './user.js'
 
 const room = new mongoose.Schema({
     name: { type: String, default: "" },
-    users: [user],
+    users: [
+        {
+            userId: { type: String, default: "" },
+            fullname: { type: String, default: "" }
+        }
+    ],
     messages: [
         {
             room: String,
-            user: user,
+            userId: { type: String, default: "" },
+            fullname: { type: String, default: "" },
             message_line: String,
             created_at: { type: Date, default: Date.now },
         }
     ],
-    created_at: Date,
+    created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
 });
 
