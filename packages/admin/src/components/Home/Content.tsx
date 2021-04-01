@@ -25,26 +25,26 @@ const HomeContent = (props: IProps) => {
                 <Route exact path={path}>
                     <Dashboard/>
                 </Route>
-                    <Route path={`/skills`}>
-                        <ContentWrapper>
-                            <Skills onAdd={onAdd} visible={addModalVisible} setVisible={setAddModalVisible}/>
-                        </ContentWrapper>
-                    </Route>
-                    <Route path={`/mentees`}>
-                        <ContentWrapper>
-                            <Mentees visible={addModalVisible} setVisible={setAddModalVisible}/>
-                        </ContentWrapper>
-                    </Route>
-                    <Route path={`/mentors`}>
-                        <ContentWrapper>
-                            <Mentors visible={addModalVisible} setVisible={setAddModalVisible}/>
-                        </ContentWrapper>
-                    </Route>
-                    <Route path={`/feedbacks`}>
-                        <ContentWrapper>
-                            <ListManager visible={addModalVisible} setVisible={setAddModalVisible}/>
-                        </ContentWrapper>
-                    </Route>
+                <Route path={`/skills`}>
+                    <ContentWrapper>
+                        <Skills onAdd={onAdd} visible={addModalVisible} setVisible={setAddModalVisible}/>
+                    </ContentWrapper>
+                </Route>
+                <Route path={`/mentees`}>
+                    <ContentWrapper>
+                        <Mentees visible={addModalVisible} setVisible={setAddModalVisible}/>
+                    </ContentWrapper>
+                </Route>
+                <Route path={`/mentors`}>
+                    <ContentWrapper>
+                        <Mentors visible={addModalVisible} setVisible={setAddModalVisible}/>
+                    </ContentWrapper>
+                </Route>
+                <Route path={`/feedbacks`}>
+                    <ContentWrapper>
+                        <ListManager visible={addModalVisible} setVisible={setAddModalVisible}/>
+                    </ContentWrapper>
+                </Route>
             </Switch>
         </Content>
     )
