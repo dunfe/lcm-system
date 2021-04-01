@@ -1,0 +1,20 @@
+0 silly argv {
+0 silly argv   _: [ 'add' ],
+0 silly argv   scope: 'mentor',
+0 silly argv   globs: [],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': 'node_modules\\lerna\\cli.js',
+0 silly argv   pkg: 'common'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath E:\Github\lcm-system
+3 info versioning independent
+4 error Error: Unsupported URL Type "workspace:": workspace:*
+4 error     at unsupportedURLType (E:\Github\lcm-system\node_modules\npm-package-arg\npa.js:203:15)
+4 error     at fromURL (E:\Github\lcm-system\node_modules\npm-package-arg\npa.js:261:13)
+4 error     at Function.resolve (E:\Github\lcm-system\node_modules\npm-package-arg\npa.js:80:12)
+4 error     at E:\Github\lcm-system\node_modules\@lerna\package-graph\index.js:66:30
+4 error     at Array.forEach (<anonymous>)
+4 error     at E:\Github\lcm-system\node_modules\@lerna\package-graph\index.js:60:38
+4 error     at Map.forEach (<anonymous>)
+4 error     at new PackageGraph (E:\Github\lcm-system\node_modules\@lerna\package-graph\index.js:49:10)
