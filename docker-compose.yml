@@ -13,6 +13,7 @@ services:
       - admin-build:/usr/share/nginx/admin/html
       - client-build:/usr/share/nginx/client/html
       - landing-build:/usr/share/nginx/landing/html
+      - mentor-build:/usr/share/nginx/mentor/html
     links:
       - api
     networks:
@@ -36,15 +37,49 @@ services:
   client:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./packages/client/Dockerfile
     restart: always
     volumes:
       - "./.:/client"
-      - admin-build:/client/packages/admin/build
       - client-build:/client/packages/client/build
-      - landing-build:/client/packages/landing/dist
     ports:
       - "5000:80"
+    networks:
+      - webappnetwork
+  admin:
+    build:
+      context: .
+      dockerfile: ./packages/admin/Dockerfile
+    restart: always
+    volumes:
+      - "./.:/admin"
+      - admin-build:/admin/packages/admin/build
+    ports:
+      - "5001:80"
+    networks:
+      - webappnetwork
+  landing:
+    build:
+      context: .
+      dockerfile: ./packages/landing/Dockerfile
+    restart: always
+    volumes:
+      - "./.:/landing"
+      - landing-build:/landing/packages/landing/dist
+    ports:
+      - "5002:80"
+    networks:
+      - webappnetwork
+  mentor:
+    build:
+      context: .
+      dockerfile: ./packages/mentor/Dockerfile
+    restart: always
+    volumes:
+      - "./.:/mentor"
+      - mentor-build:/mentor/packages/mentor/build
+    ports:
+      - "5003:80"
     networks:
       - webappnetwork
   dem:
@@ -59,3 +94,4 @@ volumes:
   client-build:
   admin-build:
   landing-build:
+  mentor-build:
