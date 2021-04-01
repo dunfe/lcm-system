@@ -2,7 +2,8 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import {useridFromToken} from '../controller/mentor.js'
+import { useridFromToken } from '../controller/mentor.js';
+import { uniqBy } from '../controller/question.js'
 import User from '../models/user.js';
 import Question from '../models/question.js';
 import Mentor from '../models/mentor.js';
@@ -14,72 +15,72 @@ const ObjectId = mongoose.Types.ObjectId;
 export const getSignToken = user => {
     return jwt.sign({
         id: user._id
-    }, process.env.SECRET_KEY, { expiresIn: '60d'});
+    }, process.env.SECRET_KEY, { expiresIn: '60d' });
 };
 
 export function getAllMentee(model) {
     return async (req, res) => {
-      let page = parseInt(req.query.page) || 1;
-      const limit = 50;
-      const results = {};
-      const data = await model.find({
-        $or :[ {role : 'mentee'},{ role:'banned'}]
-      });
-      const totalPage = Math.ceil(data.length/limit) ;
-      results.totalPage = totalPage;
-      if(page<1 || page > totalPage) page = 1;
-      const startIndex = (page - 1) * limit
-      const endIndex = page * limit
-      if (endIndex < data.length) {
-        results.next = {
-          page: page + 1,
-          limit: limit
+        let page = parseInt(req.query.page) || 1;
+        const limit = 50;
+        const results = {};
+        const data = await model.find({
+            $or: [{ role: 'mentee' }, { role: 'banned' }]
+        });
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        if (page < 1 || page > totalPage) page = 1;
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
+        if (endIndex < data.length) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            }
         }
-      }
-      
-      if (startIndex > 0) {
-        results.previous = {
-          page: page - 1,
-          limit: limit
+
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            }
         }
-      }
-      try {
-        results.results = await model.find({
-            $or :[ {role : 'mentee'},{ role:'banned'}]
-          }).limit(limit).skip(startIndex).exec()
-        return res.status(200).json(results);
-      } catch (e) {
-        res.status(500).json({ message: e.message })
-      }
+        try {
+            results.results = await model.find({
+                $or: [{ role: 'mentee' }, { role: 'banned' }]
+            }).limit(limit).skip(startIndex).exec()
+            return res.status(200).json(results);
+        } catch (e) {
+            res.status(500).json({ message: e.message })
+        }
     }
-  }
+}
 
 export const getUserById = (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) { 
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
         })
     };
 
-    User.findById( req.params.id, (err, doc) => {
-        if (!err){
+    User.findById(req.params.id, (err, doc) => {
+        if (!err) {
             return res.status(200).json({
                 status: 'success',
                 data: doc
-            }); 
+            });
         } else {
             return res.status(400).json({
                 status: 'fail',
                 message: 'Something wrong, try again later'
-            }) 
+            })
         };
     });
 };
 
 // export const getUserByName = (req, res) => {
 //     const name = req.body.display_name;
-    
+
 //     User.find({ "fullname" : {'$regex' : new RegExp(name, "i")}}, (err, doc) => {
 //         if(!err) {
 //             if(doc.toString() == ""){ 
@@ -93,16 +94,16 @@ export const getUserById = (req, res) => {
 //     })
 // };
 
-export const  countAllRecord = async (req, res) => {
+export const countAllRecord = async (req, res) => {
     var total_array = {
-        totalUser : 0,
+        totalUser: 0,
         totalMentor: 0,
-        totalQuestion : 0,
+        totalQuestion: 0,
         totalSkill: 0
     };
 
     await User.countDocuments((err, doc) => {
-        if (!err){ 
+        if (!err) {
             total_array.totalUser = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
@@ -110,7 +111,7 @@ export const  countAllRecord = async (req, res) => {
     });
 
     await Question.countDocuments((err, doc) => {
-        if (!err){ 
+        if (!err) {
             total_array.totalQuestion = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
@@ -118,14 +119,14 @@ export const  countAllRecord = async (req, res) => {
     });
 
     await Mentor.countDocuments((err, doc) => {
-        if (!err){ 
+        if (!err) {
             total_array.totalMentor = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
         };
     });
     await Skill.countDocuments((err, doc) => {
-        if (!err){ 
+        if (!err) {
             total_array.totalSkill = doc;
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
@@ -142,14 +143,14 @@ export const changePassword = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const newPasswordSalted = await bcrypt.hash(req.body.newPassword, salt);
         const userPassword = await User.findByIdAndUpdate({ _id: id }, { password: newPasswordSalted }, { new: true });
-        return res.status(200).json({status: true, data: userPassword});
+        return res.status(200).json({ status: true, data: userPassword });
     } catch (error) {
-        return res.status(400).json({ status: false, error: error.message});
+        return res.status(400).json({ status: false, error: error.message });
     }
 };
 
 export const updateUserById = async (req, res, next) => {
-    if(!ObjectId.isValid(req.params.id)){
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -158,8 +159,8 @@ export const updateUserById = async (req, res, next) => {
 
     let user = req.body;
 
-    User.findByIdAndUpdate(req.params.id, { $set: user}, { new: true}, (err, doc) => {
-        if(!err){
+    User.findByIdAndUpdate(req.params.id, { $set: user }, { new: true }, (err, doc) => {
+        if (!err) {
             return res.status(200).json({
                 status: 'Update success',
                 data: doc
@@ -174,7 +175,7 @@ export const updateUserById = async (req, res, next) => {
 }
 
 export const delUserById = async (req, res, next) => {
-    if(!ObjectId.isValid(req.params.id)){
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -182,7 +183,7 @@ export const delUserById = async (req, res, next) => {
     };
 
     User.findByIdAndRemove(req.params.id, (err, doc) => {
-        if(!err) {
+        if (!err) {
             return res.status(200).json({
                 status: 'Delete user success',
                 data: doc
@@ -196,16 +197,16 @@ export const delUserById = async (req, res, next) => {
     });
 };
 
-export const banUserById = async(req, res, next) => {
-    if(!ObjectId.isValid(req.params.id)){
+export const banUserById = async (req, res, next) => {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
         })
     };
 
-    User.findByIdAndUpdate(req.params.id, { $set: { role: 'banned' }}, { new: true}, (err, doc) => {
-        if(!err){
+    User.findByIdAndUpdate(req.params.id, { $set: { role: 'banned' } }, { new: true }, (err, doc) => {
+        if (!err) {
             return res.status(200).json({
                 status: 'User has been banned',
                 data: doc
@@ -219,20 +220,20 @@ export const banUserById = async(req, res, next) => {
     });
 }
 
-export const selectMentor = async(req, res, next) => {
-    if(!ObjectId.isValid(req.params.id)) { 
+export const selectMentor = async (req, res, next) => {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
         })
     };
-    var userId = await useridFromToken(req,res);
-    User.findByIdAndUpdate(userId,{$push : {matchingMentor:  req.params.id}},{new: true},(err, doc) => {
-        if(!err) {
+    var userId = await useridFromToken(req, res);
+    User.findByIdAndUpdate(userId, { $push: { matchingMentor: req.params.id } }, { new: true }, (err, doc) => {
+        if (!err) {
             return res.status(200).json({
                 status: 'success',
                 data: doc
-            }); 
+            });
         } else {
             return res.status(400).json({
                 status: 'fail',
@@ -240,6 +241,125 @@ export const selectMentor = async(req, res, next) => {
             })
         };
     });
+}
+
+export const viewUserInfo = async (req, res) => {
+    let userId = await useridFromToken(req, res);
+    User.find({ _id: userId }, (err, doc) => {
+        if (!err) {
+            return res.status(200).json({
+                status: 'Success',
+                data: doc
+            });
+
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again'
+            })
+        }
+    })
+}
+
+export const editProfileUserById = async (req, res) => {
+    let userId = await useridFromToken(req, res);
+    let user = req.body;
+
+    User.findOneAndUpdate({ _id: userId }, { $set: user }, { new: true }, (err, doc) => {
+        if (!err) {
+            return res.status(200).json({
+                status: 'Edit Profile Successful',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
+//Question of mentee 
+
+export const addFavoriteMentorById = async (req, res) => {
+    let userId = await useridFromToken(req, res);
+    const currentMentor = await User.findById(req.params.id);
+    const favorite = {
+        mentorId: currentMentor._id,
+        mentorName: currentMentor.fullname
+    }
+    let index;
+    var favoriteMentor = [];
+    const mentee = await User.find({ _id: userId }).then((mentee) => {
+        for (var i = 0; i < mentee.length; i++) {
+            favoriteMentor = favoriteMentor.concat(mentee[i].favoriteMentor);
+            favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
+        }
+    })
+
+    User.findByIdAndUpdate({ _id: userId }, { $set: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
+        if (favorite.mentorId === favorite.mentorId) {
+            for (var i; i <= favoriteMentor.length; i++) {
+                if (favoriteMentor.mentorId === currentMentor._id) {
+                    index = i;
+                }
+            }
+            console.log("A favorate mentor has been created!");
+        }
+        if (!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        };
+    })
+}
+
+
+export const viewListFavoriteMentor = async (req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    const limit = 50;
+    const results = {}
+    let userId = await useridFromToken(req, res);
+    var favoriteMentor = [];
+    const mentee = await User.find({ _id: userId }).then((mentee) => {
+        for (var i = 0; i < mentee.length; i++) {
+            favoriteMentor = favoriteMentor.concat(mentee[i].favoriteMentor);
+            favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
+        }
+    })
+    console.log(favoriteMentor);
+    let data = favoriteMentor;
+    const totalPage = Math.ceil(data.length / limit);
+    results.totalPage = totalPage;
+    if (page < 1 || page > totalPage) page = 1;
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    if (endIndex < data.length) {
+        results.next = { page: page + 1 }
+    }
+    if (startIndex > 0) {
+        results.previous = { page: page - 1 }
+    }
+    try {
+        const favoriteMentorPaging = favoriteMentor.slice(startIndex, endIndex);;
+        results.results = favoriteMentorPaging
+        return res.status(200).json({
+            status: 'success',
+            data: results
+        });
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
 }
 
 export default router;
