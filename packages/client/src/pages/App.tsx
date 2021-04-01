@@ -13,10 +13,10 @@ function App(): JSX.Element {
     <ProvideAuth>
       <Router>
         <Switch>
-          <PrivateRoute exact path="/">
+          <Route path="/login" component={LoginPage} />
+          <PrivateRoute path="/">
             <HomePage />
           </PrivateRoute>
-          <Route path="/login" component={LoginPage} />
           <Route path="/session" component={SessionPage} />
           <Route component={NotFoundPage} />
         </Switch>
