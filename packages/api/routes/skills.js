@@ -5,6 +5,7 @@ import { protect, restrictTo} from '../controller/auth.js';
 const router = express.Router();
 
 router.get('/skills', protect, restrictTo('admin'), getAllSkills);
+router.get('/skillsAll', protect, getAllSkills);
 router.get('/skills/:id', protect, restrictTo('admin'), getSkillById);
 
 router.post('/skills', protect, restrictTo('admin'), createSkill);

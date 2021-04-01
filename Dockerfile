@@ -4,9 +4,11 @@ WORKDIR /client
 
 COPY packages/client/package.json /client/packages/client/
 COPY packages/admin/package.json /client/packages/admin/
+COPY packages/mentor/package.json /client/packages/mentor/
 COPY packages/landing/package.json /client/packages/landing/
 COPY packages/client/craco.config.js /client/packages/client/
 COPY packages/admin/craco.config.js /client/packages/admin/
+COPY packages/mentor/craco.config.js /client/packages/mentor/
 COPY yarn.lock package.json .yarnrc.yml /client/
 COPY .yarn /client/.yarn
 
@@ -15,9 +17,11 @@ RUN yarn install
 COPY packages/client /client/packages/client/
 COPY packages/admin /client/packages/admin/
 COPY packages/landing /client/packages/landing/
+COPY packages/mentor /client/packages/mentor/
 
 ENV GENERATE_SOURCEMAP=false
 
 RUN yarn workspace client build
 RUN yarn workspace admin build
 RUN yarn workspace landing build
+RUN yarn workspace mentor build

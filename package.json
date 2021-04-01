@@ -11,14 +11,9 @@
     "@types/concurrently": "^6",
     "lerna": "^4.0.0"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ],
-    "installConfig": {
-      "hoistingLimits": "workspace"
-    }
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "install:all": "concurrently \"yarn workspace api install\" \"yarn workspace client install\"",
     "start": "concurrently \"yarn start:api\" \"yarn start:client\"",
@@ -31,6 +26,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "concurrently": "^6.0.0",
+    "typescript": "^4.2.3",
     "util": "^0.12.3"
   }
 }

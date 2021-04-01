@@ -1,9 +1,12 @@
 import express from 'express';
-import {changePassword,selectMentor} from '../controller/user.js';
+import {changePassword,selectMentor,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
 import {createQuestion} from '../controller/question.js'
 import {listMentorSuggestion} from '../controller/mentor.js'
+import {getAllSkills} from '../controller/skill.js';
+import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
+import {viewListQuestionMenteeId} from '../controller/question.js';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -61,7 +64,6 @@ router.post(
                             const body = {_id: user._id, username: user.username};
                             let token = "Bearer ";
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
-
                             // return res.json({ token, user });
                             const data = {
                                 _id: user._id,
@@ -242,4 +244,12 @@ router.post('/registerMentorRequest',protect,restrictTo('mentee'),registerMentor
 router.post('/createQuestion',protect,restrictTo('mentee'),createQuestion);
 router.get('/listMentorSuggestion',protect,restrictTo('mentee'),listMentorSuggestion);
 router.post('/selectMentor/:id',protect,restrictTo('mentee'),selectMentor);
+router.get('/userInfo',protect,restrictTo('mentee'),viewUserInfo);
+router.get('/viewListQuestion',protect,restrictTo('mentee'),viewListQuestionMenteeId);
+router.put('/editUser',protect,restrictTo('mentee'),editProfileUserById);
+router.put('/addFavorite/:id',protect,restrictTo('mentee'),addFavoriteMentorById);
+router.get('/listFavorite',protect,restrictTo('mentee'),viewListFavoriteMentor);
+router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);
+router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionById);
+router.get('/allSkill',getAllSkills);
 export default router;
