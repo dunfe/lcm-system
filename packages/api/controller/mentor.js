@@ -56,27 +56,26 @@ export function getAllMentor(model) {
     }
   }
 
-export const listMentorSuggestion = async (req,res) =>{
+export const listMentorSelectedInOneQuestion = async (req,res) =>{
+    if(!ObjectId.isValid(req.params.id)) { 
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
     let page = parseInt(req.query.page) || 1;
-    const limit = 1;
+    const limit = 50;
     const results = {}
     var userId = await useridFromToken(req,res);
-    var listSkill = [];
-    var listMatchingId = [];
-    const mentee = await User.find({_id : userId}).then((mentee)=>{
-        for (var i = 0; i < mentee.length; i++) {
-            listMatchingId = listMatchingId.concat(mentee[i].matchingMentor);
-            listMatchingId = uniqBy(listMatchingId, JSON.stringify);
-          }
-    })
-    console.log(listMatchingId)
-    const questions = await Question.find({menteeId: userId}).then((questions)=>{
+    var listMentorId = [];
+    const questions = await Question.find({_id: req.params.id}).then((questions)=>{
         for (var i = 0; i < questions.length; i++) {
-            listSkill = listSkill.concat(questions[i].skill);
-            listSkill = uniqBy(listSkill, JSON.stringify);
+            listMentorId = listMentorId.concat(questions[i].receivedBy);
+            listMentorId = uniqBy(listMentorId, JSON.stringify);
           }
     })
-    const data = await User.find({ role: "mentor",skill: { $in : listSkill}, _id : {$nin : listMatchingId} });
+    console.log(listMentorId)
+    const data = await User.find({ role: "mentor",_id: { $in : listMentorId} });
     const totalPage = Math.ceil(data.length/limit) ;
     results.totalPage = totalPage;
     if(page<1 || page > totalPage) page = 1;
@@ -89,7 +88,8 @@ export const listMentorSuggestion = async (req,res) =>{
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await User.find({ role: "mentor",skill: { $in : listSkill}, _id : {$nin : listMatchingId} }).limit(limit).skip(startIndex).exec();
+        results.results = await User.find({ role: "mentor",_id: { $in : listMentorId} })
+        .limit(limit).skip(startIndex).exec();
         return res.status(200).json({
                 status: 'success',
                 data: results
