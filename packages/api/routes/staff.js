@@ -12,5 +12,6 @@ router.get('/viewPointIn/:id',protect, restrictTo('staff'),viewPointInTransactio
 router.post('/updatePoint/:id',protect, restrictTo('staff'),updatePoint_Transaction);
 //router.post('/addRate',addRateExchange);
 router.post('/updateRateExchange/:id',updateRateExchange);
-router.post('/comfirmRegisterMentor/:id',protect, restrictTo('staff'),confirmRequestMentorRegister);
+// confirm request mentee register mentor
+router.post('/mentor/confirm/:id',protect, restrictTo('staff'),confirmRequestMentorRegister);
 export default router;
