@@ -16,7 +16,7 @@ const StyledLoading = styled.div`
 
 interface IProps {
   children: JSX.Element,
-  exact: boolean;
+  exact?: boolean;
   path: string;
 }
 
