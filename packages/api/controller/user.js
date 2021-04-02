@@ -298,27 +298,54 @@ export const addFavoriteMentorById = async (req, res) => {
         }
     })
 
-    User.findByIdAndUpdate({ _id: userId }, { $set: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
-        if (favorite.mentorId === favorite.mentorId) {
-            for (var i; i <= favoriteMentor.length; i++) {
-                if (favoriteMentor.mentorId === currentMentor._id) {
-                    index = i;
-                }
-            }
-            console.log("A favorate mentor has been created!");
+    let checkId=false;
+    for (var i; i <= favoriteMentor.length; i++) {
+        if (favoriteMentor.mentorId === currentMentor._id) {
+            return checkId = true;
         }
-        if (!err) {
-            return res.status(200).json({
-                status: 'success',
-                data: doc
-            });
-        } else {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Something wrong, try again later'
-            })
-        };
-    })
+    }
+    if (checkId) {
+        console.log(checkId);
+        for (var i; i <= favoriteMentor.length; i++) {
+            if (favoriteMentor.mentorId === currentMentor._id) {
+                index = i;
+            }
+        }
+        console.log(favoriteMentor);
+        User.findByIdAndUpdate({ _id: userId }, { $set: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
+
+            if (!err) {
+                return res.status(200).json({
+                    status: 'success',
+                    data: doc
+                });
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            };
+        })
+        console.log("A favorate mentor has been created!");
+    } else {
+        console.log(checkId);
+        User.findByIdAndUpdate({ _id: userId }, { $push: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
+
+            if (!err) {
+                return res.status(200).json({
+                    status: 'success',
+                    data: doc
+                });
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            };
+        })
+    }
+
+
 }
 
 
