@@ -8,7 +8,6 @@ const ObjectId = mongoose.Types.ObjectId;
 export const getAllSkills = async (req, res) => {
     try {
         const data = await Skill.find();
-
         return res.status(200).json({
             status: 'success',
             result: data.length,

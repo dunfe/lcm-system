@@ -41,5 +41,4 @@ router.get("/requests/:id", protect, restrictTo('admin'), getRequestById);
 
 //Report
 router.get("/reports", protect, restrictTo('admin'), getAllReport(Report));
-
 export default router;
