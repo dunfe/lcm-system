@@ -8,7 +8,7 @@
     "url": "https://github.com/sponsors/dmonad"
   },
   "scripts": {
-    "start": "export PRODUCTION=1; node ./webrtc-server.js"
+    "start": "export PRODUCTION=1; node ./websocket-server.js"
   },
   "author": "Kevin Jahns <kevin.jahns@protonmail.com",
   "license": "MIT",
