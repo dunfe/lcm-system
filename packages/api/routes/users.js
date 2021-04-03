@@ -2,7 +2,7 @@ import express from 'express';
 import {changePassword,selectMentor,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {createQuestion, viewListQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById} from '../controller/question.js'
+import {createQuestion, viewListQuestionMenteeId,viewListNewQuestionMenteeId, viewListDoingOrDoneQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById} from '../controller/question.js'
 import {listMentorSelectedInOneQuestion} from '../controller/mentor.js'
 import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
@@ -249,6 +249,8 @@ router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
 router.get('/questions',protect,restrictTo('mentee'),viewListQuestionMenteeId);
+router.get('/questions/new',protect,restrictTo('mentee'),viewListNewQuestionMenteeId);
+router.get('/questions/notnew',protect,restrictTo('mentee'),viewListDoingOrDoneQuestionMenteeId);
 router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
