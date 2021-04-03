@@ -21,6 +21,7 @@
     "start:client": "yarn workspace client start",
     "start:admin": "yarn workspace admin start",
     "start:api": "yarn workspace api start",
+    "start:y-server": "yarn workspace y-server start",
     "deploy:api": "yarn workspace api deploy"
   },
   "dependencies": {
