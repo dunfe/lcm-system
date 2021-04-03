@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Layout, Menu } from 'antd';
 import {
-  FileSearchOutlined,
   UserOutlined,
   UnorderedListOutlined,
   AppstoreAddOutlined,
@@ -83,9 +82,6 @@ export function HomePage() {
                 <Menu.Item key="/questions" icon={<UnorderedListOutlined />}>
                   <Link to={`/questions`}>Danh sách câu hỏi</Link>
                 </Menu.Item>
-                <Menu.Item key="/matching" icon={<FileSearchOutlined />}>
-                  <Link to={`/matching`}>Matching</Link>
-                </Menu.Item>
                 <Menu.Item key="/session" icon={<TeamOutlined />}>
                   <Link to={`/session`}>Session</Link>
                 </Menu.Item>
@@ -104,13 +100,10 @@ export function HomePage() {
                       <h3>Dashboard</h3>
                     </Route>
                     <Route path={`/add`}>
-                      <AddQuestion/>
+                      <AddQuestion setSelectedKeys={setSelectedKeys}/>
                     </Route>
                     <Route path={`/questions`}>
                       <ListQuestion/>
-                    </Route>
-                    <Route path={`/matching`}>
-                      <h3>Matching</h3>
                     </Route>
                     <Route path={`/session`}>
                       <Join />
