@@ -3,7 +3,7 @@ import {Tabs, Table, message} from "antd";
 import axios from "axios";
 import {useAuth} from "../../utils/hooks/useAuth";
 
-interface IData {
+export interface IData {
     receivedBy: string[];
     point: number;
     skill: string[];
