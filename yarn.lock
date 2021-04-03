@@ -29986,6 +29986,23 @@ typescript@~3.8.2:
   languageName: node
   linkType: hard
 
+"y-server@workspace:packages/y-server":
+  version: 0.0.0-use.local
+  resolution: "y-server@workspace:packages/y-server"
+  dependencies:
+    "@babel/core": ^7.12.10
+    node-static: ^0.7.11
+    react: ^16.13.1
+    react-dom: ^16.13.1
+    serve: ^11.3.1
+    standard: ^12.0.1
+    ws: ^7.4.2
+    y-protocols: ^1.0.2
+    y-websocket: ^1.3.9
+    yjs: ^13.4.12
+  languageName: unknown
+  linkType: soft
+
 "y-websocket@npm:^1.3.11, y-websocket@npm:^1.3.9":
   version: 1.3.11
   resolution: "y-websocket@npm:1.3.11"
@@ -30154,23 +30171,6 @@ typescript@~3.8.2:
   checksum: dbf687d6b938f01bbf11e158dde6df906282b70cd9295af0217ee8cefbd83ad09d49fa9458d0d5325b0e66f03df954a38986db96f91e5b46ccdbbaf9a0157b23
   languageName: node
   linkType: hard
-
-"yjs-demos-server@workspace:packages/y-server":
-  version: 0.0.0-use.local
-  resolution: "yjs-demos-server@workspace:packages/y-server"
-  dependencies:
-    "@babel/core": ^7.12.10
-    node-static: ^0.7.11
-    react: ^16.13.1
-    react-dom: ^16.13.1
-    serve: ^11.3.1
-    standard: ^12.0.1
-    ws: ^7.4.2
-    y-protocols: ^1.0.2
-    y-websocket: ^1.3.9
-    yjs: ^13.4.12
-  languageName: unknown
-  linkType: soft
 
 "yjs@npm:^13.4.12, yjs@npm:^13.5.4":
   version: 13.5.4
