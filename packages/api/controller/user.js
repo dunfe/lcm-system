@@ -365,7 +365,7 @@ export const viewListFavoriteMentor = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        const favoriteMentorPaging = favoriteMentor.slice(startIndex, endIndex);;
+        const favoriteMentorPaging = favoriteMentor.slice(startIndex, endIndex);
         results.results = favoriteMentorPaging
         return res.status(200).json({
             status: 'success',
