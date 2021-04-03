@@ -10,7 +10,7 @@ const RCE = () => {
   };
 
   const ydoc = new Y.Doc()
-  const provider = new WebsocketProvider('wss://demos.yjs.dev', 'monaco-demo', ydoc)
+  const provider = new WebsocketProvider('wss://y.livecoding.me', 'monaco-demo', ydoc)
   const ytext = ydoc.getText('monaco');
 
   return (
