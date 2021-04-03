@@ -34,6 +34,15 @@ services:
       - "3000:3000"
     networks:
       - webappnetwork
+  y-server:
+    build:
+      context: .
+      dockerfile: ./packages/y-server/Dockerfile
+    restart: always
+    ports:
+      - "3005:3005"
+    networks:
+      - webappnetwork
   client:
     build:
       context: .
