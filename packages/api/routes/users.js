@@ -2,11 +2,10 @@ import express from 'express';
 import {changePassword,selectMentor,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {createQuestion} from '../controller/question.js'
-import {listMentorSuggestion} from '../controller/mentor.js'
+import {createQuestion, viewListQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById} from '../controller/question.js'
+import {listMentorSelectedInOneQuestion} from '../controller/mentor.js'
 import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
-import {viewListQuestionMenteeId} from '../controller/question.js';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -236,20 +235,40 @@ router.get('/logout', (req, res) => {
     res.json({message: 'logout successful'});
 })
 
+//password function
 router.post('/:id/admin', changePassword);
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
-router.post('/ratingMentor/:id',protect,restrictTo('mentee'),ratingMentor);
-router.post('/registerMentorRequest',protect,restrictTo('mentee'),registerMentorRequest);
-router.post('/createQuestion',protect,restrictTo('mentee'),createQuestion);
-router.get('/listMentorSuggestion',protect,restrictTo('mentee'),listMentorSuggestion);
-router.post('/selectMentor/:id',protect,restrictTo('mentee'),selectMentor);
-router.get('/userInfo',protect,restrictTo('mentee'),viewUserInfo);
-router.get('/viewListQuestion',protect,restrictTo('mentee'),viewListQuestionMenteeId);
-router.put('/editUser',protect,restrictTo('mentee'),editProfileUserById);
-router.put('/addFavorite/:id',protect,restrictTo('mentee'),addFavoriteMentorById);
-router.get('/listFavorite',protect,restrictTo('mentee'),viewListFavoriteMentor);
+
+// create request register mentor 
+router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorRequest);
+
+//rate mentor
+router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
+
+// user crud question
+router.post('/questions',protect,restrictTo('mentee'),createQuestion);
+router.get('/questions',protect,restrictTo('mentee'),viewListQuestionMenteeId);
+router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
+router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
+router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
+
+// select metor for resolve question
+router.get('/matching/suggestions/:id',protect,restrictTo('mentee'),listMentorSelectedInOneQuestion);
+router.post('/matching/suggestions/:id',protect,restrictTo('mentee'),selectMentor);
+
+//add favor mentor and list favor mentor
+router.put('/favorite-mentor/:id',protect,restrictTo('mentee'),addFavoriteMentorById);
+router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMentor);
+
+//profile function
+router.get('/',protect,restrictTo('mentee'),viewUserInfo);
+router.put('/',protect,restrictTo('mentee'),editProfileUserById);
+
+//vỉew history point transaction
 router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);
 router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionById);
-router.get('/allSkill',getAllSkills);
+
+// get all skill for all role
+router.get('/skills',getAllSkills);
 export default router;
