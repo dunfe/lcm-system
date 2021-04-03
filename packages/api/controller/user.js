@@ -291,33 +291,27 @@ export const addFavoriteMentorById = async (req, res) => {
     }
     let index;
     var favoriteMentor = [];
-    const mentee = await User.find({ _id: userId }).then((mentee) => {
-        for (var i = 0; i < mentee.length; i++) {
-            favoriteMentor = favoriteMentor.concat(mentee[i].favoriteMentor);
+    const mentee = await User.findById(userId).then((mentee) => {
+            favoriteMentor = favoriteMentor.concat(mentee.favoriteMentor);
             favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
-        }
     })
-
     let checkId=false;
-    for (var i; i <= favoriteMentor.length; i++) {
-        if (favoriteMentor.mentorId === currentMentor._id) {
-            return checkId = true;
-        }
-    }
-    if (checkId) {
-        console.log(checkId);
-        for (var i; i <= favoriteMentor.length; i++) {
-            if (favoriteMentor.mentorId === currentMentor._id) {
+    if(favoriteMentor.length > 0 ){
+        for (var i=0; i < favoriteMentor.length; i++) {
+            if (JSON.stringify(favoriteMentor[i].mentorId) === JSON.stringify(currentMentor._id)) {
+                checkId = true;
                 index = i;
             }
         }
-        console.log(favoriteMentor);
-        User.findByIdAndUpdate({ _id: userId }, { $set: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
+    }
+    if (checkId) {
+        favoriteMentor.splice(index, 1);
+        User.findByIdAndUpdate({ _id: userId }, { $set: { favoriteMentor: favoriteMentor } }, { new: true }, (err, doc) => {
 
             if (!err) {
                 return res.status(200).json({
                     status: 'success',
-                    data: favoriteMentor
+                    data: doc
                 });
             } else {
                 return res.status(400).json({
@@ -326,11 +320,9 @@ export const addFavoriteMentorById = async (req, res) => {
                 })
             };
         })
-        console.log("A favorate mentor has been created!");
-    } else {
-        console.log(checkId);
-        User.findByIdAndUpdate({ _id: userId }, { $push: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
 
+    } else {
+        User.findByIdAndUpdate({ _id: userId }, { $push: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
             if (!err) {
                 return res.status(200).json({
                     status: 'success',
