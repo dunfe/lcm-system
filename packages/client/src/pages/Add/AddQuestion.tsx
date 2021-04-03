@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Form, Input, Select, Button, message, DatePicker, TimePicker, InputNumber} from "antd";
+import {Form, Input, Select, Button, message, InputNumber} from "antd";
 import axios from "axios";
 
 const layout = {
@@ -9,35 +9,40 @@ const layout = {
 
 const {useState, useEffect} = React;
 
-const instance = axios.create({ baseURL: 'https://livecoding.me' });
 const AddQuestion = () => {
     const [skills, setSkills] = useState([]);
+    const instance = axios.create({ baseURL: 'https://livecoding.me' });
+
     const onFinish = (values: any) => {
         console.log(values);
     };
 
     useEffect(() => {
-        instance.get('/api/admin/skills', {
-            method: 'get',
-            url: 'https://livecoding.me/api/admin/skills?page=1',
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwNTBhOGU4YTAxYzljMjdmMDNhZDk4NiIsInVzZXJuYW1lIjoiYWRtaW4xIn0sImlhdCI6MTYxNTg5OTc2MX0.GqyRhTl1HqKCsKrvEcX0PYI97AHKqep5021xmdJP_14',
-                'Cookie': '__cfduid=d1c45d61df14ee4fba5626e3f01fbf95e1617212993'
-            }
-        }).then((response) => {
-            if (response.status === 200) {
-                const options = response.data.skill.map((item: any) => {
-                    return {
-                        label: item.name,
-                        value: item._id
-                    }
-                });
-                if (options) {
-                    setSkills(options);
+        const getSkills = () => {
+            instance.get('/api/admin/skills', {
+                method: 'get',
+                url: 'https://livecoding.me/api/admin/skills?page=1',
+                headers: {
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwNTBhOGU4YTAxYzljMjdmMDNhZDk4NiIsInVzZXJuYW1lIjoiYWRtaW4xIn0sImlhdCI6MTYxNTg5OTc2MX0.GqyRhTl1HqKCsKrvEcX0PYI97AHKqep5021xmdJP_14',
                 }
-            }
-        }).catch((error) => message.error(error.message));
-    })
+            }).then((response) => {
+                if (response.status === 200) {
+                    const options = response.data.skill.map((item: any) => {
+                        return {
+                            label: item.name,
+                            value: item._id
+                        }
+                    });
+                    if (options) {
+                        setSkills(options);
+                    }
+                }
+            }).catch((error) => message.error(error.message));
+        };
+        getSkills();
+
+        return () => getSkills();
+    }, []);
 
     return (
         <Form {...layout} name="nest-messages" onFinish={onFinish}>
