@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Layout, Menu } from 'antd';
 import {
-  FileSearchOutlined,
   UserOutlined,
   UnorderedListOutlined,
   AppstoreAddOutlined,
