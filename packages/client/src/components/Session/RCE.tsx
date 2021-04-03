@@ -1,25 +1,37 @@
 import * as React from 'react';
-import MonacoEditor from 'react-monaco-editor';
-import { WebsocketProvider } from 'y-websocket';
+import {WebsocketProvider} from 'y-websocket';
 import * as Y from 'yjs'
-import { MonacoBinding } from 'y-monaco';
+import {MonacoBinding} from 'y-monaco';
+import {useAuth} from "../../utils/hooks/useAuth";
+import Editor from "@monaco-editor/react";
 
 const RCE = () => {
-  const handleEditorDidMount = (editor: any) => {
-    new MonacoBinding(ytext, /** @type {monaco.editor.ITextModel} */ (editor.getModel()), new Set([editor]), provider.awareness)
-  };
+    const auth = useAuth();
 
-  const ydoc = new Y.Doc()
-  const provider = new WebsocketProvider('wss://y.livecoding.me', 'monaco-demo', ydoc)
-  const ytext = ydoc.getText('monaco');
+    const ydoc = new Y.Doc()
+    const provider = new WebsocketProvider('wss://y.livecoding.me', 'monaco-demo', ydoc)
+    const ytext = ydoc.getText('monaco');
 
-  return (
-    <MonacoEditor
-      height={'90vh'}
-      theme={'vs-dark'}
-      editorDidMount={handleEditorDidMount}
-    />
-  );
+    const awareness = provider.awareness;
+
+    awareness.setLocalStateField('user', {
+        name: auth.user?.user.data.fullname,
+        color: '#27ae60'
+    });
+
+    const handleEditorDidMount = (editor) => {
+        new MonacoBinding(ytext, /** @type {monaco.editor.ITextModel} */ (editor.getModel()), new Set([editor]), awareness)
+    };
+
+    return (
+        <Editor
+            onMount={handleEditorDidMount}
+            theme={'vs-dark'}
+            height="90vh"
+            defaultLanguage="javascript"
+            defaultValue="// some comment"
+        />
+    );
 };
 
 export default RCE;
