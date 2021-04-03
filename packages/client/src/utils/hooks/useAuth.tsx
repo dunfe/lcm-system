@@ -3,8 +3,26 @@ import axios from 'axios';
 import React, { useState, useEffect, useContext, createContext } from 'react';
 import Cookies from 'js-cookie'
 interface IUser {
-  token: string;
-  user: any;
+  user: {
+    token: string;
+    data: {
+      _id: string;
+      username: string;
+      email: string;
+      fullname: string;
+      role: string;
+      level: number;
+      detail: {
+        dob: string;
+        gender: string;
+        phone: string;
+        address: string;
+        avatar: string;
+        currentJob: string;
+        achievement: string[]
+      }
+    }
+  };
 }
 interface IUseAuthType {
   loading: boolean;
