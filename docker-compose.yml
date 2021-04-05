@@ -10,10 +10,10 @@ services:
       - ./data/nginx:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-      - admin-build:/usr/share/nginx/admin/html
-      - client-build:/usr/share/nginx/client/html
-      - landing-build:/usr/share/nginx/landing/html
-      - mentor-build:/usr/share/nginx/mentor/html
+      - ./packages/admin/build:/usr/share/nginx/admin/html
+      - ./packages/client/build:/usr/share/nginx/client/html
+      - ./packages/landing/dist:/usr/share/nginx/landing/html
+      - ./packages/mentor/build:/usr/share/nginx/mentor/html
     links:
       - api
     networks:
@@ -34,64 +34,24 @@ services:
       - "3000:3000"
     networks:
       - webappnetwork
-  client:
+  y-server:
     build:
       context: .
-      dockerfile: ./packages/client/Dockerfile
+      dockerfile: ./packages/y-server/Dockerfile
     restart: always
-    volumes:
-      - "./.:/client"
-      - client-build:/client/packages/client/build
     ports:
-      - "5000:80"
+      - "3005:3005"
     networks:
       - webappnetwork
-  admin:
+  t-server:
     build:
       context: .
-      dockerfile: ./packages/admin/Dockerfile
+      dockerfile: ./packages/t-server/Dockerfile
     restart: always
-    volumes:
-      - "./.:/admin"
-      - admin-build:/admin/packages/admin/build
     ports:
-      - "5001:80"
+      - "3006:3006"
     networks:
       - webappnetwork
-  landing:
-    build:
-      context: .
-      dockerfile: ./packages/landing/Dockerfile
-    restart: always
-    volumes:
-      - "./.:/landing"
-      - landing-build:/landing/packages/landing/dist
-    ports:
-      - "5002:80"
-    networks:
-      - webappnetwork
-  mentor:
-    build:
-      context: .
-      dockerfile: ./packages/mentor/Dockerfile
-    restart: always
-    volumes:
-      - "./.:/mentor"
-      - mentor-build:/mentor/packages/mentor/build
-    ports:
-      - "5003:80"
-    networks:
-      - webappnetwork
-  dem:
-    image: quaide/dem:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - conf.yml:/app/conf.yml
 networks:
   webappnetwork:
     driver: bridge
-volumes:
-  client-build:
-  admin-build:
-  landing-build:
-  mentor-build:

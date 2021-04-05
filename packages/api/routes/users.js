@@ -1,9 +1,8 @@
 import express from 'express';
-import {changePassword,selectMentor,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor} from '../controller/user.js';
+import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {createQuestion, viewListQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById} from '../controller/question.js'
-import {listMentorSelectedInOneQuestion} from '../controller/mentor.js'
+import {createQuestion, viewListQuestionMenteeId,viewListNewQuestionMenteeId, viewListDoingOrDoneQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById} from '../controller/question.js'
 import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
 import passport from 'passport';
@@ -249,13 +248,15 @@ router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
 router.get('/questions',protect,restrictTo('mentee'),viewListQuestionMenteeId);
+router.get('/questions/new',protect,restrictTo('mentee'),viewListNewQuestionMenteeId);
+router.get('/questions/notnew',protect,restrictTo('mentee'),viewListDoingOrDoneQuestionMenteeId);
 router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
 
 // select metor for resolve question
-router.get('/matching/suggestions/:id',protect,restrictTo('mentee'),listMentorSelectedInOneQuestion);
-router.post('/matching/suggestions/:id',protect,restrictTo('mentee'),selectMentor);
+// router.get('/matching/suggestions/:id',protect,restrictTo('mentee'),listMentorSelectedInOneQuestion);
+// router.post('/matching/suggestions/:id',protect,restrictTo('mentee'),selectMentor);
 
 //add favor mentor and list favor mentor
 router.put('/favorite-mentor/:id',protect,restrictTo('mentee'),addFavoriteMentorById);

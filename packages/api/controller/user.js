@@ -291,34 +291,51 @@ export const addFavoriteMentorById = async (req, res) => {
     }
     let index;
     var favoriteMentor = [];
-    const mentee = await User.find({ _id: userId }).then((mentee) => {
-        for (var i = 0; i < mentee.length; i++) {
-            favoriteMentor = favoriteMentor.concat(mentee[i].favoriteMentor);
+    const mentee = await User.findById(userId).then((mentee) => {
+            favoriteMentor = favoriteMentor.concat(mentee.favoriteMentor);
             favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
-        }
     })
-
-    User.findByIdAndUpdate({ _id: userId }, { $set: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
-        if (favorite.mentorId === favorite.mentorId) {
-            for (var i; i <= favoriteMentor.length; i++) {
-                if (favoriteMentor.mentorId === currentMentor._id) {
-                    index = i;
-                }
+    let checkId=false;
+    if(favoriteMentor.length > 0 ){
+        for (var i=0; i < favoriteMentor.length; i++) {
+            if (JSON.stringify(favoriteMentor[i].mentorId) === JSON.stringify(currentMentor._id)) {
+                checkId = true;
+                index = i;
             }
-            console.log("A favorate mentor has been created!");
         }
-        if (!err) {
-            return res.status(200).json({
-                status: 'success',
-                data: doc
-            });
-        } else {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Something wrong, try again later'
-            })
-        };
-    })
+    }
+    if (checkId) {
+        favoriteMentor.splice(index, 1);
+        User.findByIdAndUpdate({ _id: userId }, { $set: { favoriteMentor: favoriteMentor } }, { new: true }, (err, doc) => {
+
+            if (!err) {
+                return res.status(200).json({
+                    status: 'success',
+                    data: doc
+                });
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            };
+        })
+
+    } else {
+        User.findByIdAndUpdate({ _id: userId }, { $push: { favoriteMentor: favorite } }, { new: true }, (err, doc) => {
+            if (!err) {
+                return res.status(200).json({
+                    status: 'success',
+                    data: doc
+                });
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            };
+        })
+    }
 }
 
 
@@ -348,7 +365,7 @@ export const viewListFavoriteMentor = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        const favoriteMentorPaging = favoriteMentor.slice(startIndex, endIndex);;
+        const favoriteMentorPaging = favoriteMentor.slice(startIndex, endIndex);
         results.results = favoriteMentorPaging
         return res.status(200).json({
             status: 'success',

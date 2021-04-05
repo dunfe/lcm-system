@@ -1,43 +1,77 @@
 import * as React from "react";
-import {Form, Input, Select, Button, message, DatePicker, TimePicker, InputNumber} from "antd";
+import {Form, Input, Select, Button, message, InputNumber, Modal} from "antd";
 import axios from "axios";
+import {useAuth} from "../../utils/hooks/useAuth";
+import {useHistory} from "react-router-dom";
 
+interface IProps {
+    setSelectedKeys: (state: string[]) => void;
+}
 const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 18 },
 };
 
 const {useState, useEffect} = React;
+const {success} = Modal;
 
-const instance = axios.create({ baseURL: 'https://livecoding.me' });
-const AddQuestion = () => {
+const AddQuestion = (props: IProps) => {
+    const auth = useAuth();
+    const history = useHistory();
+
+    const {setSelectedKeys} = props;
+
     const [skills, setSkills] = useState([]);
+
+    const instance = axios.create({ baseURL: 'https://livecoding.me' });
+
     const onFinish = (values: any) => {
-        console.log(values);
+
+        const config = {
+            headers: {
+                'Authorization': auth.user?.user.token,
+                'Content-Type': 'application/json',
+            },
+            data : values
+        };
+        instance.post('/api/users/questions', JSON.stringify(values), config).then((response) => {
+            if (response.status === 200) {
+                success({
+                    content: 'Thêm câu hỏi thành công!',
+                    afterClose: () => {
+                        history.push('/questions')
+                        setSelectedKeys(['/questions']);
+                    }
+                })
+            }
+        }).catch((error) => console.error(error));
     };
 
     useEffect(() => {
-        instance.get('/api/admin/skills', {
-            method: 'get',
-            url: 'https://livecoding.me/api/admin/skills?page=1',
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwNTBhOGU4YTAxYzljMjdmMDNhZDk4NiIsInVzZXJuYW1lIjoiYWRtaW4xIn0sImlhdCI6MTYxNTg5OTc2MX0.GqyRhTl1HqKCsKrvEcX0PYI97AHKqep5021xmdJP_14',
-                'Cookie': '__cfduid=d1c45d61df14ee4fba5626e3f01fbf95e1617212993'
-            }
-        }).then((response) => {
-            if (response.status === 200) {
-                const options = response.data.skill.map((item: any) => {
-                    return {
-                        label: item.name,
-                        value: item._id
-                    }
-                });
-                if (options) {
-                    setSkills(options);
+        const getSkills = () => {
+            instance.get('/api/admin/skills', {
+                method: 'get',
+                headers: {
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwNTBhOGU4YTAxYzljMjdmMDNhZDk4NiIsInVzZXJuYW1lIjoiYWRtaW4xIn0sImlhdCI6MTYxNTg5OTc2MX0.GqyRhTl1HqKCsKrvEcX0PYI97AHKqep5021xmdJP_14',
                 }
-            }
-        }).catch((error) => message.error(error.message));
-    })
+            }).then((response) => {
+                if (response.status === 200) {
+                    const options = response.data.skill.map((item: any) => {
+                        return {
+                            label: item.name,
+                            value: item.name
+                        }
+                    });
+                    if (options) {
+                        setSkills(options);
+                    }
+                }
+            }).catch((error) => message.error(error.message));
+        };
+        getSkills();
+
+        return () => setSkills([]);
+    }, []);
 
     return (
         <Form {...layout} name="nest-messages" onFinish={onFinish}>
@@ -47,16 +81,13 @@ const AddQuestion = () => {
             <Form.Item name={'content'} label="Nội dung" rules={[{ required: true }]}>
                 <Input.TextArea placeholder={'Nội dung'}/>
             </Form.Item>
-            <Form.Item name={'skills'} label="Chọn kỹ năng" rules={[{required: true, message: 'Vui lòng chọn kỹ năng!'}]}>
+            <Form.Item name={'skill'} label="Chọn kỹ năng" rules={[{required: true, message: 'Vui lòng chọn kỹ năng!'}]}>
                 <Select mode="tags" style={{ width: '100%' }}
                         options={skills}
                         placeholder="Chọn kỹ năng"/>
             </Form.Item>
-            <Form.Item name={'time'} label="Thời lượng">
-                <InputNumber placeholder={"Phút"} defaultValue={15} style={{width: '20%'}}/> phút
-            </Form.Item>
-            <Form.Item name={'point'} label="Giá tiền">
-                <InputNumber placeholder={"Giá tiền"} defaultValue={0} style={{width: '20%'}}/> point
+            <Form.Item name={'point'} label="Point" initialValue={0}>
+                <InputNumber placeholder={"Giá tiền"} style={{width: '20%'}} />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
                 <Button type="primary" htmlType="submit">
