@@ -27757,6 +27757,21 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
+"t-server@workspace:packages/t-server":
+  version: 0.0.0-use.local
+  resolution: "t-server@workspace:packages/t-server"
+  dependencies:
+    "@types/body-parser": ^1
+    "@types/cors": ^2
+    "@types/express": ^4
+    body-parser: ^1.19.0
+    cors: ^2.8.5
+    express: ^4.17.1
+    express-pino-logger: ^6.0.0
+    twilio: ^3.59.0
+  languageName: unknown
+  linkType: soft
+
 "table@npm:^4.0.3":
   version: 4.0.3
   resolution: "table@npm:4.0.3"
@@ -28412,21 +28427,6 @@ resolve@1.18.1:
   checksum: e1c9d52e2e9f582fd0df9ea26ba5a9ab88b9a38b69625d8e55c5e8870a4832ac8c32f8854b41fce7b59f97258bb103535363f9eda7050aa70e75824b972c7dde
   languageName: node
   linkType: hard
-
-"twilio-server@workspace:packages/twilio-server":
-  version: 0.0.0-use.local
-  resolution: "twilio-server@workspace:packages/twilio-server"
-  dependencies:
-    "@types/body-parser": ^1
-    "@types/cors": ^2
-    "@types/express": ^4
-    body-parser: ^1.19.0
-    cors: ^2.8.5
-    express: ^4.17.1
-    express-pino-logger: ^6.0.0
-    twilio: ^3.59.0
-  languageName: unknown
-  linkType: soft
 
 "twilio-video@npm:^2.13.1":
   version: 2.13.1
