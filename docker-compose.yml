@@ -43,6 +43,15 @@ services:
       - "3005:3005"
     networks:
       - webappnetwork
+  t-server:
+    build:
+      context: .
+      dockerfile: ./packages/t-server/Dockerfile
+    restart: always
+    ports:
+      - "3006:3006"
+    networks:
+      - webappnetwork
 networks:
   webappnetwork:
     driver: bridge
