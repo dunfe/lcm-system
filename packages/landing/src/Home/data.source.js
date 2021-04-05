@@ -210,7 +210,7 @@ export const Feature80DataSource = {
                     name: 'content',
                     className: 'feature8-block-content',
                     children:
-                      'THông tin thêm',
+                      'Thông tin thêm',
                   },
                 ],
               },
