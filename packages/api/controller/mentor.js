@@ -110,7 +110,7 @@ export const selectQuestion = async (req,res) =>{
         })
     };
     var userId = await useridFromToken(req,res);
-    Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}},{new: true},(err, doc) => {
+    Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}},{$set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',
