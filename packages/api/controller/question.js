@@ -16,9 +16,10 @@ export const createQuestion = async (req, res) => {
         title: req.body.title,
         menteeId: mentee._id,
         menteeName: mentee.fullname,
-        point: req.body._point,
+        point: req.body.point,
         skill: req.body.skill,
-        time: req.body.time,
+        timeAvailableFrom: req.body.timeAvailableFrom,
+        timeAvailableTo: req.body.timeAvailableTo,
         content: req.body.content,
         createdAt: req.body.createdAt,
         status: req.body.status,
@@ -94,29 +95,6 @@ export const getQuestionById = (req, res) => {
         };
     });
 };
-
-// export const getQuestionById = (req, res) => {
-//     if(!ObjectId.isValid(req.params.id)) { 
-//         return res.status(400).json({
-//             status: 'fail',
-//             message: `Invalid id ${req.params.id}`
-//         })
-//     };
-
-//     Question.findById(req.params.id, (err, doc) => {
-//         if (!err){
-//             return res.status(200).json({
-//                 status: 'success',
-//                 data: doc
-//             });
-//         } else {
-//             return res.status(400).json({
-//                 status: 'fail',
-//                 message: 'Something wrong, try again later'
-//             }) 
-//         };
-//     });
-// };
 
 export const totalQuestion = (req, res) => {
     Question.countDocuments({}, (err, doc) => {
@@ -301,7 +279,8 @@ export const viewListQuestionForMentor = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId } }).limit(limit).skip(startIndex).exec();
+        results.results = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId }, status: "new" }).sort({ point: 'descending' })
+        .limit(limit).skip(startIndex).exec();
         return res.status(200).json({
             status: 'success',
             data: results
