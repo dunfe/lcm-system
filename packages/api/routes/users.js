@@ -5,11 +5,14 @@ import {ratingMentor} from '../controller/mentor.js';
 import {createQuestion, viewListQuestionMenteeId,viewListNewQuestionMenteeId, viewListDoingOrDoneQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById} from '../controller/question.js'
 import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
+import {registerMentorRequest} from '../controller/request.js';
+import { protect, restrictTo} from '../controller/auth.js';
+import { createReport } from '../controller/report.js';
+
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import {registerMentorRequest} from '../controller/request.js';
-import { protect, restrictTo} from '../controller/auth.js';
+
 dotenv.config();
 
 const router = express.Router();
@@ -244,6 +247,9 @@ router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorReques
 
 //rate mentor
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
+
+//report mentor
+router.post('/reports', protect, restrictTo('mentee'), createReport);
 
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
