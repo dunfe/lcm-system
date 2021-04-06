@@ -1,16 +1,12 @@
 import mongoose from 'mongoose';
 
 const notiSchema = new mongoose.Schema({
-    titleForMentee: { type: String },
-    titleForMentor: { type: String },
-    receivedById: [
-        { type: String }
-    ],
+    title: { type: String },
+    receivedById: { type: String },
     content: { type: String },
-    status: { 
-        type: String,
-        enum: ["new",  "seen"],
-        default: "new",
+    read: {
+        type: Boolean,
+        default: false
     },
     createdAt: { type: Date, default: Date.now },
 });
