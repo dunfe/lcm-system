@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
 const notiSchema = new mongoose.Schema({
-    title: { type: String },
+    titleForMentee: { type: String },
+    titleForMentor: { type: String },
     receivedById: [
         { type: String }
     ],
