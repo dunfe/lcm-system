@@ -47,8 +47,11 @@ export const createReport = async (req, res) => {
     createBy: userId,
     content: req.body.content,
     createdAt: Date.now(),
-    img: req.body.img
   });
+
+  if(req.file) {
+    report.img = req.file.path;
+  }
 
   report.save((err, doc) => {
     if (!err) {

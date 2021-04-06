@@ -13,7 +13,7 @@ const reportSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input report content!'] 
     },
-    img: [String],
+    img: String,
     createdAt: { type: Date, default: Date.now},
 });
 
