@@ -14,7 +14,19 @@ export const clickNotify = async (req, res) => {
             message: `Invalid id ${req.params.id}`
         })
     }
-
+    Notify.findByIdAndUpdate(req.params.id, {$set: {read: true}}, {new : true}, (err, doc) =>{
+      if (!err) {
+        return res.status(200).json({
+            status: 'Update success',
+            roomid : doc.content
+        });
+    } else {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Something wrong, try again later'
+        })
+    }
+    })
 }
 
 export const getAllNotification = async (req, res) => {
