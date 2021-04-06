@@ -12,8 +12,6 @@ import { createReport } from '../controller/report.js';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import {registerMentorRequest} from '../controller/request.js';
-import { protect, restrictTo} from '../controller/auth.js';
 import {getAllNotification, clickNotify} from '../controller/noti.js'
 dotenv.config();
 
