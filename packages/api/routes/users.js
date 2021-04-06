@@ -251,7 +251,7 @@ router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorReques
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
 //report mentor
-router.post('/reports', protect, restrictTo('mentee'), upload.single('img'), createReport);
+router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), createReport);
 
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
