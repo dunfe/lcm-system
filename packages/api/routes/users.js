@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import {registerMentorRequest} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
+import {getAllNotification} from '../controller/noti.js'
 dotenv.config();
 
 const router = express.Router();
@@ -272,4 +273,7 @@ router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionB
 
 // get all skill for all role
 router.get('/skills',getAllSkills);
+
+//notify
+router.get('/notify',protect, restrictTo('mentee'),getAllNotification);
 export default router;
