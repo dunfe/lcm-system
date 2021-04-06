@@ -1,5 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import Report from '../models/report.js';
+import { useridFromToken } from '../controller/mentor.js'
 
 const router = express.Router();
 
@@ -36,5 +38,31 @@ export function getAllReport(model) {
       }
     }
   }
+
+export const createReport = async (req, res) => {
+  let userId = await useridFromToken(req, res);
+
+  const report = new Report({
+    title: req.body.title,
+    createBy: userId,
+    content: req.body.content,
+    createdAt: Date.now(),
+    img: req.body.img
+  });
+
+  report.save((err, doc) => {
+    if (!err) {
+      return res.status(200).json({
+          status: 'successful report',
+          data: doc
+      });
+  } else {
+      return res.status(400).json({
+          status: 'fail',
+          message: err.message
+      })
+  }
+  })
+}
 
 export default router;
