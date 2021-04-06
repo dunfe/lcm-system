@@ -14,7 +14,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import {registerMentorRequest} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
-import {getAllNotification} from '../controller/noti.js'
+import {getAllNotification, clickNotify} from '../controller/noti.js'
 dotenv.config();
 
 const router = express.Router();
@@ -283,4 +283,5 @@ router.get('/skills',getAllSkills);
 
 //notify
 router.get('/notify',protect, restrictTo('mentee'),getAllNotification);
+router.put('/notify/:id',protect, restrictTo('mentee'),clickNotify)
 export default router;

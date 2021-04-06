@@ -46,52 +46,6 @@ export function getAllMentor(model) {
     }
   }
 
-// export const listMentorSelectedInOneQuestion = async (req,res) =>{
-//     if(!ObjectId.isValid(req.params.id)) { 
-//         return res.status(400).json({
-//             status: 'fail',
-//             message: `Invalid id ${req.params.id}`
-//         })
-//     };
-//     let page = parseInt(req.query.page) || 1;
-//     const limit = 50;
-//     const results = {}
-//     var userId = await useridFromToken(req,res);
-//     var listMentorId = [];
-//     const questions = await Question.find({_id: req.params.id}).then((questions)=>{
-//         for (var i = 0; i < questions.length; i++) {
-//             listMentorId = listMentorId.concat(questions[i].receivedBy);
-//             listMentorId = uniqBy(listMentorId, JSON.stringify);
-//           }
-//     })
-//     console.log(listMentorId)
-//     const data = await User.find({ role: "mentor",_id: { $in : listMentorId} });
-//     const totalPage = Math.ceil(data.length/limit) ;
-//     results.totalPage = totalPage;
-//     if(page<1 || page > totalPage) page = 1;
-//     const startIndex = (page - 1) * limit
-//     const endIndex = page * limit
-//     if (endIndex < data.length) {
-//         results.next = { page: page + 1 }
-//     } 
-//     if (startIndex > 0) {
-//         results.previous = { page: page - 1 }
-//     }
-//     try {
-//         results.results = await User.find({ role: "mentor",_id: { $in : listMentorId} })
-//         .limit(limit).skip(startIndex).exec();
-//         return res.status(200).json({
-//                 status: 'success',
-//                 data: results
-//             }); 
-//     } catch (e) {
-//         return res.status(400).json({
-//             status: 'fail',
-//             message: e.message
-//         })
-//     }
-// }
-
 export const selectQuestion = async (req,res) =>{
     if(!ObjectId.isValid(req.params.id)) { 
         return res.status(400).json({
@@ -116,13 +70,18 @@ export const selectQuestion = async (req,res) =>{
         content: ques.title
     });
     room.save();
-    var notify = new Notify({
-        titleForMentee: currUser.fullname +" đã chọn giải đáp câu hỏi: '" + ques.title + "' của bạn",
-        titleForMentor: "Bạn đã chọn giải đáp câu hỏi: '" + ques.title + "' của " + ques.menteeName,
-        receivedById: [ques.menteeId,currUser._id],
+    var notify1 = new Notify({
+        title: currUser.fullname +" đã chọn giải đáp câu hỏi: '" + ques.title + "' của bạn",
+        receivedById: ques.menteeId,
         content: room._id
     });
-    notify.save();
+    var notify2 = new Notify({
+        title: "Bạn đã chọn giải đáp câu hỏi: '" + ques.title + "' của " + ques.menteeName,
+        receivedById: currUser._id,
+        content: room._id
+    });
+    notify1.save();
+    notify2.save();
     
     var roomId = room._id;
     Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {

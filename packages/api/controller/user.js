@@ -220,29 +220,6 @@ export const banUserById = async (req, res, next) => {
     });
 }
 
-export const selectMentor = async (req, res, next) => {
-    if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    };
-    var userId = await useridFromToken(req, res);
-    User.findByIdAndUpdate(userId, { $push: { matchingMentor: req.params.id } }, { new: true }, (err, doc) => {
-        if (!err) {
-            return res.status(200).json({
-                status: 'success',
-                data: doc
-            });
-        } else {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Something wrong, try again later'
-            })
-        };
-    });
-}
-
 export const viewUserInfo = async (req, res) => {
     let userId = await useridFromToken(req, res);
     User.find({ _id: userId }, (err, doc) => {
