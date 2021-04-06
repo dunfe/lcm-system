@@ -272,7 +272,7 @@ router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMento
 
 //profile function
 router.get('/',protect,restrictTo('mentee'),viewUserInfo);
-router.put('/',protect,restrictTo('mentee'),editProfileUserById);
+router.put('/',protect,restrictTo('mentee'),upload.single('avatar'),editProfileUserById);
 
 //vỉew history point transaction
 router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);
