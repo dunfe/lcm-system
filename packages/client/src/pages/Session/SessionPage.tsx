@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Button, Card, Layout, Tabs } from 'antd';
 import styled from 'styled-components';
 import './SessionPage.css';
-import Join from '../../components/Session/Join';
 import RCE from '../../components/Session/RCE';
 import { useState } from 'react';
+import VideoChat from "../../components/Session/VideoChat";
 
 const { Sider, Content } = Layout;
 const { TabPane } = Tabs;
@@ -39,7 +39,7 @@ const SessionPage = () => {
           </TabPane>
           <TabPane tab="Video/Audio Call" key="2">
             <TabContent>
-              <Join />
+              <VideoChat />
             </TabContent>
           </TabPane>
           <TabPane tab="Screen Share" key="3">

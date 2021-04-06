@@ -24,7 +24,12 @@ const questionSchema = new mongoose.Schema({
     skill: [
         {type: String}
     ],
-    time: {
+    timeAvailableFrom: {
+        type: Number, 
+        default: 10,
+        min: [5, 'Question time need atleast 5 mins!']
+    },
+    timeAvailableTo: {
         type: Number, 
         default: 10,
         min: [5, 'Question time need atleast 5 mins!']
