@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import Question from '../models/question.js';
-import user from '../models/user.js';
 import User from '../models/user.js';
 import { useridFromToken } from '../controller/mentor.js'
 const router = express.Router();

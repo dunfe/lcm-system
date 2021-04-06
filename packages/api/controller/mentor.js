@@ -7,6 +7,7 @@ import dotenv from 'dotenv'
 import { promisify } from 'util';
 import jwt from 'jsonwebtoken';
 import colabRoom from '../models/collabRoom.js';
+import Notify from '../models/noti.js';
 dotenv.config();
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
@@ -115,6 +116,14 @@ export const selectQuestion = async (req,res) =>{
         content: ques.title
     });
     room.save();
+    var notify = new Notify({
+        titleForMentee: currUser.fullname +" đã chọn giải đáp câu hỏi: '" + ques.title + "' của bạn",
+        titleForMentor: "Bạn đã chọn giải đáp câu hỏi: '" + ques.title + "' của " + ques.menteeName,
+        receivedById: [ques.menteeId,currUser._id],
+        content: room._id
+    });
+    notify.save();
+    
     var roomId = room._id;
     Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
