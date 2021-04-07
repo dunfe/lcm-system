@@ -47,8 +47,22 @@ export const createReport = async (req, res) => {
     createBy: userId,
     content: req.body.content,
     createdAt: Date.now(),
-    img: req.body.img
   });
+
+  // Just for upload single file
+  // if(req.file) {
+  //   report.img = req.file.path;
+  // }
+
+  //Upload multiple files
+  if(req.files) {
+    let path = '';
+    req.files.forEach(function(files, index, arr){
+      report.img.push(files.path); 
+    })
+    // path = path.substring(0, path.lastIndexOf(","))
+    // report.img = path;
+  }
 
   report.save((err, doc) => {
     if (!err) {
