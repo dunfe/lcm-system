@@ -2,6 +2,7 @@ import * as React from "react";
 import {Badge, Dropdown, Menu} from "antd";
 import {BellOutlined} from "@ant-design/icons";
 import {io} from "socket.io-client";
+import axios from "axios";
 
 interface INotify {
     read: boolean,
@@ -15,15 +16,23 @@ interface INotify {
 
 const {useState, useEffect} = React;
 
+const instance = axios.create({baseURL: 'http://localhost:3000'});
+
 const Notify = () => {
-    const [notify, setNotify] = useState<INotify[]>([]);
+    const [notify] = useState<INotify[]>([]);
 
     useEffect(() => {
-        const socket = io('wss://localhost:3000');
+        const socket = io('ws://localhost:3007');
         socket.on('news', (data) => {
-            setNotify(data);
+            console.log(data);
         })
     }, []);
+
+    const test = () => {
+        instance.get('/api/users/notify').then((response) => {
+            console.log(response.data);
+        })
+    }
 
     const _notify = notify.map((item) => (
         <Menu.Item key={item._id}>
@@ -41,7 +50,7 @@ const Notify = () => {
         <Dropdown overlay={menu} trigger={['click']}>
                         <span className={'header-notify-icon'}>
                             <Badge count={5} showZero={true}>
-                                <BellOutlined style={{fontSize: 24, color: 'white'}}/>
+                                <BellOutlined style={{fontSize: 24, color: 'white'}} onClick={() => test()}/>
                             </Badge>
                         </span>
         </Dropdown>
