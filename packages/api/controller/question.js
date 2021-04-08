@@ -263,7 +263,7 @@ export const viewListQuestionForMentor = async (req, res) => {
 
 export const viewListQuestionById = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
-    const limit = 1;
+    const limit = 10;
     const results = {}
     let userId = await useridFromToken(req, res);
     let CurrUser = await User.findById(userId);
