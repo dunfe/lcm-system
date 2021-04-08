@@ -10,6 +10,8 @@ import {useAuth} from "../../utils/hooks/useAuth";
 import MentorContent from "../../components/Home/Content/MentorContent";
 import MenteeMenu from "../../components/Menu/MenteeMenu";
 import MentorMenu from "../../components/Menu/MentorMenu";
+import {LogoContainer} from "../../components/Logo/LogoContainer";
+import {Logo} from "../../components/Logo/Logo";
 
 const {Sider} = Layout;
 
@@ -57,7 +59,6 @@ export function HomePage() {
 
     return (
         <Layout style={{height: '100vh'}}>
-            <HeaderComponent/>
             <Layout>
                 <Sider
                     breakpoint="lg"
@@ -65,12 +66,16 @@ export function HomePage() {
                     onCollapse={(collapsed, type) => {
                         console.log(collapsed, type);
                     }}
-                    theme={"light"}
+                    theme={"dark"}
                 >
+                    <LogoContainer className="logo">
+                        <Logo/>
+                    </LogoContainer>
                     {role === 'mentee' ? <MenteeMenu selectedKeys={selectedKeys} onSelect={onSelect}/>
                     : <MentorMenu selectedKeys={selectedKeys} onSelect={onSelect}/>}
                 </Sider>
                 <Layout>
+                    <HeaderComponent/>
                     {selectedKeys.filter((item) => item === '/').length <= 0 ?
                         <PageHeader title={pageHeader.title} subTitle={pageHeader.subtitle}/> : null}
                     {role === 'mentee' ? <MenteeContent path={path} setSelectedKeys={setSelectedKeys}/>

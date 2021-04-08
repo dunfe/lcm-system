@@ -1,19 +1,33 @@
-import {Avatar, Dropdown, Layout, Menu} from 'antd';
+import {Avatar, Badge, Layout, Menu} from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 import {useAuth} from '../../utils/hooks/useAuth';
-import {UserOutlined} from '@ant-design/icons';
-import {LogoContainer} from "../Logo/LogoContainer";
-import {Logo} from "../Logo/Logo";
+import {BellOutlined, UserOutlined} from '@ant-design/icons';
 import "./Header.css";
-import Notify from "../Notify/Notify";
+import axios from "axios";
+
+interface INotify {
+    read: boolean,
+    _id: string,
+    title: string,
+    receivedById: string,
+    content: string,
+    createdAt: string,
+    __v: number
+}
 
 const {Header} = Layout;
+const {SubMenu} = Menu;
+
+const instance = axios.create({baseURL: 'https://livecoding.me'});
+const {useState, useEffect} = React;
 
 const HeaderComponent = () => {
     const history = useHistory();
     const auth = useAuth();
+    const [notify, setNotify] = useState<INotify[]>([]);
+    const [count, setCount] = useState(0);
 
     const onSignOut = () => {
         auth.signOut().then(() => {
@@ -21,53 +35,67 @@ const HeaderComponent = () => {
         });
     };
 
-    const menu = (
-        <Menu>
-            <Menu.Item>
-                {auth.user?.user.data.fullname}
-            </Menu.Item>
-            <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="#">
-                    2nd menu item
-                </a>
-            </Menu.Item>
-            <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="#">
-                    3rd menu item
-                </a>
-            </Menu.Item>
-            <Menu.Item danger>
-                <a onClick={onSignOut}>Đăng xuất</a>
-            </Menu.Item>
-        </Menu>
+    useEffect(() => {
+        instance.get('/api/users/notify', {
+            headers: {
+                'Authorization': auth.user?.user.token
+            }
+        }).then((response) => {
+            if (response.status === 200) {
+                setNotify(response.data.data.results);
+                const _count = response.data.readFalse;
+                setCount(_count);
+            }
+        }).catch((error) => console.error(error));
+    }, []);
+
+    const _notify = notify.map((item) => (
+        <Menu.Item key={item._id}>
+            {item.title}
+        </Menu.Item>
+    ));
+
+    const MenuIcon = (
+        <Badge count={count} showZero={true}>
+            <BellOutlined style={{fontSize: 20, paddingLeft: 10}}/>
+        </Badge>
     );
 
     return (
-        <StyledHeader>
-            <LogoContainer className="logo">
-                <Logo/>
-            </LogoContainer>
-            <div className={"header-right"}>
-                <div className={'header-notify'}>
-                    <Notify/>
-                </div>
-                <div>
-                    <Dropdown overlay={menu}>
-                        <div style={{width: 50}}>
-                            <Avatar src={auth.user?.user.data.detail.avatar} icon={<UserOutlined/>}/>
-                        </div>
-                    </Dropdown>
-                </div>
-            </div>
-        </StyledHeader>
+            <Menu mode="horizontal" style={{display: 'flex', justifyContent: 'flex-end'}}>
+                <SubMenu key="notify" icon={MenuIcon} style={{paddingTop: 5}}>
+                    <Menu.ItemGroup title="Thông báo của bạn">
+                        {_notify}
+                    </Menu.ItemGroup>
+                </SubMenu>
+                <SubMenu key="profile" icon={<Avatar src={auth.user?.user.data.detail.avatar} icon={<UserOutlined/>}/>}>
+                    <Menu.Item>
+                        {auth.user?.user.data.fullname}
+                    </Menu.Item>
+                    <Menu.Item>
+                        <a target="_blank" rel="noopener noreferrer" href="#">
+                            2nd menu item
+                        </a>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <a target="_blank" rel="noopener noreferrer" href="#">
+                            3rd menu item
+                        </a>
+                    </Menu.Item>
+                    <Menu.Item danger>
+                        <a onClick={onSignOut}>Đăng xuất</a>
+                    </Menu.Item>
+                </SubMenu>
+            </Menu>
     );
 };
 
 const StyledHeader = styled(Header)`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
 `;
 
 export default HeaderComponent;
