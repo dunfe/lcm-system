@@ -240,9 +240,19 @@ export const viewUserInfo = async (req, res) => {
 
 export const editProfileUserById = async (req, res) => {
     let userId = await useridFromToken(req, res);
-    let user = req.body;
+    const update = {
+        phone: req.body.phone,
+        avatar: '',
+        gender: req.body.gender,
+        address: req.body.address,
+        currentJob: req.body.currentJob
+    };
+    // Just for upload single file
+    if(req.file) {
+        update.avatar = req.file.path;
+    }
 
-    User.findOneAndUpdate({ _id: userId }, { $set: user }, { new: true }, (err, doc) => {
+    User.findOneAndUpdate({ _id: userId }, {detail: update}, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
                 status: 'Edit Profile Successful',

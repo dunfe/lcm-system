@@ -8,6 +8,8 @@ import {viewPointInTransactionById, viewPointOutTransactionById } from "../contr
 import {registerMentorRequest} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
 import { createReport } from '../controller/report.js';
+import upload from '../middleware/upload.js';
+
 
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -249,7 +251,7 @@ router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorReques
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
 //report mentor
-router.post('/reports', protect, restrictTo('mentee'), createReport);
+router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), createReport);
 
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
@@ -270,7 +272,7 @@ router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMento
 
 //profile function
 router.get('/',protect,restrictTo('mentee'),viewUserInfo);
-router.put('/',protect,restrictTo('mentee'),editProfileUserById);
+router.put('/',protect,restrictTo('mentee'),upload.single('avatar'),editProfileUserById);
 
 //vỉew history point transaction
 router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);
