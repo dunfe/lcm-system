@@ -4865,6 +4865,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/component-emitter@npm:^1.2.10":
+  version: 1.2.10
+  resolution: "@types/component-emitter@npm:1.2.10"
+  checksum: 868a9a00697df0ce74da77b8fc2c40f1a3ac6f294a828fdc8d9ae3ba62f9a541b472f147d1837dc7dd9d9c1333aa277f9d29c12e4746e6d779e6ce94c4c2f7ac
+  languageName: node
+  linkType: hard
+
 "@types/concurrently@npm:^6":
   version: 6.0.1
   resolution: "@types/concurrently@npm:6.0.1"
@@ -8015,6 +8022,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"backo2@npm:~1.0.2":
+  version: 1.0.2
+  resolution: "backo2@npm:1.0.2"
+  checksum: 72f19a0fd2b573f5504adf1f2e74e7658eec000e7732ebd5f622b6b1d520187277a5e8310787906455d02fcf915f35c5c48e54c997bed1a60b95355db8f2ccab
+  languageName: node
+  linkType: hard
+
 "backoff@npm:^2.5.0":
   version: 2.5.0
   resolution: "backoff@npm:2.5.0"
@@ -8035,6 +8049,13 @@ __metadata:
   version: 1.0.0
   resolution: "balanced-match@npm:1.0.0"
   checksum: f515a605fe1b59f476f7477c5e1d53ad55b4f42982fca1d57b6701906f4ad1f1ac90fd6587d92cc1af2edb43eecf979214dd847ee410a6de9db4ebf0dd128d62
+  languageName: node
+  linkType: hard
+
+"base64-arraybuffer@npm:0.1.4":
+  version: 0.1.4
+  resolution: "base64-arraybuffer@npm:0.1.4"
+  checksum: be8207c755c206f1053a3ebccb71e48d21d33125df1940d1b176ec26008e521edae8e1aa859b6fb6444b2889e1beec0771274d2f5bc5898d41b35179a55fbe96
   languageName: node
   linkType: hard
 
@@ -9197,6 +9218,7 @@ __metadata:
     react-router-dom: ^5.2.0
     react-scripts: 4.0.3
     redux: ^4.0.5
+    socket.io-client: ^4.0.1
     styled-components: ^5.2.1
     twilio-video: ^2.13.1
     typescript: ^4.2.3
@@ -9543,7 +9565,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"component-emitter@npm:^1.2.0, component-emitter@npm:^1.2.1, component-emitter@npm:^1.3.0":
+"component-emitter@npm:^1.2.0, component-emitter@npm:^1.2.1, component-emitter@npm:^1.3.0, component-emitter@npm:~1.3.0":
   version: 1.3.0
   resolution: "component-emitter@npm:1.3.0"
   checksum: fc4edbf1014f0aed88dcec33ca02d2938734e428423f640d8a3f94975615b8e8c506c19e29b93949637c5a281353e75fa79e299e0d57732f42a9fe346cb2cad6
@@ -10706,7 +10728,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.0":
+"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.0, debug@npm:~4.3.1":
   version: 4.3.2
   resolution: "debug@npm:4.3.2"
   dependencies:
@@ -11600,6 +11622,32 @@ __metadata:
   dependencies:
     once: ^1.4.0
   checksum: 7da60e458bdb5e16c006a45e85ef3bc1e3791db5ba275b0913258ccddc8899acb9252c4ddbcce87bd1b46e2a3f97315aafb9f0c0330e8aac44defb504a9d3ccd
+  languageName: node
+  linkType: hard
+
+"engine.io-client@npm:~5.0.0":
+  version: 5.0.1
+  resolution: "engine.io-client@npm:5.0.1"
+  dependencies:
+    base64-arraybuffer: 0.1.4
+    component-emitter: ~1.3.0
+    debug: ~4.3.1
+    engine.io-parser: ~4.0.1
+    has-cors: 1.1.0
+    parseqs: 0.0.6
+    parseuri: 0.0.6
+    ws: ~7.4.2
+    yeast: 0.1.2
+  checksum: 4faaabee0e546c34c0d2a019ced3c7ec8e682d7ece0eb81d244317fa7a524a2608bfb392e2175582ce81e2a65e3317417e05e1b0c9ae78fd41cadc485edd53ab
+  languageName: node
+  linkType: hard
+
+"engine.io-parser@npm:~4.0.1":
+  version: 4.0.2
+  resolution: "engine.io-parser@npm:4.0.2"
+  dependencies:
+    base64-arraybuffer: 0.1.4
+  checksum: fe5543911fb9451501c062fe6f0965ffd80064036daba4b7dda2190038436fd00875a049194381edd936dc27eaa0e52dca7f4113b0116d962ebd7cfe67247fc1
   languageName: node
   linkType: hard
 
@@ -14449,6 +14497,13 @@ fsevents@^1.2.7:
   version: 1.0.1
   resolution: "has-bigints@npm:1.0.1"
   checksum: 1074b644f5f2c319fc31af00fe2f81b6e21e204bb46da70ff7b970fe65c56f504e697fe6b41823ba679bd4111840482a83327d3432b8d670a684da4087ed074b
+  languageName: node
+  linkType: hard
+
+"has-cors@npm:1.1.0":
+  version: 1.1.0
+  resolution: "has-cors@npm:1.1.0"
+  checksum: c8257cbe3fc1c2f49d293879f0c6873c6fa7ba7be44147f9a9023cc421c7842833c3553f46bdc04459f046c1c74eb9c7a98e63fdd2c7713caaddd26b1b7f9043
   languageName: node
   linkType: hard
 
@@ -21105,6 +21160,20 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"parseqs@npm:0.0.6":
+  version: 0.0.6
+  resolution: "parseqs@npm:0.0.6"
+  checksum: 9e095b898b52a138e5d1e055bf3dd2ab4630b2ac0468dd47ec00695c39683aa28f5b88852a1b4938f9b1109219b5eb63e7ffd567ff7a7fb8932c91697647fe83
+  languageName: node
+  linkType: hard
+
+"parseuri@npm:0.0.6":
+  version: 0.0.6
+  resolution: "parseuri@npm:0.0.6"
+  checksum: ff7ad178b06748b2999d52852ea0a32d270f92a8926da1cad7550d315e189fce67edac49b476958d13b8cea1fda7b8ac128bfe7d7d78a41772a3278c5c51e057
+  languageName: node
+  linkType: hard
+
 "parseurl@npm:~1.3.2, parseurl@npm:~1.3.3":
   version: 1.3.3
   resolution: "parseurl@npm:1.3.3"
@@ -26619,6 +26688,32 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
+"socket.io-client@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "socket.io-client@npm:4.0.1"
+  dependencies:
+    "@types/component-emitter": ^1.2.10
+    backo2: ~1.0.2
+    component-emitter: ~1.3.0
+    debug: ~4.3.1
+    engine.io-client: ~5.0.0
+    parseuri: 0.0.6
+    socket.io-parser: ~4.0.4
+  checksum: 9b163f559cc7d1c1898a85227b1f3cfd0d941c69739f3f75c3489f0a898155544e82659379dc71c3169f3157a8b3d0e51ba9225ab93f0d2923654de2ef9da6b9
+  languageName: node
+  linkType: hard
+
+"socket.io-parser@npm:~4.0.4":
+  version: 4.0.4
+  resolution: "socket.io-parser@npm:4.0.4"
+  dependencies:
+    "@types/component-emitter": ^1.2.10
+    component-emitter: ~1.3.0
+    debug: ~4.3.1
+  checksum: ee2ffffa30e11ecebe690291ed91e5f949bf4ab9446ad6659b84488dd4f5908514867970539d32e1d94d4a5596e0d191f2e0ad92f707324cc4753ceb328aea2a
+  languageName: node
+  linkType: hard
+
 "sockjs-client@npm:^1.5.0":
   version: 1.5.0
   resolution: "sockjs-client@npm:1.5.0"
@@ -30269,7 +30364,7 @@ typescript@~3.8.2:
   languageName: node
   linkType: hard
 
-"ws@npm:^7.0.0, ws@npm:^7.4.2, ws@npm:^7.4.4":
+"ws@npm:^7.0.0, ws@npm:^7.4.2, ws@npm:^7.4.4, ws@npm:~7.4.2":
   version: 7.4.4
   resolution: "ws@npm:7.4.4"
   peerDependencies:
@@ -30557,6 +30652,13 @@ typescript@~3.8.2:
     y18n: ^4.0.0
     yargs-parser: ^18.1.2
   checksum: dbf687d6b938f01bbf11e158dde6df906282b70cd9295af0217ee8cefbd83ad09d49fa9458d0d5325b0e66f03df954a38986db96f91e5b46ccdbbaf9a0157b23
+  languageName: node
+  linkType: hard
+
+"yeast@npm:0.1.2":
+  version: 0.1.2
+  resolution: "yeast@npm:0.1.2"
+  checksum: ce326a71c7f25059ef7581121104c21d2837511a95cb44604f9e1825c5722f5b65324fb0b1d20bcfe3975efe45e418106100aa0d0e9fc502f90f3d07d059e177
   languageName: node
   linkType: hard
 

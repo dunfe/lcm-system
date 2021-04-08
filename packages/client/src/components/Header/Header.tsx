@@ -7,8 +7,10 @@ import {UserOutlined, BellOutlined} from '@ant-design/icons';
 import {LogoContainer} from "../Logo/LogoContainer";
 import {Logo} from "../Logo/Logo";
 import "./Header.css";
+import Notify from "../Notify/Notify";
 
 const {Header} = Layout;
+
 const HeaderComponent = () => {
     const history = useHistory();
     const auth = useAuth();
@@ -47,13 +49,7 @@ const HeaderComponent = () => {
             </LogoContainer>
             <div className={"header-right"}>
                 <div className={'header-notify'}>
-                    <Dropdown overlay={menu} trigger={['click']}>
-                        <span className={'header-notify-icon'}>
-                            <Badge count={5} showZero={true}>
-                                <BellOutlined style={{fontSize: 24, color: 'white'}}/>
-                            </Badge>
-                        </span>
-                    </Dropdown>
+                    <Notify/>
                 </div>
                 <div>
                     <Dropdown overlay={menu}>
