@@ -1,15 +1,20 @@
 import express from 'express';
-import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor} from '../controller/user.js';
+import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {createQuestion, viewListQuestionMenteeId,viewListNewQuestionMenteeId, viewListDoingOrDoneQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById} from '../controller/question.js'
+import {createQuestion,viewListNewQuestionMenteeId, viewListDoingOrDoneQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
 import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
+import {registerMentorRequest} from '../controller/request.js';
+import { protect, restrictTo} from '../controller/auth.js';
+import { createReport } from '../controller/report.js';
+import upload from '../middleware/upload.js';
+
+
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import {registerMentorRequest} from '../controller/request.js';
-import { protect, restrictTo} from '../controller/auth.js';
+import {getAllNotification, clickNotify} from '../controller/noti.js'
 dotenv.config();
 
 const router = express.Router();
@@ -56,7 +61,13 @@ router.post(
                             if(user.role == 'banned') {
                                 return res.json({
                                     status: 'banned',
-                                    message: 'User has been banned'
+                                    message: 'Người dùng đã bị vô hiệu hóa'
+                                })
+                            }
+                            if(user.role == 'admin') {
+                                return res.json({
+                                    status: 'banned',
+                                    message: 'Vui lòng sử dụng ứng dụng cho admin!!'
                                 })
                             }
                             const body = {_id: user._id, username: user.username};
@@ -245,11 +256,14 @@ router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorReques
 //rate mentor
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
+//report mentor
+router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), createReport);
+
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
-router.get('/questions',protect,restrictTo('mentee'),viewListQuestionMenteeId);
-router.get('/questions/new',protect,restrictTo('mentee'),viewListNewQuestionMenteeId);
-router.get('/questions/notnew',protect,restrictTo('mentee'),viewListDoingOrDoneQuestionMenteeId);
+router.get('/questions',protect, restrictTo('mentee', 'mentor'),viewListQuestionById);
+router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewQuestionMenteeId);
+router.get('/questions/notnew',protect, restrictTo('mentee', 'mentor'),viewListDoingOrDoneQuestionMenteeId);
 router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
@@ -261,10 +275,11 @@ router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
 //add favor mentor and list favor mentor
 router.put('/favorite-mentor/:id',protect,restrictTo('mentee'),addFavoriteMentorById);
 router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMentor);
+router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFaverite)
 
 //profile function
 router.get('/',protect,restrictTo('mentee'),viewUserInfo);
-router.put('/',protect,restrictTo('mentee'),editProfileUserById);
+router.put('/',protect,restrictTo('mentee'),upload.single('avatar'),editProfileUserById);
 
 //vỉew history point transaction
 router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);
@@ -272,4 +287,8 @@ router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionB
 
 // get all skill for all role
 router.get('/skills',getAllSkills);
+
+//notify
+router.get('/notify',protect, restrictTo('mentee'),getAllNotification);
+router.put('/notify/:id',protect, restrictTo('mentee'),clickNotify)
 export default router;

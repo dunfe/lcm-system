@@ -220,29 +220,6 @@ export const banUserById = async (req, res, next) => {
     });
 }
 
-export const selectMentor = async (req, res, next) => {
-    if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    };
-    var userId = await useridFromToken(req, res);
-    User.findByIdAndUpdate(userId, { $push: { matchingMentor: req.params.id } }, { new: true }, (err, doc) => {
-        if (!err) {
-            return res.status(200).json({
-                status: 'success',
-                data: doc
-            });
-        } else {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Something wrong, try again later'
-            })
-        };
-    });
-}
-
 export const viewUserInfo = async (req, res) => {
     let userId = await useridFromToken(req, res);
     User.find({ _id: userId }, (err, doc) => {
@@ -263,9 +240,19 @@ export const viewUserInfo = async (req, res) => {
 
 export const editProfileUserById = async (req, res) => {
     let userId = await useridFromToken(req, res);
-    let user = req.body;
+    const update = {
+        phone: req.body.phone,
+        avatar: '',
+        gender: req.body.gender,
+        address: req.body.address,
+        currentJob: req.body.currentJob
+    };
+    // Just for upload single file
+    if(req.file) {
+        update.avatar = req.file.path;
+    }
 
-    User.findOneAndUpdate({ _id: userId }, { $set: user }, { new: true }, (err, doc) => {
+    User.findOneAndUpdate({ _id: userId }, {detail: update}, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
                 status: 'Edit Profile Successful',
@@ -377,6 +364,21 @@ export const viewListFavoriteMentor = async (req, res) => {
             message: e.message
         })
     }
+}
+
+export const countMentorFaverite = async (req,res) =>{
+    let userId = await useridFromToken(req, res);
+    var favoriteMentor = [];
+    const mentee = await User.find({ _id: userId }).then((mentee) => {
+        for (var i = 0; i < mentee.length; i++) {
+            favoriteMentor = favoriteMentor.concat(mentee[i].favoriteMentor);
+            favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
+        }
+    })
+    return res.status(200).json({
+        status: 'success',
+        count : favoriteMentor.length
+    });
 }
 
 export default router;

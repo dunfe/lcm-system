@@ -2,14 +2,11 @@ import mongoose from 'mongoose';
 
 const notiSchema = new mongoose.Schema({
     title: { type: String },
-    receivedById: [
-        { type: String }
-    ],
+    receivedById: { type: String },
     content: { type: String },
-    status: { 
-        type: String,
-        enum: ["new",  "seen"],
-        default: "new",
+    read: {
+        type: Boolean,
+        default: false
     },
     createdAt: { type: Date, default: Date.now },
 });
