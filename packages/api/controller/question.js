@@ -247,8 +247,8 @@ export const viewListQuestionForMentor = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId }, status: "new" }).sort({ point: 'descending' })
-        .limit(limit).skip(startIndex).exec();
+        results.results = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId }, status: "new" }).sort({ point: 'descending' }).exec();
+        //limit(limit).skip(startIndex)
         return res.status(200).json({
             status: 'success',
             data: results
