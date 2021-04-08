@@ -19,9 +19,7 @@ dotenv.config();
 
 const router = express.Router();
 
-router.post(
-    '/register',
-    async (req, res, next) => {
+router.post('/register',async (req, res, next) => {
         passport.authenticate(
             'register', {session: false},
             async (err, user, info) => {
@@ -35,7 +33,8 @@ router.post(
                         user: req.user
                     });
                 } catch (error) {
-                    return next(error);
+                    // res.json({ error: error+"" });
+                    return next(error.message);
                 }
             }
         )(req, res, next);
