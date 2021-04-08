@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import crypto from "crypto";
 import validator from 'validator';
 import express from 'express';
+import validate from '../validator/user.validation.js';
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -149,9 +150,18 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+userSchema.path('password').validate(function (input){
+    return validate.isGoodPassword(input) && validate.isLongEnough(input);
+},"contains at least one number, one lowercase and one uppercase letter and is at least six characters long");
+
 userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
+
+// userSchema.methods.isGoodPassward = function (password){
+//     var regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+//     return regex.test(password);
+// }
 
 userSchema.methods.validPassword = async function (password) {
     const user = this;
@@ -159,11 +169,12 @@ userSchema.methods.validPassword = async function (password) {
     return compare
 };
 
-userSchema.pre('save', function (next) {
-    if (!this.isModified('password') || this.isNew) {
-        return next();
-    }
-
+userSchema.pre('save', async function (next) {
+    // if (!this.isModified('password') || this.isNew) {
+    //     return next();
+    // }
+    
+    this.password = await bcrypt.hash(this.password, 10);
     this.passwordChangedAt = Date.now() - 1000;
     next();
 });
@@ -190,6 +201,7 @@ userSchema.methods.changePasswordAter = function (JWTTimestamp) {
     // False means NOT changed
     return false;
 }
+
 
 var user = mongoose.model('user', userSchema);
 
