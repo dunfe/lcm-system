@@ -22,7 +22,7 @@ const Notify = () => {
     const [notify] = useState<INotify[]>([]);
 
     useEffect(() => {
-        const socket = io('ws://localhost:3007');
+        const socket = io('wss://notify.livecoding.me');
         socket.on('news', (data) => {
             console.log(data);
         })
