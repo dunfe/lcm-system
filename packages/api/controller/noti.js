@@ -3,10 +3,9 @@ import mongoose from 'mongoose';
 import { useridFromToken } from '../controller/mentor.js'
 import Notify from '../models/noti.js';
 import User from '../models/user.js';
-
+import { io } from "socket.io-client";
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
-const io = require("socket.io-client");
 
 export const clickNotify = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
@@ -46,10 +45,7 @@ export const getAllNotification = async (req, res) => {
     const endIndex = page * limit;
 
     var socketio = io("ws://localhost:3007");
-    let countReadFalse;
-    const readFalse = await Notify.find({receivedById : userId, read: false});
-    countReadFalse = readFalse.length;
-    socketio.emit("news",countReadFalse);
+    socketio.emit("news", 5);
 
     if (endIndex < data.length) {
       results.next = {

@@ -4691,17 +4691,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mongodb@npm:*":
-  version: 3.6.12
-  resolution: "@types/mongodb@npm:3.6.12"
-  dependencies:
-    "@types/bson": "*"
-    "@types/node": "*"
-  checksum: 7e41e42a941a5c07cc45f83722e617f1e96942b27cabae8f06dd253ae86b420c1ca5c75e1de7bfbce787bb703714bc297bef45215ef1275815e8d355e03bc27c
-  languageName: node
-  linkType: hard
-
-"@types/mongodb@npm:^3.5.27":
+"@types/mongodb@npm:*, @types/mongodb@npm:^3.5.27":
   version: 3.6.12
   resolution: "@types/mongodb@npm:3.6.12"
   dependencies:
@@ -19170,8 +19160,10 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "notify-server@workspace:packages/notify-server"
   dependencies:
+    "@types/cors": ^2
     "@types/express": ^4
     "@types/mongoose": ^5
+    cors: ^2.8.5
     express: ^4.17.1
     mongoose: ^5.12.3
     socket.io: ^4.0.1
