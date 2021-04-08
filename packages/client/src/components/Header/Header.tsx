@@ -1,9 +1,9 @@
-import {Avatar, Badge, Dropdown, Layout, Menu} from 'antd';
+import {Avatar, Dropdown, Layout, Menu} from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 import {useAuth} from '../../utils/hooks/useAuth';
-import {UserOutlined, BellOutlined} from '@ant-design/icons';
+import {UserOutlined} from '@ant-design/icons';
 import {LogoContainer} from "../Logo/LogoContainer";
 import {Logo} from "../Logo/Logo";
 import "./Header.css";
