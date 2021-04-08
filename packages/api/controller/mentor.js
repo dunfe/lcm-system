@@ -12,7 +12,6 @@ dotenv.config();
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
-
 export function getAllMentor(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
@@ -30,7 +29,7 @@ export function getAllMentor(model) {
           limit: limit
         }
       }
-      
+
       if (startIndex > 0) {
         results.previous = {
           page: page - 1,
@@ -52,8 +51,16 @@ export const countQuestionNotDoneOfMentor = async (req,res)=> {
     return data.length;
 }
 
+export const countNotify = async (req,res) =>{
+    var userId = await useridFromToken(req,res);
+    let countReadFalse;
+    const readFalse = await Notify.find({receivedById : userId, read: false});
+    countReadFalse = readFalse.length;
+    return countReadFalse
+}
+
 export const selectQuestion = async (req,res) =>{
-    if(!ObjectId.isValid(req.params.id)) { 
+    if(!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -65,7 +72,7 @@ export const selectQuestion = async (req,res) =>{
         return res.status(400).json({
             status: 'fail',
             message: 'bạn chưa hoàn thành 5 câu hỏi đã chọn trước đó, vui lòng hoàn thành trước khi chọn câu hỏi tiếp theo!!'
-        }) 
+        })
     }
     var userId = await useridFromToken(req,res);
     var currUser = await User.findById(userId);
@@ -96,7 +103,12 @@ export const selectQuestion = async (req,res) =>{
     });
     notify1.save();
     notify2.save();
-    
+
+    var socketio = io("ws://localhost:3007");
+    let countReadFalse;
+    const readFalse = await Notify.find({receivedById : userId, read: false});
+    countReadFalse = readFalse.length;
+    socketio.emit("news",countReadFalse);
     var roomId = room._id;
     Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
@@ -104,7 +116,7 @@ export const selectQuestion = async (req,res) =>{
                 status: 'success',
                 roomId : roomId,
                 data: doc
-            }); 
+            });
         } else {
             return res.status(400).json({
                 status: 'fail',
@@ -115,7 +127,7 @@ export const selectQuestion = async (req,res) =>{
 }
 
 export const getMentorById = async (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) { 
+    if(!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -127,7 +139,7 @@ export const getMentorById = async (req, res) => {
             return res.status(200).json({
                 status: 'success',
                 data: doc
-            });  
+            });
         } else {
             return res.status(400).json({
                 status: 'fail',
@@ -144,7 +156,7 @@ export const getMentorByName = (req, res) => {
         role : 'mentor'
     }, (err, doc) => {
         if(!err) {
-            if(doc.toString() == ""){ 
+            if(doc.toString() == ""){
                 return res.status(400).send(`No record with given name: ${req.body.fullname}`)
             }else {
                 res.send(doc);
@@ -164,7 +176,7 @@ export const  totalMentor = (req, res) => {
             $count: "total_mentor"
         }
     ], (err, doc) => {
-        if (!err){ 
+        if (!err){
             res.json(doc);
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
@@ -261,7 +273,7 @@ export const ratingMentor = async (req,res,next) =>{
             return res.status(200).json({
                 status: 'success',
                 data: doc
-            }); 
+            });
         } else {
             return res.status(400).json({
                 status: 'fail',
@@ -281,7 +293,7 @@ export const useridFromToken = async (req,res)=>{
         ) {
             token = req.headers.authorization.split(' ')[1];
         }
-        
+
         if(!token) {
             return res.status(404).json({
             status: 'fail',

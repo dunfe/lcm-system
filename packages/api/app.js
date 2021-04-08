@@ -16,7 +16,6 @@ import passport from 'passport';
 import db from './db/db.js';
 import passportSetup from "./config/passport-setup.js";
 
-
 const app = express();
 dotenv.config();
 app.use(cors());
