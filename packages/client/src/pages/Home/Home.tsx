@@ -1,30 +1,24 @@
 import * as React from 'react';
-import {Layout, Menu} from 'antd';
-import {
-    UserOutlined,
-    UnorderedListOutlined,
-    AppstoreAddOutlined,
-    TeamOutlined
-} from '@ant-design/icons';
-import Join from '../../components/Session/Join';
+import {Layout} from 'antd';
 import HeaderComponent from '../../components/Header/Header';
 import {
-    Link,
-    Route,
-    Switch,
     useRouteMatch,
 } from 'react-router-dom';
 import PageHeader from "../../components/Header/PageHeader";
-import AddQuestion from "../Add/AddQuestion";
-import ListQuestion from "../Question/ListQuestion";
-import Dashboard from "../Dashboard/Dashboard";
+import MenteeContent from "../../components/Home/Content/MenteeContent";
+import {useAuth} from "../../utils/hooks/useAuth";
+import MentorContent from "../../components/Home/Content/MentorContent";
+import MenteeMenu from "../../components/Menu/MenteeMenu";
+import MentorMenu from "../../components/Menu/MentorMenu";
 
-const {Sider, Content} = Layout;
+const {Sider} = Layout;
 
 const {useState, useEffect} = React;
 
 export function HomePage() {
     //check login
+    const auth = useAuth();
+    const role = auth.user?.user.data.role;
     const {path} = useRouteMatch();
     const [selectedKeys, setSelectedKeys] = useState([location.pathname]);
     const [pageHeader, setPageHeader] = useState({
@@ -73,47 +67,14 @@ export function HomePage() {
                     }}
                     theme={"light"}
                 >
-                    <Menu theme="light" mode="inline" selectedKeys={selectedKeys} onSelect={onSelect}>
-                        <Menu.Item key="/" icon={<UserOutlined/>}>
-                            <Link to={`/`}>Dashboard</Link>
-                        </Menu.Item>
-                        <Menu.Item key="/add" icon={<AppstoreAddOutlined/>}>
-                            <Link to={`/add`}>Thêm câu hỏi</Link>
-                        </Menu.Item>
-                        <Menu.Item key="/questions" icon={<UnorderedListOutlined/>}>
-                            <Link to={`/questions`}>Danh sách câu hỏi</Link>
-                        </Menu.Item>
-                        <Menu.Item key="/session" icon={<TeamOutlined/>}>
-                            <Link to={`/session`}>Session</Link>
-                        </Menu.Item>
-                    </Menu>
+                    {role === 'mentee' ? <MenteeMenu selectedKeys={selectedKeys} onSelect={onSelect}/>
+                    : <MentorMenu selectedKeys={selectedKeys} onSelect={onSelect}/>}
                 </Sider>
                 <Layout>
                     {selectedKeys.filter((item) => item === '/').length <= 0 ?
                         <PageHeader title={pageHeader.title} subTitle={pageHeader.subtitle}/> : null}
-
-                        <Content style={{margin: '24px 16px 0'}}>
-                            <Switch>
-
-                            <Route exact path={path}>
-                                <Dashboard/>
-                            </Route>
-                            <div
-                                className="site-layout-background"
-                                style={{padding: 24, minHeight: 360, backgroundColor: "white"}}
-                            >
-                                <Route path={`/add`}>
-                                    <AddQuestion setSelectedKeys={setSelectedKeys}/>
-                                </Route>
-                                <Route path={`/questions`}>
-                                    <ListQuestion/>
-                                </Route>
-                                <Route path={`/session`}>
-                                    <Join/>
-                                </Route>
-                            </div>
-                            </Switch>
-                        </Content>
+                    {role === 'mentee' ? <MenteeContent path={path} setSelectedKeys={setSelectedKeys}/>
+                        : <MentorContent path={path}/>}
                 </Layout>
             </Layout>
         </Layout>
