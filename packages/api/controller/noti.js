@@ -6,6 +6,7 @@ import User from '../models/user.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
+const io = require("socket.io-client");
 
 export const clickNotify = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
@@ -43,6 +44,12 @@ export const getAllNotification = async (req, res) => {
     if(page<1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
+
+    var socketio = io("ws://localhost:3007");
+    let countReadFalse;
+    const readFalse = await Notify.find({receivedById : userId, read: false});
+    countReadFalse = readFalse.length;
+    socketio.emit("news",countReadFalse);
 
     if (endIndex < data.length) {
       results.next = {
