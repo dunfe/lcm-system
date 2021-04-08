@@ -5,6 +5,7 @@
     align-items: center;
 }
 .header-notify {
+    padding-top: 10px;
     width: 50px;
 }
 .header-notify-icon {
