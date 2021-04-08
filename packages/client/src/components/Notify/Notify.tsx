@@ -1,8 +1,8 @@
 import * as React from "react";
 import {Badge, Dropdown, Menu} from "antd";
 import {BellOutlined} from "@ant-design/icons";
-import {io} from "socket.io-client";
 import axios from "axios";
+import {useAuth} from "../../utils/hooks/useAuth";
 
 interface INotify {
     read: boolean,
@@ -16,27 +16,30 @@ interface INotify {
 
 const {useState, useEffect} = React;
 
-const instance = axios.create({baseURL: 'http://localhost:3000'});
+const instance = axios.create({baseURL: 'https://livecoding.me'});
 
 const Notify = () => {
-    const [notify] = useState<INotify[]>([]);
+    const auth = useAuth();
+    const [notify, setNotify] = useState<INotify[]>([]);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
-        const socket = io('ws://localhost:3007');
-        socket.on('news', (data) => {
-            console.log(data);
-        })
+        instance.get('/api/users/notify', {
+            headers: {
+                'Authorization': auth.user?.user.token
+            }
+        }).then((response) => {
+            if (response.status === 200) {
+                setNotify(response.data.data.results);
+                const _count = response.data.readFalse;
+                setCount(_count);
+            }
+        }).catch((error) => console.error(error));
     }, []);
-
-    const test = () => {
-        instance.get('/api/users/notify').then((response) => {
-            console.log(response.data);
-        })
-    }
 
     const _notify = notify.map((item) => (
         <Menu.Item key={item._id}>
-            item.title
+            {item.title}
         </Menu.Item>
     ));
 
@@ -49,8 +52,8 @@ const Notify = () => {
     return (
         <Dropdown overlay={menu} trigger={['click']}>
                         <span className={'header-notify-icon'}>
-                            <Badge count={5} showZero={true}>
-                                <BellOutlined style={{fontSize: 24, color: 'white'}} onClick={() => test()}/>
+                            <Badge count={count} showZero={true}>
+                                <BellOutlined style={{fontSize: 24, color: 'white'}}/>
                             </Badge>
                         </span>
         </Dropdown>
