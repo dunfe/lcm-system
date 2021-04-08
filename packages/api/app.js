@@ -16,15 +16,7 @@ import passport from 'passport';
 import db from './db/db.js';
 import passportSetup from "./config/passport-setup.js";
 
-
 const app = express();
-
-import { Server } from 'socket.io';
-import { createServer } from 'http';
- 
-const server = createServer(app); 
-const socketio = new Server(server);
-app.set('socketio', socketio);
 dotenv.config();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));

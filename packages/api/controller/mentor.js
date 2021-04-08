@@ -11,6 +11,7 @@ import Notify from '../models/noti.js';
 dotenv.config();
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
+const io = require("socket.io-client");
 
 export function getAllMentor(model) {
     return async (req, res) => {
@@ -49,6 +50,14 @@ export const countQuestionNotDoneOfMentor = async (req,res)=> {
     var userId = await useridFromToken(req,res);
     var data = await Question.find({receivedBy: userId},{status: "doing"});
     return data.length;
+}
+
+export const countNotify = async (req,res) =>{
+    var userId = await useridFromToken(req,res);
+    let countReadFalse;
+    const readFalse = await Notify.find({receivedById : userId, read: false});
+    countReadFalse = readFalse.length;
+    return countReadFalse
 }
 
 export const selectQuestion = async (req,res) =>{
@@ -96,11 +105,11 @@ export const selectQuestion = async (req,res) =>{
     notify1.save();
     notify2.save();
 
-    var socketio = req.app.get('socketio');
+    var socketio = io("ws://localhost:3007");
     let countReadFalse;
     const readFalse = await Notify.find({receivedById : userId, read: false});
     countReadFalse = readFalse.length;
-    socketio.emit("new",countReadFalse);
+    socketio.emit("news",countReadFalse);
     var roomId = room._id;
     Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
