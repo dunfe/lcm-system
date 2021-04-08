@@ -4,6 +4,8 @@ import Dashboard from "../../../pages/Dashboard/Dashboard";
 import ListQuestion from "../../../pages/Question/ListQuestion";
 import Join from "../../Session/Join";
 import {Layout} from "antd";
+import Matching from "../../../pages/Matching/Matching";
+import "./MentorContent.css";
 
 interface IProps {
     path: string;
@@ -20,6 +22,13 @@ const MentorContent = (props: IProps) => {
                 <Route exact path={path}>
                     <Dashboard/>
                 </Route>
+                <div
+                    className="site-layout-background"
+                >
+                    <Route path={`/matching`}>
+                        {Matching()}
+                    </Route>
+                </div>
                 <div
                     className="site-layout-background"
                     style={{padding: 24, minHeight: 360, backgroundColor: "white"}}

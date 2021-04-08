@@ -50,7 +50,7 @@ export function HomePage() {
                 case '/matching':
                     setPageHeader({
                         title: 'Matching',
-                        subtitle: 'Chọn những mentor bạn muốn'
+                        subtitle: 'Chọn câu hỏi để trả lời'
                     });
                     break;
             }

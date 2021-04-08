@@ -1,6 +1,5 @@
-import {Avatar, Badge, Layout, Menu} from 'antd';
+import {Avatar, Badge, Menu} from 'antd';
 import * as React from 'react';
-import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 import {useAuth} from '../../utils/hooks/useAuth';
 import {BellOutlined, UserOutlined} from '@ant-design/icons';
@@ -17,7 +16,6 @@ interface INotify {
     __v: number
 }
 
-const {Header} = Layout;
 const {SubMenu} = Menu;
 
 const instance = axios.create({baseURL: 'https://livecoding.me'});
@@ -36,7 +34,8 @@ const HeaderComponent = () => {
     };
 
     useEffect(() => {
-        instance.get('/api/users/notify', {
+        const role = auth.user?.user.data.role;
+        instance.get(`/api/${role}/notify`, {
             headers: {
                 'Authorization': auth.user?.user.token
             }
@@ -89,13 +88,5 @@ const HeaderComponent = () => {
             </Menu>
     );
 };
-
-const StyledHeader = styled(Header)`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
-`;
 
 export default HeaderComponent;
