@@ -2,7 +2,7 @@ import express from 'express';
 import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {createQuestion, viewListQuestionMenteeId,viewListNewQuestionMenteeId, viewListDoingOrDoneQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById} from '../controller/question.js'
+import {createQuestion,viewListNewQuestionMenteeId, viewListDoingOrDoneQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
 import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
 import {registerMentorRequest} from '../controller/request.js';
@@ -261,9 +261,9 @@ router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), cr
 
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
-router.get('/questions',protect,restrictTo('mentee'),viewListQuestionMenteeId);
-router.get('/questions/new',protect,restrictTo('mentee'),viewListNewQuestionMenteeId);
-router.get('/questions/notnew',protect,restrictTo('mentee'),viewListDoingOrDoneQuestionMenteeId);
+router.get('/questions',protect, restrictTo('mentee', 'mentor'),viewListQuestionById);
+router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewQuestionMenteeId);
+router.get('/questions/notnew',protect, restrictTo('mentee', 'mentor'),viewListDoingOrDoneQuestionMenteeId);
 router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
