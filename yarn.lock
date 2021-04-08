@@ -5168,6 +5168,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/mongodb@npm:*":
+  version: 3.6.12
+  resolution: "@types/mongodb@npm:3.6.12"
+  dependencies:
+    "@types/bson": "*"
+    "@types/node": "*"
+  checksum: 7e41e42a941a5c07cc45f83722e617f1e96942b27cabae8f06dd253ae86b420c1ca5c75e1de7bfbce787bb703714bc297bef45215ef1275815e8d355e03bc27c
+  languageName: node
+  linkType: hard
+
 "@types/mongodb@npm:^3.5.27":
   version: 3.6.9
   resolution: "@types/mongodb@npm:3.6.9"
@@ -5175,6 +5185,16 @@ __metadata:
     "@types/bson": "*"
     "@types/node": "*"
   checksum: ab78a36f7d0b76359715c50dcf98e415fccbefcf38f3f5372ffed4e7d93ee5a875ad6bc8628d2568d0d039ce2ccaea550a615627d6519c8f8a3e43bcbe9758d0
+  languageName: node
+  linkType: hard
+
+"@types/mongoose@npm:^5":
+  version: 5.10.4
+  resolution: "@types/mongoose@npm:5.10.4"
+  dependencies:
+    "@types/mongodb": "*"
+    "@types/node": "*"
+  checksum: 79b271db6def51ef62718eb07aa54f9e18239e2a5657e84764c0445a8331b170896ec035046cb6bf566ec6dea8e3b6cac91f28a4d85f357827da680b26239ace
   languageName: node
   linkType: hard
 
@@ -7126,6 +7146,7 @@ __metadata:
     requirejs: ^2.3.6
     shortid: ^2.2.16
     socket.io: ^4.0.1
+    socket.io-client: ^4.0.1
     stripe: ^8.138.0
     supertest: ^6.1.3
     validator: ^13.5.2
@@ -8020,6 +8041,13 @@ __metadata:
   bin:
     babylon: ./bin/babylon.js
   checksum: af38302e3fd8b01004ab03e7f42e00d3d6b3e85190102a1ad7ffbed87bc025d96413a7c165b2b5f0b78e576b71e5306a67c1ae0368f6d12bef40fd00b0dbc7b5
+  languageName: node
+  linkType: hard
+
+"backo2@npm:~1.0.2":
+  version: 1.0.2
+  resolution: "backo2@npm:1.0.2"
+  checksum: 72f19a0fd2b573f5504adf1f2e74e7658eec000e7732ebd5f622b6b1d520187277a5e8310787906455d02fcf915f35c5c48e54c997bed1a60b95355db8f2ccab
   languageName: node
   linkType: hard
 
@@ -11625,7 +11653,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"engine.io-parser@npm:~4.0.0":
+"engine.io-client@npm:~5.0.0":
+  version: 5.0.1
+  resolution: "engine.io-client@npm:5.0.1"
+  dependencies:
+    base64-arraybuffer: 0.1.4
+    component-emitter: ~1.3.0
+    debug: ~4.3.1
+    engine.io-parser: ~4.0.1
+    has-cors: 1.1.0
+    parseqs: 0.0.6
+    parseuri: 0.0.6
+    ws: ~7.4.2
+    yeast: 0.1.2
+  checksum: 4faaabee0e546c34c0d2a019ced3c7ec8e682d7ece0eb81d244317fa7a524a2608bfb392e2175582ce81e2a65e3317417e05e1b0c9ae78fd41cadc485edd53ab
+  languageName: node
+  linkType: hard
+
+"engine.io-parser@npm:~4.0.0, engine.io-parser@npm:~4.0.1":
   version: 4.0.2
   resolution: "engine.io-parser@npm:4.0.2"
   dependencies:
@@ -14495,6 +14540,13 @@ fsevents@^1.2.7:
   version: 1.0.1
   resolution: "has-bigints@npm:1.0.1"
   checksum: 1074b644f5f2c319fc31af00fe2f81b6e21e204bb46da70ff7b970fe65c56f504e697fe6b41823ba679bd4111840482a83327d3432b8d670a684da4087ed074b
+  languageName: node
+  linkType: hard
+
+"has-cors@npm:1.1.0":
+  version: 1.1.0
+  resolution: "has-cors@npm:1.1.0"
+  checksum: c8257cbe3fc1c2f49d293879f0c6873c6fa7ba7be44147f9a9023cc421c7842833c3553f46bdc04459f046c1c74eb9c7a98e63fdd2c7713caaddd26b1b7f9043
   languageName: node
   linkType: hard
 
@@ -19611,6 +19663,36 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"mongodb@npm:3.6.5":
+  version: 3.6.5
+  resolution: "mongodb@npm:3.6.5"
+  dependencies:
+    bl: ^2.2.1
+    bson: ^1.1.4
+    denque: ^1.4.1
+    require_optional: ^1.0.1
+    safe-buffer: ^5.1.2
+    saslprep: ^1.0.0
+  dependenciesMeta:
+    saslprep:
+      optional: true
+  peerDependenciesMeta:
+    aws4:
+      optional: true
+    bson-ext:
+      optional: true
+    kerberos:
+      optional: true
+    mongodb-client-encryption:
+      optional: true
+    mongodb-extjson:
+      optional: true
+    snappy:
+      optional: true
+  checksum: 6a838b79e104cee243e2ed10a5ded90490bb4db687ca1f1cabeab6c578441b1db64136fd33bad7112ca4a09e60a99a3b039d1c11e515521ffffa66ed91fb3148
+  languageName: node
+  linkType: hard
+
 "mongoose-legacy-pluralize@npm:1.0.2":
   version: 1.0.2
   resolution: "mongoose-legacy-pluralize@npm:1.0.2"
@@ -19637,6 +19719,26 @@ fsevents@^1.2.7:
     sift: 7.0.1
     sliced: 1.0.1
   checksum: b8670af3ac998605a89e895ce859c5336ef1789a80992b03f3a95824f30c3d94c84f975975da34bd8c2e057d93ce57b70a2d337bddf6cbf0204896e503b3aa24
+  languageName: node
+  linkType: hard
+
+"mongoose@npm:5.12.3, mongoose@npm:^5.12.3":
+  version: 5.12.3
+  resolution: "mongoose@npm:5.12.3"
+  dependencies:
+    "@types/mongodb": ^3.5.27
+    bson: ^1.1.4
+    kareem: 2.3.2
+    mongodb: 3.6.5
+    mongoose-legacy-pluralize: 1.0.2
+    mpath: 0.8.3
+    mquery: 3.2.5
+    ms: 2.1.2
+    regexp-clone: 1.0.0
+    safe-buffer: 5.2.1
+    sift: 7.0.1
+    sliced: 1.0.1
+  checksum: 50e05e10571347562ffe2df29f797446954c257fe0ae6f2075136af214aacf58a698a9a5d8ebe45aa44d010ea8b490bfc64670cb222336fa859c3a3863bb5b72
   languageName: node
   linkType: hard
 
@@ -19671,6 +19773,19 @@ fsevents@^1.2.7:
     safe-buffer: 5.1.2
     sliced: 1.0.1
   checksum: 4eecfd75bfd1f0094e24aa5905df70e96e630f002a3fbee5b0443cd56e21720930a8f38f8afff6a7d4318fcb3d04317d632bca2f7a06c3facd3913365bc32420
+  languageName: node
+  linkType: hard
+
+"mquery@npm:3.2.5":
+  version: 3.2.5
+  resolution: "mquery@npm:3.2.5"
+  dependencies:
+    bluebird: 3.5.1
+    debug: 3.1.0
+    regexp-clone: ^1.0.0
+    safe-buffer: 5.1.2
+    sliced: 1.0.1
+  checksum: d7d611b3eed531f4ebb4a0d58bd5704712b5b0fb88c058e9ed433bb25f3dda72a5fbbcac8026c9c11a56a8d3983c039abd90d329ff91137f31fdea93ee7ce5d1
   languageName: node
   linkType: hard
 
@@ -20266,6 +20381,10 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "notify-server@workspace:packages/notify-server"
   dependencies:
+    "@types/express": ^4
+    "@types/mongoose": ^5
+    express: ^4.17.1
+    mongoose: ^5.12.3
     socket.io: ^4.0.1
   languageName: unknown
   linkType: soft
@@ -21156,6 +21275,20 @@ fsevents@^1.2.7:
   version: 6.0.1
   resolution: "parse5@npm:6.0.1"
   checksum: e312014edd76a6dc2eac35248ad53477b2594a7b92b7a00f66169483bb87c3d1d36660daddeb720457418dfe0893eb3ad1043085047fc3699167afa6834cb4c4
+  languageName: node
+  linkType: hard
+
+"parseqs@npm:0.0.6":
+  version: 0.0.6
+  resolution: "parseqs@npm:0.0.6"
+  checksum: 9e095b898b52a138e5d1e055bf3dd2ab4630b2ac0468dd47ec00695c39683aa28f5b88852a1b4938f9b1109219b5eb63e7ffd567ff7a7fb8932c91697647fe83
+  languageName: node
+  linkType: hard
+
+"parseuri@npm:0.0.6":
+  version: 0.0.6
+  resolution: "parseuri@npm:0.0.6"
+  checksum: ff7ad178b06748b2999d52852ea0a32d270f92a8926da1cad7550d315e189fce67edac49b476958d13b8cea1fda7b8ac128bfe7d7d78a41772a3278c5c51e057
   languageName: node
   linkType: hard
 
@@ -26680,7 +26813,22 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
-"socket.io-parser@npm:~4.0.3":
+"socket.io-client@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "socket.io-client@npm:4.0.1"
+  dependencies:
+    "@types/component-emitter": ^1.2.10
+    backo2: ~1.0.2
+    component-emitter: ~1.3.0
+    debug: ~4.3.1
+    engine.io-client: ~5.0.0
+    parseuri: 0.0.6
+    socket.io-parser: ~4.0.4
+  checksum: 9b163f559cc7d1c1898a85227b1f3cfd0d941c69739f3f75c3489f0a898155544e82659379dc71c3169f3157a8b3d0e51ba9225ab93f0d2923654de2ef9da6b9
+  languageName: node
+  linkType: hard
+
+"socket.io-parser@npm:~4.0.3, socket.io-parser@npm:~4.0.4":
   version: 4.0.4
   resolution: "socket.io-parser@npm:4.0.4"
   dependencies:
@@ -30646,6 +30794,13 @@ typescript@~3.8.2:
     y18n: ^4.0.0
     yargs-parser: ^18.1.2
   checksum: dbf687d6b938f01bbf11e158dde6df906282b70cd9295af0217ee8cefbd83ad09d49fa9458d0d5325b0e66f03df954a38986db96f91e5b46ccdbbaf9a0157b23
+  languageName: node
+  linkType: hard
+
+"yeast@npm:0.1.2":
+  version: 0.1.2
+  resolution: "yeast@npm:0.1.2"
+  checksum: ce326a71c7f25059ef7581121104c21d2837511a95cb44604f9e1825c5722f5b65324fb0b1d20bcfe3975efe45e418106100aa0d0e9fc502f90f3d07d059e177
   languageName: node
   linkType: hard
 
