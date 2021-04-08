@@ -23,6 +23,7 @@
     "start:api": "yarn workspace api start",
     "start:y-server": "yarn workspace y-server start",
     "start:t-server": "yarn workspace t-server start",
+    "start:notify-server": "yarn workspace notify-server start",
     "deploy:api": "yarn workspace api deploy"
   },
   "dependencies": {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Tabs, Table, message} from "antd";
+import {Tabs, Table} from "antd";
 import axios from "axios";
 import {useAuth} from "../../utils/hooks/useAuth";
 
@@ -56,7 +56,7 @@ const ListQuestion = () => {
             if ( response.status === 200) {
                 setData(response.data.data.results);
             }
-        }).catch((error) => message.error(error.message))
+        }).catch((error) => console.error(error.message))
     }, []);
 
     return (
