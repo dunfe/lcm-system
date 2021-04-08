@@ -12,7 +12,6 @@ dotenv.config();
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
-
 export function getAllMentor(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
@@ -96,7 +95,12 @@ export const selectQuestion = async (req,res) =>{
     });
     notify1.save();
     notify2.save();
-    
+
+    var socketio = req.app.get('socketio');
+    let countReadFalse;
+    const readFalse = await Notify.find({receivedById : userId, read: false});
+    countReadFalse = readFalse.length;
+    socketio.emit("new",countReadFalse);
     var roomId = room._id;
     Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
