@@ -366,4 +366,19 @@ export const viewListFavoriteMentor = async (req, res) => {
     }
 }
 
+export const countMentorFaverite = async (req,res) =>{
+    let userId = await useridFromToken(req, res);
+    var favoriteMentor = [];
+    const mentee = await User.find({ _id: userId }).then((mentee) => {
+        for (var i = 0; i < mentee.length; i++) {
+            favoriteMentor = favoriteMentor.concat(mentee[i].favoriteMentor);
+            favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
+        }
+    })
+    return res.status(200).json({
+        status: 'success',
+        count : favoriteMentor.length
+    });
+}
+
 export default router;

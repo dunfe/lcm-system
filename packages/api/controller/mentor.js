@@ -11,7 +11,10 @@ import Notify from '../models/noti.js';
 dotenv.config();
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
-
+import * as io from "socket.io"
+import { createServer } from 'http';
+const server = createServer(router);
+var socketio = new io.Server(server);
 
 export function getAllMentor(model) {
     return async (req, res) => {
@@ -96,7 +99,11 @@ export const selectQuestion = async (req,res) =>{
     });
     notify1.save();
     notify2.save();
-    
+
+    let countReadFalse;
+    const readFalse = await Notify.find({receivedById : userId, read: false});
+    countReadFalse = readFalse.length;
+    socketio.emit("new",countReadFalse);
     var roomId = room._id;
     Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
