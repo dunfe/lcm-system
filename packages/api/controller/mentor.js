@@ -104,11 +104,11 @@ export const selectQuestion = async (req,res) =>{
     notify1.save();
     notify2.save();
 
-    var socketio = io("ws://localhost:3007");
-    let countReadFalse;
-    const readFalse = await Notify.find({receivedById : userId, read: false});
-    countReadFalse = readFalse.length;
-    socketio.emit("news",countReadFalse);
+    // var socketio = io("ws://localhost:3007");
+    // let countReadFalse;
+    // const readFalse = await Notify.find({receivedById : userId, read: false});
+    // countReadFalse = readFalse.length;
+    // socketio.emit("news",countReadFalse);
     var roomId = room._id;
     Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
