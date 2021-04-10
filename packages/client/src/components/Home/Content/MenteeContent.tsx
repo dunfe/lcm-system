@@ -19,23 +19,25 @@ const MenteeContent = (props: IProps) => {
     return (
         <Content style={{margin: '24px 16px 0'}}>
             <Switch>
-                <Route exact path={path}>
-                    <Dashboard/>
-                </Route>
-                <div
-                    className="site-layout-background"
-                    style={{padding: 24, minHeight: 360, backgroundColor: "white"}}
-                >
-                    <Route path={`/add`}>
-                        <AddQuestion setSelectedKeys={setSelectedKeys}/>
+                <>
+                    <Route exact path={path}>
+                        <Dashboard/>
                     </Route>
-                    <Route path={`/questions`}>
-                        <ListQuestion/>
-                    </Route>
-                    <Route path={`/session`}>
-                        <Join/>
-                    </Route>
-                </div>
+                    <div
+                        className="site-layout-background"
+                        style={{padding: 24, minHeight: 360, backgroundColor: "white"}}
+                    >
+                        <Route path={`/add`}>
+                            <AddQuestion setSelectedKeys={setSelectedKeys}/>
+                        </Route>
+                        <Route path={`/questions`}>
+                            <ListQuestion/>
+                        </Route>
+                        <Route path={`/session`}>
+                            <Join/>
+                        </Route>
+                    </div>
+                </>
             </Switch>
         </Content>
     )

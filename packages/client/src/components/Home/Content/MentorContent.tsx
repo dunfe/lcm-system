@@ -22,24 +22,21 @@ const MentorContent = (props: IProps) => {
                 <Route exact path={path}>
                     <Dashboard/>
                 </Route>
-                <div
-                    className="site-layout-background"
-                >
-                    <Route path={`/matching`}>
+                <Route path={`/matching`}>
+                    <div className="site-layout-background">
                         {Matching()}
-                    </Route>
-                </div>
-                <div
-                    className="site-layout-background"
-                    style={{padding: 24, minHeight: 360, backgroundColor: "white"}}
-                >
-                    <Route path={`/questions`}>
+                    </div>
+                </Route>
+                <Route path={`/questions`}>
+                    <div style={{padding: 24, backgroundColor: "white"}}>
                         <ListQuestion/>
-                    </Route>
-                    <Route path={`/session`}>
+                    </div>
+                </Route>
+                <Route path={`/session`}>
+                    <div style={{padding: 24, minHeight: 360, backgroundColor: "white"}}>
                         <Join/>
-                    </Route>
-                </div>
+                    </div>
+                </Route>
             </Switch>
         </Content>
     )

@@ -7,23 +7,17 @@
 }
 .site-layout-background > div {
     position: absolute;
-    min-width: 80vw;
+    max-width: 80vw;
     will-change: transform;
     display: flex;
     align-items: center;
     justify-content: center;
     touch-action: none;
-    top: 0;
-    left: 0;
 }
 
 .site-layout-background > div > div {
     background-color: white;
-    background-size: auto 85%;
-    background-repeat: no-repeat;
-    background-position: center center;
     width: 90vw;
     height: 85vh;
     will-change: transform;
-    border-radius: 10px;
 }
