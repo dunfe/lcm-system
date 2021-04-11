@@ -12,7 +12,7 @@ const MenteeMenu = (props: IProps) => {
     const {onSelect, selectedKeys} = props;
 
     return (
-        <Menu theme="light" mode="inline" selectedKeys={selectedKeys} onSelect={onSelect}>
+        <Menu theme="dark" mode="inline" selectedKeys={selectedKeys} onSelect={onSelect}>
             <Menu.Item key="/" icon={<UserOutlined/>}>
                 <Link to={`/`}>Dashboard</Link>
             </Menu.Item>

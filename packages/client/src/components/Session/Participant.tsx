@@ -1,8 +1,11 @@
 import * as React from "react";
+import {Button, message} from "antd";
+import Video from "twilio-video";
 
 interface IProps {
     participant: any;
 }
+
 const { useState, useRef, useEffect } = React;
 
 const Participant = (props: IProps) => {
@@ -10,9 +13,18 @@ const Participant = (props: IProps) => {
 
     const [videoTracks, setVideoTracks] = useState<any>([]);
     const [audioTracks, setAudioTracks] = useState<any>([]);
+    const [isShare, setIsShare] = useState(false);
 
     const videoRef = useRef<any>();
     const audioRef = useRef<any>();
+
+    const onShareScreen = () => {
+        setIsShare(true);
+    };
+
+    const onStopShareScreen = () => {
+        setIsShare(false);
+    };
 
     const trackpubsToTracks = (trackMap) =>
         Array.from(trackMap.values())
@@ -20,9 +32,37 @@ const Participant = (props: IProps) => {
             .filter((track) => track !== null);
 
     useEffect(() => {
+        if (isShare) {
+            const mediaDevices = navigator.mediaDevices as any;
+
+            mediaDevices.getDisplayMedia().then(stream => {
+                const screenTrack = new Video.LocalVideoTrack(stream.getTracks()[0]);
+                participant.publishTrack(screenTrack);
+                setVideoTracks((old) => [screenTrack, ...old]);
+            }).catch(() => {
+                message.error('Không thể share màn hình!')
+            });
+        } else {
+            let screenTrack = videoTracks[0];
+
+            if (screenTrack && participant) {
+                participant.unpublishTrack(screenTrack);
+                screenTrack.detach();
+                setVideoTracks((videoTracks) => videoTracks.filter((v) => v !== screenTrack));
+            }
+
+            screenTrack = videoTracks[0];
+
+            if (screenTrack) {
+                screenTrack.attach(videoRef.current);
+            }
+        }
+    }, [isShare]);
+
+    useEffect(() => {
         const trackSubscribed = (track) => {
             if (track.kind === 'video') {
-                setVideoTracks((videoTracks) => [...videoTracks, track]);
+                setVideoTracks((videoTracks) => [track, ...videoTracks]);
             } else {
                 setAudioTracks((audioTracks) => [...audioTracks, track]);
             }
@@ -72,6 +112,8 @@ const Participant = (props: IProps) => {
     return (
         <div className="participant">
             <h3>{participant.identity}</h3>
+            <Button onClick={onShareScreen}>Share Screen</Button>
+            <Button onClick={onStopShareScreen}>Stop Share Screen</Button>
             <video ref={videoRef} autoPlay={true} />
             <audio ref={audioRef} autoPlay={true} muted={true} />
         </div>

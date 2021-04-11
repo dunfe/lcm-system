@@ -15,7 +15,7 @@ const VideoChat = () => {
     // }, []);
 
     useEffect(() => {
-        axios.post('http://localhost:3006/video/token', {
+        axios.post('https://t.livecoding.me/video/token', {
             identity: auth.user?.user.data.username,
             room: roomName
         }, {
