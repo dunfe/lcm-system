@@ -80,7 +80,40 @@ const InfoSetting = () => {
                 message.success('Cập nhật thành công!');
             }
         });
-    }
+    };
+
+    const expandMentor = (
+        <>
+            <Form.Item
+                label="Thành tựu"
+                name="achievement"
+                initialValue={auth.user?.user.data.detail.currentJob}
+            >
+                <Input/>
+            </Form.Item>
+            <Form.Item
+                label="Kỹ năng"
+                name="skill"
+                initialValue={auth.user?.user.data.detail.currentJob}
+            >
+                <Input/>
+            </Form.Item>
+            <Form.Item
+                label="Bio"
+                name="bio"
+                initialValue={auth.user?.user.data.detail.currentJob}
+            >
+                <Input/>
+            </Form.Item>
+            <Form.Item
+                label="Github"
+                name="github"
+                initialValue={auth.user?.user.data.detail.currentJob}
+            >
+                <Input/>
+            </Form.Item>
+        </>
+    )
 
     return (
         <Row gutter={24}>
@@ -128,6 +161,8 @@ const InfoSetting = () => {
                     >
                         <Input/>
                     </Form.Item>
+
+                    {auth.user?.user.data.role === 'mentor' ? expandMentor : null}
 
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
