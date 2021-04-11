@@ -14,7 +14,7 @@ describe('User login successful', () => {
     
     it('Ok, login thanh cong', (done) => {
         request(app).post('/api/users/login')
-        .send({ username: 'mentee1', password:'123456' })
+        .send({ username: 'mentee', password:'123456' })
         .then((res) =>{
             const body = res.body;
             expect(body).to.contain.property('user');
@@ -26,7 +26,7 @@ describe('User login successful', () => {
 
     it('tra ve token', (done) => {
         request(app).post('/api/users/login')
-        .send({ username: 'mentee1' , password: '123456'})
+        .send({ username: 'mentee' , password: '123456'})
         .then((res) => {
             const body = res.body.user;
             expect(body).to.contain.property('token');
@@ -37,7 +37,7 @@ describe('User login successful', () => {
 
     it('tra ve token', (done) => {
         request(app).post('/api/users/login')
-        .send({ username: 'mentee1' , password: '123456'})
+        .send({ username: 'mentee' , password: '123456'})
         .then((res) => {
             const body = res.body.user;
             const token = res.body.user.token;
@@ -54,7 +54,7 @@ describe('User crud question', () =>{
         const result = await chai
           .request(app)
           .post('/api/users/login')
-          .send({ username: 'mentee1', password:'123456'});
+          .send({ username: 'mentee', password:'123456'});
         expect(result.status).to.equal(200);
         token = result.body.user.token;
       });
