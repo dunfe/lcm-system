@@ -17,14 +17,6 @@ const mentorID = '6050b3337a2015252ca6e8a0';
 const questionID = '6050b0337cce0614e0b1ed50';
 const requestID = '6050af8f8597794014c2b740';
 
-before(async () => {
-    const result = await chai
-      .request(app)
-      .post('/api/users/login')
-      .send({ username: 'admin1', password:'123456'});
-    expect(result.status).to.equal(200);
-    token = result.body.user.token;
-  });
 
 describe('Admin login successful',  () => {
     
@@ -40,6 +32,16 @@ describe('Admin login successful',  () => {
 })
 
 describe('Check Admin API', () => {
+
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'admin1', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = await result.body.user.token;
+      });
+
     it('Should return all skill' , function(done){
             chai.request(app).get('/api/admin/skills')
             .set('Authorization', token)

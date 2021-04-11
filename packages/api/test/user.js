@@ -7,6 +7,8 @@ const expect = chai.expect;
 import app from '../app.js';
 
 chai.use(chaiHttp);
+let token;
+
 
 describe('User login successful', () => {
     
@@ -47,3 +49,23 @@ describe('User login successful', () => {
     })
 })
 
+describe('User crud question', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'mentee1', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+      });
+
+    it('should return list question', (done) => {
+        chai.request(app).get('/api/users/questions')
+            .set('Authorization', token)
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+            })
+    })
+})
