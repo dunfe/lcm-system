@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useSprings, animated} from "react-spring";
 import {useDrag} from "react-use-gesture";
-import {Descriptions, message, notification} from "antd";
+import {Descriptions, message} from "antd";
 import axios from "axios";
 import {useAuth} from "../../utils/hooks/useAuth";
 import "./Matching.css";
@@ -80,15 +80,6 @@ const Matching = () => {
             setTimeout(() => gone.clear() || set((i) => to(i)), 600)
         }
     });
-
-    useEffect(() => {
-        notification.open({
-            message: 'Hướng dẫn sử dụng',
-            description:
-                'Sử dụng chuột click và kéo câu hỏi sang bên phải để chấp nhận trả lời, kéo sang trái để bỏ qua!',
-            placement: 'bottomRight'
-        });
-    }, []);
 
     useEffect(() => {
         if (data) {

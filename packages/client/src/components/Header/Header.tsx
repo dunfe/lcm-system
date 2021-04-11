@@ -1,6 +1,6 @@
 import {Avatar, Badge, Menu} from 'antd';
 import * as React from 'react';
-import {useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {useAuth} from '../../utils/hooks/useAuth';
 import {BellOutlined, UserOutlined} from '@ant-design/icons';
 import "./Header.css";
@@ -69,7 +69,7 @@ const HeaderComponent = () => {
                 </SubMenu>
                 <SubMenu key="profile" icon={<Avatar src={auth.user?.user.data.detail.avatar} icon={<UserOutlined/>}/>}>
                     <Menu.Item>
-                        {auth.user?.user.data.fullname}
+                        <Link to={`/setting`}>{auth.user?.user.data.fullname}</Link>
                     </Menu.Item>
                     <Menu.Item>
                         <a target="_blank" rel="noopener noreferrer" href="#">

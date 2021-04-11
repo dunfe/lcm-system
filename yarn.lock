@@ -8632,6 +8632,7 @@ __metadata:
     "@typescript-eslint/parser": latest
     antd: ^4.14.1
     axios: ^0.21.1
+    cloudinary-react: ^1.7.0
     craco-antd: ^1.19.0
     dayjs: ^1.10.4
     eslint: ^7.24.0
@@ -8756,6 +8757,27 @@ __metadata:
   version: 2.1.2
   resolution: "clone@npm:2.1.2"
   checksum: 85232d66015d2d703dc59812e30049931d97c7815bf70569ae4fb7a66be257f46fcf47040e4e7050966ca195a9e615d59d73ba9e39fc37eedba1a76865f27ab1
+  languageName: node
+  linkType: hard
+
+"cloudinary-core@npm:^2.11.3":
+  version: 2.11.3
+  resolution: "cloudinary-core@npm:2.11.3"
+  peerDependencies:
+    lodash: ">=4.0"
+  checksum: 4574514da172d1cf364a3b67f2adf02c06ce7bef87d712abab94e1ae6366a137ca2669f26776908f29e3e1fb85e1d2b6b0046230bddaef9421c5d3a75e022cc3
+  languageName: node
+  linkType: hard
+
+"cloudinary-react@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "cloudinary-react@npm:1.7.0"
+  dependencies:
+    cloudinary-core: ^2.11.3
+    prop-types: ^15.6.2
+  peerDependencies:
+    react: ^16.3.3 || ^17.0.0
+  checksum: 6012f6635e1b764bd62e3ce5dbc7d964d8faaa5b675a6f2231b1c1dc900b49b7db5d1f0dacf84c400c75f0cfcb62dddd3cde0c6ca2ae23c7a03a4bbf9434fe84
   languageName: node
   linkType: hard
 
