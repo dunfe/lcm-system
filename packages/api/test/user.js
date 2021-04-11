@@ -8,20 +8,12 @@ import app from '../app.js';
 
 chai.use(chaiHttp);
 let token;
-before(async () => {
-    const result = await chai
-      .request(app)
-      .post('/api/users/login')
-      .send({ username: 'mentee', password:'123456'});
-    expect(result.status).to.equal(200);
-    token = result.body.user.token;
-  });
 
 describe('User login successful', () => {
     
     it('Ok, login thanh cong', (done) => {
         request(app).post('/api/users/login')
-        .send({ username: 'mentee1', password:'123456' })
+        .send({ username: 'mentee', password:'123456' })
         .then((res) =>{
             const body = res.body;
             expect(body).to.contain.property('user');
@@ -33,7 +25,7 @@ describe('User login successful', () => {
 
     it('tra ve token', (done) => {
         request(app).post('/api/users/login')
-        .send({ username: 'mentee1' , password: '123456'})
+        .send({ username: 'mentee' , password: '123456'})
         .then((res) => {
             const body = res.body.user;
             expect(body).to.contain.property('token');
@@ -44,7 +36,7 @@ describe('User login successful', () => {
 
     it('tra ve token', (done) => {
         request(app).post('/api/users/login')
-        .send({ username: 'mentee1' , password: '123456'})
+        .send({ username: 'mentee' , password: '123456'})
         .then((res) => {
             const body = res.body.user;
             const token = res.body.user.token;
@@ -57,12 +49,21 @@ describe('User login successful', () => {
 })
 
 describe('User crud question', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'mentee', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+      });
+
     it('should return list question', (done) => {
         chai.request(app).get('/api/users/questions')
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
-                expect(res.body).to.contain.property('skill');
+                expect(res.body).to.contain.property('data');
                 done();
             })
     })
