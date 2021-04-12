@@ -18,7 +18,7 @@ const requestSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input report content!']
      },
-    picture: String,
+    cv: String,
     createAt: { type: Date, default: Date.now},
     status: { type: String, enum:["approved","unapproved"], default: "unapproved" }
 });

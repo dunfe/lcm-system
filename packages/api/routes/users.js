@@ -250,7 +250,7 @@ router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
 
 // create request register mentor 
-router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorRequest);
+router.post('/mentor/register',protect,restrictTo('mentee'),upload.single('cv'),registerMentorRequest);
 
 //rate mentor
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
