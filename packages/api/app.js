@@ -19,7 +19,6 @@ import passportSetup from "./config/passport-setup.js";
 const app = express();
 dotenv.config();
 app.use(cors());
-app.options('*', cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
