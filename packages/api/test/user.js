@@ -127,4 +127,13 @@ describe('mentee crud question', () =>{
                 done();
         })
     })
+
+    // it('Delete question', function(done) {
+    //     chai.request(app).put(`/api/users/questions/${questionId}`)
+    //     .set('Authorization', token)
+    //     .end((err,res)=>{
+    //         expect(res.status).to.equal(200);
+    //         done();
+    //     })
+    // })
 })
