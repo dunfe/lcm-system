@@ -63,12 +63,12 @@ router.post(
                                     message: 'Người dùng đã bị vô hiệu hóa'
                                 })
                             }
-                            if(user.role == 'admin') {
-                                return res.json({
-                                    status: 'banned',
-                                    message: 'Vui lòng sử dụng ứng dụng cho admin!!'
-                                })
-                            }
+                            // if(user.role == 'admin') {
+                            //     return res.json({
+                            //         status: 'banned',
+                            //         message: 'Vui lòng sử dụng ứng dụng cho admin!!'
+                            //     })
+                            // }
                             const body = {_id: user._id, username: user.username};
                             let token = "Bearer ";
                             token += jwt.sign({user: body}, process.env.SECRET_KEY).toString();
@@ -288,6 +288,6 @@ router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionB
 router.get('/skills',getAllSkills);
 
 //notify
-router.get('/notify',protect, restrictTo('mentee'),getAllNotification);
-router.put('/notify/:id',protect, restrictTo('mentee'),clickNotify)
+router.get('/notify',protect,getAllNotification);
+router.put('/notify/:id',protect,clickNotify)
 export default router;
