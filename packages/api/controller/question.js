@@ -178,7 +178,7 @@ export const viewListNewOrdoingQuestionMenteeId = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({menteeId: userId, status : {$ne : "done"} }).sort({ status: -1 }).limit(limit).skip(startIndex).exec();
+        results.results = await Question.find({menteeId: userId, status : {$ne : "done"} }).sort({ status: -1, createdAt: 'ascending' }).limit(limit).skip(startIndex).exec();
         return res.status(200).json({
             status: 'success',
             data: results
@@ -209,7 +209,7 @@ export const viewListDoneQuestionMenteeId = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({menteeId: userId, status : "done" }).limit(limit).skip(startIndex).exec();
+        results.results = await Question.find({menteeId: userId, status : "done" }).sort({ createdAt: 'ascending' }).limit(limit).skip(startIndex).exec();
         return res.status(200).json({
             status: 'success',
             data: results
@@ -249,6 +249,68 @@ export const viewListQuestionForMentor = async (req, res) => {
     try {
         results.results = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId }, status: "new" }).sort({ point: 'descending' }).exec();
         //limit(limit).skip(startIndex)
+        return res.status(200).json({
+            status: 'success',
+            data: results
+        });
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
+}
+
+export const viewListDoingSelectedQuestionForMentor = async (req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    const limit = 50;
+    const results = {}
+    let userId = await useridFromToken(req, res);
+    const data = await Question.find({receivedBy: userId, status : "doing" });
+    const totalPage = Math.ceil(data.length / limit);
+    results.totalPage = totalPage;
+    if (page < 1 || page > totalPage) page = 1;
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    if (endIndex < data.length) {
+        results.next = { page: page + 1 }
+    }
+    if (startIndex > 0) {
+        results.previous = { page: page - 1 }
+    }
+    try {
+        results.results = await Question.find({receivedBy: userId, status : "doing" }).sort({ point: 'descending' }).limit(limit).skip(startIndex).exec();
+        return res.status(200).json({
+            status: 'success',
+            data: results
+        });
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
+}
+
+export const viewListDoneSelectedQuestionForMentor = async (req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    const limit = 50;
+    const results = {}
+    let userId = await useridFromToken(req, res);
+    const data = await Question.find({receivedBy: userId, status : "done" });
+    const totalPage = Math.ceil(data.length / limit);
+    results.totalPage = totalPage;
+    if (page < 1 || page > totalPage) page = 1;
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    if (endIndex < data.length) {
+        results.next = { page: page + 1 }
+    }
+    if (startIndex > 0) {
+        results.previous = { page: page - 1 }
+    }
+    try {
+        results.results = await Question.find({receivedBy: userId, status : "done" }).sort({ point: 'descending' }).limit(limit).skip(startIndex).exec();
         return res.status(200).json({
             status: 'success',
             data: results
