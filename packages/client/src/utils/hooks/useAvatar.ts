@@ -1,7 +1,7 @@
-import {useAuth} from "./useAuth";
+import { useAuth } from './useAuth'
 
 export const useAvatar = () => {
-    const auth = useAuth();
+    const auth = useAuth()
 
-    return auth.user?.user.data.detail.avatar;
+    return auth.user?.user.data.detail.avatar
 }

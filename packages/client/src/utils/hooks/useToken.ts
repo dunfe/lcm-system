@@ -1,7 +1,7 @@
-import {useAuth} from "./useAuth";
+import { useAuth } from './useAuth'
 
 export const useToken = () => {
-    const auth = useAuth();
+    const auth = useAuth()
 
-    return auth.user?.user.token;
+    return auth.user?.user.token
 }

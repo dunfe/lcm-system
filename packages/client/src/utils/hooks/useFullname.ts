@@ -1,7 +1,7 @@
-import {useAuth} from "./useAuth";
+import { useAuth } from './useAuth'
 
 export const useFullname = () => {
-    const auth = useAuth();
+    const auth = useAuth()
 
-    return auth.user?.user.data.fullname;
-};
+    return auth.user?.user.data.fullname
+}
