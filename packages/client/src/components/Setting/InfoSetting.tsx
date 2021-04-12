@@ -4,6 +4,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { useState } from 'react'
 import { useAPI } from '../../utils/hooks/useAPI'
+import { useToken } from '../../utils/hooks/useToken'
 
 const layout = {
     labelCol: { span: 6 },
@@ -35,9 +36,9 @@ const beforeUpload = (file) => {
 const InfoSetting = () => {
     const auth = useAuth()
     const instance = useAPI()
+    const token = useToken()
 
     const [loading, setLoading] = useState(false)
-    const [fileList, setFileList] = useState([])
     const [imageUrl, setImgURL] = useState('')
 
     const uploadButton = (
@@ -51,7 +52,7 @@ const InfoSetting = () => {
         name: 'avatar',
         action: 'https://livecoding.me/api/users/upload-file',
         headers: {
-            'Content-type': 'multipart/form-data',
+            Authorization: token!,
         },
         onChange(info) {
             if (info.file.status !== 'uploading') {
@@ -59,36 +60,24 @@ const InfoSetting = () => {
                 console.log(info.file, info.fileList)
             }
             if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`)
                 // Get this url from response in real world.
                 getBase64(info.file.originFileObj, (imageUrl) => {
                     setImgURL(imageUrl)
                     setLoading(false)
                 })
             } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`)
                 setLoading(false)
             }
         },
     }
 
     const onFinish = (values) => {
-        const formData = new FormData()
-        const { phone, gender, address, currentJob } = values
-        if (fileList.length > 0) {
-            formData.append('avatar', fileList[0])
-        }
-        formData.append('phone', phone)
-        formData.append('gender', gender)
-        formData.append('address', address)
-        formData.append('currentJob', currentJob)
-
         instance
-            .put('/api/users', formData)
+            .put('/api/users', values)
             .then((response) => {
                 if (response.status === 200) {
                     message.success('Cập nhật thành công!')
-                    setFileList([])
+                    setImgURL('')
                 }
             })
             .catch((error) => console.error(error))
