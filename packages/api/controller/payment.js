@@ -126,8 +126,35 @@ export const deleteCard = async (req, res) => {
     }
 }
 
-export const createCharges = async (req, res, next) => {
-    const customerId = "cus_J7pS4qPTsngNej";
+
+
+export const createPayemnt = async (req, res) => {
+    const customerId = "cus_J7WGH7d1Ay5fpi";
+    const { amount, cardId, email } = req.body;
+    try {
+        const createCharge = await stripe.charges.create({
+            amount: amount,
+            currency: "usd",
+            receipt_email: email,
+            customer: customerId,
+            card: cardId,
+            description: `Stripe Charge Of Amount ${amount} for Payment`,
+        });
+        if (createCharge.status === "succeeded") {
+            return res.status(200).send({ Success: createCharge });
+        } else {
+            return res
+                .status(400)
+                .send({ Error: "Please try again later for payment" });
+        }
+    } catch (error) {
+        return res.status(400).send({
+            Error: error.message,
+        });
+    }
+}
+export const createStripe = async (req, res) => {
+    console.log("\n\n Body Passed:", req.body);
     const { amount, cardId, oneTime, email } = req.body;
     if (oneTime) {
         const {
@@ -173,7 +200,7 @@ export const createCharges = async (req, res, next) => {
             }
         } catch (error) {
             return res.status(400).send({
-                Error: error,
+                Error: error.raw.message,
             });
         }
     } else {
@@ -186,8 +213,9 @@ export const createCharges = async (req, res, next) => {
                 card: cardId,
                 description: `Stripe Charge Of Amount ${amount} for Payment`,
             });
+            console.log("\n\n Start 2");
             if (createCharge.status === "succeeded") {
-                return res.status(200).send({ Success: charge });
+                return res.status(200).send({ Success: createCharge });
             } else {
                 return res
                     .status(400)
@@ -199,33 +227,7 @@ export const createCharges = async (req, res, next) => {
             });
         }
     }
-}
-
-export const createPayemnt = async (req, res) => {
-    const customerId = "cus_J7pS4qPTsngNej";
-    const { amount, cardId, email } = req.body;
-    try {
-        const createCharge = await stripe.charges.create({
-            amount: amount,
-            currency: "usd",
-            receipt_email: email,
-            customer: customerId,
-            card: cardId,
-            description: `Stripe Charge Of Amount ${amount} for Payment`,
-        });
-        if (createCharge.status === "succeeded") {
-            return res.status(200).send({ Success: createCharge });
-        } else {
-            return res
-                .status(400)
-                .send({ Error: "Please try again later for payment" });
-        }
-    } catch (error) {
-        return res.status(400).send({
-            Error: error.raw.message,
-        });
-    }
-}
+};
 
 
 export default router;
