@@ -9,7 +9,7 @@ import {registerMentorRequest} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
 import { createReport } from '../controller/report.js';
 import upload from '../utils/multer.js';
-
+import cloudinary from '../utils/cloudinary.js';
 
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -255,7 +255,8 @@ router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorReques
 //rate mentor
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
-//report mentor
+//CRUD report mentor
+
 router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), createReport);
 
 // user crud question

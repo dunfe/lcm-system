@@ -8,6 +8,7 @@ import User from '../models/user.js';
 import Question from '../models/question.js';
 import Mentor from '../models/mentor.js';
 import Skill from '../models/skill.js';
+import cloudinary from '../utils/cloudinary.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
@@ -255,10 +256,19 @@ export const editProfileUserById = async (req, res) => {
         currentJob: req.body.currentJob,
         achievement: req.body.achievement
     };
-    // Just for upload single file
-    if(req.file) {
-        update.avatar = req.file.path;
+    const currentUser =  await User.findById(userId);
+    if(currentUser.detail.avatar == ''){
+        const result = await cloudinary.uploader.upload(req.file.path);
+        update.avatar = result.secure_url;
+    } else{
+        // Delete image from cloudinary
+        // await cloudinary.uploader.destroy(currentUser.detail.avatar);
+        // Upload image to cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
+        update.avatar = result.secure_url;
     }
+
+    // console.log(currentUser.detail.avatar)
 
     User.findOneAndUpdate({ _id: userId }, {detail: update, $set : info}, { new: true }, (err, doc) => {
         if (!err) {
