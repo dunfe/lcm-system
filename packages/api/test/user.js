@@ -8,7 +8,7 @@ import app from '../app.js';
 
 chai.use(chaiHttp);
 let token;
-
+let questionId = '605b2cff4ba7106618f7d14e';
 
 describe('User login successful', () => {
     
@@ -49,7 +49,7 @@ describe('User login successful', () => {
     })
 })
 
-describe('User crud question', () =>{
+describe('mentee crud question', () =>{
     before(async () => {
         const result = await chai
           .request(app)
@@ -68,4 +68,35 @@ describe('User crud question', () =>{
                 done();
             })
     })
+
+    it('should return list new and doing question ', (done) => {
+        chai.request(app).get('/api/users/questions/new')
+            .set('Authorization', token)
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+            })
+    })
+
+    it('should return list done question ', (done) => {
+        chai.request(app).get('/api/users/questions/done')
+            .set('Authorization', token)
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+            })
+    })
+
+    it('Should return question with id input', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+
 })
