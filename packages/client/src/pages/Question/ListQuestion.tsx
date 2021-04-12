@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Tabs, Table } from 'antd'
-import axios from 'axios'
-import { useAuth } from '../../utils/hooks/useAuth'
+import { useAPI } from '../../utils/hooks/useAPI'
 
 export interface IData {
     receivedBy: string[]
@@ -23,11 +22,9 @@ const { TabPane } = Tabs
 const { useEffect, useState } = React
 
 const ListQuestion = () => {
-    const auth = useAuth()
+    const instance = useAPI()
 
     const [data, setData] = useState<IData[]>([])
-
-    const instance = axios.create({ baseURL: 'https://livecoding.me' })
 
     const columns = [
         {
@@ -39,6 +36,7 @@ const ListQuestion = () => {
             title: 'Point',
             dataIndex: 'point',
             key: 'point',
+            sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Trạng thái',
@@ -49,11 +47,7 @@ const ListQuestion = () => {
 
     useEffect(() => {
         instance
-            .get('/api/users/questions', {
-                headers: {
-                    Authorization: auth.user?.user.token,
-                },
-            })
+            .get('/api/users/questions')
             .then((response) => {
                 if (response.status === 200) {
                     setData(response.data.data.results)
