@@ -278,7 +278,7 @@ router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMento
 router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFaverite)
 
 //Upload avatar
-router.post('/',upload.single('avatar'), uploadAvatar);
+router.post('/',protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
 
 //profile function
 router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
