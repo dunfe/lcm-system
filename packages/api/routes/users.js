@@ -8,7 +8,7 @@ import {viewPointInTransactionById, viewPointOutTransactionById } from "../contr
 import {registerMentorRequest} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
 import { createReport } from '../controller/report.js';
-import upload from '../middleware/upload.js';
+import upload from '../utils/multer.js';
 
 
 import passport from 'passport';
