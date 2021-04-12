@@ -19,7 +19,6 @@ import passportSetup from "./config/passport-setup.js";
 const app = express();
 dotenv.config();
 app.use(cors());
-app.options('*', cors())
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -31,12 +30,6 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     keys: [process.env.CookieKey]
 }));
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 //initialize passport
 app.use(passport.initialize());
