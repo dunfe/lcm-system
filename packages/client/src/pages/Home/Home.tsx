@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Layout, Menu, notification } from 'antd'
+import { Layout, notification } from 'antd'
 import HeaderComponent from '../../components/Header/Header'
 import { Switch, useRouteMatch } from 'react-router-dom'
 import PageHeader from '../../components/Header/PageHeader'
@@ -78,24 +78,17 @@ export function HomePage() {
                 <LogoContainer className="logo">
                     <Logo />
                 </LogoContainer>
-                <Menu
-                    theme="dark"
-                    mode="inline"
-                    selectedKeys={selectedKeys}
-                    onSelect={onSelect}
-                >
-                    {role === 'mentee' ? (
-                        <MenteeMenu
-                            selectedKeys={selectedKeys}
-                            onSelect={onSelect}
-                        />
-                    ) : (
-                        <MentorMenu
-                            selectedKeys={selectedKeys}
-                            onSelect={onSelect}
-                        />
-                    )}
-                </Menu>
+                {role === 'mentee' ? (
+                    <MenteeMenu
+                        selectedKeys={selectedKeys}
+                        onSelect={onSelect}
+                    />
+                ) : (
+                    <MentorMenu
+                        selectedKeys={selectedKeys}
+                        onSelect={onSelect}
+                    />
+                )}
             </Sider>
             <Layout>
                 <HeaderComponent setSelectedKeys={setSelectedKeys} />
