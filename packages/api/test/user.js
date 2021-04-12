@@ -9,7 +9,7 @@ import app from '../app.js';
 chai.use(chaiHttp);
 let token;
 let questionId = '605b2cff4ba7106618f7d14e';
-let mentorId = ''
+let mentorId = '60607790df75cf564cb83fd7'
 
 describe('User login successful', () => {
     
@@ -137,16 +137,27 @@ describe('mentee crud question', () =>{
     //         done();
     //     })
     // })
+})
 
-    // it('add favourite mentor', function(done){
-    //     chai.request(app).put(`/api/users/favorite-mentor`)
-    //         .set('Authorization', token)
-    //         .send({ point: 200})
-    //         .end((err,res)=> {
-    //             expect(res.body.status).to.equal('success');
-    //             done();
-    //     })
-    // })
+describe('mentee crud question', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'mentee', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+      });
+
+      it('add favourite mentor', function(done){
+        chai.request(app).put(`/api/users/favorite-mentor/${mentorId}`)
+            .set('Authorization', token)
+            .send({ point: 200})
+            .end((err,res)=> {
+                expect(res.body.status).to.equal('success');
+                done();
+        })
+    })
 
     it('Should return list mentor favourite', function(done){
         chai.request(app).get(`/api/users/favorite-mentor`)
