@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Menu } from 'antd'
 import {
     AppstoreAddOutlined,
+    SettingOutlined,
     TeamOutlined,
     UnorderedListOutlined,
     UserOutlined,
@@ -34,6 +35,9 @@ const MenteeMenu = (props: IProps) => {
             </Menu.Item>
             <Menu.Item key="/session" icon={<TeamOutlined />}>
                 <Link to={`/session`}>Session</Link>
+            </Menu.Item>
+            <Menu.Item key="1" icon={<SettingOutlined />}>
+                <Link to={`/setting`}>Cài đặt</Link>
             </Menu.Item>
         </Menu>
     )

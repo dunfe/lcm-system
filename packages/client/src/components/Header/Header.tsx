@@ -18,16 +18,22 @@ interface INotify {
     __v: number
 }
 
+interface IProps {
+    setSelectedKeys: (state: string[]) => void
+}
+
 const { SubMenu } = Menu
 
 const { useState, useEffect } = React
 
-const HeaderComponent = () => {
+const HeaderComponent = (props: IProps) => {
     const history = useHistory()
     const auth = useAuth()
     const userFullname = useFullname()
     const avatar = useAvatar()
     const instance = useAPI()
+
+    const { setSelectedKeys } = props
 
     const [notify, setNotify] = useState<INotify[]>([])
     const [count, setCount] = useState(0)
@@ -36,6 +42,10 @@ const HeaderComponent = () => {
         auth.signOut().then(() => {
             history.push('/')
         })
+    }
+
+    const onClickSetting = () => {
+        setSelectedKeys(['/setting'])
     }
 
     useEffect(() => {
@@ -75,7 +85,7 @@ const HeaderComponent = () => {
                 key="profile"
                 icon={<Avatar src={avatar} icon={<UserOutlined />} />}
             >
-                <Menu.Item>
+                <Menu.Item onClick={onClickSetting}>
                     <Link to={`/setting`}>{userFullname}</Link>
                 </Menu.Item>
                 <Menu.Item danger>
