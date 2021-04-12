@@ -2,7 +2,7 @@ import express from 'express';
 import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite, uploadAvatar} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {createQuestion,viewListDoneQuestionMenteeId, viewListNewOrdoingQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
+import {createQuestion,viewListNewOrdoingQuestion, viewListDoneQuestion, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
 import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
 import {registerMentorRequest} from '../controller/request.js';
@@ -262,8 +262,8 @@ router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), cr
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
 router.get('/questions',protect, restrictTo('mentee', 'mentor'),viewListQuestionById);
-router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewOrdoingQuestionMenteeId);
-router.get('/questions/notnew',protect, restrictTo('mentee', 'mentor'),viewListDoneQuestionMenteeId);
+router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewOrdoingQuestion);
+router.get('/questions/notnew',protect, restrictTo('mentee', 'mentor'),viewListDoneQuestion);
 router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
@@ -292,6 +292,6 @@ router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionB
 router.get('/skills',getAllSkills);
 
 //notify
-router.get('/notify',protect,getAllNotification);
-router.put('/notify/:id',protect,clickNotify)
+router.get('/notify',protect,restrictTo('mentee', 'mentor'),protect,getAllNotification);
+router.put('/notify/:id',protect,restrictTo('mentee', 'mentor'),clickNotify)
 export default router;
