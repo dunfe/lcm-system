@@ -263,7 +263,7 @@ router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), cr
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
 router.get('/questions',protect, restrictTo('mentee', 'mentor'),viewListQuestionById);
 router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewOrdoingQuestion);
-router.get('/questions/notnew',protect, restrictTo('mentee', 'mentor'),viewListDoneQuestion);
+router.get('/questions/done',protect, restrictTo('mentee', 'mentor'),viewListDoneQuestion);
 router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
