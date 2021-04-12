@@ -53,4 +53,8 @@ export const joinRoomById = (req, res) => {
       })
 }
 
+export const listRoom = (req, res) => {
+
+}
+
 export default router;
