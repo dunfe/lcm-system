@@ -6,7 +6,7 @@ import InfoSetting from './InfoSetting'
 const Setting = () => {
     const { path, url } = useRouteMatch()
     return (
-        <Row gutter={24}>
+        <Row gutter={24} style={{ backgroundColor: 'white' }}>
             <Col span={6}>
                 <Menu
                     style={{ width: 256 }}
@@ -29,7 +29,12 @@ const Setting = () => {
             <Col span={18}>
                 <Switch>
                     <Route exact path={path}>
-                        <div style={{ padding: 24 }}>
+                        <div
+                            style={{
+                                padding: 24,
+                                backgroundColor: 'white',
+                            }}
+                        >
                             <InfoSetting />
                         </div>
                     </Route>

@@ -24,7 +24,8 @@ const { useEffect, useState } = React
 const ListQuestion = () => {
     const instance = useAPI()
 
-    const [data, setData] = useState<IData[]>([])
+    const [newQuestion, setNewQuestion] = useState<IData[]>([])
+    const [oldQuestion, setOldQuestion] = useState<IData[]>([])
 
     const columns = [
         {
@@ -47,10 +48,19 @@ const ListQuestion = () => {
 
     useEffect(() => {
         instance
-            .get('/api/users/questions')
+            .get('/api/users/questions/done')
             .then((response) => {
                 if (response.status === 200) {
-                    setData(response.data.data.results)
+                    setOldQuestion(response.data.data.results)
+                }
+            })
+            .catch((error) => console.error(error.message))
+
+        instance
+            .get('/api/users/questions/new')
+            .then((response) => {
+                if (response.status === 200) {
+                    setNewQuestion(response.data.data.results)
                 }
             })
             .catch((error) => console.error(error.message))
@@ -59,10 +69,18 @@ const ListQuestion = () => {
     return (
         <Tabs defaultActiveKey="1">
             <TabPane tab="Đang chờ" key="1">
-                <Table columns={columns} dataSource={data} rowKey={'_id'} />
+                <Table
+                    columns={columns}
+                    dataSource={newQuestion}
+                    rowKey={'_id'}
+                />
             </TabPane>
             <TabPane tab="Đã trả lời" key="2">
-                <Table columns={columns} dataSource={data} rowKey={'_id'} />
+                <Table
+                    columns={columns}
+                    dataSource={oldQuestion}
+                    rowKey={'_id'}
+                />
             </TabPane>
         </Tabs>
     )
