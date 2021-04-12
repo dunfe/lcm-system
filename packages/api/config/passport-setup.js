@@ -39,13 +39,13 @@ passport.use('register', new LocalStrategy({
             const newUser = new User();
         // lưu thông tin cho tài khoản local
             newUser.username = username;
-            newUser.password = newUser.generateHash(password);
+            newUser.password = password;
             newUser.email = req.body.email;
             newUser.fullname = req.body.fullname;
             newUser.save(function (err) {
-            if (err) return done(null, false,{ message: err });
+                if (err) return done(null, false,{ message: err.message });
                 return done(null, newUser)
-            });
+        });
         }
         
     } catch (error) {

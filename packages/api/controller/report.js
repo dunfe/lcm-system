@@ -1,5 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import Report from '../models/report.js';
+import { useridFromToken } from '../controller/mentor.js'
+import cloudinary from '../utils/cloudinary.js';
+import upload from '../utils/multer.js';
 
 const router = express.Router();
 
@@ -36,5 +40,50 @@ export function getAllReport(model) {
       }
     }
   }
+
+export const createReport = async (req, res) => {
+  let userId = await useridFromToken(req, res);
+
+  // Just for upload single file
+  // const result = await cloudinary.uploader.upload(req.file.path);
+
+  //handle multiple upload
+  const urls = [];
+  const files = req.files;
+  for (const file of files) {
+    const { path } = file;
+    const newPath = await cloudinary.uploader.upload(path)
+    urls.push(newPath)
+  }
+
+  // console.log(urls)
+  //Create new report to save to DB
+  let report = new Report({
+    title: req.body.title,
+    createBy: userId,
+    content: req.body.content,
+    createdAt: Date.now(),
+  });
+
+  //handle array url cuz of multiple upload
+    urls.forEach(function(urls, index, arr){
+      report.img.push(urls.secure_url); 
+    })
+
+  // save new report to db
+  report.save((err, doc) => {
+    if (!err) {
+      return res.status(200).json({
+          status: 'successful report',
+          data: doc
+      });
+  } else {
+      return res.status(400).json({
+          status: 'fail',
+          message: err.message
+      })
+  }
+  })
+}
 
 export default router;

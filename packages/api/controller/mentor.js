@@ -6,22 +6,11 @@ import Question from '../models/question.js'
 import dotenv from 'dotenv'
 import { promisify } from 'util';
 import jwt from 'jsonwebtoken';
+import colabRoom from '../models/collabRoom.js';
+import Notify from '../models/noti.js';
 dotenv.config();
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
-
-// export const getAllMentor = async (req, res) => {
-//     try {
-//         const data = await User.find({role : 'mentor'});
-//         return res.status(200).json({
-//             status: 'success',
-//             result: data.length,
-//             data: data
-//         });        
-//     } catch (error) {
-//         return res.status(500).send(error.message);
-//     }
-// };
 
 export function getAllMentor(model) {
     return async (req, res) => {
@@ -40,7 +29,7 @@ export function getAllMentor(model) {
           limit: limit
         }
       }
-      
+
       if (startIndex > 0) {
         results.previous = {
           page: page - 1,
@@ -56,66 +45,78 @@ export function getAllMentor(model) {
     }
   }
 
-export const listMentorSelectedInOneQuestion = async (req,res) =>{
-    if(!ObjectId.isValid(req.params.id)) { 
-        return res.status(400).json({
-            status: 'fail',
-            message: `Invalid id ${req.params.id}`
-        })
-    };
-    let page = parseInt(req.query.page) || 1;
-    const limit = 50;
-    const results = {}
+export const countQuestionNotDoneOfMentor = async (req,res)=> {
     var userId = await useridFromToken(req,res);
-    var listMentorId = [];
-    const questions = await Question.find({_id: req.params.id}).then((questions)=>{
-        for (var i = 0; i < questions.length; i++) {
-            listMentorId = listMentorId.concat(questions[i].receivedBy);
-            listMentorId = uniqBy(listMentorId, JSON.stringify);
-          }
-    })
-    console.log(listMentorId)
-    const data = await User.find({ role: "mentor",_id: { $in : listMentorId} });
-    const totalPage = Math.ceil(data.length/limit) ;
-    results.totalPage = totalPage;
-    if(page<1 || page > totalPage) page = 1;
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
-    if (endIndex < data.length) {
-        results.next = { page: page + 1 }
-    } 
-    if (startIndex > 0) {
-        results.previous = { page: page - 1 }
-    }
-    try {
-        results.results = await User.find({ role: "mentor",_id: { $in : listMentorId} })
-        .limit(limit).skip(startIndex).exec();
-        return res.status(200).json({
-                status: 'success',
-                data: results
-            }); 
-    } catch (e) {
-        return res.status(400).json({
-            status: 'fail',
-            message: e.message
-        })
-    }
+    var data = await Question.find({receivedBy: userId},{status: "doing"});
+    return data.length;
+}
+
+export const countNotify = async (req,res) =>{
+    var userId = await useridFromToken(req,res);
+    let countReadFalse;
+    const readFalse = await Notify.find({receivedById : userId, read: false});
+    countReadFalse = readFalse.length;
+    return countReadFalse
 }
 
 export const selectQuestion = async (req,res) =>{
-    if(!ObjectId.isValid(req.params.id)) { 
+    if(!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
         })
     };
+    var count = await countQuestionNotDoneOfMentor(req,res);
+    console.log(count)
+    if(count > 5){
+        return res.status(400).json({
+            status: 'fail',
+            message: 'bạn chưa hoàn thành 5 câu hỏi đã chọn trước đó, vui lòng hoàn thành trước khi chọn câu hỏi tiếp theo!!'
+        })
+    }
     var userId = await useridFromToken(req,res);
-    Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}},{new: true},(err, doc) => {
+    var currUser = await User.findById(userId);
+    var ques = await Question.findById(req.params.id);
+    var room = new colabRoom({
+        menteeInfo: {
+            _id : ques.menteeId,
+            displayName : ques.menteeName,
+            level: 0
+        },
+        mentorInfo: {
+            _id : currUser._id,
+            displayName : currUser.fullname,
+            level: currUser.level
+        },
+        content: ques.title
+    });
+    room.save();
+    var notify1 = new Notify({
+        title: currUser.fullname +" đã chọn giải đáp câu hỏi: '" + ques.title + "' của bạn",
+        receivedById: ques.menteeId,
+        content: room._id
+    });
+    var notify2 = new Notify({
+        title: "Bạn đã chọn giải đáp câu hỏi: '" + ques.title + "' của " + ques.menteeName,
+        receivedById: currUser._id,
+        content: room._id
+    });
+    notify1.save();
+    notify2.save();
+
+    // var socketio = io("ws://localhost:3007");
+    // let countReadFalse;
+    // const readFalse = await Notify.find({receivedById : userId, read: false});
+    // countReadFalse = readFalse.length;
+    // socketio.emit("news",countReadFalse);
+    var roomId = room._id;
+    Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',
+                roomId : roomId,
                 data: doc
-            }); 
+            });
         } else {
             return res.status(400).json({
                 status: 'fail',
@@ -126,7 +127,7 @@ export const selectQuestion = async (req,res) =>{
 }
 
 export const getMentorById = async (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) { 
+    if(!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
@@ -138,7 +139,7 @@ export const getMentorById = async (req, res) => {
             return res.status(200).json({
                 status: 'success',
                 data: doc
-            });  
+            });
         } else {
             return res.status(400).json({
                 status: 'fail',
@@ -155,7 +156,7 @@ export const getMentorByName = (req, res) => {
         role : 'mentor'
     }, (err, doc) => {
         if(!err) {
-            if(doc.toString() == ""){ 
+            if(doc.toString() == ""){
                 return res.status(400).send(`No record with given name: ${req.body.fullname}`)
             }else {
                 res.send(doc);
@@ -175,7 +176,7 @@ export const  totalMentor = (req, res) => {
             $count: "total_mentor"
         }
     ], (err, doc) => {
-        if (!err){ 
+        if (!err){
             res.json(doc);
         } else {
             console.log('Error' + JSON.stringify(err, undefined, 2));
@@ -272,7 +273,7 @@ export const ratingMentor = async (req,res,next) =>{
             return res.status(200).json({
                 status: 'success',
                 data: doc
-            }); 
+            });
         } else {
             return res.status(400).json({
                 status: 'fail',
@@ -292,7 +293,7 @@ export const useridFromToken = async (req,res)=>{
         ) {
             token = req.headers.authorization.split(' ')[1];
         }
-        
+
         if(!token) {
             return res.status(404).json({
             status: 'fail',

@@ -9,7 +9,6 @@ import mentorRoutes from './routes/mentors.js';
 import adminRoutes from './routes/admins.js';
 import staffRoutes from './routes/staff.js';
 import paymentRouters from './routes/payment.js';
-import messageRouters from './routes/messager.js';
 import collabRoomRouter from './routes/collabs.js';
 import auth from './middleware/auth.js';
 import cookieSession from 'cookie-session';
@@ -17,12 +16,13 @@ import passport from 'passport';
 import db from './db/db.js';
 import passportSetup from "./config/passport-setup.js";
 
-
 const app = express();
 dotenv.config();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+app.use('/uploads', express.static('uploads'));
 
 //CORS
 app.use(function (req, res, next) {
@@ -51,7 +51,6 @@ app.use('/api/admin',skillRoutes);
 app.use('/api/admin',adminRoutes);
 app.use('/api/payment', paymentRouters);
 app.use('/api/mentor', mentorRoutes);
-app.use('/api/messager',messageRouters);
 app.use('/api/mentee', collabRoomRouter);
 app.use('/api/mentor', collabRoomRouter);
 
