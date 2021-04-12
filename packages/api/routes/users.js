@@ -264,7 +264,7 @@ router.post('/questions',protect,restrictTo('mentee'),createQuestion);
 router.get('/questions',protect, restrictTo('mentee', 'mentor'),viewListQuestionById);
 router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewOrdoingQuestion);
 router.get('/questions/done',protect, restrictTo('mentee', 'mentor'),viewListDoneQuestion);
-router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
+router.get('/questions/:id',protect,restrictTo('mentee', 'mentor'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
 

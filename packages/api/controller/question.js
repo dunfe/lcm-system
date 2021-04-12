@@ -27,7 +27,7 @@ export const createQuestion = async (req, res) => {
     question.save((err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'List Question For Mentor',
+                status: 'success',
                 data: doc
             });
         } else {
