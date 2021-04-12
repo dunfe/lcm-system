@@ -1,39 +1,49 @@
-import * as React from "react";
-import {Route, Switch} from "react-router-dom";
-import Dashboard from "../../../pages/Dashboard/Dashboard";
-import ListQuestion from "../../../pages/Question/ListQuestion";
-import Join from "../../Session/Join";
-import {Layout} from "antd";
+import * as React from 'react'
+import { Route } from 'react-router-dom'
+import Dashboard from '../../../pages/Dashboard/Dashboard'
+import ListQuestion from '../../../pages/Question/ListQuestion'
+import Join from '../../Session/Join'
+import Matching from '../../../pages/Matching/Matching'
+import './MentorContent.css'
 
 interface IProps {
-    path: string;
+    path: string
 }
 
-const {Content} = Layout;
-
 const MentorContent = (props: IProps) => {
-    const {path} = props;
+    const { path } = props
 
     return (
-        <Content style={{margin: '24px 16px 0'}}>
-            <Switch>
-                <Route exact path={path}>
-                    <Dashboard/>
-                </Route>
-                <div
-                    className="site-layout-background"
-                    style={{padding: 24, minHeight: 360, backgroundColor: "white"}}
-                >
-                    <Route path={`/questions`}>
-                        <ListQuestion/>
-                    </Route>
-                    <Route path={`/session`}>
-                        <Join/>
-                    </Route>
+        <>
+            <Route exact path={path}>
+                <Dashboard />
+            </Route>
+            <Route path={`/matching`}>
+                <div className="site-layout-background">{Matching()}</div>
+            </Route>
+            <Route path={`/questions`}>
+                <div style={{ padding: 24, backgroundColor: 'white' }}>
+                    <ListQuestion />
                 </div>
-            </Switch>
-        </Content>
+            </Route>
+            <Route path={`/session`}>
+                <div
+                    style={{
+                        padding: 24,
+                        minHeight: 360,
+                        backgroundColor: 'white',
+                    }}
+                >
+                    <Join />
+                </div>
+            </Route>
+            <Route path={`/setting`}>
+                <div style={{ padding: 24, backgroundColor: 'white' }}>
+                    <h3>Setting</h3>
+                </div>
+            </Route>
+        </>
     )
-};
+}
 
-export default MentorContent;
+export default MentorContent

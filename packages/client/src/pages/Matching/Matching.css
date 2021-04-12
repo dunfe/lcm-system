@@ -1,0 +1,6 @@
+.matching-description > .ant-descriptions-header > .ant-descriptions-title {
+    font-size: 36px;
+    padding-left: 24px;
+    word-wrap: break-word;
+    width: 80vw;
+}
