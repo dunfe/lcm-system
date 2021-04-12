@@ -10,6 +10,7 @@ import { protect, restrictTo} from '../controller/auth.js';
 import { createReport } from '../controller/report.js';
 import upload from '../utils/multer.js';
 import cloudinary from '../utils/cloudinary.js';
+import cors from 'cors'
 
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -18,6 +19,9 @@ import {getAllNotification, clickNotify} from '../controller/noti.js'
 dotenv.config();
 
 const router = express.Router();
+
+
+router.use(cors());
 
 router.post('/register',async (req, res, next) => {
         passport.authenticate(
