@@ -242,14 +242,14 @@ export const viewUserInfo = async (req, res) => {
 export const uploadAvatar = async (req, res) => {
     try {
         const result = await cloudinary.uploader.upload(req.file.path);
-        res.status(200).json({
+        return res.status(200).json({
             status: 'Success',
             url: result.secure_url
         })
     } catch (error) {
         return res.status(400).json({
             status: 'fail',
-            message: error.message
+            message: error
         })
     }
 }
