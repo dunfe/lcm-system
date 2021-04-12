@@ -36,7 +36,7 @@ const ListQuestion = () => {
             title: 'Point',
             dataIndex: 'point',
             key: 'point',
-            sorter: (a, b) => a.age - b.age,
+            sorter: (a, b) => a.point - b.point,
         },
         {
             title: 'Trạng thái',
