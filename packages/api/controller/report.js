@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import Report from '../models/report.js';
 import { useridFromToken } from '../controller/mentor.js'
+import cloudinary from '../utils/cloudinary.js';
+import upload from '../utils/multer.js';
 
 const router = express.Router();
 
@@ -42,28 +44,33 @@ export function getAllReport(model) {
 export const createReport = async (req, res) => {
   let userId = await useridFromToken(req, res);
 
-  const report = new Report({
+  // Just for upload single file
+  // const result = await cloudinary.uploader.upload(req.file.path);
+
+  //handle multiple upload
+  const urls = [];
+  const files = req.files;
+  for (const file of files) {
+    const { path } = file;
+    const newPath = await cloudinary.uploader.upload(path)
+    urls.push(newPath)
+  }
+
+  // console.log(urls)
+  //Create new report to save to DB
+  let report = new Report({
     title: req.body.title,
     createBy: userId,
     content: req.body.content,
     createdAt: Date.now(),
   });
 
-  // Just for upload single file
-  // if(req.file) {
-  //   report.img = req.file.path;
-  // }
-
-  //Upload multiple files
-  if(req.files) {
-    let path = '';
-    req.files.forEach(function(files, index, arr){
-      report.img.push(files.path); 
+  //handle array url cuz of multiple upload
+    urls.forEach(function(urls, index, arr){
+      report.img.push(urls.secure_url); 
     })
-    // path = path.substring(0, path.lastIndexOf(","))
-    // report.img = path;
-  }
 
+  // save new report to db
   report.save((err, doc) => {
     if (!err) {
       return res.status(200).json({
