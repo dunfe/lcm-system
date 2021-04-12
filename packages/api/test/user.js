@@ -117,4 +117,14 @@ describe('mentee crud question', () =>{
                 done();
         })
     })
+
+    it('Update question', function(done){
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .send({ point: 200})
+            .end((err,res)=> {
+                expect(res.body.status).to.equal('success');
+                done();
+        })
+    })
 })
