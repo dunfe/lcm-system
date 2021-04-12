@@ -8,7 +8,7 @@ import app from '../app.js';
 
 chai.use(chaiHttp);
 let token;
-
+let questionId = '605b2cff4ba7106618f7d14e';
 
 describe('User login successful', () => {
     
@@ -87,5 +87,34 @@ describe('mentee crud question', () =>{
                 expect(res.body).to.contain.property('data');
                 done();
             })
+    })
+
+    it('Should return question with id input', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+    it('Create new question', function(done) {
+        chai.request(app).post(`/api/users/questions`)
+            .set('Authorization', token)
+            .send({
+                title: 'About funtion Nodejs',
+                point: 200,
+                skill: 'java',
+                timeAvailableFrom: 1617693860,
+                timeAvailableTo: 1617694860,
+                content: 'How to use express',
+                status: 'new',
+                note: '',
+            })
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+        })
     })
 })
