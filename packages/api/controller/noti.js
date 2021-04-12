@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { useridFromToken } from '../controller/mentor.js'
 import Notify from '../models/noti.js';
 import User from '../models/user.js';
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -43,10 +43,8 @@ export const getAllNotification = async (req, res) => {
     if(page<1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-
-    var socketio = io("ws://localhost:3007");
-    socketio.emit("news", 5);
-
+    // var socketio = io("ws://localhost:3007");
+    // socketio.emit("news", 5);
     if (endIndex < data.length) {
       results.next = {
         page: page + 1
