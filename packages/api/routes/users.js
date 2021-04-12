@@ -20,9 +20,6 @@ dotenv.config();
 
 const router = express.Router();
 
-
-router.use(cors());
-
 router.post('/register',async (req, res, next) => {
         passport.authenticate(
             'register', {session: false},
@@ -282,7 +279,7 @@ router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMento
 router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFaverite)
 
 //Upload avatar
-router.post('/upload-file',protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
+router.post('/upload-file', cors(), protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
 
 //profile function
 router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
