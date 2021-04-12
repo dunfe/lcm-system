@@ -371,7 +371,6 @@ export const viewListFavoriteMentor = async (req, res) => {
             favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
         }
     })
-    console.log(favoriteMentor);
     let data = favoriteMentor;
     const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;
