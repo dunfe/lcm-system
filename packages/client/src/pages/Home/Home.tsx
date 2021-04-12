@@ -1,24 +1,23 @@
 import * as React from 'react'
-import { Layout, notification } from 'antd'
+import { Layout, Menu, notification } from 'antd'
 import HeaderComponent from '../../components/Header/Header'
 import { Switch, useRouteMatch } from 'react-router-dom'
 import PageHeader from '../../components/Header/PageHeader'
 import MenteeContent from '../../components/Home/Content/MenteeContent'
-import { useAuth } from '../../utils/hooks/useAuth'
 import MentorContent from '../../components/Home/Content/MentorContent'
 import MenteeMenu from '../../components/Menu/MenteeMenu'
 import MentorMenu from '../../components/Menu/MentorMenu'
 import { LogoContainer } from '../../components/Logo/LogoContainer'
 import { Logo } from '../../components/Logo/Logo'
+import { useRole } from '../../utils/hooks/useRole'
 
-const { Sider, Content } = Layout
+const { Sider, Content, Footer } = Layout
 
 const { useState, useEffect } = React
 
 export function HomePage() {
     //check login
-    const auth = useAuth()
-    const role = auth.user?.user.data.role
+    const role = useRole()
     const { path } = useRouteMatch()
     const [selectedKeys, setSelectedKeys] = useState([location.pathname])
     const [pageHeader, setPageHeader] = useState({
@@ -75,18 +74,16 @@ export function HomePage() {
 
     return (
         <Layout style={{ height: '100vh' }}>
-            <Layout>
-                <Sider
-                    breakpoint="lg"
-                    collapsedWidth="0"
-                    onCollapse={(collapsed, type) => {
-                        console.log(collapsed, type)
-                    }}
-                    theme={'dark'}
+            <Sider collapsible theme={'dark'}>
+                <LogoContainer className="logo">
+                    <Logo />
+                </LogoContainer>
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    selectedKeys={selectedKeys}
+                    onSelect={onSelect}
                 >
-                    <LogoContainer className="logo">
-                        <Logo />
-                    </LogoContainer>
                     {role === 'mentee' ? (
                         <MenteeMenu
                             selectedKeys={selectedKeys}
@@ -98,30 +95,31 @@ export function HomePage() {
                             onSelect={onSelect}
                         />
                     )}
-                </Sider>
-                <Layout>
-                    <HeaderComponent />
-                    {selectedKeys.filter((item) => item === '/').length <= 0 ? (
-                        <PageHeader
-                            title={pageHeader.title}
-                            subTitle={pageHeader.subtitle}
-                        />
-                    ) : null}
-                    <Content style={{ margin: '24px 16px 0' }}>
-                        <Switch>
-                            <>
-                                {role === 'mentee' ? (
-                                    <MenteeContent
-                                        path={path}
-                                        setSelectedKeys={setSelectedKeys}
-                                    />
-                                ) : (
-                                    <MentorContent path={path} />
-                                )}
-                            </>
-                        </Switch>
-                    </Content>
-                </Layout>
+                </Menu>
+            </Sider>
+            <Layout>
+                <HeaderComponent setSelectedKeys={setSelectedKeys} />
+                {selectedKeys.filter((item) => item === '/').length <= 0 ? (
+                    <PageHeader
+                        title={pageHeader.title}
+                        subTitle={pageHeader.subtitle}
+                    />
+                ) : null}
+                <Content style={{ margin: '24px 16px 0' }}>
+                    <Switch>
+                        <>
+                            {role === 'mentee' ? (
+                                <MenteeContent
+                                    path={path}
+                                    setSelectedKeys={setSelectedKeys}
+                                />
+                            ) : (
+                                <MentorContent path={path} />
+                            )}
+                        </>
+                    </Switch>
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>LCM ©2020</Footer>
             </Layout>
         </Layout>
     )

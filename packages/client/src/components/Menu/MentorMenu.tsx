@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Menu } from 'antd'
 import {
     CheckCircleOutlined,
+    SettingOutlined,
     TeamOutlined,
     UnorderedListOutlined,
     UserOutlined,
@@ -34,6 +35,9 @@ const MentorMenu = (props: IProps) => {
             </Menu.Item>
             <Menu.Item key="/session" icon={<TeamOutlined />}>
                 <Link to={`/session`}>Session</Link>
+            </Menu.Item>
+            <Menu.Item key="1" icon={<SettingOutlined />}>
+                Cài đặt
             </Menu.Item>
         </Menu>
     )
