@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import colabRoom from '../models/collabRoom.js';
-
+import User from '../models/user.js'
+import { useridFromToken } from '../controller/mentor.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -53,8 +54,48 @@ export const joinRoomById = (req, res) => {
       })
 }
 
-export const listRoom = (req, res) => {
-
+export const listRoom = async (req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const results = {}
+    let userId = await useridFromToken(req, res);
+    let CurrUser = await User.findById(userId);
+    let data, listRoom, startIndex, endIndex;
+    if(CurrUser.role == 'mentor'){
+        data = await colabRoom.find({"mentorInfo._id" : userId});
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        if (page < 1 || page > totalPage) page = 1;
+        startIndex = (page - 1) * limit
+        endIndex = page * limit
+        listRoom = await colabRoom.find({"mentorInfo._id" : userId}).sort({ createAt: 'descending' }).limit(limit).skip(startIndex).exec();
+    }else if(CurrUser.role == 'mentee'){
+        data = await colabRoom.find({"mentorInfo._id" : userId});
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        if (page < 1 || page > totalPage) page = 1;
+        startIndex = (page - 1) * limit
+        endIndex = page * limit
+        listRoom = await colabRoom.find({"menteeInfo._id" : userId}).sort({ createAt: 'descending' }).limit(limit).skip(startIndex).exec();
+    }
+    if (endIndex < data.length) {
+        results.next = { page: page + 1 }
+    }
+    if (startIndex > 0) {
+        results.previous = { page: page - 1 }
+    }
+    try {
+        results.results = listRoom;
+        return res.status(200).json({
+            status: 'success',
+            data: results
+        });
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
 }
 
 export default router;
