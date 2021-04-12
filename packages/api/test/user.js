@@ -98,5 +98,23 @@ describe('mentee crud question', () =>{
         })
     })
 
-
+    it('Create new question', function(done) {
+        chai.request(app).post(`/api/users/questions`)
+            .set('Authorization', token)
+            .send({
+                title: 'About funtion Nodejs',
+                point: 200,
+                skill: 'java',
+                timeAvailableFrom: 1617693860,
+                timeAvailableTo: 1617694860,
+                content: 'How to use express',
+                status: 'new',
+                note: '',
+            })
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+        })
+    })
 })
