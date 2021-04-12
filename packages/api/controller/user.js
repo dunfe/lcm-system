@@ -239,6 +239,21 @@ export const viewUserInfo = async (req, res) => {
     })
 }
 
+export const uploadAvatar = async (req, res) => {
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        res.status(200).json({
+            status: 'Success',
+            url: result.secure_url
+        })
+    } catch (error) {
+        return res.status(400).json({
+            status: 'fail',
+            message: error.message
+        })
+    }
+}
+
 export const editProfileUserById = async (req, res) => {
     let userId = await useridFromToken(req, res);
 
@@ -250,23 +265,23 @@ export const editProfileUserById = async (req, res) => {
     const update = {
         dob : req.body.dob,
         phone: req.body.phone,
-        avatar: '',
+        avatar: req.body.avatar,
         gender: req.body.gender,
         address: req.body.address,
         currentJob: req.body.currentJob,
         achievement: req.body.achievement
     };
-    const currentUser =  await User.findById(userId);
-    if(currentUser.detail.avatar == ''){
-        const result = await cloudinary.uploader.upload(req.file.path);
-        update.avatar = result.secure_url;
-    } else{
-        // Delete image from cloudinary
-        // await cloudinary.uploader.destroy(currentUser.detail.avatar);
-        // Upload image to cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path);
-        update.avatar = result.secure_url;
-    }
+    // const currentUser =  await User.findById(userId);
+    // if(currentUser.detail.avatar == ''){
+    //     const result = await cloudinary.uploader.upload(req.file.path);
+    //     update.avatar = result.secure_url;
+    // } else{
+    //     // Delete image from cloudinary
+    //     // await cloudinary.uploader.destroy(currentUser.detail.avatar);
+    //     // Upload image to cloudinary
+    //     const result = await cloudinary.uploader.upload(req.file.path);
+    //     update.avatar = result.secure_url;
+    // }
 
     // console.log(currentUser.detail.avatar)
 

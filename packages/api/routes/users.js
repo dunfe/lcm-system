@@ -1,5 +1,5 @@
 import express from 'express';
-import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite} from '../controller/user.js';
+import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite, uploadAvatar} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
 import {createQuestion,viewListDoneQuestionMenteeId, viewListNewOrdoingQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
@@ -277,9 +277,12 @@ router.put('/favorite-mentor/:id',protect,restrictTo('mentee'),addFavoriteMentor
 router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMentor);
 router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFaverite)
 
+//Upload avatar
+router.post('/',upload.single('avatar'), uploadAvatar);
+
 //profile function
 router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
-router.put('/',protect,restrictTo('mentee', 'mentor'),upload.single('avatar'),editProfileUserById);
+router.put('/',protect,restrictTo('mentee', 'mentor'),editProfileUserById);
 
 //vỉew history point transaction
 router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);
