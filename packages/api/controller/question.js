@@ -160,12 +160,12 @@ export const delQuestionById = async (req, res) => {
     });
 }
 
-export const viewListNewQuestionMenteeId = async (req, res) => {
+export const viewListNewOrdoingQuestionMenteeId = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     const limit = 50;
     const results = {}
     let userId = await useridFromToken(req, res);
-    const data = await Question.find({menteeId: userId, status : "new" });
+    const data = await Question.find({menteeId: userId, status : {$ne : "done"} });
     const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;
     if (page < 1 || page > totalPage) page = 1;
@@ -178,7 +178,7 @@ export const viewListNewQuestionMenteeId = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({menteeId: userId, status : "new" }).limit(limit).skip(startIndex).exec();
+        results.results = await Question.find({menteeId: userId, status : {$ne : "done"} }).sort({ status: -1 }).limit(limit).skip(startIndex).exec();
         return res.status(200).json({
             status: 'success',
             data: results
@@ -191,12 +191,12 @@ export const viewListNewQuestionMenteeId = async (req, res) => {
     }
 }
 
-export const viewListDoingOrDoneQuestionMenteeId = async (req, res) => {
+export const viewListDoneQuestionMenteeId = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     const limit = 50;
     const results = {}
     let userId = await useridFromToken(req, res);
-    const data = await Question.find({menteeId: userId, status : {$ne : "new"} });
+    const data = await Question.find({menteeId: userId, status : "done" });
     const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;
     if (page < 1 || page > totalPage) page = 1;
@@ -209,7 +209,7 @@ export const viewListDoingOrDoneQuestionMenteeId = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({menteeId: userId, status : {$ne : "new"} }).limit(limit).skip(startIndex).exec();
+        results.results = await Question.find({menteeId: userId, status : "done" }).limit(limit).skip(startIndex).exec();
         return res.status(200).json({
             status: 'success',
             data: results

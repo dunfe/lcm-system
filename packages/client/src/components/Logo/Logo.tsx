@@ -1,7 +1,7 @@
-import Icon from '@ant-design/icons';
-import * as React from 'react';
-import { ReactComponent as LogoSvg } from '../../assets/logo.svg';
+import Icon from '@ant-design/icons'
+import * as React from 'react'
+import { ReactComponent as LogoSvg } from '../../assets/logo.svg'
 
 export const Logo = () => {
-  return <Icon component={LogoSvg} style={{ fontSize: 66 }} />;
-};
+    return <Icon component={LogoSvg} style={{ fontSize: 66 }} />
+}
