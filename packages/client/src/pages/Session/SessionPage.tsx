@@ -1,24 +1,24 @@
-import * as React from 'react';
-import {Button, Card, Layout, Tabs} from 'antd';
-import styled from 'styled-components';
-import './SessionPage.css';
-import RCE from '../../components/Session/RCE';
-import VideoChat from "../../components/Session/VideoChat";
+import * as React from 'react'
+import { Button, Card, Layout, Tabs } from 'antd'
+import styled from 'styled-components'
+import './SessionPage.css'
+import RCE from '../../components/Session/RCE'
+import VideoChat from '../../components/Session/VideoChat'
 
-const {Sider, Content} = Layout;
-const {TabPane} = Tabs;
+const { Sider, Content } = Layout
+const { TabPane } = Tabs
 
-const {useState} = React;
+const { useState } = React
 const SessionPage = () => {
-    const [connected, setConnected] = useState(true);
+    const [connected, setConnected] = useState(true)
 
     const handleDisconnect = () => {
-        setConnected(false);
-    };
+        setConnected(false)
+    }
 
     const handleConnect = () => {
-        setConnected(true);
-    };
+        setConnected(true)
+    }
 
     return (
         <Layout className="session-layout">
@@ -34,12 +34,12 @@ const SessionPage = () => {
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="Real-time Collaborative Editor" key="1">
                         <TabContent>
-                            <RCE/>
+                            <RCE />
                         </TabContent>
                     </TabPane>
                     <TabPane tab="Video/Audio Call" key="2">
                         <TabContent>
-                            <VideoChat/>
+                            <VideoChat />
                         </TabContent>
                     </TabPane>
                 </Tabs>
@@ -49,7 +49,12 @@ const SessionPage = () => {
                     className={'session-time'}
                     title="Session"
                     bordered={false}
-                    style={{width: 302, height: 182, margin: 'auto', marginTop: 20}}
+                    style={{
+                        width: 302,
+                        height: 182,
+                        margin: 'auto',
+                        marginTop: 20,
+                    }}
                 >
                     {connected ? (
                         <Button onClick={handleDisconnect}>Disconnect</Button>
@@ -72,12 +77,12 @@ const SessionPage = () => {
                 </Card>
             </Sider>
         </Layout>
-    );
-};
+    )
+}
 
 const TabContent = styled.div`
-  background-color: white;
-  height: 100%;
-`;
+    background-color: white;
+    height: 100%;
+`
 
-export default SessionPage;
+export default SessionPage
