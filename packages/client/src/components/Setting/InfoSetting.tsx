@@ -47,24 +47,12 @@ const InfoSetting = () => {
         </div>
     )
 
-    const customRequest = (file) => {
-        const bodyData = new FormData()
-        bodyData.append('avatar', file)
-
-        instance
-            .post('/api/users', bodyData, {
-                headers: {
-                    'Content-type': 'multipart/form-data',
-                },
-            })
-            .then((response) => {
-                console.log(response.status)
-            })
-    }
-
     const props = {
         name: 'avatar',
-        customRequest,
+        action: 'https://livecoding.me/api/users/upload-file',
+        headers: {
+            'Content-type': 'multipart/form-data',
+        },
         onChange(info) {
             if (info.file.status !== 'uploading') {
                 setLoading(true)
@@ -95,12 +83,15 @@ const InfoSetting = () => {
         formData.append('address', address)
         formData.append('currentJob', currentJob)
 
-        instance.put('/api/users', formData).then((response) => {
-            if (response.status === 200) {
-                message.success('Cập nhật thành công!')
-                setFileList([])
-            }
-        })
+        instance
+            .put('/api/users', formData)
+            .then((response) => {
+                if (response.status === 200) {
+                    message.success('Cập nhật thành công!')
+                    setFileList([])
+                }
+            })
+            .catch((error) => console.error(error))
     }
 
     return (
