@@ -67,8 +67,7 @@ app.use('/api/admin',skillRoutes);
 app.use('/api/admin',adminRoutes);
 app.use('/api/payment', paymentRouters);
 app.use('/api/mentor', mentorRoutes);
-app.use('/api/mentee', collabRoomRouter);
-app.use('/api/mentor', collabRoomRouter);
+app.use('/api/users', collabRoomRouter);
 
 app.all('*', (req, res, next) => {
     res.status(404).json({
