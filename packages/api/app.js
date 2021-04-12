@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import cors from 'cors';
+import cors from "cors";
 import dotenv from 'dotenv';
 import userRoutes from './routes/users.js';
 import skillRoutes from './routes/skills.js';
@@ -19,6 +19,7 @@ import passportSetup from "./config/passport-setup.js";
 const app = express();
 dotenv.config();
 app.use(cors());
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
