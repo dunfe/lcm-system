@@ -2,11 +2,11 @@ import * as React from 'react'
 import { useSprings, animated } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import { Descriptions, message } from 'antd'
-import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import './Matching.css'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+import { useAPI } from '../../utils/hooks/useAPI'
 
 interface IQuestion {
     receivedBy: string[]
@@ -26,8 +26,6 @@ interface IQuestion {
     __v: number
 }
 
-const instance = axios.create({ baseURL: 'https://livecoding.me' })
-
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = (i) => ({
     x: 0,
@@ -44,6 +42,8 @@ dayjs.extend(LocalizedFormat)
 
 const Matching = () => {
     const auth = useAuth()
+    const instance = useAPI()
+
     const [cards, setCards] = useState<JSX.Element[]>([])
     const [data, setData] = useState<IQuestion[]>([])
     const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
@@ -76,11 +76,7 @@ const Matching = () => {
                 // TODO update api
                 if (isGone && dir === 1) {
                     instance
-                        .post(`/api/mentor/selectQuestion/${id}`, {
-                            headers: {
-                                Authorization: auth.user?.user.token,
-                            },
-                        })
+                        .post(`/api/mentor/selectQuestion/${id}`)
                         .then((response) => {
                             if (response.status === 200) {
                                 message.success('Chọn câu hỏi thành công!')
@@ -164,13 +160,26 @@ const Matching = () => {
             })
             .catch((error) => console.error(error))
     }, [])
-    // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
-    return props.map(({ x, y }, i) => (
-        <animated.div key={i} style={{ x, y }}>
-            {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-            <animated.div {...bind(i, data[i]._id)}>{cards[i]}</animated.div>
-        </animated.div>
-    ))
+
+    if (props.length === 0) {
+        return (
+            <div
+                style={{ backgroundColor: 'white', width: '100%', height: 200 }}
+            >
+                <h1>Không tìm thấy câu hỏi phù hợp</h1>
+            </div>
+        )
+    } else {
+        // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
+        return props.map(({ x, y }, i) => (
+            <animated.div key={i} style={{ x, y }}>
+                {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
+                <animated.div {...bind(i, data[i]._id)}>
+                    {cards[i]}
+                </animated.div>
+            </animated.div>
+        ))
+    }
 }
 
 export default Matching
