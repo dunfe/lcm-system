@@ -292,6 +292,6 @@ router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionB
 router.get('/skills',getAllSkills);
 
 //notify
-router.get('/notify',protect,getAllNotification);
-router.put('/notify/:id',protect,clickNotify)
+router.get('/notify',protect,restrictTo('mentee', 'mentor'),protect,getAllNotification);
+router.put('/notify/:id',protect,restrictTo('mentee', 'mentor'),clickNotify)
 export default router;
