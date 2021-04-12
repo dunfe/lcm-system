@@ -1,92 +1,99 @@
-import {Avatar, Badge, Menu} from 'antd';
-import * as React from 'react';
-import {Link, useHistory} from 'react-router-dom';
-import {useAuth} from '../../utils/hooks/useAuth';
-import {BellOutlined, UserOutlined} from '@ant-design/icons';
-import "./Header.css";
-import axios from "axios";
+import { Avatar, Badge, Menu } from 'antd'
+import * as React from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { useAuth } from '../../utils/hooks/useAuth'
+import { BellOutlined, UserOutlined } from '@ant-design/icons'
+import './Header.css'
+import { useFullname } from '../../utils/hooks/useFullname'
+import { useAvatar } from '../../utils/hooks/useAvatar'
+import { useAPI } from '../../utils/hooks/useAPI'
 
 interface INotify {
-    read: boolean,
-    _id: string,
-    title: string,
-    receivedById: string,
-    content: string,
-    createdAt: string,
+    read: boolean
+    _id: string
+    title: string
+    receivedById: string
+    content: string
+    createdAt: string
     __v: number
 }
 
-const {SubMenu} = Menu;
+interface IProps {
+    setSelectedKeys: (state: string[]) => void
+}
 
-const instance = axios.create({baseURL: 'https://livecoding.me'});
-const {useState, useEffect} = React;
+const { SubMenu } = Menu
 
-const HeaderComponent = () => {
-    const history = useHistory();
-    const auth = useAuth();
-    const [notify, setNotify] = useState<INotify[]>([]);
-    const [count, setCount] = useState(0);
+const { useState, useEffect } = React
+
+const HeaderComponent = (props: IProps) => {
+    const history = useHistory()
+    const auth = useAuth()
+    const userFullname = useFullname()
+    const avatar = useAvatar()
+    const instance = useAPI()
+
+    const { setSelectedKeys } = props
+
+    const [notify, setNotify] = useState<INotify[]>([])
+    const [count, setCount] = useState(0)
 
     const onSignOut = () => {
         auth.signOut().then(() => {
-            history.push('/');
-        });
-    };
+            history.push('/')
+        })
+    }
+
+    const onClickSetting = () => {
+        setSelectedKeys(['/setting'])
+    }
 
     useEffect(() => {
-        const role = auth.user?.user.data.role;
-        instance.get(`/api/${role}/notify`, {
-            headers: {
-                'Authorization': auth.user?.user.token
-            }
-        }).then((response) => {
-            if (response.status === 200) {
-                setNotify(response.data.data.results);
-                const _count = response.data.readFalse;
-                setCount(_count);
-            }
-        }).catch((error) => console.error(error));
-    }, []);
+        instance
+            .get(`/api/users/notify`)
+            .then((response) => {
+                if (response.status === 200) {
+                    setNotify(response.data.data.results)
+                    const _count = response.data.readFalse
+                    setCount(_count)
+                }
+            })
+            .catch((error) => console.error(error))
+    }, [])
 
     const _notify = notify.map((item) => (
-        <Menu.Item key={item._id}>
-            {item.title}
-        </Menu.Item>
-    ));
+        <Menu.Item key={item._id}>{item.title}</Menu.Item>
+    ))
 
     const MenuIcon = (
         <Badge count={count} showZero={true}>
-            <BellOutlined style={{fontSize: 20, paddingLeft: 10}}/>
+            <BellOutlined style={{ fontSize: 20, paddingLeft: 10 }} />
         </Badge>
-    );
+    )
 
     return (
-            <Menu mode="horizontal" style={{display: 'flex', justifyContent: 'flex-end'}}>
-                <SubMenu key="notify" icon={MenuIcon} style={{paddingTop: 5}}>
-                    <Menu.ItemGroup title="Thông báo của bạn">
-                        {_notify}
-                    </Menu.ItemGroup>
-                </SubMenu>
-                <SubMenu key="profile" icon={<Avatar src={auth.user?.user.data.detail.avatar} icon={<UserOutlined/>}/>}>
-                    <Menu.Item>
-                        <Link to={`/setting`}>{auth.user?.user.data.fullname}</Link>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <a target="_blank" rel="noopener noreferrer" href="#">
-                            2nd menu item
-                        </a>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <a target="_blank" rel="noopener noreferrer" href="#">
-                            3rd menu item
-                        </a>
-                    </Menu.Item>
-                    <Menu.Item danger>
-                        <a onClick={onSignOut}>Đăng xuất</a>
-                    </Menu.Item>
-                </SubMenu>
-            </Menu>
-    );
-};
+        <Menu
+            mode="horizontal"
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
+        >
+            <SubMenu key="notify" icon={MenuIcon} style={{ paddingTop: 5 }}>
+                <Menu.ItemGroup title="Thông báo của bạn">
+                    {_notify}
+                </Menu.ItemGroup>
+            </SubMenu>
+            <SubMenu
+                key="profile"
+                icon={<Avatar src={avatar} icon={<UserOutlined />} />}
+            >
+                <Menu.Item onClick={onClickSetting}>
+                    <Link to={`/setting`}>{userFullname}</Link>
+                </Menu.Item>
+                <Menu.Item danger>
+                    <a onClick={onSignOut}>Đăng xuất</a>
+                </Menu.Item>
+            </SubMenu>
+        </Menu>
+    )
+}
 
-export default HeaderComponent;
+export default HeaderComponent

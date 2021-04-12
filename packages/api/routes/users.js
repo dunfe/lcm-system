@@ -1,5 +1,5 @@
 import express from 'express';
-import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite} from '../controller/user.js';
+import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite, uploadAvatar} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
 import {createQuestion,viewListDoneQuestionMenteeId, viewListNewOrdoingQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
@@ -8,8 +8,8 @@ import {viewPointInTransactionById, viewPointOutTransactionById } from "../contr
 import {registerMentorRequest} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
 import { createReport } from '../controller/report.js';
-import upload from '../middleware/upload.js';
-
+import upload from '../utils/multer.js';
+import cloudinary from '../utils/cloudinary.js';
 
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -250,12 +250,13 @@ router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
 
 // create request register mentor 
-router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorRequest);
+router.post('/mentor/register',protect,restrictTo('mentee'),upload.single('cv'),registerMentorRequest);
 
 //rate mentor
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
-//report mentor
+//CRUD report mentor
+
 router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), createReport);
 
 // user crud question
@@ -276,9 +277,12 @@ router.put('/favorite-mentor/:id',protect,restrictTo('mentee'),addFavoriteMentor
 router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMentor);
 router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFaverite)
 
+//Upload avatar
+router.post('/',upload.single('avatar'), uploadAvatar);
+
 //profile function
 router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
-router.put('/',protect,restrictTo('mentee', 'mentor'),upload.single('avatar'),editProfileUserById);
+router.put('/',protect,restrictTo('mentee', 'mentor'),editProfileUserById);
 
 //vỉew history point transaction
 router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);

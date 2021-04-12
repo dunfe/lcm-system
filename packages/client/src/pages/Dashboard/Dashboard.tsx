@@ -1,10 +1,10 @@
-import * as React from "react";
-import {Row, Col, Card, Table, message} from 'antd';
-import {useAuth} from "../../utils/hooks/useAuth";
-import axios from "axios";
-import {IData} from "../Question/ListQuestion";
+import * as React from 'react'
+import { Row, Col, Card, Table, message } from 'antd'
+import { useAuth } from '../../utils/hooks/useAuth'
+import axios from 'axios'
+import { IData } from '../Question/ListQuestion'
 
-const { useEffect, useState} = React;
+const { useEffect, useState } = React
 
 const columns = [
     {
@@ -21,27 +21,30 @@ const columns = [
         title: 'Trạng thái',
         dataIndex: 'status',
         key: 'status',
-    }
-];
+    },
+]
 
 const Dashboard = () => {
-    const auth = useAuth();
+    const auth = useAuth()
 
-    const [data, setData] = useState<IData[]>([]);
+    const [data, setData] = useState<IData[]>([])
 
-    const instance = axios.create({ baseURL: 'https://livecoding.me' });
+    const instance = axios.create({ baseURL: 'https://livecoding.me' })
 
     useEffect(() => {
-        instance.get('/api/users/questions', {
-            headers: {
-                'Authorization': auth.user?.user.token,
-            }
-        }).then((response) => {
-            if ( response.status === 200) {
-                setData(response.data.data.results);
-            }
-        }).catch((error) => message.error(error.message))
-    }, []);
+        instance
+            .get('/api/users/questions', {
+                headers: {
+                    Authorization: auth.user?.user.token,
+                },
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    setData(response.data.data.results)
+                }
+            })
+            .catch((error) => message.error(error.message))
+    }, [])
 
     return (
         <div className="site-card-wrapper">
@@ -64,19 +67,28 @@ const Dashboard = () => {
                             </Card>
                         </Col>
                     </Row>
-                    <Card title="Danh sách câu hỏi" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                        <Table columns={columns} dataSource={data} rowKey={'_id'}/>
+                    <Card
+                        title="Danh sách câu hỏi"
+                        bordered={false}
+                        style={{ marginTop: 24, marginBottom: 24 }}
+                    >
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            rowKey={'_id'}
+                        />
                     </Card>
                 </Col>
                 <Col span={6}>
-                    <Card title="Hướng dẫn sử dụng" bordered={false} style={{height: '90vh'}}>
-
-                    </Card>
+                    <Card
+                        title="Hướng dẫn sử dụng"
+                        bordered={false}
+                        style={{ height: '90vh' }}
+                    ></Card>
                 </Col>
             </Row>
-
         </div>
     )
-};
+}
 
-export default Dashboard;
+export default Dashboard

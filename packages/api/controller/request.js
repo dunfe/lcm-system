@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import User from '../models/user.js'
 import Request from '../models/request.js';
 import {useridFromToken} from '../controller/mentor.js'
+import cloudinary from '../utils/cloudinary.js';
+import upload from '../utils/multer.js';
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -16,13 +18,17 @@ export const registerMentorRequest = async (req, res) => {
       detail: {currentJob: req.body.currentJob, achievement: req.body.achievement},
       modifieAt: Date.now()
     }
+
+    //upload CV
+    const result = await cloudinary.uploader.upload(req.file.path);
+
     const request = new Request({
         title: req.body.title,
         createdId: user._id,
         createdName: user.fullname,
         receivedBy: req.body.receivedBy,
         content: req.body.content,
-        picture: req.body.picture,
+        cv: result.secure_url,
         createdAt: req.body.createdAt
     });
     User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
