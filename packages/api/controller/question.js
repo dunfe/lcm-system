@@ -160,17 +160,30 @@ export const delQuestionById = async (req, res) => {
     });
 }
 
-export const viewListNewOrdoingQuestionMenteeId = async (req, res) => {
+export const viewListNewOrdoingQuestion = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
-    const limit = 50;
+    const limit = 10;
     const results = {}
     let userId = await useridFromToken(req, res);
-    const data = await Question.find({menteeId: userId, status : {$ne : "done"} });
-    const totalPage = Math.ceil(data.length / limit);
-    results.totalPage = totalPage;
-    if (page < 1 || page > totalPage) page = 1;
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
+    let CurrUser = await User.findById(userId);
+    let data, listQues, startIndex, endIndex;
+    if(CurrUser.role == 'mentor'){
+        data = await Question.find({receivedBy: userId, status : "doing" });
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        if (page < 1 || page > totalPage) page = 1;
+        startIndex = (page - 1) * limit
+        endIndex = page * limit
+        listQues = await Question.find({receivedBy: userId, status : "doing" }).sort({ point: 'descending' }).limit(limit).skip(startIndex).exec();
+    }else if(CurrUser.role == 'mentee'){
+        data = await Question.find({menteeId: userId, status : {$ne : "done"} });
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        if (page < 1 || page > totalPage) page = 1;
+        startIndex = (page - 1) * limit
+        endIndex = page * limit
+        listQues = await Question.find({menteeId: userId, status : {$ne : "done"} }).sort({ status: -1, createdAt: 'ascending' }).limit(limit).skip(startIndex).exec();
+    }
     if (endIndex < data.length) {
         results.next = { page: page + 1 }
     }
@@ -178,7 +191,7 @@ export const viewListNewOrdoingQuestionMenteeId = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({menteeId: userId, status : {$ne : "done"} }).sort({ status: -1 }).limit(limit).skip(startIndex).exec();
+        results.results = listQues;
         return res.status(200).json({
             status: 'success',
             data: results
@@ -191,17 +204,30 @@ export const viewListNewOrdoingQuestionMenteeId = async (req, res) => {
     }
 }
 
-export const viewListDoneQuestionMenteeId = async (req, res) => {
+export const viewListDoneQuestion = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
-    const limit = 50;
+    const limit = 10;
     const results = {}
     let userId = await useridFromToken(req, res);
-    const data = await Question.find({menteeId: userId, status : "done" });
-    const totalPage = Math.ceil(data.length / limit);
-    results.totalPage = totalPage;
-    if (page < 1 || page > totalPage) page = 1;
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
+    let CurrUser = await User.findById(userId);
+    let data, listQues, startIndex, endIndex;
+    if(CurrUser.role == 'mentor'){
+        data = await Question.find({receivedBy: userId, status : "done" });
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        if (page < 1 || page > totalPage) page = 1;
+        startIndex = (page - 1) * limit
+        endIndex = page * limit
+        listQues = await Question.find({receivedBy: userId, status : "done" }).sort({ point: 'descending' }).limit(limit).skip(startIndex).exec();
+    }else if(CurrUser.role == 'mentee'){
+        data = await Question.find({menteeId: userId, status : "done" });
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        if (page < 1 || page > totalPage) page = 1;
+        startIndex = (page - 1) * limit
+        endIndex = page * limit
+        listQues = await Question.find({menteeId: userId, status : "done" }).sort({ createdAt: 'ascending' }).limit(limit).skip(startIndex).exec();
+    }
     if (endIndex < data.length) {
         results.next = { page: page + 1 }
     }
@@ -209,7 +235,7 @@ export const viewListDoneQuestionMenteeId = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({menteeId: userId, status : "done" }).limit(limit).skip(startIndex).exec();
+        results.results = listQues;
         return res.status(200).json({
             status: 'success',
             data: results

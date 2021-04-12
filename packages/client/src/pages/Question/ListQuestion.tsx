@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Tabs, Table } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
-import { useRole } from '../../utils/hooks/useRole'
 
 export interface IData {
     receivedBy: string[]
@@ -23,7 +22,6 @@ const { TabPane } = Tabs
 const { useEffect, useState } = React
 
 const ListQuestion = () => {
-    const role = useRole()
     const instance = useAPI()
 
     const [newQuestion, setNewQuestion] = useState<IData[]>([])
@@ -50,7 +48,7 @@ const ListQuestion = () => {
 
     useEffect(() => {
         instance
-            .get('/api/users/questions/notnew')
+            .get('/api/users/questions/done')
             .then((response) => {
                 if (response.status === 200) {
                     setOldQuestion(response.data.data.results)
