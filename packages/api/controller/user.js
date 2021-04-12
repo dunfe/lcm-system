@@ -240,6 +240,10 @@ export const viewUserInfo = async (req, res) => {
 }
 
 export const uploadAvatar = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+    res.setHeader('Access-Control-Allow-Credentials', true);
     try {
         const result = await cloudinary.uploader.upload(req.file.path);
         return res.status(200).json({
