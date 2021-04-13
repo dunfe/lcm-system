@@ -115,11 +115,20 @@ describe('mentee crud question', () =>{
             })
     })
 
-    it('Should return question with id input', function(done){
+    it('Should return status of question with id input', function(done){
         chai.request(app).get(`/api/users/questions/${questionId}`)
             .set('Authorization', token)
             .end((err,res)=>{
             expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+    it('Should return data of question with id input', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
             done();
         })
     })
