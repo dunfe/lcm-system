@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Tabs, Table } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
+import QuestionDetail from '../../components/Question/QuestionDetail'
 
 export interface IData {
     receivedBy: string[]
@@ -26,6 +27,8 @@ const ListQuestion = () => {
 
     const [newQuestion, setNewQuestion] = useState<IData[]>([])
     const [oldQuestion, setOldQuestion] = useState<IData[]>([])
+    const [selectedId, setSelectedId] = useState<string>('')
+    const [isModalVisible, setIsModalVisible] = useState(false)
 
     const columns = [
         {
@@ -34,6 +37,9 @@ const ListQuestion = () => {
             key: 'title',
             ellipsis: true,
             width: 800,
+            render(text, record) {
+                return <a onClick={() => showModal(record._id)}>{text}</a>
+            },
         },
         {
             title: 'Point',
@@ -47,6 +53,19 @@ const ListQuestion = () => {
             key: 'status',
         },
     ]
+
+    const showModal = (id: string) => {
+        setIsModalVisible(true)
+        setSelectedId(id)
+    }
+
+    const handleOk = () => {
+        setIsModalVisible(false)
+    }
+
+    const handleCancel = () => {
+        setIsModalVisible(false)
+    }
 
     useEffect(() => {
         instance
@@ -69,22 +88,30 @@ const ListQuestion = () => {
     }, [])
 
     return (
-        <Tabs defaultActiveKey="1">
-            <TabPane tab="Đang chờ" key="1">
-                <Table
-                    columns={columns}
-                    dataSource={newQuestion}
-                    rowKey={'_id'}
-                />
-            </TabPane>
-            <TabPane tab="Đã trả lời" key="2">
-                <Table
-                    columns={columns}
-                    dataSource={oldQuestion}
-                    rowKey={'_id'}
-                />
-            </TabPane>
-        </Tabs>
+        <>
+            <Tabs defaultActiveKey="1">
+                <TabPane tab="Đang chờ" key="1">
+                    <Table
+                        columns={columns}
+                        dataSource={newQuestion}
+                        rowKey={'_id'}
+                    />
+                </TabPane>
+                <TabPane tab="Đã trả lời" key="2">
+                    <Table
+                        columns={columns}
+                        dataSource={oldQuestion}
+                        rowKey={'_id'}
+                    />
+                </TabPane>
+            </Tabs>
+            <QuestionDetail
+                selectedId={selectedId}
+                isModalVisible={isModalVisible}
+                handleCancel={handleCancel}
+                handleOk={handleOk}
+            />
+        </>
     )
 }
 
