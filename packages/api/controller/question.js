@@ -27,7 +27,7 @@ export const createQuestion = async (req, res) => {
     question.save((err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'List Question For Mentor',
+                status: 'success',
                 data: doc
             });
         } else {
@@ -125,7 +125,7 @@ export const updateQuestionById = async (req, res, next) => {
     Question.findByIdAndUpdate(req.params.id, { $set: question }, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Update question success',
+                status: 'success',
                 data: doc
             });
         } else {
