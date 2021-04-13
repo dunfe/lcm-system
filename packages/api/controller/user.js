@@ -288,7 +288,7 @@ export const editProfileUserById = async (req, res) => {
     User.findOneAndUpdate({ _id: userId }, {detail: update, $set : info}, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Edit Profile Successful',
+                status: 'success',
                 data: doc
             });
         } else {

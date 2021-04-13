@@ -287,7 +287,7 @@ describe('rate mentor', () =>{
     })
 })
 
-describe('view mentee info', () =>{
+describe('view and edit mentee info', () =>{
     before(async () => {
         const result = await chai
           .request(app)
@@ -305,9 +305,25 @@ describe('view mentee info', () =>{
             done();
         })
     })
+
+    it('edit profile', function(done){
+        chai.request(app).put(`/api/users/`)
+            .set('Authorization', token)
+            .send({
+                avatar: '',
+                phone: '123456789',
+                gender: 'Male',
+                address: 'Ha Noi',
+                currentJob: 'Student '
+            })
+            .end((err,res)=> {
+                expect(res.body.status).to.equal('success');
+                done();
+        })
+    })
 })
 
-describe('view mentor info', () =>{
+describe('view and edit mentor info', () =>{
     before(async () => {
         const result = await chai
           .request(app)
