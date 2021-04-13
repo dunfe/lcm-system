@@ -139,7 +139,7 @@ describe('mentee crud question', () =>{
     // })
 })
 
-describe('mentee crud question', () =>{
+describe('About favourite mentor of mentee', () =>{
     before(async () => {
         const result = await chai
           .request(app)
@@ -164,6 +164,16 @@ describe('mentee crud question', () =>{
             .set('Authorization', token)
             .end((err,res)=>{
             expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+    it('Should return list mentor favourite', function(done){
+        chai.request(app).get(`/api/users/favorite-mentor/count`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('success');
+            expect(res.body).to.contain.property('count');
             done();
         })
     })
