@@ -278,6 +278,15 @@ describe('mentee crud question', () =>{
             done();
         })
     })
+
+    it('Should return massage fail of Delete question without Authorization', function(done) {
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+        //.set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
 })
 
 describe('About favourite mentor of mentee', () =>{
