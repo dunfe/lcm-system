@@ -10,6 +10,7 @@ import { protect, restrictTo} from '../controller/auth.js';
 import { createReport } from '../controller/report.js';
 import upload from '../utils/multer.js';
 import cloudinary from '../utils/cloudinary.js';
+import cors from 'cors'
 
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -264,7 +265,7 @@ router.post('/questions',protect,restrictTo('mentee'),createQuestion);
 router.get('/questions',protect, restrictTo('mentee', 'mentor'),viewListQuestionById);
 router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewOrdoingQuestion);
 router.get('/questions/done',protect, restrictTo('mentee', 'mentor'),viewListDoneQuestion);
-router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
+router.get('/questions/:id',protect,restrictTo('mentee', 'mentor'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
 
@@ -278,7 +279,7 @@ router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMento
 router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFaverite)
 
 //Upload avatar
-router.post('/upload-file',protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
+router.post('/upload-file', cors(), protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
 
 //profile function
 router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);

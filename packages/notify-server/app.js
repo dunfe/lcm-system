@@ -4,9 +4,9 @@ const app = express();
 app.use(cors());
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
-
-server.listen(3007, () => {
-    console.log('Server listening at port %d', 3007);
+const port = process.env.PORT || 3007
+server.listen(port, () => {
+    console.log('Server listening at port %d', port);
 });
 
 io.on('connection', (socket) => {

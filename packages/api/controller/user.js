@@ -226,7 +226,7 @@ export const viewUserInfo = async (req, res) => {
     User.find({ _id: userId }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Success',
+                status: 'success',
                 data: doc
             });
 
@@ -249,7 +249,7 @@ export const uploadAvatar = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             status: 'fail',
-            message: error
+            message: 'Lỗi ở try'
         })
     }
 }
@@ -288,7 +288,7 @@ export const editProfileUserById = async (req, res) => {
     User.findOneAndUpdate({ _id: userId }, {detail: update, $set : info}, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Edit Profile Successful',
+                status: 'success',
                 data: doc
             });
         } else {
@@ -371,7 +371,6 @@ export const viewListFavoriteMentor = async (req, res) => {
             favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
         }
     })
-    console.log(favoriteMentor);
     let data = favoriteMentor;
     const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;
