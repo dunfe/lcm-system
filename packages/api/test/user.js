@@ -341,4 +341,24 @@ describe('view and edit mentor info', () =>{
             done();
         })
     })
+
+    it('edit profile', function(done){
+        chai.request(app).put(`/api/users/`)
+            .set('Authorization', token)
+            .send({
+                avatar: '',
+                phone: '123456789',
+                gender: 'Male',
+                address: 'Ha Noi',
+                currentJob: 'Student ',
+                achievement: '3 năm kinh nghiệm',
+                skill: 'java',
+                bio: 'hello world',
+                github: 'github.com/datlt'
+            })
+            .end((err,res)=> {
+                expect(res.body.status).to.equal('success');
+                done();
+        })
+    })
 })
