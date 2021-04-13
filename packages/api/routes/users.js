@@ -7,7 +7,7 @@ import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
 import {registerMentorRequest} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
-import { createReport } from '../controller/report.js';
+import { createReport, uploadImagesReport } from '../controller/report.js';
 import upload from '../utils/multer.js';
 import cloudinary from '../utils/cloudinary.js';
 import cors from 'cors'
@@ -258,7 +258,7 @@ router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
 //CRUD report mentor
 
-router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), createReport);
+router.post('/reports', protect, restrictTo('mentee'), createReport);
 
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
@@ -281,6 +281,8 @@ router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFave
 //Upload avatar
 router.post('/upload-file', cors(), protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
 
+//Upload images for report mentor
+router.post('/reports/upload-file', cors(), protect,restrictTo('mentee', 'mentor'), upload.array('img[]'), uploadImagesReport);
 //profile function
 router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
 router.put('/',protect,restrictTo('mentee', 'mentor'),editProfileUserById);

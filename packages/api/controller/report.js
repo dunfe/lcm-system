@@ -41,34 +41,42 @@ export function getAllReport(model) {
     }
   }
 
+export const uploadImagesReport = async (req, res) => {
+  try {
+      const urls = [];
+      const files = req.files;
+
+      for (const file of files) {
+        const { path } = file;
+        const newPath = await cloudinary.uploader.upload(path)
+        urls.push(newPath.secure_url)
+      }
+
+      return res.status(200).json({
+          status: 'Success',
+          url: urls
+      })
+  } catch (error) {
+      return res.status(400).json({
+          status: 'fail',
+          message: 'Lỗi ở try'
+      })
+  }
+}
+
 export const createReport = async (req, res) => {
   let userId = await useridFromToken(req, res);
-
   // Just for upload single file
   // const result = await cloudinary.uploader.upload(req.file.path);
 
-  //handle multiple upload
-  const urls = [];
-  const files = req.files;
-  for (const file of files) {
-    const { path } = file;
-    const newPath = await cloudinary.uploader.upload(path)
-    urls.push(newPath)
-  }
-
-  // console.log(urls)
   //Create new report to save to DB
   let report = new Report({
     title: req.body.title,
     createBy: userId,
     content: req.body.content,
+    img: req.body.url,
     createdAt: Date.now(),
   });
-
-  //handle array url cuz of multiple upload
-    urls.forEach(function(urls, index, arr){
-      report.img.push(urls.secure_url); 
-    })
 
   // save new report to db
   report.save((err, doc) => {
