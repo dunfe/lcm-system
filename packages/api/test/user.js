@@ -755,7 +755,7 @@ describe('rate mentor', () =>{
         token = result.body.user.token;
       });
     
-    it('Create request register mentor', function(done) {
+    it('Should return status success after rate mentor', function(done) {
         chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
             .set('Authorization', token)
             .send({
@@ -764,8 +764,54 @@ describe('rate mentor', () =>{
             })
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+        })
+    })
+
+    it('Should return data request after rate mentor', function(done) {
+        chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
+            .set('Authorization', token)
+            .send({
+                star: 5,
+                content: 'aaa',
+            })
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
+        })
+    })
+
+    it('Should return status fail of rate mentor without Authorization', function(done){
+        chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of rate mentor without Authorization', function(done){
+        chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return massage fail of rate mentor with wrong id mentor input', function(done){
+        chai.request(app).post(`/api/users/mentor/rate/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
+
+    it('Should return status fail of rate mentor with wrong id mentor input', function(done){
+        chai.request(app).post(`/api/users/mentor/rate/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
         })
     })
 })
