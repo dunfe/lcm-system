@@ -78,7 +78,6 @@ describe('mentee crud question', () =>{
             })
     })
 
-
     it('should return status of list new and doing question ', (done) => {
         chai.request(app).get('/api/users/questions/new')
             .set('Authorization', token)
@@ -317,13 +316,30 @@ describe('About favourite mentor of mentee', () =>{
         token = result.body.user.token;
       });
 
-      it('add favourite mentor', function(done){
+    it('add favourite mentor', function(done){
         chai.request(app).put(`/api/users/favorite-mentor/${mentorId}`)
             .set('Authorization', token)
-            .send({ point: 200})
             .end((err,res)=> {
                 expect(res.body.status).to.equal('success');
                 done();
+        })
+    })
+
+    it('Should return massage fail of add favourite with wrong id input', function(done){
+        chai.request(app).put(`/api/users/favorite-mentor/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
+
+    it('Should return status fail of add favourite with wrong id input', function(done){
+        chai.request(app).put(`/api/users/favorite-mentor/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
         })
     })
 
