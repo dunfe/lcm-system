@@ -454,6 +454,24 @@ describe('register mentor', () =>{
             })
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+        })
+    })
+
+    it('Should return data after Create request register mentor', function(done) {
+        chai.request(app).post(`/api/users/mentor/register`)
+            .set('Authorization', token)
+            .send({
+                title: 'About funtion Nodejs',
+                receivedBy: 'staff',
+                content: 'aaa',
+                skill: 'java',
+                bio: 'aaaa',
+                github: 'github.com/aaa',
+                currentJob: 'dev java of fpt',
+                achievement: '3 năm kinh nghiệm',
+            })
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
         })
