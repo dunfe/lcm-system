@@ -78,6 +78,22 @@ describe('mentee crud question', () =>{
             })
     })
 
+    it('Should return message fail of list question without Authorization', function(done){
+        chai.request(app).get('/api/users/questions')
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return status fail of list question without Authorization', function(done){
+        chai.request(app).get('/api/users/questions')
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
     it('should return status of list new and doing question ', (done) => {
         chai.request(app).get('/api/users/questions/new')
             .set('Authorization', token)
@@ -128,15 +144,6 @@ describe('mentee crud question', () =>{
             .set('Authorization', token)
             .end((err,res)=>{
             expect(res.body).to.contain.property('data');
-            done();
-        })
-    })
-
-    it('Should return status fail of question with wrong id input', function(done){
-        chai.request(app).get(`/api/users/questions/abv`)
-            .set('Authorization', token)
-            .end((err,res)=>{
-            expect(res.body.status).to.equal('fail');
             done();
         })
     })
