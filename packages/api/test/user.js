@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 let token;
 let questionId = '605b2cff4ba7106618f7d14e';
 let mentorId = '60607790df75cf564cb83fd7'
-
+let wrongId = 'a'
 describe('User login successful', () => {
     
     it('Ok, login thanh cong', (done) => {
@@ -143,10 +143,19 @@ describe('mentee crud question', () =>{
     })
 
     it('Should return status fail of question with wrong id input', function(done){
-        chai.request(app).get(`/api/users/questions/abv`)
+        chai.request(app).get(`/api/users/questions/${wrongId}`)
             .set('Authorization', token)
             .end((err,res)=>{
             expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+    
+    it('Should return massage fail of question with wrong id input', function(done){
+        chai.request(app).get(`/api/users/questions/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
             done();
         })
     })
@@ -284,6 +293,15 @@ describe('mentee crud question', () =>{
         //.set('Authorization', token)
         .end((err,res)=>{
             expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return massage fail of Delete question with wrong id', function(done) {
+        chai.request(app).put(`/api/users/questions/${wrongId}`)
+        .set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
             done();
         })
     })
