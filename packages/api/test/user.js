@@ -178,3 +178,86 @@ describe('About favourite mentor of mentee', () =>{
         })
     })
 })
+
+
+// describe('register mentor', () =>{
+//     before(async () => {
+//         const result = await chai
+//           .request(app)
+//           .post('/api/users/login')
+//           .send({ username: 'mentee', password:'123456'});
+//         expect(result.status).to.equal(200);
+//         token = result.body.user.token;
+//     });
+
+//     it('Create request register mentor', function(done) {
+//         chai.request(app).post(`/api/users/mentor/register`)
+//             .set('Authorization', token)
+//             .send({
+//                 title: 'About funtion Nodejs',
+//                 receivedBy: 'staff',
+//                 content: 'aaa',
+//                 skill: 'java',
+//                 bio: 'aaaa',
+//                 github: 'github.com/aaa',
+//                 currentJob: 'dev java of fpt',
+//                 achievement: '3 năm kinh nghiệm',
+//             })
+//             .end((err,res) => {
+//                 expect(res.body.status).to.equal('success');
+//                 expect(res.body).to.contain.property('data');
+//                 done();
+//         })
+//     })
+// })
+
+describe('mentor crud question', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'user1', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+      });
+
+    it('should return list question', (done) => {
+        chai.request(app).get('/api/users/questions')
+            .set('Authorization', token)
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+            })
+    })
+
+    it('should return list new and doing question ', (done) => {
+        chai.request(app).get('/api/users/questions/new')
+            .set('Authorization', token)
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+            })
+    })
+
+    it('should return list done question ', (done) => {
+        chai.request(app).get('/api/users/questions/done')
+            .set('Authorization', token)
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+            })
+    })
+
+    it('Should return question with id input', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+})
