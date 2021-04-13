@@ -8,6 +8,21 @@ import upload from '../utils/multer.js';
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
+export const uploadCVFile = async (req, res) => {
+  try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      return res.status(200).json({
+          status: 'Success',
+          url: result.secure_url
+      })
+  } catch (error) {
+      return res.status(400).json({
+          status: 'fail',
+          message: 'Lỗi ở try'
+      })
+  }
+}
+
 export const registerMentorRequest = async (req, res) => {
     var userId = await useridFromToken(req,res);
     const user = await User.findById(userId);
@@ -19,17 +34,13 @@ export const registerMentorRequest = async (req, res) => {
       modifieAt: Date.now()
     }
 
-    //upload CV
-    const result = await cloudinary.uploader.upload(req.file.path);
-
     const request = new Request({
         title: req.body.title,
         createdId: user._id,
         createdName: user.fullname,
-        receivedBy: req.body.receivedBy,
         content: req.body.content,
-        cv: result.secure_url,
-        createdAt: req.body.createdAt
+        cv: req.body.cv,
+        createdAt: Date.now()
     });
     User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
       if(!err) {

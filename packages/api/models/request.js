@@ -13,7 +13,7 @@ const requestSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input name of creator!']
     },
-    receivedBy: { type: String, default: "admin" },
+    receivedBy: { type: String, default: "staff" },
     content: {
         type: String,
         required: [true, 'Please input report content!']
