@@ -362,3 +362,16 @@ describe('view and edit mentor info', () =>{
         })
     })
 })
+
+describe(' get all list skill', () =>{
+
+    it('should return list skill', (done) => {
+        chai.request(app).get('/api/users/skills')
+            .set('Authorization', token)
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('skill');
+                done();
+            })
+    })
+})
