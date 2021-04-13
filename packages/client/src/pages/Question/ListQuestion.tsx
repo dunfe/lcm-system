@@ -32,6 +32,8 @@ const ListQuestion = () => {
             title: 'Tiêu đề',
             dataIndex: 'title',
             key: 'title',
+            ellipsis: true,
+            width: 800,
         },
         {
             title: 'Point',

@@ -8,6 +8,7 @@ import { useFullname } from '../../utils/hooks/useFullname'
 import { useAvatar } from '../../utils/hooks/useAvatar'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/macro'
 
 interface INotify {
     read: boolean
@@ -69,7 +70,7 @@ const HeaderComponent = (props: IProps) => {
     }, [])
 
     const _notify = notify.map((item) => (
-        <Menu.Item key={item._id}>{item.title}</Menu.Item>
+        <StyledMenuItem key={item._id}>{item.title}</StyledMenuItem>
     ))
 
     const MenuIcon = (
@@ -79,38 +80,47 @@ const HeaderComponent = (props: IProps) => {
     )
 
     return (
-        <Menu
-            mode="horizontal"
-            style={{ display: 'flex', justifyContent: 'flex-end' }}
-        >
+        <StyledHeader mode="horizontal">
             <SubMenu key="notify" icon={MenuIcon} style={{ paddingTop: 5 }}>
                 <Menu.ItemGroup title="Thông báo của bạn">
                     {_notify}
                 </Menu.ItemGroup>
             </SubMenu>
-            <Menu.Item>
+            <SubMenu
+                key="profile"
+                icon={<Avatar src={avatar} icon={<UserOutlined />} />}
+            >
+                <StyledMenuItem onClick={onClickSetting}>
+                    <Link to={`/setting`}>{userFullname}</Link>
+                </StyledMenuItem>
+                <Menu.Item danger>
+                    <a onClick={onSignOut}>Đăng xuất</a>
+                </Menu.Item>
+            </SubMenu>
+            <Menu.Item danger>
                 <Select
                     defaultValue="vi"
-                    style={{ width: 120 }}
+                    size={'small'}
                     onChange={onLocaleChange}
                 >
                     <Option value="vi">VI</Option>
                     <Option value="en">EN</Option>
                 </Select>
             </Menu.Item>
-            <SubMenu
-                key="profile"
-                icon={<Avatar src={avatar} icon={<UserOutlined />} />}
-            >
-                <Menu.Item onClick={onClickSetting}>
-                    <Link to={`/setting`}>{userFullname}</Link>
-                </Menu.Item>
-                <Menu.Item danger>
-                    <a onClick={onSignOut}>Đăng xuất</a>
-                </Menu.Item>
-            </SubMenu>
-        </Menu>
+        </StyledHeader>
     )
 }
+
+const StyledHeader = styled(Menu)`
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    background-color: white;
+    align-items: center;
+`
+
+const StyledMenuItem = styled(Menu.Item)`
+    max-width: 300px;
+`
 
 export default HeaderComponent

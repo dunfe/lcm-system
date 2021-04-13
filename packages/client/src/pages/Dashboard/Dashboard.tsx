@@ -11,6 +11,8 @@ const columns = [
         title: 'Tiêu đề',
         dataIndex: 'title',
         key: 'title',
+        ellipsis: true,
+        width: 500,
     },
     {
         title: 'Point',
