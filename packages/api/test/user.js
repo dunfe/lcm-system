@@ -133,6 +133,24 @@ describe('mentee crud question', () =>{
         })
     })
 
+    it('Should return status fail of question with id input', function(done){
+        chai.request(app).get(`/api/users/questions/abv`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return message fail of question with id input', function(done){
+        chai.request(app).get(`/api/users/questions/abv`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id abv');
+            done();
+        })
+    })
+
     it('Create new question', function(done) {
         chai.request(app).post(`/api/users/questions`)
             .set('Authorization', token)
