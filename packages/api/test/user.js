@@ -590,11 +590,19 @@ describe('mentor crud question', () =>{
         token = result.body.user.token;
       });
 
-    it('should return list question', (done) => {
+    it('should return status success of list question', (done) => {
         chai.request(app).get('/api/users/questions')
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('should return data of list question', (done) => {
+        chai.request(app).get('/api/users/questions')
+            .set('Authorization', token)
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
             })
