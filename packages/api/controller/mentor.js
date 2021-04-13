@@ -239,8 +239,9 @@ export const ratingMentor = async (req,res,next) =>{
             message: `Invalid id ${req.params.id}`
         })
     };
+    var userId = await useridFromToken(req,res);
     let star = parseInt(req.body.star);
-    const currentMentee = await User.findById(req.body.currentUserId);
+    const currentMentee = await User.findById(userId);
     const currentMentor = await User.findById(req.params.id);
     let totalRating1 = currentMentor.rate.totalRating1;
     let totalRating2 = currentMentor.rate.totalRating2;
@@ -263,7 +264,7 @@ export const ratingMentor = async (req,res,next) =>{
         avgRating : avgRating
     }
     const reviews = {
-        fromID : req.body.currentUserId,
+        fromID : userId,
         name : currentMentee.fullname,
         content : req.body.content,
         star : star
