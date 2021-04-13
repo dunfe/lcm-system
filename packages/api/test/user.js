@@ -286,3 +286,23 @@ describe('rate mentor', () =>{
         })
     })
 })
+
+describe('view mentee info', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'mentee', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+      });
+    
+    it('Should return mentee info ', function(done){
+        chai.request(app).get(`/api/users/`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+})

@@ -226,7 +226,7 @@ export const viewUserInfo = async (req, res) => {
     User.find({ _id: userId }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Success',
+                status: 'success',
                 data: doc
             });
 
