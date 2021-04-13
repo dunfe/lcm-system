@@ -692,7 +692,7 @@ describe('mentor crud question', () =>{
         })
     })
 
-    it('Should return question with id input', function(done){
+    it('Should return status success question with id input', function(done){
         chai.request(app).get(`/api/users/questions/${questionId}`)
             .set('Authorization', token)
             .end((err,res)=>{
@@ -701,6 +701,14 @@ describe('mentor crud question', () =>{
         })
     })
 
+    it('Should return data of question with id input', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
+            done();
+        })
+    })
 })
 
 describe('rate mentor', () =>{
