@@ -79,11 +79,19 @@ describe('mentee crud question', () =>{
     })
 
 
-    it('should return list new and doing question ', (done) => {
+    it('should return status of list new and doing question ', (done) => {
         chai.request(app).get('/api/users/questions/new')
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('should return data of list new and doing question ', (done) => {
+        chai.request(app).get('/api/users/questions/new')
+            .set('Authorization', token)
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
             })
