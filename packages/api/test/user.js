@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 let token;
 let questionId = '605b2cff4ba7106618f7d14e';
 let mentorId = '60607790df75cf564cb83fd7'
-
+let wrongId = 'a'
 describe('User login successful', () => {
     
     it('Ok, login thanh cong', (done) => {
@@ -60,41 +60,117 @@ describe('mentee crud question', () =>{
         token = result.body.user.token;
       });
 
-    it('should return list question', (done) => {
+    it('should return status of list question', (done) => {
         chai.request(app).get('/api/users/questions')
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('should return data of list question', (done) => {
+        chai.request(app).get('/api/users/questions')
+            .set('Authorization', token)
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
             })
     })
 
-    it('should return list new and doing question ', (done) => {
+    it('should return status of list new and doing question ', (done) => {
         chai.request(app).get('/api/users/questions/new')
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('should return data of list new and doing question ', (done) => {
+        chai.request(app).get('/api/users/questions/new')
+            .set('Authorization', token)
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
             })
     })
 
-    it('should return list done question ', (done) => {
+    it('should return status of list done question ', (done) => {
         chai.request(app).get('/api/users/questions/done')
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('should return data of list done question ', (done) => {
+        chai.request(app).get('/api/users/questions/done')
+            .set('Authorization', token)
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
             })
     })
 
-    it('Should return question with id input', function(done){
+    it('Should return status of question with id input', function(done){
         chai.request(app).get(`/api/users/questions/${questionId}`)
             .set('Authorization', token)
             .end((err,res)=>{
             expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+    it('Should return data of question with id input', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
+            done();
+        })
+    })
+
+    it('Should return status fail of question with wrong id input', function(done){
+        chai.request(app).get(`/api/users/questions/abv`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return status fail of question with wrong id input', function(done){
+        chai.request(app).get(`/api/users/questions/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+    
+    it('Should return massage fail of question with wrong id input', function(done){
+        chai.request(app).get(`/api/users/questions/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
+
+    it('Should return message fail of question without Authorization', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return status fail of question without Authorization', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
             done();
         })
     })
@@ -119,7 +195,45 @@ describe('mentee crud question', () =>{
         })
     })
 
-    it('Update question', function(done){
+    it('should return status false when Create question without Authorization', function(done) {
+        chai.request(app).post(`/api/users/questions`)
+            // .set('Authorization', token)
+            .send({
+                title: 'About funtion Nodejs',
+                point: 200,
+                skill: 'java',
+                timeAvailableFrom: 1617693860,
+                timeAvailableTo: 1617694860,
+                content: 'How to use express',
+                status: 'new',
+                note: '',
+            })
+            .end((err,res) => {
+                expect(res.body.status).to.equal('fail');
+                done();
+        })
+    })
+
+    it('should return message false when Create question without Authorization', function(done) {
+        chai.request(app).post(`/api/users/questions`)
+            // .set('Authorization', token)
+            .send({
+                title: 'About funtion Nodejs',
+                point: 200,
+                skill: 'java',
+                timeAvailableFrom: 1617693860,
+                timeAvailableTo: 1617694860,
+                content: 'How to use express',
+                status: 'new',
+                note: '',
+            })
+            .end((err,res) => {
+                expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+                done();
+        })
+    })
+
+    it('Should return status success of Update question', function(done){
         chai.request(app).put(`/api/users/questions/${questionId}`)
             .set('Authorization', token)
             .send({ point: 200})
@@ -129,6 +243,32 @@ describe('mentee crud question', () =>{
         })
     })
 
+    it('Should return data of question after Update question', function(done){
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .send({ point: 200})
+            .end((err,res)=> {
+                expect(res.body).to.contain.property('data');
+                done();
+        })
+    })
+
+    it('Should return status fail of update question without Authorization', function(done){
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return message fail of update question without Authorization', function(done){
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+            .end((err,res)=>{
+                expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+    
     // it('Delete question', function(done) {
     //     chai.request(app).put(`/api/users/questions/${questionId}`)
     //     .set('Authorization', token)
@@ -137,6 +277,33 @@ describe('mentee crud question', () =>{
     //         done();
     //     })
     // })
+
+    it('Should return status fail of Delete question without Authorization', function(done) {
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+        //.set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of Delete question without Authorization', function(done) {
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+        //.set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return massage fail of Delete question with wrong id', function(done) {
+        chai.request(app).put(`/api/users/questions/${wrongId}`)
+        .set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
 })
 
 describe('About favourite mentor of mentee', () =>{
@@ -149,17 +316,50 @@ describe('About favourite mentor of mentee', () =>{
         token = result.body.user.token;
       });
 
-      it('add favourite mentor', function(done){
+    it('add favourite mentor', function(done){
         chai.request(app).put(`/api/users/favorite-mentor/${mentorId}`)
             .set('Authorization', token)
-            .send({ point: 200})
             .end((err,res)=> {
                 expect(res.body.status).to.equal('success');
                 done();
         })
     })
 
-    it('Should return list mentor favourite', function(done){
+    it('Should return massage fail of add favourite with wrong id input', function(done){
+        chai.request(app).put(`/api/users/favorite-mentor/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
+
+    it('Should return status fail of add favourite with wrong id input', function(done){
+        chai.request(app).put(`/api/users/favorite-mentor/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return status fail of add favourite without Authorization', function(done){
+        chai.request(app).put(`/api/users/favorite-mentor/${mentorId}`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of add favourite without Authorization', function(done){
+        chai.request(app).put(`/api/users/favorite-mentor/${mentorId}`)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return status success of list mentor favourite', function(done){
         chai.request(app).get(`/api/users/favorite-mentor`)
             .set('Authorization', token)
             .end((err,res)=>{
@@ -168,12 +368,61 @@ describe('About favourite mentor of mentee', () =>{
         })
     })
 
-    it('Should return list mentor favourite', function(done){
+    it('Should return data of list mentor favourite', function(done){
+        chai.request(app).get(`/api/users/favorite-mentor`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
+            done();
+        })
+    })
+
+    it('Should return status fail of add favourite without Authorization', function(done){
+        chai.request(app).get(`/api/users/favorite-mentor`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of add favourite without Authorization', function(done){
+        chai.request(app).get(`/api/users/favorite-mentor`)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return status success of list mentor favourite', function(done){
         chai.request(app).get(`/api/users/favorite-mentor/count`)
             .set('Authorization', token)
             .end((err,res)=>{
             expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+    it('Should return count of list mentor favourite', function(done){
+        chai.request(app).get(`/api/users/favorite-mentor/count`)
+            .set('Authorization', token)
+            .end((err,res)=>{
             expect(res.body).to.contain.property('count');
+            done();
+        })
+    })
+
+    it('Should return status fail of list favourite without Authorization', function(done){
+        chai.request(app).get(`/api/users/favorite-mentor/count`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of list favourite without Authorization', function(done){
+        chai.request(app).get(`/api/users/favorite-mentor/count`)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
             done();
         })
     })
@@ -360,5 +609,18 @@ describe('view and edit mentor info', () =>{
                 expect(res.body.status).to.equal('success');
                 done();
         })
+    })
+})
+
+describe(' get all list skill', () =>{
+
+    it('should return list skill', (done) => {
+        chai.request(app).get('/api/users/skills')
+            .set('Authorization', token)
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('skill');
+                done();
+            })
     })
 })

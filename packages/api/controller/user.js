@@ -303,6 +303,13 @@ export const editProfileUserById = async (req, res) => {
 //Question of mentee 
 
 export const addFavoriteMentorById = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
     let userId = await useridFromToken(req, res);
     const currentMentor = await User.findById(req.params.id);
     const favorite = {
