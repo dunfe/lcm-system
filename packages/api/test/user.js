@@ -97,11 +97,19 @@ describe('mentee crud question', () =>{
             })
     })
 
-    it('should return list done question ', (done) => {
+    it('should return status of list done question ', (done) => {
         chai.request(app).get('/api/users/questions/done')
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('should return data of list done question ', (done) => {
+        chai.request(app).get('/api/users/questions/done')
+            .set('Authorization', token)
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
             })
