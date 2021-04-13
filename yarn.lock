@@ -6620,6 +6620,7 @@ __metadata:
     body-parser: ^1.19.0
     chai: ^4.3.4
     chai-http: ^4.3.0
+    cloudinary: ^1.25.1
     connect-flash: ^0.1.1
     cookie-session: ^1.4.0
     cors: ^2.8.5
@@ -8784,7 +8785,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cloudinary-core@npm:^2.11.3":
+"cloudinary-core@npm:^2.10.2, cloudinary-core@npm:^2.11.3":
   version: 2.11.3
   resolution: "cloudinary-core@npm:2.11.3"
   peerDependencies:
@@ -8802,6 +8803,18 @@ __metadata:
   peerDependencies:
     react: ^16.3.3 || ^17.0.0
   checksum: 6012f6635e1b764bd62e3ce5dbc7d964d8faaa5b675a6f2231b1c1dc900b49b7db5d1f0dacf84c400c75f0cfcb62dddd3cde0c6ca2ae23c7a03a4bbf9434fe84
+  languageName: node
+  linkType: hard
+
+"cloudinary@npm:^1.25.1":
+  version: 1.25.1
+  resolution: "cloudinary@npm:1.25.1"
+  dependencies:
+    cloudinary-core: ^2.10.2
+    core-js: 3.6.5
+    lodash: ^4.17.11
+    q: ^1.5.1
+  checksum: 1e8d320cff8b6702ce720be2be82dee0e3011eb95f39519193883d608b845cc2cbaaeb68d23d17e78a83d5a68a09a57f4e23fea2c27212888848786dd570239c
   languageName: node
   linkType: hard
 

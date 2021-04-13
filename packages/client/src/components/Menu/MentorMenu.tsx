@@ -36,8 +36,8 @@ const MentorMenu = (props: IProps) => {
             <Menu.Item key="/session" icon={<TeamOutlined />}>
                 <Link to={`/session`}>Session</Link>
             </Menu.Item>
-            <Menu.Item key="1" icon={<SettingOutlined />}>
-                Cài đặt
+            <Menu.Item key="/setting" icon={<SettingOutlined />}>
+                <Link to={`/setting`}>Cài đặt</Link>
             </Menu.Item>
         </Menu>
     )

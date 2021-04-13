@@ -3,8 +3,25 @@ import mongoose from 'mongoose';
 import User from '../models/user.js'
 import Request from '../models/request.js';
 import {useridFromToken} from '../controller/mentor.js'
+import cloudinary from '../utils/cloudinary.js';
+import upload from '../utils/multer.js';
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
+
+export const uploadCVFile = async (req, res) => {
+  try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      return res.status(200).json({
+          status: 'Success',
+          url: result.secure_url
+      })
+  } catch (error) {
+      return res.status(400).json({
+          status: 'fail',
+          message: 'Lỗi ở try'
+      })
+  }
+}
 
 export const registerMentorRequest = async (req, res) => {
     var userId = await useridFromToken(req,res);
@@ -16,14 +33,14 @@ export const registerMentorRequest = async (req, res) => {
       detail: {currentJob: req.body.currentJob, achievement: req.body.achievement},
       modifieAt: Date.now()
     }
+
     const request = new Request({
         title: req.body.title,
         createdId: user._id,
         createdName: user.fullname,
-        receivedBy: req.body.receivedBy,
         content: req.body.content,
-        picture: req.body.picture,
-        createdAt: req.body.createdAt
+        cv: req.body.cv,
+        createdAt: Date.now()
     });
     User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
       if(!err) {
