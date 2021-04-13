@@ -629,7 +629,6 @@ describe('mentor crud question', () =>{
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
-                expect(res.body).to.contain.property('data');
                 done();
             })
     })
@@ -659,14 +658,38 @@ describe('mentor crud question', () =>{
         })
     })
 
-    it('should return list done question ', (done) => {
+    it('should return status success of list done question ', (done) => {
         chai.request(app).get('/api/users/questions/done')
             .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('should return data of list done question', (done) => {
+        chai.request(app).get('/api/users/questions/done')
+            .set('Authorization', token)
+            .end((err,res) => {
                 expect(res.body).to.contain.property('data');
                 done();
             })
+    })
+
+    it('Should return status fail of list done question without Authorization', function(done){
+        chai.request(app).get('/api/users/questions/done')
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of list done question without Authorization', function(done){
+        chai.request(app).get('/api/users/questions/done')
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
     })
 
     it('Should return question with id input', function(done){
