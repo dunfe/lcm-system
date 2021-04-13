@@ -171,6 +171,44 @@ describe('mentee crud question', () =>{
         })
     })
 
+    it('should return status false when Create question without Authorization', function(done) {
+        chai.request(app).post(`/api/users/questions`)
+            // .set('Authorization', token)
+            .send({
+                title: 'About funtion Nodejs',
+                point: 200,
+                skill: 'java',
+                timeAvailableFrom: 1617693860,
+                timeAvailableTo: 1617694860,
+                content: 'How to use express',
+                status: 'new',
+                note: '',
+            })
+            .end((err,res) => {
+                expect(res.body.status).to.equal('fail');
+                done();
+        })
+    })
+
+    it('should return message false when Create question without Authorization', function(done) {
+        chai.request(app).post(`/api/users/questions`)
+            // .set('Authorization', token)
+            .send({
+                title: 'About funtion Nodejs',
+                point: 200,
+                skill: 'java',
+                timeAvailableFrom: 1617693860,
+                timeAvailableTo: 1617694860,
+                content: 'How to use express',
+                status: 'new',
+                note: '',
+            })
+            .end((err,res) => {
+                expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+                done();
+        })
+    })
+
     it('Update question', function(done){
         chai.request(app).put(`/api/users/questions/${questionId}`)
             .set('Authorization', token)
