@@ -225,12 +225,22 @@ describe('mentee crud question', () =>{
         })
     })
 
-    it('Update question', function(done){
+    it('Should return status success of Update question', function(done){
         chai.request(app).put(`/api/users/questions/${questionId}`)
             .set('Authorization', token)
             .send({ point: 200})
             .end((err,res)=> {
                 expect(res.body.status).to.equal('success');
+                done();
+        })
+    })
+
+    it('Should return data of question after Update question', function(done){
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+            .set('Authorization', token)
+            .send({ point: 200})
+            .end((err,res)=> {
+                expect(res.body).to.contain.property('data');
                 done();
         })
     })
@@ -250,6 +260,7 @@ describe('mentee crud question', () =>{
             done();
         })
     })
+    
     // it('Delete question', function(done) {
     //     chai.request(app).put(`/api/users/questions/${questionId}`)
     //     .set('Authorization', token)
