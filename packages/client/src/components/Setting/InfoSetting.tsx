@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Row, Col, Form, Input, Button, Upload, message, Radio } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { useAuth } from '../../utils/hooks/useAuth'
 import { useState } from 'react'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useToken } from '../../utils/hooks/useToken'
+import { useUserData } from '../../utils/hooks/useUserData'
 
 const layout = {
     labelCol: { span: 6 },
@@ -34,7 +34,7 @@ const beforeUpload = (file) => {
 }
 
 const InfoSetting = () => {
-    const auth = useAuth()
+    const userData = useUserData()
     const instance = useAPI()
     const token = useToken()
 
@@ -90,25 +90,21 @@ const InfoSetting = () => {
                     <Form.Item
                         label="Email"
                         name="email"
-                        initialValue={auth.user?.user.data.email}
+                        initialValue={userData?.email}
                     >
                         <Input disabled={true} />
                     </Form.Item>
                     <Form.Item
                         label="Số điện thoại"
                         name="phone"
-                        initialValue={auth.user?.user.data.detail.phone}
+                        initialValue={userData?.detail.phone}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Giới tính"
                         name="gender"
-                        initialValue={
-                            auth.user?.user.data.detail.gender !== ''
-                                ? auth.user?.user.data.detail.gender.toLowerCase()
-                                : 'male'
-                        }
+                        initialValue={userData?.detail.gender || 'male'}
                     >
                         <Radio.Group>
                             <Radio value="male">Nam</Radio>
@@ -118,53 +114,45 @@ const InfoSetting = () => {
                     <Form.Item
                         label="Địa chỉ"
                         name="address"
-                        initialValue={auth.user?.user.data.detail.address}
+                        initialValue={userData?.detail.address}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Công việc hiện tại"
                         name="currentJob"
-                        initialValue={auth.user?.user.data.detail.currentJob}
+                        initialValue={userData?.detail.currentJob}
                     >
                         <Input />
                     </Form.Item>
 
-                    {auth.user?.user.data.role === 'mentor' ? (
+                    {userData?.role === 'mentor' ? (
                         <>
                             <Form.Item
                                 label="Thành tựu"
                                 name="achievement"
-                                initialValue={
-                                    auth.user?.user.data.detail.currentJob
-                                }
+                                initialValue={userData?.detail.currentJob}
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item
                                 label="Kỹ năng"
                                 name="skill"
-                                initialValue={
-                                    auth.user?.user.data.detail.currentJob
-                                }
+                                initialValue={userData?.detail.currentJob}
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item
                                 label="Bio"
                                 name="bio"
-                                initialValue={
-                                    auth.user?.user.data.detail.currentJob
-                                }
+                                initialValue={userData?.detail.currentJob}
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item
                                 label="Github"
                                 name="github"
-                                initialValue={
-                                    auth.user?.user.data.detail.currentJob
-                                }
+                                initialValue={userData?.detail.currentJob}
                             >
                                 <Input />
                             </Form.Item>
