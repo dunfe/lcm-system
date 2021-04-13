@@ -343,6 +343,14 @@ describe('About favourite mentor of mentee', () =>{
         })
     })
 
+    it('Should return status fail of add favourite without Authorization', function(done){
+        chai.request(app).put(`/api/users/favorite-mentor/${wrongId}`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
     it('Should return list mentor favourite', function(done){
         chai.request(app).get(`/api/users/favorite-mentor`)
             .set('Authorization', token)
