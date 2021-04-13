@@ -133,7 +133,7 @@ describe('mentee crud question', () =>{
         })
     })
 
-    it('Should return status fail of question with id input', function(done){
+    it('Should return status fail of question with wrong id input', function(done){
         chai.request(app).get(`/api/users/questions/abv`)
             .set('Authorization', token)
             .end((err,res)=>{
@@ -142,11 +142,19 @@ describe('mentee crud question', () =>{
         })
     })
 
-    it('Should return message fail of question with id input', function(done){
+    it('Should return status fail of question with wrong id input', function(done){
         chai.request(app).get(`/api/users/questions/abv`)
             .set('Authorization', token)
             .end((err,res)=>{
-            expect(res.body.message).to.equal('Invalid id abv');
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return message fail of question without Authorization', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
             done();
         })
     })
@@ -218,6 +226,7 @@ describe('mentee crud question', () =>{
                 done();
         })
     })
+
 
     // it('Delete question', function(done) {
     //     chai.request(app).put(`/api/users/questions/${questionId}`)
