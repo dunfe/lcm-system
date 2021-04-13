@@ -10,6 +10,7 @@ import { protect, restrictTo} from '../controller/auth.js';
 import { createReport } from '../controller/report.js';
 import upload from '../utils/multer.js';
 import cloudinary from '../utils/cloudinary.js';
+import cors from 'cors'
 
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -278,7 +279,7 @@ router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMento
 router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFaverite)
 
 //Upload avatar
-router.post('/upload-file',protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
+router.post('/upload-file', cors(), protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
 
 //profile function
 router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
