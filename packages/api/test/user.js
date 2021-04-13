@@ -269,6 +269,15 @@ describe('mentee crud question', () =>{
     //         done();
     //     })
     // })
+
+    it('Should return status fail of Delete question without Authorization', function(done) {
+        chai.request(app).put(`/api/users/questions/${questionId}`)
+        //.set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
 })
 
 describe('About favourite mentor of mentee', () =>{
