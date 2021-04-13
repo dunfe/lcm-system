@@ -1688,7 +1688,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.5.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.6, @babel/runtime@npm:^7.5.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.13.10
   resolution: "@babel/runtime@npm:7.13.10"
   dependencies:
@@ -8664,6 +8664,9 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-react: latest
     html-webpack-plugin: ^5.3.1
+    i18next: ^20.2.1
+    i18next-browser-languagedetector: ^6.1.0
+    i18next-http-backend: ^1.2.1
     js-cookie: ^2.2.1
     monaco-editor: ^0.23.0
     monaco-editor-webpack-plugin: ^3.0.1
@@ -8671,6 +8674,7 @@ __metadata:
     prettier: 2.2.1
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-i18next: ^11.8.13
     react-redux: ^7.2.0
     react-router-dom: ^5.2.0
     react-scripts: 4.0.3
@@ -14334,6 +14338,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"html-parse-stringify@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "html-parse-stringify@npm:3.0.0"
+  dependencies:
+    void-elements: 3.1.0
+  checksum: bf35f8560cd90b872b8c68484824d3de4e2e838eb8f4e532f7393d5a8f8a64ddf9093111b77178d7097db31485c3b73f05a01fdbc94f64a746b175f002bbbf17
+  languageName: node
+  linkType: hard
+
 "html-tags@npm:^2.0.0":
   version: 2.0.0
   resolution: "html-tags@npm:2.0.0"
@@ -14580,6 +14593,33 @@ fsevents@^1.2.7:
   bin:
     husky-upgrade: ./lib/upgrader/bin.js
   checksum: 3e580c35e29bc3dcb540fd8b04e806a656bf6703ba2ffbab88f09a960c0799d80c45018d11e06fdc38830a56dbf7ddf491c4e0993573fb4abff99624373ddde3
+  languageName: node
+  linkType: hard
+
+"i18next-browser-languagedetector@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "i18next-browser-languagedetector@npm:6.1.0"
+  dependencies:
+    "@babel/runtime": ^7.5.5
+  checksum: e45df3bfb92ebb2df0feb6cb31f70e79fa3f04a92d860832e5f1fdb996be3e345a42827400b7a85c03e53057c9bb930c152b68d361574e1e37df50fc27d3f730
+  languageName: node
+  linkType: hard
+
+"i18next-http-backend@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "i18next-http-backend@npm:1.2.1"
+  dependencies:
+    node-fetch: 2.6.1
+  checksum: 8624c9fe2a85071417b70e63f3870ecc1da4654e2ae27e5b8befc3a3df63128984b29cc9b5dcb2a51388fa77453cb0a6bd075ff2ada8baa381530560e2de7077
+  languageName: node
+  linkType: hard
+
+"i18next@npm:^20.2.1":
+  version: 20.2.1
+  resolution: "i18next@npm:20.2.1"
+  dependencies:
+    "@babel/runtime": ^7.12.0
+  checksum: b73d828f43a8df4edfcc85f23721c1f2bc797367ac9864e75f6312a5f7e9a3729917f4ea0e6149eb78f87b3acdf9dfee72b37c2b2f00e5f5ed31ccb1de75c33c
   languageName: node
   linkType: hard
 
@@ -23310,6 +23350,19 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-i18next@npm:^11.8.13":
+  version: 11.8.13
+  resolution: "react-i18next@npm:11.8.13"
+  dependencies:
+    "@babel/runtime": ^7.13.6
+    html-parse-stringify: ^3.0.0
+  peerDependencies:
+    i18next: ">= 19.0.0"
+    react: ">= 16.8.0"
+  checksum: 6ff531811ae872a52f97dc852aef5fd69a8cce1f63a6a9163f2b84b1f7395b15ab9cf62829450689e69e6edad4c672ed2f18f68d444d0ec752010f79cb265f37
+  languageName: node
+  linkType: hard
+
 "react-intl@npm:3.12.1":
   version: 3.12.1
   resolution: "react-intl@npm:3.12.1"
@@ -28616,6 +28669,13 @@ typescript@~3.8.2:
   version: 1.1.2
   resolution: "vm-browserify@npm:1.1.2"
   checksum: fc571a62d2cf797ae8773ebb3cb0d2bea50ed02059e128dd9087975929fce4c80a6485ce1aaf7d44ef69db99dfdcde50b6be5d5eb73b296660d761c32fb544fe
+  languageName: node
+  linkType: hard
+
+"void-elements@npm:3.1.0":
+  version: 3.1.0
+  resolution: "void-elements@npm:3.1.0"
+  checksum: ed0f78f1434f4a5588078861815b3ebdbb0913e5129c3f1b37a3408a9f7c772d28702846316734e758ba40cad4e85371e50160d92d7968b86f12bf7227a1c6c9
   languageName: node
   linkType: hard
 

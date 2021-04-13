@@ -1,4 +1,4 @@
-import { Avatar, Badge, Menu } from 'antd'
+import { Avatar, Badge, Menu, Select } from 'antd'
 import * as React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../../utils/hooks/useAuth'
@@ -7,6 +7,7 @@ import './Header.css'
 import { useFullname } from '../../utils/hooks/useFullname'
 import { useAvatar } from '../../utils/hooks/useAvatar'
 import { useAPI } from '../../utils/hooks/useAPI'
+import { useTranslation } from 'react-i18next'
 
 interface INotify {
     read: boolean
@@ -23,6 +24,7 @@ interface IProps {
 }
 
 const { SubMenu } = Menu
+const { Option } = Select
 
 const { useState, useEffect } = React
 
@@ -32,6 +34,7 @@ const HeaderComponent = (props: IProps) => {
     const userFullname = useFullname()
     const avatar = useAvatar()
     const instance = useAPI()
+    const { i18n } = useTranslation()
 
     const { setSelectedKeys } = props
 
@@ -42,6 +45,10 @@ const HeaderComponent = (props: IProps) => {
         auth.signOut().then(() => {
             history.push('/')
         })
+    }
+
+    const onLocaleChange = (value) => {
+        i18n.changeLanguage(value)
     }
 
     const onClickSetting = () => {
@@ -81,6 +88,16 @@ const HeaderComponent = (props: IProps) => {
                     {_notify}
                 </Menu.ItemGroup>
             </SubMenu>
+            <Menu.Item>
+                <Select
+                    defaultValue="vi"
+                    style={{ width: 120 }}
+                    onChange={onLocaleChange}
+                >
+                    <Option value="vi">VI</Option>
+                    <Option value="en">EN</Option>
+                </Select>
+            </Menu.Item>
             <SubMenu
                 key="profile"
                 icon={<Avatar src={avatar} icon={<UserOutlined />} />}
