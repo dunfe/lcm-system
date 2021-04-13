@@ -261,3 +261,28 @@ describe('mentor crud question', () =>{
     })
 
 })
+
+describe('rate mentor', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'mentee', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+      });
+    
+    it('Create request register mentor', function(done) {
+        chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
+            .set('Authorization', token)
+            .send({
+                star: 5,
+                content: 'aaa',
+            })
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+        })
+    })
+})

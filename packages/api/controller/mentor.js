@@ -264,7 +264,7 @@ export const ratingMentor = async (req,res,next) =>{
         avgRating : avgRating
     }
     const reviews = {
-        fromID : req.body.currentUserId,
+        fromID : userId,
         name : currentMentee.fullname,
         content : req.body.content,
         star : star
