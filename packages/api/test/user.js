@@ -439,7 +439,7 @@ describe('register mentor', () =>{
         token = result.body.user.token;
     });
 
-    it('Create request register mentor', function(done) {
+    it('Should return status successful of Create request register mentor', function(done) {
         chai.request(app).post(`/api/users/mentor/register`)
             .set('Authorization', token)
             .send({
@@ -456,6 +456,42 @@ describe('register mentor', () =>{
                 expect(res.body.status).to.equal('success');
                 expect(res.body).to.contain.property('data');
                 done();
+        })
+    })
+
+    it('Should return status fail of Create request register mentor without Authorization', function(done){
+        chai.request(app).post(`/api/users/mentor/register`)
+            .send({
+                title: 'About funtion Nodejs',
+                receivedBy: 'staff',
+                content: 'aaa',
+                skill: 'java',
+                bio: 'aaaa',
+                github: 'github.com/aaa',
+                currentJob: 'dev java of fpt',
+                achievement: '3 năm kinh nghiệm',
+            })
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of Create request register mentor without Authorization', function(done){
+        chai.request(app).post(`/api/users/mentor/register`)
+            .send({
+                title: 'About funtion Nodejs',
+                receivedBy: 'staff',
+                content: 'aaa',
+                skill: 'java',
+                bio: 'aaaa',
+                github: 'github.com/aaa',
+                currentJob: 'dev java of fpt',
+                achievement: '3 năm kinh nghiệm',
+            })
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
         })
     })
 })
