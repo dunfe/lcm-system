@@ -429,36 +429,36 @@ describe('About favourite mentor of mentee', () =>{
 })
 
 
-// describe('register mentor', () =>{
-//     before(async () => {
-//         const result = await chai
-//           .request(app)
-//           .post('/api/users/login')
-//           .send({ username: 'mentee', password:'123456'});
-//         expect(result.status).to.equal(200);
-//         token = result.body.user.token;
-//     });
+describe('register mentor', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'mentee', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+    });
 
-//     it('Create request register mentor', function(done) {
-//         chai.request(app).post(`/api/users/mentor/register`)
-//             .set('Authorization', token)
-//             .send({
-//                 title: 'About funtion Nodejs',
-//                 receivedBy: 'staff',
-//                 content: 'aaa',
-//                 skill: 'java',
-//                 bio: 'aaaa',
-//                 github: 'github.com/aaa',
-//                 currentJob: 'dev java of fpt',
-//                 achievement: '3 năm kinh nghiệm',
-//             })
-//             .end((err,res) => {
-//                 expect(res.body.status).to.equal('success');
-//                 expect(res.body).to.contain.property('data');
-//                 done();
-//         })
-//     })
-// })
+    it('Create request register mentor', function(done) {
+        chai.request(app).post(`/api/users/mentor/register`)
+            .set('Authorization', token)
+            .send({
+                title: 'About funtion Nodejs',
+                receivedBy: 'staff',
+                content: 'aaa',
+                skill: 'java',
+                bio: 'aaaa',
+                github: 'github.com/aaa',
+                currentJob: 'dev java of fpt',
+                achievement: '3 năm kinh nghiệm',
+            })
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                expect(res.body).to.contain.property('data');
+                done();
+        })
+    })
+})
 
 describe('mentor crud question', () =>{
     before(async () => {
