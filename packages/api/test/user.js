@@ -159,6 +159,14 @@ describe('mentee crud question', () =>{
         })
     })
 
+    it('Should return status fail of question without Authorization', function(done){
+        chai.request(app).get(`/api/users/questions/${questionId}`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
     it('Create new question', function(done) {
         chai.request(app).post(`/api/users/questions`)
             .set('Authorization', token)
