@@ -9,6 +9,7 @@ import app from '../app.js';
 chai.use(chaiHttp);
 let token;
 let notifyIdformentee = '6076a70a13460604b0cb95be'
+let notifyIdformentor = '6076a70a13460604b0cb95be'
 let wrongId = 'a'
 
 describe(' Notify of mentee', () =>{
@@ -69,6 +70,24 @@ describe(' Notify of mentee', () =>{
             .set('Authorization', token)
             .end((err,res)=>{
             expect(res.body).to.contain.property('roomid');
+            done();
+        })
+    })
+
+    it('Should return status fail of question after mentor selected with wrong id', function(done) {
+        chai.request(app).put(`/api/users/notify/${wrongId}`)
+        .set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of question after mentor selected with wrong id', function(done) {
+        chai.request(app).put(`/api/users/notify/${wrongId}`)
+        .set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
             done();
         })
     })
