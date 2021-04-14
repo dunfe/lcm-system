@@ -294,8 +294,8 @@ router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
 router.put('/',protect,restrictTo('mentee', 'mentor'),editProfileUserById);
 
 //vỉew history point transaction
-router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);
-router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionById);
+router.get('/pointIn/:id',protect,restrictTo('mentee', 'mentor'),viewPointInTransactionById);
+router.get('/pointOut/:id',protect,restrictTo('mentee', 'mentor'),viewPointOutTransactionById);
 
 // get all skill for all role
 router.get('/skills',getAllSkills);

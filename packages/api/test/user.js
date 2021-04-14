@@ -477,7 +477,7 @@ describe('About favourite mentor of mentee', () =>{
         })
     })
 
-    it('Should return status fail of list favourite without Authorization', function(done){
+    it('Should return status fail of count list favourite without Authorization', function(done){
         chai.request(app).get(`/api/users/favorite-mentor/count`)
             .end((err,res)=>{
             expect(res.body.status).to.equal('fail');
@@ -485,7 +485,7 @@ describe('About favourite mentor of mentee', () =>{
         })
     })
 
-    it('Should return massage fail of list favourite without Authorization', function(done){
+    it('Should return massage fail of count list favourite without Authorization', function(done){
         chai.request(app).get(`/api/users/favorite-mentor/count`)
             .end((err,res)=>{
             expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
@@ -826,11 +826,20 @@ describe('view and edit mentee info', () =>{
         token = result.body.user.token;
       });
     
-    it('Should return mentee info ', function(done){
+    it('Should return status success mentee info ', function(done){
         chai.request(app).get(`/api/users/`)
             .set('Authorization', token)
             .end((err,res)=>{
             expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+    it('Should return data of mentee info ', function(done){
+        chai.request(app).get(`/api/users/`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
             done();
         })
     })
