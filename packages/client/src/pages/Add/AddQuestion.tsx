@@ -3,6 +3,7 @@ import { Form, Input, Select, Button, message, InputNumber, Modal } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 interface IProps {
     setSelectedKeys: (state: string[]) => void
@@ -18,6 +19,7 @@ const { success } = Modal
 const AddQuestion = (props: IProps) => {
     const auth = useAuth()
     const history = useHistory()
+    const { t } = useTranslation()
 
     const { setSelectedKeys } = props
 
@@ -38,7 +40,7 @@ const AddQuestion = (props: IProps) => {
             .then((response) => {
                 if (response.status === 200) {
                     success({
-                        content: 'Thêm câu hỏi thành công!',
+                        content: t('Add successfully'),
                         afterClose: () => {
                             history.push('/questions')
                             setSelectedKeys(['/questions'])
@@ -83,39 +85,41 @@ const AddQuestion = (props: IProps) => {
         <Form {...layout} name="nest-messages" onFinish={onFinish}>
             <Form.Item
                 name={'title'}
-                label="Tiêu đề"
+                label={t('Title')}
                 rules={[{ required: true }]}
             >
-                <Input placeholder={'Tiêu đề'} />
+                <Input placeholder={t('Title')} />
             </Form.Item>
             <Form.Item
                 name={'content'}
-                label="Nội dung"
+                label={t('Content')}
                 rules={[{ required: true }]}
             >
-                <Input.TextArea placeholder={'Nội dung'} />
+                <Input.TextArea placeholder={t('Content')} />
             </Form.Item>
             <Form.Item
                 name={'skill'}
-                label="Chọn kỹ năng"
-                rules={[{ required: true, message: 'Vui lòng chọn kỹ năng!' }]}
+                label={t('Skill')}
+                rules={[
+                    { required: true, message: t('Please select the skill') },
+                ]}
             >
                 <Select
                     mode="tags"
                     style={{ width: '100%' }}
                     options={skills}
-                    placeholder="Chọn kỹ năng"
+                    placeholder={t('Skill')}
                 />
             </Form.Item>
-            <Form.Item name={'point'} label="Point" initialValue={0}>
+            <Form.Item name={'point'} label={t('Point')} initialValue={0}>
                 <InputNumber
-                    placeholder={'Giá tiền'}
+                    placeholder={t('Point')}
                     style={{ width: '20%' }}
                 />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
                 <Button type="primary" htmlType="submit">
-                    Tạo
+                    {t('Create')}
                 </Button>
             </Form.Item>
         </Form>

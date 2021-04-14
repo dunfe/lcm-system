@@ -35,7 +35,7 @@ const HeaderComponent = (props: IProps) => {
     const userFullname = useFullname()
     const avatar = useAvatar()
     const instance = useAPI()
-    const { i18n } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     const { setSelectedKeys } = props
 
@@ -82,7 +82,7 @@ const HeaderComponent = (props: IProps) => {
     return (
         <StyledHeader mode="horizontal">
             <SubMenu key="notify" icon={MenuIcon} style={{ paddingTop: 5 }}>
-                <Menu.ItemGroup title="Thông báo của bạn">
+                <Menu.ItemGroup title={t('Your notification')}>
                     {_notify}
                 </Menu.ItemGroup>
             </SubMenu>
@@ -94,7 +94,7 @@ const HeaderComponent = (props: IProps) => {
                     <Link to={`/setting`}>{userFullname}</Link>
                 </StyledMenuItem>
                 <Menu.Item danger>
-                    <a onClick={onSignOut}>Đăng xuất</a>
+                    <a onClick={onSignOut}>{t('Logout')}</a>
                 </Menu.Item>
             </SubMenu>
             <Menu.Item danger>

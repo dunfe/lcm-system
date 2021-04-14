@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useToken } from '../../utils/hooks/useToken'
 import { useUserData } from '../../utils/hooks/useUserData'
+import { useTranslation } from 'react-i18next'
 
 const layout = {
     labelCol: { span: 6 },
@@ -20,23 +21,11 @@ function getBase64(img, callback) {
     reader.readAsDataURL(img)
 }
 
-const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!')
-    }
-
-    return isJpgOrPng && isLt2M
-}
-
 const InfoSetting = () => {
     const userData = useUserData()
     const instance = useAPI()
     const token = useToken()
+    const { t } = useTranslation()
 
     const [loading, setLoading] = useState(false)
     const [imageUrl, setImgURL] = useState('')
@@ -44,9 +33,23 @@ const InfoSetting = () => {
     const uploadButton = (
         <div>
             {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
+            <div style={{ marginTop: 8 }}>{t('Upload')}</div>
         </div>
     )
+
+    const beforeUpload = (file) => {
+        const isJpgOrPng =
+            file.type === 'image/jpeg' || file.type === 'image/png'
+        if (!isJpgOrPng) {
+            message.error(t('You can only upload JPG/PNG file!'))
+        }
+        const isLt2M = file.size / 1024 / 1024 < 1
+        if (!isLt2M) {
+            message.error(t('Image must smaller than 1MB!'))
+        }
+
+        return isJpgOrPng && isLt2M
+    }
 
     const props = {
         name: 'avatar',
@@ -76,7 +79,7 @@ const InfoSetting = () => {
             .put('/api/users', values)
             .then((response) => {
                 if (response.status === 200) {
-                    message.success('Cập nhật thành công!')
+                    message.success(t('Updated'))
                     setImgURL('')
                 }
             })
@@ -88,38 +91,38 @@ const InfoSetting = () => {
             <Col span={16}>
                 <Form {...layout} name="infosetting" onFinish={onFinish}>
                     <Form.Item
-                        label="Email"
+                        label={t('Email')}
                         name="email"
                         initialValue={userData?.email}
                     >
                         <Input disabled={true} />
                     </Form.Item>
                     <Form.Item
-                        label="Số điện thoại"
+                        label={t('Phone Number')}
                         name="phone"
                         initialValue={userData?.detail.phone}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Giới tính"
+                        label={t('Gender')}
                         name="gender"
                         initialValue={userData?.detail.gender || 'male'}
                     >
                         <Radio.Group>
-                            <Radio value="male">Nam</Radio>
-                            <Radio value="female">Nữ</Radio>
+                            <Radio value="male">{t('Male')}</Radio>
+                            <Radio value="female">{t('Female')}</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
-                        label="Địa chỉ"
+                        label={t('Address')}
                         name="address"
                         initialValue={userData?.detail.address}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Công việc hiện tại"
+                        label={t('Current Job')}
                         name="currentJob"
                         initialValue={userData?.detail.currentJob}
                     >
@@ -129,28 +132,28 @@ const InfoSetting = () => {
                     {userData?.role === 'mentor' ? (
                         <>
                             <Form.Item
-                                label="Thành tựu"
+                                label={t('Achievement')}
                                 name="achievement"
                                 initialValue={userData?.detail.currentJob}
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item
-                                label="Kỹ năng"
+                                label={t('Skill')}
                                 name="skill"
                                 initialValue={userData?.detail.currentJob}
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item
-                                label="Bio"
+                                label={t('Bio')}
                                 name="bio"
                                 initialValue={userData?.detail.currentJob}
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item
-                                label="Github"
+                                label={t('Github')}
                                 name="github"
                                 initialValue={userData?.detail.currentJob}
                             >
@@ -161,13 +164,13 @@ const InfoSetting = () => {
 
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            Cập nhật
+                            {t('Update')}
                         </Button>
                     </Form.Item>
                 </Form>
             </Col>
             <Col span={8}>
-                <h3>Ảnh đại diện</h3>
+                <h3>{t('Avatar')}</h3>
                 <div style={{ paddingTop: 12 }}>
                     <Upload
                         {...props}

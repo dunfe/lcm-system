@@ -21,5 +21,76 @@
   "Please enter your email": "Please enter your email",
   "Please re enter your password": "Please re enter your password",
   "Password need to match": "Password need to match",
-  "Should accept agreement": "Should accept agreement"
+  "Should accept agreement": "Should accept agreement",
+  "Logout": "Logout",
+
+  "Authenticating...": "Authenticating...",
+
+  "Your notification": "Your notification",
+
+  "Dashboard": "Dashboard",
+  "Add question": "Add question",
+  "Questions": "Questions",
+  "Session": "Session",
+  "Setting": "Setting",
+  "Matching": "Matching",
+
+  "Page not found.": "Page not found.",
+  "Join": "Join",
+
+  "Can't share screen!": "Can't share screen!",
+  "Share Screen": "Share Screen",
+  "Stop Share Screen": "Stop Share Screen",
+
+  "You can only upload JPG/PNG file!": "You can only upload JPG/PNG file!",
+  "Image must smaller than 2MB!": "Image must smaller than 1MB!",
+  "Updated": "Updated",
+  "Phone Number": "Phone Number",
+  "Gender": "Gender",
+  "Male": "Male",
+  "Female": "Female",
+  "Address": "Address",
+  "Current Job": "Current Job",
+  "Achievement": "Achievement",
+  "Skill": "Skill",
+  "Bio": "Bio",
+  "Github": "Github",
+  "Update": "Update",
+  "Avatar": "Avatar",
+  "Upload": "Upload",
+
+  "Basic Information": "Basic Information",
+  "Security Setting": "Security Setting",
+  "Notification Setting": "Notification Setting",
+  "Add successfully": "Add successfully",
+  "Title": "Title",
+  "Content": "Content",
+
+  "Please select the skill": "Please select the skill",
+  "Point": "Point",
+  "Create": "Create",
+
+  "Status": "Status",
+  "Balance": "Balance",
+  "This month questions": "This month questions",
+  "Favorite Mentor": "Favorite Mentor",
+  "Guide": "Guide",
+
+  "Ask a question for help": "Ask a question for help",
+  "Your questions": "Your questions",
+  "Use your mouse then click onto the card and swipe to right to choose, left to ignore": "Use your mouse then click onto the card and swipe to right to choose, left to ignore",
+  "Setting your account": "Setting your account",
+  "Selected this question": "Selected this question",
+  "Mentee": "Mentee",
+  "From": "From",
+  "No matching question found": "No matching question found",
+
+  "New": "New",
+  "Done": "Done",
+
+  "Real-time Collaborative Editor": "Real-time Collaborative Editor",
+
+  "Disconnect": "Disconnect",
+  "Connect": "Connect",
+  "Chat": "Chat"
 }

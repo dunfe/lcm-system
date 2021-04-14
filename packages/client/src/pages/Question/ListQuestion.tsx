@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Tabs, Table } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import QuestionDetail from '../../components/Question/QuestionDetail'
+import { useTranslation } from 'react-i18next'
 
 export interface IData {
     receivedBy: string[]
@@ -24,6 +25,7 @@ const { useEffect, useState } = React
 
 const ListQuestion = () => {
     const instance = useAPI()
+    const { t } = useTranslation()
 
     const [newQuestion, setNewQuestion] = useState<IData[]>([])
     const [oldQuestion, setOldQuestion] = useState<IData[]>([])
@@ -32,7 +34,7 @@ const ListQuestion = () => {
 
     const columns = [
         {
-            title: 'Tiêu đề',
+            title: t('Title'),
             dataIndex: 'title',
             key: 'title',
             ellipsis: true,
@@ -42,13 +44,13 @@ const ListQuestion = () => {
             },
         },
         {
-            title: 'Point',
+            title: t('Point'),
             dataIndex: 'point',
             key: 'point',
             sorter: (a, b) => a.point - b.point,
         },
         {
-            title: 'Trạng thái',
+            title: t('Status'),
             dataIndex: 'status',
             key: 'status',
         },
@@ -90,14 +92,14 @@ const ListQuestion = () => {
     return (
         <>
             <Tabs defaultActiveKey="1">
-                <TabPane tab="Đang chờ" key="1">
+                <TabPane tab={'New'} key="1">
                     <Table
                         columns={columns}
                         dataSource={newQuestion}
                         rowKey={'_id'}
                     />
                 </TabPane>
-                <TabPane tab="Đã trả lời" key="2">
+                <TabPane tab={t('Done')} key="2">
                     <Table
                         columns={columns}
                         dataSource={oldQuestion}
