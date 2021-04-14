@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 const layout = {
     labelCol: { span: 8 },
@@ -13,6 +14,7 @@ const layout = {
 const SignInComponent = () => {
     const history = useHistory()
     const auth = useAuth()
+    const { t } = useTranslation()
 
     const onFinish = (values: any) => {
         const { username, password } = values
@@ -20,7 +22,7 @@ const SignInComponent = () => {
         auth.signIn(username, password)
             .then((response) => {
                 if (response) {
-                    message.success('Đăng nhập thành công!').then(() => {
+                    message.success(t('Login successfully')).then(() => {
                         console.log(response)
                     })
 
@@ -28,14 +30,14 @@ const SignInComponent = () => {
                 }
             })
             .catch((error) => {
-                message.error('Đăng nhập không thành công!').then(() => {
+                message.error(t(`Can't Login`)).then(() => {
                     console.error(error)
                 })
             })
     }
 
     const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo)
+        console.log(t('Failed'), errorInfo)
     }
 
     return (
@@ -50,11 +52,14 @@ const SignInComponent = () => {
                 wrapperCol={{ span: 24 }}
                 name="username"
                 rules={[
-                    { required: true, message: 'Vui lòng điền tên tài khoản!' },
+                    {
+                        required: true,
+                        message: t('Please enter your username'),
+                    },
                 ]}
             >
                 <Input
-                    placeholder="Tên tài khoản"
+                    placeholder={t('Username')}
                     prefix={
                         <UserOutlined
                             className="site-form-item-icon"
@@ -66,11 +71,16 @@ const SignInComponent = () => {
             <Form.Item
                 wrapperCol={{ span: 24 }}
                 name="password"
-                rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
+                rules={[
+                    {
+                        required: true,
+                        message: t('Please enter your password'),
+                    },
+                ]}
             >
                 <Input.Password
                     width={'100%'}
-                    placeholder="Mật khẩu"
+                    placeholder={t('Password')}
                     prefix={
                         <LockOutlined
                             className="site-form-item-icon"
@@ -81,12 +91,12 @@ const SignInComponent = () => {
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked">
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox>{t('Remember me')}</Checkbox>
             </Form.Item>
 
             <Form.Item wrapperCol={{ span: 24 }}>
                 <StyledButton type="primary" htmlType="submit">
-                    Đăng nhập
+                    {t('Login')}
                 </StyledButton>
             </Form.Item>
         </Form>

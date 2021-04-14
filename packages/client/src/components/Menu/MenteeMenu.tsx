@@ -8,6 +8,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 interface IProps {
     selectedKeys: string[]
@@ -16,6 +17,7 @@ interface IProps {
 
 const MenteeMenu = (props: IProps) => {
     const { onSelect, selectedKeys } = props
+    const { t } = useTranslation()
 
     return (
         <Menu
@@ -25,19 +27,19 @@ const MenteeMenu = (props: IProps) => {
             onSelect={onSelect}
         >
             <Menu.Item key="/" icon={<UserOutlined />}>
-                <Link to={`/`}>Dashboard</Link>
+                <Link to={`/`}>{t('Dashboard')}</Link>
             </Menu.Item>
             <Menu.Item key="/add" icon={<AppstoreAddOutlined />}>
-                <Link to={`/add`}>Thêm câu hỏi</Link>
+                <Link to={`/add`}>{t('Add question')}</Link>
             </Menu.Item>
             <Menu.Item key="/questions" icon={<UnorderedListOutlined />}>
-                <Link to={`/questions`}>Danh sách câu hỏi</Link>
+                <Link to={`/questions`}>{t('Questions')}</Link>
             </Menu.Item>
             <Menu.Item key="/session" icon={<TeamOutlined />}>
-                <Link to={`/session`}>Session</Link>
+                <Link to={`/session`}>{t('Session')}</Link>
             </Menu.Item>
             <Menu.Item key="/setting" icon={<SettingOutlined />}>
-                <Link to={`/setting`}>Cài đặt</Link>
+                <Link to={`/setting`}>{t('Setting')}</Link>
             </Menu.Item>
         </Menu>
     )
