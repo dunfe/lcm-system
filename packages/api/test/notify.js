@@ -74,7 +74,7 @@ describe(' Notify of mentee', () =>{
         })
     })
 
-    it('Should return status fail of question after mentor selected with wrong id', function(done) {
+    it('Should return status fail after of click notify with wrong id', function(done) {
         chai.request(app).put(`/api/users/notify/${wrongId}`)
         .set('Authorization', token)
         .end((err,res)=>{
@@ -83,11 +83,27 @@ describe(' Notify of mentee', () =>{
         })
     })
 
-    it('Should return massage fail of question after mentor selected with wrong id', function(done) {
+    it('Should return massage fail after of click notify with wrong id', function(done) {
         chai.request(app).put(`/api/users/notify/${wrongId}`)
         .set('Authorization', token)
         .end((err,res)=>{
             expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
+
+    it('Should return status fail after of click notify without Authorization', function(done){
+        chai.request(app).put(`/api/users/notify/${notifyIdformentee}`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return message fail after of click notify without Authorization', function(done){
+        chai.request(app).put(`/api/users/notify/${notifyIdformentee}`)
+            .end((err,res)=>{
+                expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
             done();
         })
     })
