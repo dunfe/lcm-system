@@ -1109,3 +1109,48 @@ describe(' mentor select question', () =>{
         })
     })
 })
+
+describe(' List suggest questions for mentor', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'user1', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+    });
+
+    it('Should return status success of list suggest questions for mentor ', function(done){
+        chai.request(app).get(`/api/mentor/listQuestionForMentor`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('success');
+            done();
+        })
+    })
+
+    it('Should return data of list suggest questions for mentor  ', function(done){
+        chai.request(app).get(`/api/mentor/listQuestionForMentor`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
+            done();
+        })
+    })
+
+    it('Should return status fail of list suggest questions for mentor without Authorization', function(done){
+        chai.request(app).get(`/api/mentor/listQuestionForMentor`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of list suggest questions for mentor without Authorization', function(done){
+        chai.request(app).get(`/api/mentor/listQuestionForMentor`)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+})
