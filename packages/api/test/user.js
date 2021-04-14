@@ -860,7 +860,7 @@ describe('view and edit mentee info', () =>{
         })
     })
 
-    it('edit profile', function(done){
+    it('Should return status success of edit profile', function(done){
         chai.request(app).put(`/api/users/`)
             .set('Authorization', token)
             .send({
@@ -873,6 +873,52 @@ describe('view and edit mentee info', () =>{
             .end((err,res)=> {
                 expect(res.body.status).to.equal('success');
                 done();
+        })
+    })
+
+    it('Should return data after edit profile ', function(done){
+        chai.request(app).put(`/api/users/`)
+            .set('Authorization', token)
+            .send({
+                avatar: '',
+                phone: '123456789',
+                gender: 'Male',
+                address: 'Ha Noi',
+                currentJob: 'Student '
+            })
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
+            done();
+        })
+    })
+
+    it('Should return status fail of edit profile without Authorization', function(done){
+        chai.request(app).put(`/api/users/`)
+        .send({
+            avatar: '',
+            phone: '123456789',
+            gender: 'Male',
+            address: 'Ha Noi',
+            currentJob: 'Student '
+        })
+        .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of edit profile without Authorization', function(done){
+        chai.request(app).put(`/api/users/`)
+        .send({
+            avatar: '',
+            phone: '123456789',
+            gender: 'Male',
+            address: 'Ha Noi',
+            currentJob: 'Student '
+        })
+        .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
         })
     })
 })
