@@ -8,7 +8,7 @@ import app from '../app.js';
 
 chai.use(chaiHttp);
 let token;
-let questionId = '605b2cff4ba7106618f7d14e';
+let questionId = '605f09125b066039dc5cebb7';
 let mentorId = '60607790df75cf564cb83fd7'
 let wrongId = 'a'
 describe('User login successful', () => {
@@ -1044,5 +1044,25 @@ describe(' get all list skill', () =>{
                 expect(res.body).to.contain.property('skill');
                 done();
             })
+    })
+})
+
+describe(' mentor select question', () =>{
+    before(async () => {
+        const result = await chai
+          .request(app)
+          .post('/api/users/login')
+          .send({ username: 'user1', password:'123456'});
+        expect(result.status).to.equal(200);
+        token = result.body.user.token;
+      });
+    
+      it('should return status success after select question', function(done) {
+        chai.request(app).post(`/api/mentor/selectQuestion/${questionId}`)
+            .set('Authorization', token)
+            .end((err,res)=> {
+                expect(res.body.status).to.equal('success');
+                done();
+        })
     })
 })

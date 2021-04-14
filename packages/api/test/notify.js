@@ -8,8 +8,7 @@ import app from '../app.js';
 
 chai.use(chaiHttp);
 let token;
-let questionId = '605b2cff4ba7106618f7d14e';
-let mentorId = '60607790df75cf564cb83fd7'
+let notifyIdformentee = '6076a70a13460604b0cb95be'
 let wrongId = 'a'
 
 describe(' Notify of mentee', () =>{
@@ -52,6 +51,24 @@ describe(' Notify of mentee', () =>{
         chai.request(app).get(`/api/users/notify`)
             .end((err,res)=>{
             expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return status success of click notify', function(done){
+        chai.request(app).put(`/api/users/notify/${notifyIdformentee}`)
+            .set('Authorization', token)
+            .end((err,res)=> {
+                expect(res.body.status).to.equal('success');
+                done();
+        })
+    })
+
+    it('Should return room id after of click notify', function(done){
+        chai.request(app).put(`/api/users/notify/${notifyIdformentee}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('roomid');
             done();
         })
     })
