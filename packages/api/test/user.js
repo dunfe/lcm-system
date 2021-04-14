@@ -1057,12 +1057,55 @@ describe(' mentor select question', () =>{
         token = result.body.user.token;
       });
     
-      it('should return status success after select question', function(done) {
+    it('should return status success after select question', function(done) {
         chai.request(app).post(`/api/mentor/selectQuestion/${questionId}`)
             .set('Authorization', token)
             .end((err,res)=> {
                 expect(res.body.status).to.equal('success');
                 done();
+        })
+    })
+    
+    it('Should return data of question after mentor selected', function(done){
+        chai.request(app).post(`/api/mentor/selectQuestion/${questionId}`)
+            .set('Authorization', token)
+            .end((err,res)=> {
+                expect(res.body).to.contain.property('data');
+                done();
+        })
+    })
+
+    it('Should return status fail of question after mentor selected without Authorization', function(done){
+        chai.request(app).post(`/api/mentor/selectQuestion/${questionId}`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return message fail of question after mentor selected without Authorization', function(done){
+        chai.request(app).post(`/api/mentor/selectQuestion/${questionId}`)
+            .end((err,res)=>{
+                expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+    
+    it('Should return status fail of question after mentor selected with wrong id', function(done) {
+        chai.request(app).post(`/api/mentor/selectQuestion/${wrongId}`)
+        .set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of question after mentor selected with wrong id', function(done) {
+        chai.request(app).post(`/api/mentor/selectQuestion/${wrongId}`)
+        .set('Authorization', token)
+        .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
         })
     })
 })
