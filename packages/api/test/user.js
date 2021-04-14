@@ -860,7 +860,7 @@ describe('view and edit mentee info', () =>{
         })
     })
 
-    it('Should return status success of edit profile', function(done){
+    it('Should return status success of edit profile mentee', function(done){
         chai.request(app).put(`/api/users/`)
             .set('Authorization', token)
             .send({
@@ -876,7 +876,7 @@ describe('view and edit mentee info', () =>{
         })
     })
 
-    it('Should return data after edit profile ', function(done){
+    it('Should return data after edit profile mentee ', function(done){
         chai.request(app).put(`/api/users/`)
             .set('Authorization', token)
             .send({
@@ -892,7 +892,7 @@ describe('view and edit mentee info', () =>{
         })
     })
 
-    it('Should return status fail of edit profile without Authorization', function(done){
+    it('Should return status fail of edit profile mentee without Authorization', function(done){
         chai.request(app).put(`/api/users/`)
         .send({
             avatar: '',
@@ -907,7 +907,7 @@ describe('view and edit mentee info', () =>{
         })
     })
 
-    it('Should return massage fail of edit profile without Authorization', function(done){
+    it('Should return massage fail of edit profile mentee without Authorization', function(done){
         chai.request(app).put(`/api/users/`)
         .send({
             avatar: '',
@@ -933,7 +933,7 @@ describe('view and edit mentor info', () =>{
         token = result.body.user.token;
       });
     
-    it('Should return mentee info ', function(done){
+      it('Should return status success mentor info ', function(done){
         chai.request(app).get(`/api/users/`)
             .set('Authorization', token)
             .end((err,res)=>{
@@ -942,7 +942,32 @@ describe('view and edit mentor info', () =>{
         })
     })
 
-    it('edit profile', function(done){
+    it('Should return data of mentor info ', function(done){
+        chai.request(app).get(`/api/users/`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
+            done();
+        })
+    })
+
+    it('Should return status fail of mentor info without Authorization', function(done){
+        chai.request(app).get(`/api/users/`)
+            .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of mentor info without Authorization', function(done){
+        chai.request(app).get(`/api/users/`)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return status success of edit profile mentor', function(done){
         chai.request(app).put(`/api/users/`)
             .set('Authorization', token)
             .send({
@@ -950,24 +975,64 @@ describe('view and edit mentor info', () =>{
                 phone: '123456789',
                 gender: 'Male',
                 address: 'Ha Noi',
-                currentJob: 'Student ',
-                achievement: '3 năm kinh nghiệm',
-                skill: 'java',
-                bio: 'hello world',
-                github: 'github.com/datlt'
+                currentJob: 'Student '
             })
             .end((err,res)=> {
                 expect(res.body.status).to.equal('success');
                 done();
         })
     })
+
+    it('Should return data after edit profile mentor', function(done){
+        chai.request(app).put(`/api/users/`)
+            .set('Authorization', token)
+            .send({
+                avatar: '',
+                phone: '123456789',
+                gender: 'Male',
+                address: 'Ha Noi',
+                currentJob: 'Student '
+            })
+            .end((err,res)=>{
+            expect(res.body).to.contain.property('data');
+            done();
+        })
+    })
+
+    it('Should return status fail of edit profile mentor without Authorization', function(done){
+        chai.request(app).put(`/api/users/`)
+        .send({
+            avatar: '',
+            phone: '123456789',
+            gender: 'Male',
+            address: 'Ha Noi',
+            currentJob: 'Student '
+        })
+        .end((err,res)=>{
+            expect(res.body.status).to.equal('fail');
+            done();
+        })
+    })
+
+    it('Should return massage fail of edit profile mentor without Authorization', function(done){
+        chai.request(app).put(`/api/users/`)
+        .send({
+            avatar: '',
+            phone: '123456789',
+            gender: 'Male',
+            address: 'Ha Noi',
+            currentJob: 'Student '
+        })
+        .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
 })
 
 describe(' get all list skill', () =>{
-
     it('should return list skill', (done) => {
         chai.request(app).get('/api/users/skills')
-            .set('Authorization', token)
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
                 expect(res.body).to.contain.property('skill');
