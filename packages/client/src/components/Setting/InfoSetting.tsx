@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Row, Col, Form, Input, Button, Upload, message, Radio } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { useState } from 'react'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useToken } from '../../utils/hooks/useToken'
-import { useUserData } from '../../utils/hooks/useUserData'
 import { useTranslation } from 'react-i18next'
+import { useUserInfo } from '../../utils/hooks/useUserInfo'
+import { useForm } from 'antd/es/form/Form'
 
 const layout = {
     labelCol: { span: 6 },
@@ -21,11 +21,14 @@ function getBase64(img, callback) {
     reader.readAsDataURL(img)
 }
 
+const { useState, useEffect } = React
+
 const InfoSetting = () => {
-    const userData = useUserData()
     const instance = useAPI()
     const token = useToken()
     const { t } = useTranslation()
+    const [form] = useForm()
+    const user = useUserInfo()
 
     const [loading, setLoading] = useState(false)
     const [imageUrl, setImgURL] = useState('')
@@ -75,8 +78,9 @@ const InfoSetting = () => {
     }
 
     const onFinish = (values) => {
+        const _values = delete values.email
         instance
-            .put('/api/users', values)
+            .put('/api/users', _values)
             .then((response) => {
                 if (response.status === 200) {
                     message.success(t('Updated'))
@@ -86,77 +90,77 @@ const InfoSetting = () => {
             .catch((error) => console.error(error))
     }
 
+    useEffect(() => {
+        if (!user) {
+            return
+        }
+
+        if (user.role.toLowerCase() === 'mentee') {
+            form.setFieldsValue({
+                email: user.email,
+                phone: user.detail.phone,
+                gender: user.detail.gender,
+                address: user.detail.address,
+                currentJob: user.detail.currentJob,
+            })
+        } else {
+            form.setFieldsValue({
+                email: user.email,
+                phone: user.detail.phone,
+                gender: user.detail.gender,
+                address: user.detail.address,
+                currentJob: user.detail.currentJob,
+                achievement: user.detail.achievement,
+                skill: user.skill,
+                bio: user.bio,
+                github: user.github,
+            })
+        }
+    }, [user])
+
     return (
         <Row gutter={24}>
             <Col span={16}>
-                <Form {...layout} name="infosetting" onFinish={onFinish}>
-                    <Form.Item
-                        label={t('Email')}
-                        name="email"
-                        initialValue={userData?.email}
-                    >
+                <Form
+                    {...layout}
+                    name="infoSetting"
+                    onFinish={onFinish}
+                    form={form}
+                >
+                    <Form.Item label={t('Email')} name="email">
                         <Input disabled={true} />
                     </Form.Item>
-                    <Form.Item
-                        label={t('Phone Number')}
-                        name="phone"
-                        initialValue={userData?.detail.phone}
-                    >
+                    <Form.Item label={t('Phone Number')} name="phone">
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        label={t('Gender')}
-                        name="gender"
-                        initialValue={userData?.detail.gender || 'male'}
-                    >
+                    <Form.Item label={t('Gender')} name="gender">
                         <Radio.Group>
                             <Radio value="male">{t('Male')}</Radio>
                             <Radio value="female">{t('Female')}</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item
-                        label={t('Address')}
-                        name="address"
-                        initialValue={userData?.detail.address}
-                    >
+                    <Form.Item label={t('Address')} name="address">
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        label={t('Current Job')}
-                        name="currentJob"
-                        initialValue={userData?.detail.currentJob}
-                    >
+                    <Form.Item label={t('Current Job')} name="currentJob">
                         <Input />
                     </Form.Item>
 
-                    {userData?.role === 'mentor' ? (
+                    {user?.role === 'mentor' ? (
                         <>
                             <Form.Item
                                 label={t('Achievement')}
                                 name="achievement"
-                                initialValue={userData?.detail.currentJob}
                             >
                                 <Input />
                             </Form.Item>
-                            <Form.Item
-                                label={t('Skill')}
-                                name="skill"
-                                initialValue={userData?.detail.currentJob}
-                            >
+                            <Form.Item label={t('Skill')} name="skill">
                                 <Input />
                             </Form.Item>
-                            <Form.Item
-                                label={t('Bio')}
-                                name="bio"
-                                initialValue={userData?.detail.currentJob}
-                            >
+                            <Form.Item label={t('Bio')} name="bio">
                                 <Input />
                             </Form.Item>
-                            <Form.Item
-                                label={t('Github')}
-                                name="github"
-                                initialValue={userData?.detail.currentJob}
-                            >
+                            <Form.Item label={t('Github')} name="github">
                                 <Input />
                             </Form.Item>
                         </>
