@@ -1031,10 +1031,17 @@ describe('view and edit mentor info', () =>{
 })
 
 describe(' get all list skill', () =>{
-    it('should return list skill', (done) => {
+    it('should return status success of list skill', (done) => {
         chai.request(app).get('/api/users/skills')
             .end((err,res) => {
                 expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('should return data of list skill', (done) => {
+        chai.request(app).get('/api/users/skills')
+            .end((err,res) => {
                 expect(res.body).to.contain.property('skill');
                 done();
             })
