@@ -6,6 +6,8 @@ import { useToken } from '../../utils/hooks/useToken'
 import { useTranslation } from 'react-i18next'
 import { useUserInfo } from '../../utils/hooks/useUserInfo'
 import { useForm } from 'antd/es/form/Form'
+import dayjs from 'dayjs'
+import DatePicker from '../Custom/DatePicker'
 
 const layout = {
     labelCol: { span: 6 },
@@ -31,7 +33,7 @@ const InfoSetting = () => {
     const user = useUserInfo()
 
     const [loading, setLoading] = useState(false)
-    const [imageUrl, setImgURL] = useState('')
+    const [imgURL, setImgURL] = useState('')
 
     const uploadButton = (
         <div>
@@ -67,8 +69,8 @@ const InfoSetting = () => {
             }
             if (info.file.status === 'done') {
                 // Get this url from response in real world.
-                getBase64(info.file.originFileObj, (imageUrl) => {
-                    setImgURL(imageUrl)
+                getBase64(info.file.originFileObj, () => {
+                    setImgURL(info.file.response.url)
                     setLoading(false)
                 })
             } else if (info.file.status === 'error') {
@@ -78,7 +80,8 @@ const InfoSetting = () => {
     }
 
     const onFinish = (values) => {
-        const _values = delete values.email
+        const _values = { ...values, avatar: imgURL }
+        delete _values.email
         instance
             .put('/api/users', _values)
             .then((response) => {
@@ -99,18 +102,19 @@ const InfoSetting = () => {
             form.setFieldsValue({
                 email: user.email,
                 phone: user.detail.phone,
-                gender: user.detail.gender,
+                gender: user.detail.gender || 'male',
                 address: user.detail.address,
                 currentJob: user.detail.currentJob,
+                achievement: user.detail.achievement,
+                dob: dayjs(user.detail.dob),
             })
         } else {
             form.setFieldsValue({
                 email: user.email,
                 phone: user.detail.phone,
-                gender: user.detail.gender,
+                gender: user.detail.gender || 'male',
                 address: user.detail.address,
                 currentJob: user.detail.currentJob,
-                achievement: user.detail.achievement,
                 skill: user.skill,
                 bio: user.bio,
                 github: user.github,
@@ -139,21 +143,21 @@ const InfoSetting = () => {
                             <Radio value="female">{t('Female')}</Radio>
                         </Radio.Group>
                     </Form.Item>
+                    <Form.Item label={t('Date of birth')} name="dob">
+                        <DatePicker />
+                    </Form.Item>
                     <Form.Item label={t('Address')} name="address">
                         <Input />
                     </Form.Item>
                     <Form.Item label={t('Current Job')} name="currentJob">
                         <Input />
                     </Form.Item>
+                    <Form.Item label={t('Achievement')} name="achievement">
+                        <Input />
+                    </Form.Item>
 
                     {user?.role === 'mentor' ? (
                         <>
-                            <Form.Item
-                                label={t('Achievement')}
-                                name="achievement"
-                            >
-                                <Input />
-                            </Form.Item>
                             <Form.Item label={t('Skill')} name="skill">
                                 <Input />
                             </Form.Item>
@@ -183,9 +187,9 @@ const InfoSetting = () => {
                         showUploadList={false}
                         beforeUpload={beforeUpload}
                     >
-                        {imageUrl ? (
+                        {imgURL ? (
                             <img
-                                src={imageUrl}
+                                src={imgURL}
                                 alt="avatar"
                                 style={{ width: '100%' }}
                             />

@@ -50,7 +50,7 @@ const AddQuestion = (props: IProps) => {
     const onFinish = (values: any) => {
         if (mode === 'add') {
             instance
-                .post('/api/users/questions', JSON.stringify(values))
+                .post('/api/users/questions', values)
                 .then((response) => {
                     if (response.status === 200) {
                         success({
@@ -67,7 +67,7 @@ const AddQuestion = (props: IProps) => {
                 .catch((error) => console.error(error))
         } else {
             instance
-                .put('/api/users/questions', JSON.stringify(values))
+                .put('/api/users/questions', values)
                 .then((response) => {
                     if (response.status === 200) {
                         success({
