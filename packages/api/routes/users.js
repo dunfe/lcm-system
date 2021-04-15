@@ -2,14 +2,15 @@ import express from 'express';
 import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite, uploadAvatar} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
-import {createQuestion,viewListDoneQuestionMenteeId, viewListNewOrdoingQuestionMenteeId, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
+import {createQuestion,viewListNewOrdoingQuestion, viewListDoneQuestion, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
 import {getAllSkills} from '../controller/skill.js';
 import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
-import {registerMentorRequest} from '../controller/request.js';
+import {registerMentorRequest, uploadCVFile} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
-import { createReport } from '../controller/report.js';
+import { createReport, uploadImagesReport } from '../controller/report.js';
 import upload from '../utils/multer.js';
 import cloudinary from '../utils/cloudinary.js';
+import cors from 'cors'
 
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -250,21 +251,21 @@ router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
 
 // create request register mentor 
-router.post('/mentor/register',protect,restrictTo('mentee'),upload.single('cv'),registerMentorRequest);
+router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorRequest);
 
 //rate mentor
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
 //CRUD report mentor
 
-router.post('/reports', protect, restrictTo('mentee'), upload.array('img[]'), createReport);
+router.post('/reports', protect, restrictTo('mentee'), createReport);
 
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
 router.get('/questions',protect, restrictTo('mentee', 'mentor'),viewListQuestionById);
-router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewOrdoingQuestionMenteeId);
-router.get('/questions/notnew',protect, restrictTo('mentee', 'mentor'),viewListDoneQuestionMenteeId);
-router.get('/questions/:id',protect,restrictTo('mentee'),getQuestionById);
+router.get('/questions/new',protect, restrictTo('mentee', 'mentor'),viewListNewOrdoingQuestion);
+router.get('/questions/done',protect, restrictTo('mentee', 'mentor'),viewListDoneQuestion);
+router.get('/questions/:id',protect,restrictTo('mentee', 'mentor'),getQuestionById);
 router.put('/questions/:id',protect,restrictTo('mentee'),updateQuestionById);
 router.delete('/questions/:id',protect,restrictTo('mentee'),delQuestionById);
 
@@ -277,21 +278,29 @@ router.put('/favorite-mentor/:id',protect,restrictTo('mentee'),addFavoriteMentor
 router.get('/favorite-mentor',protect,restrictTo('mentee'),viewListFavoriteMentor);
 router.get('/favorite-mentor/count',protect,restrictTo('mentee'),countMentorFaverite)
 
+//UPLOAD API
 //Upload avatar
-router.post('/',upload.single('avatar'), uploadAvatar);
+router.post('/upload-file', cors(), protect,restrictTo('mentee', 'mentor'),upload.single('avatar'), uploadAvatar);
+
+//Upload images for report mentor
+router.post('/reports/upload-file', cors(), protect,restrictTo('mentee', 'mentor'), upload.array('img[]'), uploadImagesReport);
+
+//Upload CV file for register mentor
+router.post('/mentor/register/upload-file', cors(), protect,restrictTo('mentee'), upload.single('cv'), uploadCVFile);
+
 
 //profile function
 router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
 router.put('/',protect,restrictTo('mentee', 'mentor'),editProfileUserById);
 
 //vỉew history point transaction
-router.get('/pointIn/:id',protect,restrictTo('mentee'),viewPointInTransactionById);
-router.get('/pointOut/:id',protect,restrictTo('mentee'),viewPointOutTransactionById);
+router.get('/pointIn/:id',protect,restrictTo('mentee', 'mentor'),viewPointInTransactionById);
+router.get('/pointOut/:id',protect,restrictTo('mentee', 'mentor'),viewPointOutTransactionById);
 
 // get all skill for all role
 router.get('/skills',getAllSkills);
 
 //notify
-router.get('/notify',protect,getAllNotification);
-router.put('/notify/:id',protect,clickNotify)
+router.get('/notify',protect,restrictTo('mentee', 'mentor'),getAllNotification);
+router.put('/notify/:id',protect,restrictTo('mentee', 'mentor'),clickNotify)
 export default router;

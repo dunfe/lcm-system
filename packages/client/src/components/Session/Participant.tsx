@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Button, message } from 'antd'
 import Video from 'twilio-video'
+import { useTranslation } from 'react-i18next'
 
 interface IProps {
     participant: any
@@ -10,6 +11,7 @@ const { useState, useRef, useEffect } = React
 
 const Participant = (props: IProps) => {
     const { participant } = props
+    const { t } = useTranslation()
 
     const [videoTracks, setVideoTracks] = useState<any>([])
     const [audioTracks, setAudioTracks] = useState<any>([])
@@ -45,7 +47,7 @@ const Participant = (props: IProps) => {
                     setVideoTracks((old) => [screenTrack, ...old])
                 })
                 .catch(() => {
-                    message.error('Không thể share màn hình!')
+                    message.error(t(`Can't share screen!`))
                 })
         } else {
             let screenTrack = videoTracks[0]
@@ -123,8 +125,10 @@ const Participant = (props: IProps) => {
     return (
         <div className="participant">
             <h3>{participant.identity}</h3>
-            <Button onClick={onShareScreen}>Share Screen</Button>
-            <Button onClick={onStopShareScreen}>Stop Share Screen</Button>
+            <Button onClick={onShareScreen}>{t('Share Screen')}</Button>
+            <Button onClick={onStopShareScreen}>
+                {t('Stop Share Screen')}
+            </Button>
             <video ref={videoRef} autoPlay={true} />
             <audio ref={audioRef} autoPlay={true} muted={true} />
         </div>

@@ -226,7 +226,7 @@ export const viewUserInfo = async (req, res) => {
     User.find({ _id: userId }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Success',
+                status: 'success',
                 data: doc
             });
 
@@ -242,14 +242,14 @@ export const viewUserInfo = async (req, res) => {
 export const uploadAvatar = async (req, res) => {
     try {
         const result = await cloudinary.uploader.upload(req.file.path);
-        res.status(200).json({
+        return res.status(200).json({
             status: 'Success',
             url: result.secure_url
         })
     } catch (error) {
         return res.status(400).json({
             status: 'fail',
-            message: error.message
+            message: 'Lỗi ở try'
         })
     }
 }
@@ -288,7 +288,7 @@ export const editProfileUserById = async (req, res) => {
     User.findOneAndUpdate({ _id: userId }, {detail: update, $set : info}, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Edit Profile Successful',
+                status: 'success',
                 data: doc
             });
         } else {
@@ -303,6 +303,13 @@ export const editProfileUserById = async (req, res) => {
 //Question of mentee 
 
 export const addFavoriteMentorById = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
     let userId = await useridFromToken(req, res);
     const currentMentor = await User.findById(req.params.id);
     const favorite = {
@@ -371,7 +378,6 @@ export const viewListFavoriteMentor = async (req, res) => {
             favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
         }
     })
-    console.log(favoriteMentor);
     let data = favoriteMentor;
     const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;

@@ -5,6 +5,7 @@ import ListQuestion from '../../../pages/Question/ListQuestion'
 import Join from '../../Session/Join'
 import Matching from '../../../pages/Matching/Matching'
 import './MentorContent.css'
+import Setting from '../../Setting/Setting'
 
 interface IProps {
     path: string
@@ -38,8 +39,14 @@ const MentorContent = (props: IProps) => {
                 </div>
             </Route>
             <Route path={`/setting`}>
-                <div style={{ padding: 24, backgroundColor: 'white' }}>
-                    <h3>Setting</h3>
+                <div
+                    style={{
+                        padding: 24,
+                        backgroundColor: 'white',
+                        minHeight: 600,
+                    }}
+                >
+                    <Setting />
                 </div>
             </Route>
         </>

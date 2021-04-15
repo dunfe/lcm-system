@@ -1,4 +1,4 @@
-import { Avatar, Badge, Menu } from 'antd'
+import { Avatar, Badge, Menu, Select } from 'antd'
 import * as React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../../utils/hooks/useAuth'
@@ -7,6 +7,8 @@ import './Header.css'
 import { useFullname } from '../../utils/hooks/useFullname'
 import { useAvatar } from '../../utils/hooks/useAvatar'
 import { useAPI } from '../../utils/hooks/useAPI'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/macro'
 
 interface INotify {
     read: boolean
@@ -23,6 +25,7 @@ interface IProps {
 }
 
 const { SubMenu } = Menu
+const { Option } = Select
 
 const { useState, useEffect } = React
 
@@ -32,6 +35,7 @@ const HeaderComponent = (props: IProps) => {
     const userFullname = useFullname()
     const avatar = useAvatar()
     const instance = useAPI()
+    const { t, i18n } = useTranslation()
 
     const { setSelectedKeys } = props
 
@@ -42,6 +46,10 @@ const HeaderComponent = (props: IProps) => {
         auth.signOut().then(() => {
             history.push('/')
         })
+    }
+
+    const onLocaleChange = (value) => {
+        i18n.changeLanguage(value)
     }
 
     const onClickSetting = () => {
@@ -62,7 +70,7 @@ const HeaderComponent = (props: IProps) => {
     }, [])
 
     const _notify = notify.map((item) => (
-        <Menu.Item key={item._id}>{item.title}</Menu.Item>
+        <StyledMenuItem key={item._id}>{item.title}</StyledMenuItem>
     ))
 
     const MenuIcon = (
@@ -72,12 +80,9 @@ const HeaderComponent = (props: IProps) => {
     )
 
     return (
-        <Menu
-            mode="horizontal"
-            style={{ display: 'flex', justifyContent: 'flex-end' }}
-        >
+        <StyledHeader mode="horizontal">
             <SubMenu key="notify" icon={MenuIcon} style={{ paddingTop: 5 }}>
-                <Menu.ItemGroup title="Thông báo của bạn">
+                <Menu.ItemGroup title={t('Your notification')}>
                     {_notify}
                 </Menu.ItemGroup>
             </SubMenu>
@@ -85,15 +90,37 @@ const HeaderComponent = (props: IProps) => {
                 key="profile"
                 icon={<Avatar src={avatar} icon={<UserOutlined />} />}
             >
-                <Menu.Item onClick={onClickSetting}>
+                <StyledMenuItem onClick={onClickSetting}>
                     <Link to={`/setting`}>{userFullname}</Link>
-                </Menu.Item>
+                </StyledMenuItem>
                 <Menu.Item danger>
-                    <a onClick={onSignOut}>Đăng xuất</a>
+                    <a onClick={onSignOut}>{t('Logout')}</a>
                 </Menu.Item>
             </SubMenu>
-        </Menu>
+            <Menu.Item danger>
+                <Select
+                    defaultValue="vi"
+                    size={'small'}
+                    onChange={onLocaleChange}
+                >
+                    <Option value="vi">VI</Option>
+                    <Option value="en">EN</Option>
+                </Select>
+            </Menu.Item>
+        </StyledHeader>
     )
 }
+
+const StyledHeader = styled(Menu)`
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    background-color: white;
+    align-items: center;
+`
+
+const StyledMenuItem = styled(Menu.Item)`
+    max-width: 300px;
+`
 
 export default HeaderComponent
