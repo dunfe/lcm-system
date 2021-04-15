@@ -1,5 +1,14 @@
 import * as React from 'react'
-import { Form, Input, Select, Button, message, InputNumber, Modal } from 'antd'
+import {
+    Form,
+    Input,
+    Select,
+    Button,
+    message,
+    InputNumber,
+    Modal,
+    Skeleton,
+} from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
@@ -10,6 +19,7 @@ interface IProps {
     setMode?: (state: string) => void
     selectedId?: string
     setSelectedKeys?: (state: string[]) => void
+    reloadQuestion?: (state: IQuestion) => void
 }
 
 interface IQuestion {
@@ -42,15 +52,18 @@ const AddQuestion = (props: IProps) => {
     const instance = useAPI()
     const [form] = useForm()
 
-    const { setSelectedKeys, selectedId, mode, setMode } = props
+    const { setSelectedKeys, selectedId, mode, setMode, reloadQuestion } = props
 
     const [skills, setSkills] = useState([])
     const [question, setQuestion] = useState<IQuestion>()
+    const [loading, setLoading] = useState(false)
+    const [addLoading, setAddLoading] = React.useState(false)
 
     const onFinish = (values: any) => {
+        setAddLoading(true)
         if (mode === 'add') {
             instance
-                .post('/api/users/questions', JSON.stringify(values))
+                .post('/api/users/questions', values)
                 .then((response) => {
                     if (response.status === 200) {
                         success({
@@ -64,22 +77,25 @@ const AddQuestion = (props: IProps) => {
                         })
                     }
                 })
+                .finally(() => setAddLoading(false))
                 .catch((error) => console.error(error))
         } else {
             instance
-                .put('/api/users/questions', JSON.stringify(values))
+                .put(`/api/users/questions/${selectedId}`, values)
                 .then((response) => {
                     if (response.status === 200) {
                         success({
                             content: t('Update successfully'),
                             afterClose: () => {
-                                if (setMode) {
+                                if (setMode && reloadQuestion) {
                                     setMode('detail')
+                                    reloadQuestion(response.data.data)
                                 }
                             },
                         })
                     }
                 })
+                .finally(() => setAddLoading(false))
                 .catch((error) => console.error(error))
         }
     }
@@ -91,6 +107,7 @@ const AddQuestion = (props: IProps) => {
     }, [question])
 
     useEffect(() => {
+        setLoading(true)
         if (selectedId) {
             instance
                 .get(`/api/users/questions/${selectedId}`)
@@ -99,8 +116,10 @@ const AddQuestion = (props: IProps) => {
                         setQuestion(response.data.data)
                     }
                 })
+                .finally(() => setLoading(false))
+                .catch((error) => console.error(error))
         }
-    }, [selectedId])
+    }, [selectedId, mode])
 
     useEffect(() => {
         const getSkills = () => {
@@ -133,47 +152,73 @@ const AddQuestion = (props: IProps) => {
     }, [])
 
     return (
-        <Form {...layout} name="question" onFinish={onFinish} form={form}>
-            <Form.Item
-                name={'title'}
-                label={t('Title')}
-                rules={[{ required: true }]}
-            >
-                <Input placeholder={t('Title')} />
-            </Form.Item>
-            <Form.Item
-                name={'content'}
-                label={t('Content')}
-                rules={[{ required: true }]}
-            >
-                <Input.TextArea placeholder={t('Content')} />
-            </Form.Item>
-            <Form.Item
-                name={'skill'}
-                label={t('Skill')}
-                rules={[
-                    { required: true, message: t('Please select the skill') },
-                ]}
-            >
-                <Select
-                    mode="tags"
-                    style={{ width: '100%' }}
-                    options={skills}
-                    placeholder={t('Skill')}
-                />
-            </Form.Item>
-            <Form.Item name={'point'} label={t('Point')} initialValue={0}>
-                <InputNumber
-                    placeholder={t('Point')}
-                    style={{ width: '20%' }}
-                />
-            </Form.Item>
-            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
-                <Button type="primary" htmlType="submit">
-                    {mode === 'add' ? t('Create') : t('Save')}
-                </Button>
-            </Form.Item>
-        </Form>
+        <>
+            {loading ? (
+                <Skeleton active={true} />
+            ) : (
+                <Form
+                    {...layout}
+                    name="question"
+                    onFinish={onFinish}
+                    form={form}
+                >
+                    <Form.Item
+                        name={'title'}
+                        label={t('Title')}
+                        rules={[{ required: true }]}
+                    >
+                        <Input placeholder={t('Title')} />
+                    </Form.Item>
+                    <Form.Item
+                        name={'content'}
+                        label={t('Content')}
+                        rules={[{ required: true }]}
+                    >
+                        <Input.TextArea placeholder={t('Content')} />
+                    </Form.Item>
+                    <Form.Item
+                        name={'skill'}
+                        label={t('Skill')}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('Please select the skill'),
+                            },
+                        ]}
+                    >
+                        <Select
+                            mode="tags"
+                            style={{ width: '100%' }}
+                            options={skills}
+                            placeholder={t('Skill')}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name={'point'}
+                        label={t('Point')}
+                        initialValue={0}
+                        rules={[{ required: true }]}
+                    >
+                        <InputNumber
+                            placeholder={t('Point')}
+                            style={{ width: '20%' }}
+                        />
+                    </Form.Item>
+                    <Form.Item name={'note'} label={t('Note')}>
+                        <Input placeholder={t('Note')} />
+                    </Form.Item>
+                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            loading={addLoading}
+                        >
+                            {mode === 'add' ? t('Create') : t('Save')}
+                        </Button>
+                    </Form.Item>
+                </Form>
+            )}
+        </>
     )
 }
 

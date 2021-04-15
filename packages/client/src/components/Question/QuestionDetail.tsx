@@ -72,6 +72,7 @@ const QuestionDetail = (props: IProps) => {
                     mode={'update'}
                     selectedId={selectedId}
                     setMode={setMode}
+                    reloadQuestion={setQuestion}
                 />
             )
         }
