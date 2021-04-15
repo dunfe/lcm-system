@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { Row, Col, Form, Input, Button, Upload, message, Radio } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { useAuth } from '../../utils/hooks/useAuth'
-import { useState } from 'react'
 import { useAPI } from '../../utils/hooks/useAPI'
+import { useToken } from '../../utils/hooks/useToken'
+import { useTranslation } from 'react-i18next'
+import { useUserInfo } from '../../utils/hooks/useUserInfo'
+import { useForm } from 'antd/es/form/Form'
 
 const layout = {
     labelCol: { span: 6 },
@@ -19,39 +21,44 @@ function getBase64(img, callback) {
     reader.readAsDataURL(img)
 }
 
-const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!')
-    }
-
-    return isJpgOrPng && isLt2M
-}
+const { useState, useEffect } = React
 
 const InfoSetting = () => {
-    const auth = useAuth()
     const instance = useAPI()
+    const token = useToken()
+    const { t } = useTranslation()
+    const [form] = useForm()
+    const user = useUserInfo()
 
     const [loading, setLoading] = useState(false)
-    const [fileList, setFileList] = useState([])
     const [imageUrl, setImgURL] = useState('')
 
     const uploadButton = (
         <div>
             {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
+            <div style={{ marginTop: 8 }}>{t('Upload')}</div>
         </div>
     )
+
+    const beforeUpload = (file) => {
+        const isJpgOrPng =
+            file.type === 'image/jpeg' || file.type === 'image/png'
+        if (!isJpgOrPng) {
+            message.error(t('You can only upload JPG/PNG file!'))
+        }
+        const isLt2M = file.size / 1024 / 1024 < 1
+        if (!isLt2M) {
+            message.error(t('Image must smaller than 1MB!'))
+        }
+
+        return isJpgOrPng && isLt2M
+    }
 
     const props = {
         name: 'avatar',
         action: 'https://livecoding.me/api/users/upload-file',
         headers: {
-            'Content-type': 'multipart/form-data',
+            Authorization: token!,
         },
         onChange(info) {
             if (info.file.status !== 'uploading') {
@@ -59,124 +66,101 @@ const InfoSetting = () => {
                 console.log(info.file, info.fileList)
             }
             if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`)
                 // Get this url from response in real world.
                 getBase64(info.file.originFileObj, (imageUrl) => {
                     setImgURL(imageUrl)
                     setLoading(false)
                 })
             } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`)
                 setLoading(false)
             }
         },
     }
 
     const onFinish = (values) => {
-        const formData = new FormData()
-        const { phone, gender, address, currentJob } = values
-        if (fileList.length > 0) {
-            formData.append('avatar', fileList[0])
-        }
-        formData.append('phone', phone)
-        formData.append('gender', gender)
-        formData.append('address', address)
-        formData.append('currentJob', currentJob)
-
+        const _values = delete values.email
         instance
-            .put('/api/users', formData)
+            .put('/api/users', _values)
             .then((response) => {
                 if (response.status === 200) {
-                    message.success('Cập nhật thành công!')
-                    setFileList([])
+                    message.success(t('Updated'))
+                    setImgURL('')
                 }
             })
             .catch((error) => console.error(error))
     }
 
+    useEffect(() => {
+        if (!user) {
+            return
+        }
+
+        if (user.role.toLowerCase() === 'mentee') {
+            form.setFieldsValue({
+                email: user.email,
+                phone: user.detail.phone,
+                gender: user.detail.gender,
+                address: user.detail.address,
+                currentJob: user.detail.currentJob,
+            })
+        } else {
+            form.setFieldsValue({
+                email: user.email,
+                phone: user.detail.phone,
+                gender: user.detail.gender,
+                address: user.detail.address,
+                currentJob: user.detail.currentJob,
+                achievement: user.detail.achievement,
+                skill: user.skill,
+                bio: user.bio,
+                github: user.github,
+            })
+        }
+    }, [user])
+
     return (
         <Row gutter={24}>
             <Col span={16}>
-                <Form {...layout} name="infosetting" onFinish={onFinish}>
-                    <Form.Item
-                        label="Email"
-                        name="email"
-                        initialValue={auth.user?.user.data.email}
-                    >
+                <Form
+                    {...layout}
+                    name="infoSetting"
+                    onFinish={onFinish}
+                    form={form}
+                >
+                    <Form.Item label={t('Email')} name="email">
                         <Input disabled={true} />
                     </Form.Item>
-                    <Form.Item
-                        label="Số điện thoại"
-                        name="phone"
-                        initialValue={auth.user?.user.data.detail.phone}
-                    >
+                    <Form.Item label={t('Phone Number')} name="phone">
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        label="Giới tính"
-                        name="gender"
-                        initialValue={
-                            auth.user?.user.data.detail.gender !== ''
-                                ? auth.user?.user.data.detail.gender.toLowerCase()
-                                : 'male'
-                        }
-                    >
+                    <Form.Item label={t('Gender')} name="gender">
                         <Radio.Group>
-                            <Radio value="male">Nam</Radio>
-                            <Radio value="female">Nữ</Radio>
+                            <Radio value="male">{t('Male')}</Radio>
+                            <Radio value="female">{t('Female')}</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item
-                        label="Địa chỉ"
-                        name="address"
-                        initialValue={auth.user?.user.data.detail.address}
-                    >
+                    <Form.Item label={t('Address')} name="address">
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        label="Công việc hiện tại"
-                        name="currentJob"
-                        initialValue={auth.user?.user.data.detail.currentJob}
-                    >
+                    <Form.Item label={t('Current Job')} name="currentJob">
                         <Input />
                     </Form.Item>
 
-                    {auth.user?.user.data.role === 'mentor' ? (
+                    {user?.role === 'mentor' ? (
                         <>
                             <Form.Item
-                                label="Thành tựu"
+                                label={t('Achievement')}
                                 name="achievement"
-                                initialValue={
-                                    auth.user?.user.data.detail.currentJob
-                                }
                             >
                                 <Input />
                             </Form.Item>
-                            <Form.Item
-                                label="Kỹ năng"
-                                name="skill"
-                                initialValue={
-                                    auth.user?.user.data.detail.currentJob
-                                }
-                            >
+                            <Form.Item label={t('Skill')} name="skill">
                                 <Input />
                             </Form.Item>
-                            <Form.Item
-                                label="Bio"
-                                name="bio"
-                                initialValue={
-                                    auth.user?.user.data.detail.currentJob
-                                }
-                            >
+                            <Form.Item label={t('Bio')} name="bio">
                                 <Input />
                             </Form.Item>
-                            <Form.Item
-                                label="Github"
-                                name="github"
-                                initialValue={
-                                    auth.user?.user.data.detail.currentJob
-                                }
-                            >
+                            <Form.Item label={t('Github')} name="github">
                                 <Input />
                             </Form.Item>
                         </>
@@ -184,13 +168,13 @@ const InfoSetting = () => {
 
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            Cập nhật
+                            {t('Update')}
                         </Button>
                     </Form.Item>
                 </Form>
             </Col>
             <Col span={8}>
-                <h3>Ảnh đại diện</h3>
+                <h3>{t('Avatar')}</h3>
                 <div style={{ paddingTop: 12 }}>
                     <Upload
                         {...props}

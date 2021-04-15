@@ -17,7 +17,7 @@ export const clickNotify = async (req, res) => {
     Notify.findByIdAndUpdate(req.params.id, {$set: {read: true}}, {new : true}, (err, doc) =>{
       if (!err) {
         return res.status(200).json({
-            status: 'Update success',
+            status: 'success',
             roomid : doc.content
         });
     } else {
