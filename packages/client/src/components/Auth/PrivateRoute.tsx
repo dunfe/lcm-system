@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom'
 import * as React from 'react'
 import { Spin } from 'antd'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 const StyledLoading = styled.div`
@@ -22,11 +23,12 @@ interface IProps {
 
 export const PrivateRoute = ({ children, ...rest }: IProps) => {
     const auth = useAuth()
+    const { t } = useTranslation()
 
     if (auth.loading) {
         return (
             <StyledLoading>
-                <Spin tip={'Authenticating...'} />
+                <Spin tip={t('Authenticating...')} />
             </StyledLoading>
         )
     }

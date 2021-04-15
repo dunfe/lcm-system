@@ -4,12 +4,14 @@ import styled from 'styled-components'
 import './SessionPage.css'
 import RCE from '../../components/Session/RCE'
 import VideoChat from '../../components/Session/VideoChat'
+import { useTranslation } from 'react-i18next'
 
 const { Sider, Content } = Layout
 const { TabPane } = Tabs
 
 const { useState } = React
 const SessionPage = () => {
+    const { t } = useTranslation()
     const [connected, setConnected] = useState(true)
 
     const handleDisconnect = () => {
@@ -32,12 +34,12 @@ const SessionPage = () => {
                 }}
             >
                 <Tabs defaultActiveKey="1">
-                    <TabPane tab="Real-time Collaborative Editor" key="1">
+                    <TabPane tab={t('Real-time Collaborative Editor')} key="1">
                         <TabContent>
                             <RCE />
                         </TabContent>
                     </TabPane>
-                    <TabPane tab="Video/Audio Call" key="2">
+                    <TabPane tab={t('Video/Audio Call')} key="2">
                         <TabContent>
                             <VideoChat />
                         </TabContent>
@@ -47,7 +49,7 @@ const SessionPage = () => {
             <Sider width={342} className={'session-sider'} theme={'light'}>
                 <Card
                     className={'session-time'}
-                    title="Session"
+                    title={t('Session')}
                     bordered={false}
                     style={{
                         width: 302,
@@ -57,14 +59,16 @@ const SessionPage = () => {
                     }}
                 >
                     {connected ? (
-                        <Button onClick={handleDisconnect}>Disconnect</Button>
+                        <Button onClick={handleDisconnect}>
+                            {t('Disconnect')}
+                        </Button>
                     ) : (
-                        <Button onClick={handleConnect}>Connect</Button>
+                        <Button onClick={handleConnect}>{t('Connect')}</Button>
                     )}
                 </Card>
                 <Card
                     className={'session-chat'}
-                    title="Trò chuyện"
+                    title={t('Chat')}
                     bordered={false}
                     style={{
                         width: 302,
@@ -73,7 +77,7 @@ const SessionPage = () => {
                         marginBottom: 20,
                     }}
                 >
-                    Chat
+                    {t('Chat')}
                 </Card>
             </Sider>
         </Layout>
