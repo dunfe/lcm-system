@@ -1,5 +1,16 @@
 import * as React from 'react'
-import { Row, Col, Form, Input, Button, Upload, message, Radio } from 'antd'
+import {
+    Row,
+    Col,
+    Form,
+    Input,
+    Button,
+    Upload,
+    message,
+    Radio,
+    Select,
+    InputNumber,
+} from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useToken } from '../../utils/hooks/useToken'
@@ -34,6 +45,7 @@ const InfoSetting = () => {
 
     const [loading, setLoading] = useState(false)
     const [imgURL, setImgURL] = useState('')
+    const [skills, setSkills] = useState()
 
     const uploadButton = (
         <div>
@@ -122,6 +134,36 @@ const InfoSetting = () => {
         }
     }, [user])
 
+    useEffect(() => {
+        setLoading(true)
+        const getSkills = () => {
+            instance
+                .get('/api/admin/skills', {
+                    method: 'get',
+                    headers: {
+                        Authorization:
+                            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwNTBhOGU4YTAxYzljMjdmMDNhZDk4NiIsInVzZXJuYW1lIjoiYWRtaW4xIn0sImlhdCI6MTYxNTg5OTc2MX0.GqyRhTl1HqKCsKrvEcX0PYI97AHKqep5021xmdJP_14',
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        const options = response.data.skill.map((item: any) => {
+                            return {
+                                label: item.name,
+                                value: item.name,
+                            }
+                        })
+                        if (options) {
+                            setSkills(options)
+                        }
+                    }
+                })
+                .finally(() => setLoading(false))
+                .catch((error) => message.error(error.message))
+        }
+        getSkills()
+    }, [])
+
     return (
         <Row gutter={24}>
             <Col span={16}>
@@ -131,11 +173,31 @@ const InfoSetting = () => {
                     onFinish={onFinish}
                     form={form}
                 >
-                    <Form.Item label={t('Email')} name="email">
+                    <Form.Item
+                        label={t('Email')}
+                        name="email"
+                        rules={[
+                            {
+                                pattern: new RegExp('/^.+@.+$/'),
+                                message: t('Please enter a valid email'),
+                            },
+                        ]}
+                    >
                         <Input disabled={true} />
                     </Form.Item>
-                    <Form.Item label={t('Phone Number')} name="phone">
-                        <Input />
+                    <Form.Item
+                        label={t('Phone Number')}
+                        name="phone"
+                        rules={[
+                            {
+                                pattern: new RegExp(
+                                    '/\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})/'
+                                ),
+                                message: t('Please enter a valid phone number'),
+                            },
+                        ]}
+                    >
+                        <InputNumber />
                     </Form.Item>
                     <Form.Item label={t('Gender')} name="gender">
                         <Radio.Group>
@@ -158,13 +220,29 @@ const InfoSetting = () => {
 
                     {user?.role === 'mentor' ? (
                         <>
-                            <Form.Item label={t('Skill')} name="skill">
-                                <Input />
+                            <Form.Item name={'skill'} label={t('Skill')}>
+                                <Select
+                                    mode="tags"
+                                    style={{ width: '100%' }}
+                                    options={skills}
+                                    placeholder={t('Skill')}
+                                />
                             </Form.Item>
                             <Form.Item label={t('Bio')} name="bio">
                                 <Input />
                             </Form.Item>
-                            <Form.Item label={t('Github')} name="github">
+                            <Form.Item
+                                label={t('Github')}
+                                name="github"
+                                rules={[
+                                    {
+                                        pattern: new RegExp(
+                                            'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)'
+                                        ),
+                                        message: t('Please enter a valid link'),
+                                    },
+                                ]}
+                            >
                                 <Input />
                             </Form.Item>
                         </>

@@ -261,6 +261,7 @@ export const editProfileUserById = async (req, res) => {
         skill: req.body.skill,
         bio: req.body.bio,
         github: req.body.github,
+        fullname: req.body.fullname
     }
     const update = {
         dob: req.body.dob,
@@ -270,7 +271,6 @@ export const editProfileUserById = async (req, res) => {
         address: req.body.address,
         currentJob: req.body.currentJob,
         achievement: req.body.achievement,
-        fullname: req.body.fullname
     };
     // const currentUser =  await User.findById(userId);
     // if(currentUser.detail.avatar == ''){

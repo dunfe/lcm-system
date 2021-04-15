@@ -56,7 +56,7 @@ const AddQuestion = (props: IProps) => {
 
     const [skills, setSkills] = useState([])
     const [question, setQuestion] = useState<IQuestion>()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [addLoading, setAddLoading] = React.useState(false)
 
     const onFinish = (values: any) => {
@@ -119,9 +119,14 @@ const AddQuestion = (props: IProps) => {
                 .finally(() => setLoading(false))
                 .catch((error) => console.error(error))
         }
-    }, [selectedId, mode])
+    }, [selectedId])
 
     useEffect(() => {
+        console.log(loading)
+    }, [loading])
+
+    useEffect(() => {
+        setLoading(true)
         const getSkills = () => {
             instance
                 .get('/api/admin/skills', {
@@ -144,6 +149,7 @@ const AddQuestion = (props: IProps) => {
                         }
                     }
                 })
+                .finally(() => setLoading(false))
                 .catch((error) => message.error(error.message))
         }
         getSkills()
@@ -165,7 +171,7 @@ const AddQuestion = (props: IProps) => {
                     <Form.Item
                         name={'title'}
                         label={t('Title')}
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, max: 50 }]}
                     >
                         <Input placeholder={t('Title')} />
                     </Form.Item>
