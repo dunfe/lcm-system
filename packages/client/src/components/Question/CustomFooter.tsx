@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 
 interface IProps {
+    mode: string
+    setMode: (state: string) => void
     selectedId: string
     handleCancel: () => void
 }
 
 const CustomFooter = (props: IProps) => {
-    const { selectedId, handleCancel } = props
+    const { selectedId, handleCancel, setMode, mode } = props
     const { t } = useTranslation()
     const instance = useAPI()
 
@@ -28,16 +30,29 @@ const CustomFooter = (props: IProps) => {
     }
 
     const onEdit = () => {
-        console.log('Edit')
+        setMode('edit')
     }
+
+    const onBack = () => {
+        setMode('detail')
+    }
+
     return (
         <>
-            <Button key="back" onClick={onDelete}>
-                {t('Delete')}
-            </Button>
-            <Button key="submit" type="primary" onClick={onEdit}>
-                {t('Edit')}
-            </Button>
+            {mode === 'detail' ? (
+                <>
+                    <Button key="delete" onClick={onDelete}>
+                        {t('Delete')}
+                    </Button>
+                    <Button key="submit" type="primary" onClick={onEdit}>
+                        {t('Edit')}
+                    </Button>
+                </>
+            ) : (
+                <Button key="back" onClick={onBack}>
+                    {t('Back')}
+                </Button>
+            )}
         </>
     )
 }

@@ -27,7 +27,10 @@ const MenteeContent = (props: IProps) => {
                         backgroundColor: 'white',
                     }}
                 >
-                    <AddQuestion setSelectedKeys={setSelectedKeys} />
+                    <AddQuestion
+                        mode={'add'}
+                        setSelectedKeys={setSelectedKeys}
+                    />
                 </div>
             </Route>
             <Route path={`/questions`}>

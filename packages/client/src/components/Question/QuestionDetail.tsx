@@ -4,6 +4,7 @@ import { useAPI } from '../../utils/hooks/useAPI'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import CustomFooter from './CustomFooter'
+import AddQuestion from '../../pages/Add/AddQuestion'
 
 interface IProps {
     selectedId: string
@@ -35,37 +36,11 @@ const QuestionDetail = (props: IProps) => {
 
     const [question, setQuestion] = useState<IQuestion>()
     const [loading, setLoading] = useState(false)
+    const [mode, setMode] = useState('detail')
 
-    useEffect(() => {
-        if (selectedId !== '') {
-            setLoading(true)
-            instance
-                .get(`api/users/questions/${selectedId}`)
-                .then((response) => {
-                    if (response.status === 200) {
-                        setQuestion(response.data.data)
-                    }
-                    setLoading(false)
-                })
-                .catch((error) => console.error(error))
-        }
-    }, [selectedId])
-    return (
-        <Modal
-            style={{ minWidth: 600 }}
-            title={question?.title}
-            visible={isModalVisible}
-            onCancel={handleCancel}
-            footer={
-                <CustomFooter
-                    selectedId={selectedId}
-                    handleCancel={handleCancel}
-                />
-            }
-        >
-            {loading ? (
-                <Skeleton active />
-            ) : (
+    const content = () => {
+        if (mode === 'detail') {
+            return (
                 <Descriptions
                     key={question?._id}
                     className={'matching-description'}
@@ -90,7 +65,49 @@ const QuestionDetail = (props: IProps) => {
                         {question?.content}
                     </Descriptions.Item>
                 </Descriptions>
-            )}
+            )
+        } else {
+            return (
+                <AddQuestion
+                    mode={'update'}
+                    selectedId={selectedId}
+                    setMode={setMode}
+                />
+            )
+        }
+    }
+
+    useEffect(() => {
+        if (selectedId !== '') {
+            setLoading(true)
+            instance
+                .get(`api/users/questions/${selectedId}`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setQuestion(response.data.data)
+                    }
+                    setLoading(false)
+                })
+                .catch((error) => console.error(error))
+        }
+    }, [selectedId])
+
+    return (
+        <Modal
+            style={{ minWidth: 600 }}
+            title={question?.title}
+            visible={isModalVisible}
+            onCancel={handleCancel}
+            footer={
+                <CustomFooter
+                    mode={mode}
+                    setMode={setMode}
+                    selectedId={selectedId}
+                    handleCancel={handleCancel}
+                />
+            }
+        >
+            {loading ? <Skeleton active /> : content()}
         </Modal>
     )
 }
