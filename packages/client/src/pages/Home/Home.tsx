@@ -16,7 +16,7 @@ const { Sider, Content, Footer } = Layout
 
 const { useState, useEffect } = React
 
-export function HomePage() {
+const HomePage = () => {
     //check login
     const role = useRole()
     const { path } = useRouteMatch()
@@ -121,3 +121,5 @@ export function HomePage() {
         </Layout>
     )
 }
+
+export default HomePage

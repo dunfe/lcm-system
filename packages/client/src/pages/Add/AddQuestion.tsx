@@ -8,11 +8,13 @@ import {
     InputNumber,
     Modal,
     Skeleton,
+    TimePicker,
 } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useForm } from 'antd/es/form/Form'
+import dayjs from 'dayjs'
 
 interface IProps {
     mode: string
@@ -61,9 +63,18 @@ const AddQuestion = (props: IProps) => {
 
     const onFinish = (values: any) => {
         setAddLoading(true)
+        const start = dayjs(values.time[0] || null).valueOf()
+        const end = dayjs(values.time[1] || null).valueOf()
+
+        const _values = {
+            ...values,
+            timeAvailableFrom: start,
+            timeAvailableTo: end,
+        }
+
         if (mode === 'add') {
             instance
-                .post('/api/users/questions', values)
+                .post('/api/users/questions', _values)
                 .then((response) => {
                     if (response.status === 200) {
                         success({
@@ -81,7 +92,7 @@ const AddQuestion = (props: IProps) => {
                 .catch((error) => console.error(error))
         } else {
             instance
-                .put(`/api/users/questions/${selectedId}`, values)
+                .put(`/api/users/questions/${selectedId}`, _values)
                 .then((response) => {
                     if (response.status === 200) {
                         success({
@@ -171,14 +182,27 @@ const AddQuestion = (props: IProps) => {
                     <Form.Item
                         name={'title'}
                         label={t('Title')}
-                        rules={[{ required: true, max: 50 }]}
+                        rules={[
+                            {
+                                required: true,
+                                max: 50,
+                                message: t(
+                                    'Title is require and title must less than 50 character'
+                                ),
+                            },
+                        ]}
                     >
                         <Input placeholder={t('Title')} />
                     </Form.Item>
                     <Form.Item
                         name={'content'}
                         label={t('Content')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('You must enter something'),
+                            },
+                        ]}
                     >
                         <Input.TextArea placeholder={t('Content')} />
                     </Form.Item>
@@ -200,14 +224,38 @@ const AddQuestion = (props: IProps) => {
                         />
                     </Form.Item>
                     <Form.Item
+                        name={'time'}
+                        label={t(t('Time Available'))}
+                        initialValue={[
+                            dayjs().startOf('day'),
+                            dayjs().endOf('day'),
+                        ]}
+                    >
+                        <TimePicker.RangePicker
+                            format={'HH:mm'}
+                            style={{ width: '15%' }}
+                        />
+                    </Form.Item>
+                    <Form.Item
                         name={'point'}
                         label={t('Point')}
                         initialValue={0}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('Please set at least 10 point'),
+                            },
+                            {
+                                type: 'number',
+                                min: 10,
+                                max: 1000,
+                                message: t('Point must be between 10 and 1000'),
+                            },
+                        ]}
                     >
                         <InputNumber
                             placeholder={t('Point')}
-                            style={{ width: '20%' }}
+                            style={{ width: '10%' }}
                         />
                     </Form.Item>
                     <Form.Item name={'note'} label={t('Note')}>

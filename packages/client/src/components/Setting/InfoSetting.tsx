@@ -112,9 +112,10 @@ const InfoSetting = () => {
 
         if (user.role.toLowerCase() === 'mentee') {
             form.setFieldsValue({
+                fullname: user.fullname,
                 email: user.email,
                 phone: user.detail.phone,
-                gender: user.detail.gender || 'male',
+                gender: user.detail.gender.toLowerCase() || 'male',
                 address: user.detail.address,
                 currentJob: user.detail.currentJob,
                 achievement: user.detail.achievement,
@@ -122,9 +123,10 @@ const InfoSetting = () => {
             })
         } else {
             form.setFieldsValue({
+                fullname: user.fullname,
                 email: user.email,
                 phone: user.detail.phone,
-                gender: user.detail.gender || 'male',
+                gender: user.detail.gender.toLowerCase() || 'male',
                 address: user.detail.address,
                 currentJob: user.detail.currentJob,
                 skill: user.skill,
@@ -173,16 +175,10 @@ const InfoSetting = () => {
                     onFinish={onFinish}
                     form={form}
                 >
-                    <Form.Item
-                        label={t('Email')}
-                        name="email"
-                        rules={[
-                            {
-                                pattern: new RegExp('/^.+@.+$/'),
-                                message: t('Please enter a valid email'),
-                            },
-                        ]}
-                    >
+                    <Form.Item label={t('Full name')} name="fullname">
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label={t('Email')} name="email">
                         <Input disabled={true} />
                     </Form.Item>
                     <Form.Item
@@ -191,13 +187,16 @@ const InfoSetting = () => {
                         rules={[
                             {
                                 pattern: new RegExp(
-                                    '/\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})/'
+                                    '(9|1[2|6|8|9])+([0-9]{8})\\b'
                                 ),
                                 message: t('Please enter a valid phone number'),
                             },
                         ]}
                     >
-                        <InputNumber />
+                        <InputNumber
+                            style={{ width: '50%' }}
+                            formatter={(value) => `0${value}`}
+                        />
                     </Form.Item>
                     <Form.Item label={t('Gender')} name="gender">
                         <Radio.Group>
