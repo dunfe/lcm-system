@@ -3,14 +3,15 @@ import './App.css'
 import { ProvideAuth } from '../utils/hooks/useAuth'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { PrivateRoute } from '../components/Auth/PrivateRoute'
-import { HomePage } from './Home/Home'
 import { NotFoundPage } from '../components/NotFoundPage'
 import LoginPage from './Login/LoginPage'
-import SessionPage from './Session/SessionPage'
 import { ConfigProvider } from 'antd'
 import viVN from 'antd/lib/locale/vi_VN'
 
-const { Suspense } = React
+const { Suspense, lazy } = React
+
+const HomePage = lazy(() => import('./Home/Home'))
+const SessionPage = lazy(() => import('./Session/SessionPage'))
 
 function App(): JSX.Element {
     return (
