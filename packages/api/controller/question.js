@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import Question from '../models/question.js';
 import User from '../models/user.js';
 import { useridFromToken } from '../controller/mentor.js'
+import question from '../models/question.js';
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -120,9 +121,15 @@ export const updateQuestionById = async (req, res, next) => {
         })
     }
 
-    let question = req.body;
+    const updateQuestion = {
+        title: req.body.title,
+        point: req.body.point,
+        skill: req.body.skill,
+        content: req.body.content,
+        note: req.body.note
+    }
 
-    Question.findByIdAndUpdate(req.params.id, { $set: question }, { new: true }, (err, doc) => {
+    Question.findByIdAndUpdate(req.params.id, { $set: updateQuestion }, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
                 status: 'success',
@@ -131,7 +138,7 @@ export const updateQuestionById = async (req, res, next) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later'
+                message: 'Something wrong, try again later11'
             })
         }
     });
