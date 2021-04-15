@@ -2,6 +2,7 @@ import { message } from 'antd'
 import axios from 'axios'
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import Cookies from 'js-cookie'
+
 interface IUser {
     user: {
         token: string
@@ -28,7 +29,6 @@ interface IUseAuthType {
     loading: boolean
     user: IUser | null
     signIn: (username: string, password: string) => Promise<boolean>
-
     signUp: (
         username: string,
         email: string,
@@ -121,6 +121,7 @@ function useProvideAuth(): IUseAuthType {
                 setLoading(true)
                 setUser(null)
                 Cookies.remove('user')
+                Cookies.remove('user', { path: '', domain: '.livecoding.me' })
             })
             .finally(() => setLoading(false))
     }
