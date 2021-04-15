@@ -1,13 +1,33 @@
 import * as React from 'react'
 import { Form, Input, Select, Button, message, InputNumber, Modal } from 'antd'
-import axios from 'axios'
-import { useAuth } from '../../utils/hooks/useAuth'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAPI } from '../../utils/hooks/useAPI'
+import { useForm } from 'antd/es/form/Form'
 
 interface IProps {
-    setSelectedKeys: (state: string[]) => void
+    mode: string
+    setMode?: (state: string) => void
+    selectedId?: string
+    setSelectedKeys?: (state: string[]) => void
 }
+
+interface IQuestion {
+    receivedBy: string[]
+    point: number
+    skill: string[]
+    timeAvailableFrom: number
+    timeAvailableTo: number
+    status: string
+    _id: string
+    title: string
+    menteeId: string
+    menteeName: string
+    content: string
+    createAt: string
+    __v: number
+}
+
 const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 18 },
@@ -17,39 +37,70 @@ const { useState, useEffect } = React
 const { success } = Modal
 
 const AddQuestion = (props: IProps) => {
-    const auth = useAuth()
     const history = useHistory()
     const { t } = useTranslation()
+    const instance = useAPI()
+    const [form] = useForm()
 
-    const { setSelectedKeys } = props
+    const { setSelectedKeys, selectedId, mode, setMode } = props
 
     const [skills, setSkills] = useState([])
-
-    const instance = axios.create({ baseURL: 'https://livecoding.me' })
+    const [question, setQuestion] = useState<IQuestion>()
 
     const onFinish = (values: any) => {
-        const config = {
-            headers: {
-                Authorization: auth.user?.user.token,
-                'Content-Type': 'application/json',
-            },
-            data: values,
+        if (mode === 'add') {
+            instance
+                .post('/api/users/questions', JSON.stringify(values))
+                .then((response) => {
+                    if (response.status === 200) {
+                        success({
+                            content: t('Add successfully'),
+                            afterClose: () => {
+                                history.push('/questions')
+                                if (setSelectedKeys) {
+                                    setSelectedKeys(['/questions'])
+                                }
+                            },
+                        })
+                    }
+                })
+                .catch((error) => console.error(error))
+        } else {
+            instance
+                .put('/api/users/questions', JSON.stringify(values))
+                .then((response) => {
+                    if (response.status === 200) {
+                        success({
+                            content: t('Update successfully'),
+                            afterClose: () => {
+                                if (setMode) {
+                                    setMode('detail')
+                                }
+                            },
+                        })
+                    }
+                })
+                .catch((error) => console.error(error))
         }
-        instance
-            .post('/api/users/questions', JSON.stringify(values), config)
-            .then((response) => {
-                if (response.status === 200) {
-                    success({
-                        content: t('Add successfully'),
-                        afterClose: () => {
-                            history.push('/questions')
-                            setSelectedKeys(['/questions'])
-                        },
-                    })
-                }
-            })
-            .catch((error) => console.error(error))
     }
+
+    useEffect(() => {
+        if (selectedId && question && mode === 'update') {
+            form.setFieldsValue(question)
+        }
+    }, [question])
+
+    useEffect(() => {
+        if (selectedId) {
+            instance
+                .get(`/api/users/questions/${selectedId}`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setQuestion(response.data.data)
+                    }
+                })
+        }
+    }, [selectedId])
 
     useEffect(() => {
         const getSkills = () => {
@@ -82,7 +133,7 @@ const AddQuestion = (props: IProps) => {
     }, [])
 
     return (
-        <Form {...layout} name="nest-messages" onFinish={onFinish}>
+        <Form {...layout} name="question" onFinish={onFinish} form={form}>
             <Form.Item
                 name={'title'}
                 label={t('Title')}
@@ -119,7 +170,7 @@ const AddQuestion = (props: IProps) => {
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
                 <Button type="primary" htmlType="submit">
-                    {t('Create')}
+                    {mode === 'add' ? t('Create') : t('Save')}
                 </Button>
             </Form.Item>
         </Form>
