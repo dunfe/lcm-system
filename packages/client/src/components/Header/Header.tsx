@@ -1,4 +1,4 @@
-import { Avatar, Badge, Menu, Select } from 'antd'
+import { Avatar, Badge, Menu, message, Select } from 'antd'
 import * as React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../../utils/hooks/useAuth'
@@ -49,7 +49,9 @@ const HeaderComponent = (props: IProps) => {
     }
 
     const onLocaleChange = (value) => {
-        i18n.changeLanguage(value)
+        i18n.changeLanguage(value).then(() => {
+            message.success(t(`Changed language to ${value}`))
+        })
     }
 
     const onClickSetting = () => {
