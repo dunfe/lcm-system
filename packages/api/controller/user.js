@@ -140,10 +140,10 @@ export const countAllRecord = async (req, res) => {
 
 export const changePassword = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        let userId = await useridFromToken(req, res);
         const salt = await bcrypt.genSalt(10);
         const newPasswordSalted = await bcrypt.hash(req.body.newPassword, salt);
-        const userPassword = await User.findByIdAndUpdate({ _id: id }, { password: newPasswordSalted }, { new: true });
+        const userPassword = await User.findByIdAndUpdate({ _id: userId }, { password: newPasswordSalted }, { new: true });
         return res.status(200).json({ status: true, data: userPassword });
     } catch (error) {
         return res.status(400).json({ status: false, error: error.message });
