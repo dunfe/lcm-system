@@ -3,28 +3,42 @@ import { Menu, Row, Col } from 'antd'
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
 import InfoSetting from './InfoSetting'
 import { useTranslation } from 'react-i18next'
+import SecuritySetting from './SecuritySetting'
 
+const { useState, useEffect } = React
 const Setting = () => {
     const { path, url } = useRouteMatch()
     const { t } = useTranslation()
+
+    const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+
+    const onSelect = ({ selectedKeys }: any) => {
+        setSelectedKeys(selectedKeys)
+    }
+
+    useEffect(() => {
+        setSelectedKeys([location.pathname])
+    }, [])
 
     return (
         <Row gutter={24} style={{ backgroundColor: 'white' }}>
             <Col span={6}>
                 <Menu
                     style={{ width: 256 }}
-                    defaultSelectedKeys={['1']}
+                    defaultSelectedKeys={[url]}
+                    selectedKeys={selectedKeys}
+                    onSelect={onSelect}
                     mode="inline"
                 >
-                    <Menu.Item key="1">
+                    <Menu.Item key={url}>
                         <Link to={`${url}`}>{t('Basic Information')}</Link>
                     </Menu.Item>
-                    <Menu.Item key="2">
+                    <Menu.Item key={`${url}/security`}>
                         <Link to={`${url}/security`}>
                             {t('Security Setting')}
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="3">
+                    <Menu.Item key={`${url}/notification`}>
                         <Link to={`${url}/notification`}>
                             {t('Notification Setting')}
                         </Link>
@@ -45,7 +59,7 @@ const Setting = () => {
                     </Route>
                     <Route path={`${path}/security`}>
                         <div style={{ padding: 24 }}>
-                            {t('Security Setting')}
+                            <SecuritySetting />
                         </div>
                     </Route>
                     <Route path={`${path}/notification`}>
