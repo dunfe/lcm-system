@@ -109,6 +109,8 @@ const Participant = (props: IProps) => {
             return () => {
                 videoTrack.detach()
             }
+        } else {
+            message.error(t(`Can't open the camera`))
         }
     }, [videoTracks])
 
@@ -119,6 +121,8 @@ const Participant = (props: IProps) => {
             return () => {
                 audioTrack.detach()
             }
+        } else {
+            message.error(t(`Can't open the audio device`))
         }
     }, [audioTracks])
 

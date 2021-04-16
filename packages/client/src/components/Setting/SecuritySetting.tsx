@@ -3,7 +3,6 @@ import { Form, Input, Button, message } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { passwordRule } from '../../utils/rules/passwordRule'
 import { useAPI } from '../../utils/hooks/useAPI'
-import { useUserId } from '../../utils/hooks/useUserId'
 
 const layout = {
     labelCol: { span: 4 },
@@ -16,14 +15,13 @@ const tailLayout = {
 const SecuritySetting = () => {
     const { t } = useTranslation()
     const instance = useAPI()
-    const id = useUserId()
 
     const onFinish = (values: any) => {
         const { newPassword } = values
 
         if (newPassword) {
             instance
-                .post(`/api/users/${id}/admin`)
+                .post(`/api/users/change-password`)
                 .then((response) => {
                     if (response.status === 200) {
                         message.success(t('Change Successfully'))
