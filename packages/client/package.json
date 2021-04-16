@@ -47,7 +47,6 @@
   },
   "proxy": "https://livecoding.me/",
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
