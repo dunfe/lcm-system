@@ -7,6 +7,7 @@ import './Matching.css'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import { useAPI } from '../../utils/hooks/useAPI'
+import { useTranslation } from 'react-i18next'
 
 interface IQuestion {
     receivedBy: string[]
@@ -43,6 +44,7 @@ dayjs.extend(LocalizedFormat)
 const Matching = () => {
     const auth = useAuth()
     const instance = useAPI()
+    const { t } = useTranslation()
 
     const [cards, setCards] = useState<JSX.Element[]>([])
     const [data, setData] = useState<IQuestion[]>([])
@@ -79,7 +81,7 @@ const Matching = () => {
                         .post(`/api/mentor/selectQuestion/${id}`)
                         .then((response) => {
                             if (response.status === 200) {
-                                message.success('Chọn câu hỏi thành công!')
+                                message.success(t('Selected this question'))
                             }
                         })
                         .catch((error) => console.error(error))
@@ -120,22 +122,22 @@ const Matching = () => {
                         className={'matching-description'}
                         bordered
                     >
-                        <Descriptions.Item label="Người hỏi" span={3}>
+                        <Descriptions.Item label={t('Mentee')} span={3}>
                             {item.menteeName}
                         </Descriptions.Item>
-                        <Descriptions.Item label="Point" span={3}>
+                        <Descriptions.Item label={t('Point')} span={3}>
                             {item.point}
                         </Descriptions.Item>
-                        <Descriptions.Item label="Kỹ năng" span={3}>
+                        <Descriptions.Item label={t('Skill')} span={3}>
                             {item.skill.join(',')}
                         </Descriptions.Item>
-                        <Descriptions.Item label="Trạng thái">
+                        <Descriptions.Item label={t('Status')}>
                             {item.status}
                         </Descriptions.Item>
-                        <Descriptions.Item label="Từ" span={2}>
+                        <Descriptions.Item label={t('From')} span={2}>
                             {dayjs(item.createAt).format('LLLL')}
                         </Descriptions.Item>
-                        <Descriptions.Item label="Nội dung">
+                        <Descriptions.Item label={t('Content')}>
                             {item.content}
                         </Descriptions.Item>
                     </Descriptions>
@@ -166,7 +168,7 @@ const Matching = () => {
             <div
                 style={{ backgroundColor: 'white', width: '100%', height: 200 }}
             >
-                <h1>Không tìm thấy câu hỏi phù hợp</h1>
+                <h1>{t('No matching question found')}</h1>
             </div>
         )
     } else {

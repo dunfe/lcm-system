@@ -261,15 +261,16 @@ export const editProfileUserById = async (req, res) => {
         skill: req.body.skill,
         bio: req.body.bio,
         github: req.body.github,
+        fullname: req.body.fullname
     }
     const update = {
-        dob : req.body.dob,
+        dob: req.body.dob,
         phone: req.body.phone,
         avatar: req.body.avatar,
         gender: req.body.gender,
         address: req.body.address,
         currentJob: req.body.currentJob,
-        achievement: req.body.achievement
+        achievement: req.body.achievement,
     };
     // const currentUser =  await User.findById(userId);
     // if(currentUser.detail.avatar == ''){
@@ -285,7 +286,7 @@ export const editProfileUserById = async (req, res) => {
 
     // console.log(currentUser.detail.avatar)
 
-    User.findOneAndUpdate({ _id: userId }, {detail: update, $set : info}, { new: true }, (err, doc) => {
+    User.findOneAndUpdate({ _id: userId }, { detail: update, $set: info }, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
                 status: 'success',
@@ -319,12 +320,12 @@ export const addFavoriteMentorById = async (req, res) => {
     let index;
     var favoriteMentor = [];
     const mentee = await User.findById(userId).then((mentee) => {
-            favoriteMentor = favoriteMentor.concat(mentee.favoriteMentor);
-            favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
+        favoriteMentor = favoriteMentor.concat(mentee.favoriteMentor);
+        favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
     })
-    let checkId=false;
-    if(favoriteMentor.length > 0 ){
-        for (var i=0; i < favoriteMentor.length; i++) {
+    let checkId = false;
+    if (favoriteMentor.length > 0) {
+        for (var i = 0; i < favoriteMentor.length; i++) {
             if (JSON.stringify(favoriteMentor[i].mentorId) === JSON.stringify(currentMentor._id)) {
                 checkId = true;
                 index = i;
@@ -405,7 +406,7 @@ export const viewListFavoriteMentor = async (req, res) => {
     }
 }
 
-export const countMentorFaverite = async (req,res) =>{
+export const countMentorFaverite = async (req, res) => {
     let userId = await useridFromToken(req, res);
     var favoriteMentor = [];
     const mentee = await User.find({ _id: userId }).then((mentee) => {
@@ -416,7 +417,7 @@ export const countMentorFaverite = async (req,res) =>{
     })
     return res.status(200).json({
         status: 'success',
-        count : favoriteMentor.length
+        count: favoriteMentor.length
     });
 }
 

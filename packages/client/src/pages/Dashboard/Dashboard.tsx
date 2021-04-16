@@ -3,31 +3,35 @@ import { Row, Col, Card, Table, message } from 'antd'
 import { useAuth } from '../../utils/hooks/useAuth'
 import axios from 'axios'
 import { IData } from '../Question/ListQuestion'
+import { useTranslation } from 'react-i18next'
 
 const { useEffect, useState } = React
 
-const columns = [
-    {
-        title: 'Tiêu đề',
-        dataIndex: 'title',
-        key: 'title',
-    },
-    {
-        title: 'Point',
-        dataIndex: 'point',
-        key: 'point',
-    },
-    {
-        title: 'Trạng thái',
-        dataIndex: 'status',
-        key: 'status',
-    },
-]
-
 const Dashboard = () => {
     const auth = useAuth()
+    const { t } = useTranslation()
 
     const [data, setData] = useState<IData[]>([])
+
+    const columns = [
+        {
+            title: t('Title'),
+            dataIndex: 'title',
+            key: 'title',
+            ellipsis: true,
+            width: 500,
+        },
+        {
+            title: t('Point'),
+            dataIndex: 'point',
+            key: 'point',
+        },
+        {
+            title: t('Status'),
+            dataIndex: 'status',
+            key: 'status',
+        },
+    ]
 
     const instance = axios.create({ baseURL: 'https://livecoding.me' })
 
@@ -52,23 +56,26 @@ const Dashboard = () => {
                 <Col span={18}>
                     <Row gutter={18}>
                         <Col span={8}>
-                            <Card title="Số dư" bordered={false}>
+                            <Card title={t('Balance')} bordered={false}>
                                 Card content
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="Câu hỏi tháng này" bordered={false}>
-                                Câu hỏi tháng này
+                            <Card
+                                title={t('This month questions')}
+                                bordered={false}
+                            >
+                                {t('This month questions')}
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="Số mentor yêu thích" bordered={false}>
+                            <Card title={t('Favorite Mentor')} bordered={false}>
                                 Số mentor yêu thích
                             </Card>
                         </Col>
                     </Row>
                     <Card
-                        title="Danh sách câu hỏi"
+                        title={t('Questions')}
                         bordered={false}
                         style={{ marginTop: 24, marginBottom: 24 }}
                     >
@@ -81,10 +88,12 @@ const Dashboard = () => {
                 </Col>
                 <Col span={6}>
                     <Card
-                        title="Hướng dẫn sử dụng"
+                        title={t('Guide')}
                         bordered={false}
                         style={{ height: '90vh' }}
-                    ></Card>
+                    >
+                        <h3>{t('Content')}</h3>
+                    </Card>
                 </Col>
             </Row>
         </div>
