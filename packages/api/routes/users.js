@@ -246,7 +246,7 @@ router.get('/logout', (req, res) => {
 })
 
 //password function
-router.post('/:id/admin', changePassword);
+router.post('/change-password', protect, changePassword);
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
 
