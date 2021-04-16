@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
-const StyledLoading = styled.div`
+export const StyledLoading = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
