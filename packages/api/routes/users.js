@@ -141,7 +141,6 @@ router.get('/google/redirect', (req, res, next) =>
                 achievement: user.detail.achievement
             }
         }
-        console.log(data)
         res.cookie('user', JSON.stringify({
             user: {
                 token,

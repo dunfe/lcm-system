@@ -63,11 +63,11 @@ async function (req, username, password, done) {
     try {
         const user = await User.findOne({'username': username});
       if (!user) {
-        return done(null, false, { message: 'User not found' });
+        return done(null, false, { message: 'Tài khoản chưa tồn tại' });
       }
       const checkPassword = await(user.validPassword(password));
       if (!checkPassword) {
-        return done(null, false, { message: 'Wrong Password' });
+        return done(null, false, { message: 'Sai mật khẩu' });
       }
       return done(null, user);
     } catch (error) {
@@ -98,7 +98,8 @@ passport.use(
                 const newUser = new User();
                 newUser.username = profile.id;
                 newUser.passportId = profile.id
-                newUser.password = profile.id;
+                newUser.password = "a23456A";
+                newUser.role = "mentee";
                 newUser.email = profile._json.email;
                 newUser.loginType = profile.provider;
                 newUser.fullname = profile.displayName;
@@ -119,7 +120,7 @@ passport.use(
         // options for google strategy
         clientID: process.env.clientFbID,
         clientSecret: process.env.clientFbSecret,
-        callbackURL: 'api/users/facebook/redirect',
+        callbackURL: "/api/users/facebook/redirect",
         profileFields: ['email','gender','locale','displayName']
     }, async (accessToken, refreshToken, profile, done) => {
         try {
@@ -129,13 +130,13 @@ passport.use(
                 console.log('user is: ', userEmail)
                 return done(null,userEmail);
             }else if(user){
-                //return done(null, false, {message : 'email đã được sử dụng để đăng kí, vui lòng chọn email khác'});
                 return done(null,user);
             }else{
                 const newUser = new User();
                 newUser.username = profile.id;
                 newUser.passportId = profile.id
-                newUser.password = profile.id;
+                newUser.password = 'a23456A';
+                newUser.role = 'mentee';
                 newUser.email = profile._json.email;
                 newUser.loginType = profile.provider;
                 newUser.fullname = profile.displayName;
@@ -172,7 +173,8 @@ passport.use(
                 const newUser = new User();
                 newUser.username = profile.id;
                 newUser.passportId = profile.id
-                newUser.password = profile.id;
+                newUser.password = "a23456A";
+                newUser.role = "mentee";
                 newUser.email = email;
                 newUser.loginType = profile.provider;
                 newUser.fullname = profile.username;

@@ -8,8 +8,9 @@ import app from '../app.js';
 
 chai.use(chaiHttp);
 let token;
-let questionId = '605f09125b066039dc5cebb7';
+let questionId = '606bc34ab1a5090030db1c5b';
 let mentorId = '60607790df75cf564cb83fd7'
+let roomID = '6076a444dedadf3118a1cef1';
 let wrongId = 'a'
 describe('User login successful', () => {
     
@@ -497,8 +498,7 @@ describe('About favourite mentor of mentee', () =>{
 describe('register mentor', () =>{
     before(async () => {
         const result = await chai
-          .request(app)
-          .post('/api/users/login')
+          .request(app).post('/api/users/login')
           .send({ username: 'mentee', password:'123456'});
         expect(result.status).to.equal(200);
         token = result.body.user.token;
@@ -508,13 +508,14 @@ describe('register mentor', () =>{
         chai.request(app).post(`/api/users/mentor/register`)
             .set('Authorization', token)
             .send({
-                title: 'About funtion Nodejs',
+                title: 'About funtion Nodejs1',
                 receivedBy: 'staff',
-                content: 'aaa',
-                skill: 'java',
-                bio: 'aaaa',
-                github: 'github.com/aaa',
-                currentJob: 'dev java of fpt',
+                content: 'bbb',
+                cv: 'https://res.cloudinary.com/lcm-system-fpt/image/upload/v1618299857/s5wfq7pde8lttigohkad.pdf',
+                skill: 'nodejs',
+                bio: 'aaaaaa',
+                github: 'github.com/aaaaa',
+                currentJob: 'dev java of fpt sw',
                 achievement: '3 năm kinh nghiệm',
             })
             .end((err,res) => {
@@ -755,7 +756,7 @@ describe('rate mentor', () =>{
       });
     
     it('Should return status success after rate mentor', function(done) {
-        chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
+        chai.request(app).post(`/api/users/mentor/rate/${roomID}`)
             .set('Authorization', token)
             .send({
                 star: 5,
@@ -768,7 +769,7 @@ describe('rate mentor', () =>{
     })
 
     it('Should return data request after rate mentor', function(done) {
-        chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
+        chai.request(app).post(`/api/users/mentor/rate/${roomID}`)
             .set('Authorization', token)
             .send({
                 star: 5,
@@ -781,7 +782,7 @@ describe('rate mentor', () =>{
     })
 
     it('Should return status fail of rate mentor without Authorization', function(done){
-        chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
+        chai.request(app).post(`/api/users/mentor/rate/${roomID}`)
             .end((err,res)=>{
             expect(res.body.status).to.equal('fail');
             done();
@@ -789,7 +790,7 @@ describe('rate mentor', () =>{
     })
 
     it('Should return massage fail of rate mentor without Authorization', function(done){
-        chai.request(app).post(`/api/users/mentor/rate/${mentorId}`)
+        chai.request(app).post(`/api/users/mentor/rate/${roomID}`)
             .end((err,res)=>{
             expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
             done();
