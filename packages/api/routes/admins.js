@@ -36,7 +36,7 @@ router.delete('/questions/:id', protect, restrictTo('admin'), delQuestionById);
 
 //Request
 // router.post("/requests", protect, restrictTo('admin'), createRequest);
-router.get("/requests", protect, restrictTo('admin'), getAllRequest(Request));
+router.get("/requests", protect, restrictTo('admin','staff'), getAllRequest(Request));
 router.get("/requests/:id", protect, restrictTo('admin'), getRequestById);
 
 //Report

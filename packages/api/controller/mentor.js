@@ -238,10 +238,12 @@ export const ratingMentor = async (req,res,next) =>{
             message: `Invalid id ${req.params.id}`
         })
     };
-    var userId = await useridFromToken(req,res);
+    let room = await colabRoom.findById(req.params.id);
+    let mentorId = room.mentorInfo._id;
+    let userId = await useridFromToken(req,res);
     let star = parseInt(req.body.star);
     const currentMentee = await User.findById(userId);
-    const currentMentor = await User.findById(req.params.id);
+    const currentMentor = await User.findById(mentorId);
     let totalRating1 = currentMentor.rate.totalRating1;
     let totalRating2 = currentMentor.rate.totalRating2;
     let totalRating3 = currentMentor.rate.totalRating3;
@@ -268,7 +270,7 @@ export const ratingMentor = async (req,res,next) =>{
         content : req.body.content,
         star : star
     }
-    User.findByIdAndUpdate(req.params.id,{ $set : {rate : rate}, $push : {reviews: reviews} },{new: true},(err, doc) => {
+    User.findByIdAndUpdate(mentorId,{ $set : {rate : rate}, $push : {reviews: reviews} },{new: true},(err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',
