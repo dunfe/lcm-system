@@ -120,8 +120,8 @@ passport.use(
         // options for google strategy
         clientID: process.env.clientFbID,
         clientSecret: process.env.clientFbSecret,
+        profileFields: ['email','gender','locale','displayName'],
         callbackURL: "/api/users/facebook/redirect",
-        profileFields: ['email','gender','locale','displayName']
     }, async (accessToken, refreshToken, profile, done) => {
         try {
             const user = await User.findOne({passportId: profile.id});
