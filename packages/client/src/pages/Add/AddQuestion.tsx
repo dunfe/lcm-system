@@ -233,7 +233,7 @@ const AddQuestion = (props: IProps) => {
                     >
                         <TimePicker.RangePicker
                             format={'HH:mm'}
-                            style={{ width: '15%' }}
+                            style={{ width: '20%' }}
                         />
                     </Form.Item>
                     <Form.Item
