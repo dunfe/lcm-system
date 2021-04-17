@@ -157,7 +157,7 @@ passport.use(
         // options for google strategy
         clientID: process.env.clientGhID,
         clientSecret: process.env.clientGhSecret,
-        callbackURL: '/api/users/github/redirect'
+        callbackURL: "/api/users/github/redirect"
     }, async (accessToken, refreshToken, profile, done) => {
         try {
             const email = profile.username+"@gmail.com";
