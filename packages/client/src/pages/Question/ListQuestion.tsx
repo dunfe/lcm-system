@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Tabs, Table, Skeleton } from 'antd'
+import { Tabs, Table, Skeleton, Space, Modal } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import QuestionDetail from '../../components/Question/QuestionDetail'
 import { useTranslation } from 'react-i18next'
@@ -55,7 +55,32 @@ const ListQuestion = () => {
             dataIndex: 'status',
             key: 'status',
         },
+        {
+            title: t('Action'),
+            key: 'action',
+            render(): JSX.Element {
+                return (
+                    <Space size="middle">
+                        <a onClick={() => showEdit()}>{t('Edit')}</a>
+                        <a>{t('Delete')}</a>
+                    </Space>
+                )
+            },
+        },
     ]
+
+    const showEdit = () => {
+        return (
+            <Modal
+                style={{ minWidth: 600 }}
+                title={'Test'}
+                visible={isModalVisible}
+                onCancel={handleCancel}
+            >
+                test
+            </Modal>
+        )
+    }
 
     const showModal = (id: string) => {
         setIsModalVisible(true)
@@ -88,7 +113,7 @@ const ListQuestion = () => {
         }
 
         loadData().then(() => setLoading(false))
-    }, [])
+    }, [isModalVisible])
 
     return (
         <>

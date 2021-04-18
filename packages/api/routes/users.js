@@ -141,7 +141,6 @@ router.get('/google/redirect', (req, res, next) =>
                 achievement: user.detail.achievement
             }
         }
-        console.log(data)
         res.cookie('user', JSON.stringify({
             user: {
                 token,
@@ -246,7 +245,7 @@ router.get('/logout', (req, res) => {
 })
 
 //password function
-router.post('/:id/admin', changePassword);
+router.post('/change-password', protect, changePassword);
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
 

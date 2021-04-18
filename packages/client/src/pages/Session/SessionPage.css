@@ -8,3 +8,6 @@
 .session-sider > .ant-layout-sider-children > .session-chat {
     flex: 1
 }
+.session-sider {
+    background-color: #f0f2f5;
+}

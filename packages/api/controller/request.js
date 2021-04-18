@@ -42,6 +42,7 @@ export const registerMentorRequest = async (req, res) => {
         cv: req.body.cv,
         createdAt: Date.now()
     });
+    console.log(request)
     User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
       if(!err) {
          
