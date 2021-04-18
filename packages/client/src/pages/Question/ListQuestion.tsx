@@ -6,8 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    getNew,
-    getOld,
+    get,
     selectNewQuestion,
     selectOldQuestion,
     selectQuestionsStatus,
@@ -121,8 +120,7 @@ const ListQuestion = () => {
 
     useEffect(() => {
         if (token) {
-            dispatch(getNew(token))
-            dispatch(getOld(token))
+            dispatch(get(token))
         }
     }, [isModalVisible])
 

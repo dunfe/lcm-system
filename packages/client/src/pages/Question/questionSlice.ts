@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { questions } from '../../utils/api/questions'
 
@@ -19,83 +19,85 @@ export interface IQuestion {
 }
 
 interface QuestionState {
-    new: IQuestion[]
-    old: IQuestion[]
+    all: IQuestion[]
     status: string
     error: string | undefined
 }
 
 const initialState: QuestionState = {
-    new: [],
-    old: [],
+    all: [],
     status: 'idle',
     error: undefined,
 }
 
-export const getNew = createAsyncThunk(
-    'questions/new',
-    async (token: string) => {
-        return questions.getNew(token)
+export const add = createAsyncThunk(
+    'questions/add',
+    async (token: string, post) => {
+        return questions.add(token, post)
     }
 )
 
-export const getOld = createAsyncThunk(
-    'questions/done',
-    async (token: string) => {
-        return questions.getDone(token)
-    }
-)
+export const get = createAsyncThunk('questions/get', async (token: string) => {
+    return questions.getNew(token)
+})
 
 export const questionSlice = createSlice({
-    name: 'question',
+    name: 'questions',
     initialState,
     reducers: {
-        // Use the PayloadAction type to declare the contents of `action.payload`
-        setNew: (state, action: PayloadAction<IQuestion[]>) => {
-            state.new = action.payload
-        },
-        setOld: (state, action: PayloadAction<IQuestion[]>) => {
-            state.old = action.payload
+        questionUpdated(state, action) {
+            const { id, question } = action.payload
+
+            state.all = state.all.map((item) => {
+                if (item._id !== id) {
+                    return item
+                }
+
+                return {
+                    ...item,
+                    ...question,
+                }
+            })
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(getNew.pending, (state) => {
+        builder.addCase(add.fulfilled, (state, action) => {
+            state.all.push(action.payload)
+        })
+
+        builder.addCase(get.pending, (state) => {
             state.status = 'loading'
         })
 
-        builder.addCase(getOld.pending, (state) => {
-            state.status = 'loading'
-        })
-
-        builder.addCase(getNew.fulfilled, (state, action) => {
-            state.new = action.payload
+        builder.addCase(get.fulfilled, (state, action) => {
+            state.all = action.payload
             state.status = 'succeeded'
         })
 
-        builder.addCase(getOld.fulfilled, (state, action) => {
-            state.old = action.payload
-            state.status = 'succeeded'
-        })
-
-        builder.addCase(getNew.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
-        })
-
-        builder.addCase(getOld.rejected, (state, action) => {
+        builder.addCase(get.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
         })
     },
 })
 
-export const { setNew, setOld } = questionSlice.actions
+export const { questionUpdated } = questionSlice.actions
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectNewQuestion = (state: RootState) => state.question.new
-export const selectOldQuestion = (state: RootState) => state.question.old
-export const selectQuestionsStatus = (state: RootState) => state.question.status
+export const selectNewQuestion = (state: RootState) => {
+    return state.questions.all.filter((question) => {
+        if (question.status === 'new' || question.status === 'doing') {
+            return question
+        }
+    })
+}
+export const selectOldQuestion = (state: RootState) => {
+    return state.questions.all.filter((question) => question.status === 'done')
+}
+export const selectQuestionsStatus = (state: RootState) =>
+    state.questions.status
+
+export const selectQuestionById = (state: RootState, questionId) => {
+    return state.questions.all.find((question) => question._id === questionId)
+}
 
 export default questionSlice.reducer

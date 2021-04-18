@@ -4,7 +4,7 @@ import questionReducer from '../pages/Question/questionSlice'
 
 export const store = configureStore({
     reducer: {
-        question: questionReducer,
+        questions: questionReducer,
         counter: counterReducer,
     },
 })
