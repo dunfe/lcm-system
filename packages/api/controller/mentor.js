@@ -109,7 +109,7 @@ export const selectQuestion = async (req,res) =>{
     // countReadFalse = readFalse.length;
     // socketio.emit("news",countReadFalse);
     var roomId = room._id;
-    Question.findByIdAndUpdate(req.params.id,{$set : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
+    Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',
