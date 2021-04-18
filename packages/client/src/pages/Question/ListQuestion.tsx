@@ -4,7 +4,14 @@ import { useAPI } from '../../utils/hooks/useAPI'
 import QuestionDetail from '../../components/Question/QuestionDetail'
 import { useTranslation } from 'react-i18next'
 import { DeleteOutlined } from '@ant-design/icons'
-import { IQuestion } from './questionSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+    getNew,
+    getOld,
+    selectNewQuestion,
+    selectOldQuestion,
+} from './questionSlice'
+import { useToken } from '../../utils/hooks/useToken'
 
 const { TabPane } = Tabs
 const { confirm } = Modal
@@ -14,9 +21,12 @@ const { useEffect, useState } = React
 const ListQuestion = () => {
     const instance = useAPI()
     const { t } = useTranslation()
+    const token = useToken()
 
-    const [newQuestion, setNewQuestion] = useState<IQuestion[]>([])
-    const [oldQuestion, setOldQuestion] = useState<IQuestion[]>([])
+    const newQuestion = useSelector(selectNewQuestion)
+    const oldQuestion = useSelector(selectOldQuestion)
+
+    const dispatch = useDispatch()
     const [selectedId, setSelectedId] = useState<string>('')
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -108,28 +118,17 @@ const ListQuestion = () => {
     }
 
     useEffect(() => {
-        const loadData = async () => {
-            await instance
-                .get('/api/users/questions/done')
-                .then((response) => {
-                    if (response.status === 200) {
-                        setOldQuestion(response.data.data.results)
-                    }
-                })
-                .catch((error) => console.error(error.message))
-
-            await instance
-                .get('/api/users/questions/new')
-                .then((response) => {
-                    if (response.status === 200) {
-                        setNewQuestion(response.data.data.results)
-                    }
-                })
-                .catch((error) => console.error(error.message))
+        if (token) {
+            dispatch(getNew(token))
+            dispatch(getOld(token))
         }
-
-        loadData().then(() => setLoading(false))
     }, [isModalVisible])
+
+    useEffect(() => {
+        if (oldQuestion && newQuestion) {
+            setLoading(false)
+        }
+    }, [oldQuestion, newQuestion])
 
     return (
         <>
