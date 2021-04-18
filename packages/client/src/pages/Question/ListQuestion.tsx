@@ -1,25 +1,13 @@
 import * as React from 'react'
-import { Tabs, Table, Skeleton, Space, Modal } from 'antd'
+import { Tabs, Table, Skeleton, Space, Modal, message } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import QuestionDetail from '../../components/Question/QuestionDetail'
 import { useTranslation } from 'react-i18next'
+import { DeleteOutlined } from '@ant-design/icons'
+import { IQuestion } from './questionSlice'
 
-export interface IData {
-    receivedBy: string[]
-    point: number
-    skill: string[]
-    time: number
-    status: string
-    _id: string
-    title: string
-    menteeId: string
-    menteeName: string
-    content: string
-    note: string
-    createAt: string
-    __v: number
-}
 const { TabPane } = Tabs
+const { confirm } = Modal
 
 const { useEffect, useState } = React
 
@@ -27,8 +15,8 @@ const ListQuestion = () => {
     const instance = useAPI()
     const { t } = useTranslation()
 
-    const [newQuestion, setNewQuestion] = useState<IData[]>([])
-    const [oldQuestion, setOldQuestion] = useState<IData[]>([])
+    const [newQuestion, setNewQuestion] = useState<IQuestion[]>([])
+    const [oldQuestion, setOldQuestion] = useState<IQuestion[]>([])
     const [selectedId, setSelectedId] = useState<string>('')
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -58,16 +46,44 @@ const ListQuestion = () => {
         {
             title: t('Action'),
             key: 'action',
-            render(): JSX.Element {
+            render(text, record): JSX.Element {
                 return (
                     <Space size="middle">
                         <a onClick={() => showEdit()}>{t('Edit')}</a>
-                        <a>{t('Delete')}</a>
+                        <a onClick={() => onDelete(record._id)}>
+                            {t('Delete')}
+                        </a>
                     </Space>
                 )
             },
         },
     ]
+
+    const onDelete = (id: string) => {
+        confirm({
+            title: t('Are you sure delete this question?'),
+            icon: <DeleteOutlined />,
+            okText: t('Yes'),
+            okType: 'danger',
+            cancelText: t('No'),
+            onOk() {
+                instance
+                    .delete(`/api/users/questions/${id}`)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            message.success(t('Delete successfully'))
+                        } else {
+                            message.error(response.data.message ?? t('Failed'))
+                        }
+                    })
+                    .then(() => handleCancel())
+                    .catch((error) => console.error(error))
+            },
+            onCancel() {
+                console.log('Cancel')
+            },
+        })
+    }
 
     const showEdit = () => {
         return (
