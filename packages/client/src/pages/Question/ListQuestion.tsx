@@ -10,6 +10,7 @@ import {
     getOld,
     selectNewQuestion,
     selectOldQuestion,
+    selectQuestionsStatus,
 } from './questionSlice'
 import { useToken } from '../../utils/hooks/useToken'
 
@@ -25,6 +26,7 @@ const ListQuestion = () => {
 
     const newQuestion = useSelector(selectNewQuestion)
     const oldQuestion = useSelector(selectOldQuestion)
+    const questionsStatus = useSelector(selectQuestionsStatus)
 
     const dispatch = useDispatch()
     const [selectedId, setSelectedId] = useState<string>('')
@@ -125,10 +127,12 @@ const ListQuestion = () => {
     }, [isModalVisible])
 
     useEffect(() => {
-        if (oldQuestion && newQuestion) {
+        if (questionsStatus === 'loading') {
+            setLoading(true)
+        } else {
             setLoading(false)
         }
-    }, [oldQuestion, newQuestion])
+    }, [questionsStatus])
 
     return (
         <>

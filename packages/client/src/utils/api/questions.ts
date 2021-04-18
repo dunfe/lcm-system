@@ -1,22 +1,34 @@
 import axios from 'axios'
 
+const instance = axios.create({ baseURL: 'https://livecoding.me' })
+
 export const questions = {
     getNew: (token: string) => {
-        axios
+        return instance
             .get('/api/users/questions/new', {
-                headers: token,
+                headers: {
+                    Authorization: token,
+                },
             })
-            .then((response) => response.data)
-            .then((result) => result.data.results)
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.data.data.results
+                }
+            })
             .catch((error) => console.error(error))
     },
     getDone: (token: string) => {
-        axios
+        return instance
             .get('/api/users/questions/done', {
-                headers: token,
+                headers: {
+                    Authorization: token,
+                },
             })
-            .then((response) => response.data)
-            .then((result) => result.data.results)
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.data.data.results
+                }
+            })
             .catch((error) => console.error(error))
     },
 }

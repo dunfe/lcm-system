@@ -22,36 +22,16 @@ interface QuestionState {
     new: IQuestion[]
     old: IQuestion[]
     status: string
-    error: string | null
+    error: string | undefined
 }
 
 const initialState: QuestionState = {
     new: [],
     old: [],
     status: 'idle',
-    error: null,
+    error: undefined,
 }
 
-export const questionSlice = createSlice({
-    name: 'question',
-    initialState,
-    reducers: {
-        // Use the PayloadAction type to declare the contents of `action.payload`
-        setNew: (state, action: PayloadAction<IQuestion[]>) => {
-            state.new = action.payload
-        },
-        setOld: (state, action: PayloadAction<IQuestion[]>) => {
-            state.old = action.payload
-        },
-    },
-})
-
-export const { setNew, setOld } = questionSlice.actions
-
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
 export const getNew = createAsyncThunk(
     'questions/new',
     async (token: string) => {
@@ -65,6 +45,51 @@ export const getOld = createAsyncThunk(
         return questions.getDone(token)
     }
 )
+
+export const questionSlice = createSlice({
+    name: 'question',
+    initialState,
+    reducers: {
+        // Use the PayloadAction type to declare the contents of `action.payload`
+        setNew: (state, action: PayloadAction<IQuestion[]>) => {
+            state.new = action.payload
+        },
+        setOld: (state, action: PayloadAction<IQuestion[]>) => {
+            state.old = action.payload
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getNew.pending, (state) => {
+            state.status = 'loading'
+        })
+
+        builder.addCase(getOld.pending, (state) => {
+            state.status = 'loading'
+        })
+
+        builder.addCase(getNew.fulfilled, (state, action) => {
+            state.new = action.payload
+            state.status = 'succeeded'
+        })
+
+        builder.addCase(getOld.fulfilled, (state, action) => {
+            state.old = action.payload
+            state.status = 'succeeded'
+        })
+
+        builder.addCase(getNew.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
+
+        builder.addCase(getOld.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
+    },
+})
+
+export const { setNew, setOld } = questionSlice.actions
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
