@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Tabs, Table, Skeleton, Space, Modal, message } from 'antd'
+import { Tabs, Table, Skeleton, Space, Modal, message, Tag } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import QuestionDetail from '../../components/Question/QuestionDetail'
 import { useTranslation } from 'react-i18next'
@@ -10,8 +10,10 @@ import {
     selectNewQuestion,
     selectOldQuestion,
     selectQuestionsStatus,
+    selectTotalQuestions,
 } from './questionSlice'
 import { useToken } from '../../utils/hooks/useToken'
+import { status } from '../../utils/status'
 
 const { TabPane } = Tabs
 const { confirm } = Modal
@@ -26,13 +28,22 @@ const ListQuestion = () => {
     const newQuestion = useSelector(selectNewQuestion)
     const oldQuestion = useSelector(selectOldQuestion)
     const questionsStatus = useSelector(selectQuestionsStatus)
+    const total = useSelector(selectTotalQuestions)
 
     const dispatch = useDispatch()
+    const [current, setCurrent] = useState(1)
     const [selectedId, setSelectedId] = useState<string>('')
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [loading, setLoading] = useState(true)
 
     const columns = [
+        {
+            title: t('No'),
+            width: '5%',
+            render(text, record, index) {
+                return (current - 1) * 10 + index + 1
+            },
+        },
         {
             title: t('Title'),
             dataIndex: 'title',
@@ -53,6 +64,17 @@ const ListQuestion = () => {
             title: t('Status'),
             dataIndex: 'status',
             key: 'status',
+            render: (text, record) => {
+                return status.map((item) => {
+                    if (item.value === record.status) {
+                        return (
+                            <Tag color={item.color} key={record._id}>
+                                {record.status.toUpperCase()}
+                            </Tag>
+                        )
+                    }
+                })
+            },
         },
         {
             title: t('Action'),
@@ -118,9 +140,16 @@ const ListQuestion = () => {
         setIsModalVisible(false)
     }
 
+    const onPageChange = (page) => {
+        setCurrent(page)
+        if (token) {
+            dispatch(get({ token, page }))
+        }
+    }
+
     useEffect(() => {
         if (token) {
-            dispatch(get(token))
+            dispatch(get({ token, page: 1 }))
         }
     }, [isModalVisible])
 
@@ -143,6 +172,11 @@ const ListQuestion = () => {
                             columns={columns}
                             dataSource={newQuestion}
                             rowKey={'_id'}
+                            pagination={{
+                                pageSize: 10,
+                                onChange: onPageChange,
+                                total: total,
+                            }}
                         />
                     )}
                 </TabPane>

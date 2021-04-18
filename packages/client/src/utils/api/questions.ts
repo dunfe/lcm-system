@@ -18,31 +18,31 @@ export const questions = {
             })
             .catch((error) => console.error(error))
     },
-    getNew: (token: string) => {
+    update: (token: string, id, post) => {
         return instance
-            .get('/api/users/questions/new', {
+            .put(`/api/users/questions/${id}`, post, {
                 headers: {
                     Authorization: token,
                 },
             })
             .then((response) => {
                 if (response.status === 200) {
-                    return response.data.data.results
+                    return response.data.data
                 }
                 throw new Error(response.data)
             })
             .catch((error) => console.error(error))
     },
-    getDone: (token: string) => {
+    get: (token: string, page: number) => {
         return instance
-            .get('/api/users/questions/done', {
+            .get(`/api/users/questions?page=${page}`, {
                 headers: {
                     Authorization: token,
                 },
             })
             .then((response) => {
                 if (response.status === 200) {
-                    return response.data.data.results
+                    return response.data.data
                 }
                 throw new Error(response.data)
             })
