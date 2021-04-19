@@ -7,6 +7,8 @@ import CustomFooter from './CustomFooter'
 import AddQuestion from '../../pages/Add/AddQuestion'
 
 interface IProps {
+    mode: string
+    setMode: (state: string) => void
     selectedId: string
     isModalVisible: boolean
     handleCancel: () => void
@@ -30,13 +32,12 @@ interface IQuestion {
 
 const { useState, useEffect } = React
 const QuestionDetail = (props: IProps) => {
-    const { selectedId, isModalVisible, handleCancel } = props
+    const { selectedId, isModalVisible, handleCancel, mode, setMode } = props
     const instance = useAPI()
     const { t } = useTranslation()
 
     const [question, setQuestion] = useState<IQuestion>()
     const [loading, setLoading] = useState(false)
-    const [mode, setMode] = useState('detail')
 
     const content = () => {
         if (mode === 'detail') {
@@ -95,17 +96,19 @@ const QuestionDetail = (props: IProps) => {
 
     return (
         <Modal
-            style={{ minWidth: 600 }}
+            style={{ minWidth: 700 }}
             title={question?.title}
             visible={isModalVisible}
             onCancel={handleCancel}
             footer={
-                <CustomFooter
-                    mode={mode}
-                    setMode={setMode}
-                    selectedId={selectedId}
-                    handleCancel={handleCancel}
-                />
+                question?.status === 'new' ? (
+                    <CustomFooter
+                        mode={mode}
+                        setMode={setMode}
+                        selectedId={selectedId}
+                        handleCancel={handleCancel}
+                    />
+                ) : null
             }
         >
             {loading ? <Skeleton active /> : content()}
