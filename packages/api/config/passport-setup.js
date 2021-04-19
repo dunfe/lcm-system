@@ -6,6 +6,8 @@ import LocalStrategy from 'passport-local'
 import FacebookStrategy from 'passport-facebook';
 import User from '../models/user.js';
 
+import validate from '../validator/user.validation.js';
+
 GoogleStrategy.Strategy;
 GithubStrategy.Strategy;
 LocalStrategy.Strategy;
@@ -62,14 +64,23 @@ passport.use('local-login', new LocalStrategy({
 },
 async function (req, username, password, done) { 
     try {
-        const user = await User.findOne({'username': username});
+        const lowerUsername = username.toString().toLowerCase();
+        const user = await User.findOne({'username': lowerUsername});
+        
+        if(!validate.isAlphaNumericOnly(lowerUsername)){
+            return done(null, false, { message: 'Username  only contains Alpha or numerical characters and must have atleast 6  characters' });
+        }
+
       if (!user) {
         return done(null, false, { message: 'Tài khoản chưa tồn tại' });
       }
+
       const checkPassword = await(user.validPassword(password));
+
       if (!checkPassword) {
         return done(null, false, { message: 'Sai mật khẩu' });
       }
+
       return done(null, user);
     } catch (error) {
         console.log(error);
