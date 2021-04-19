@@ -156,8 +156,8 @@ export const delQuestionById = async (req, res) => {
     Question.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'Delete question success',
-                data: doc
+                status: 'success',
+                message: 'Delete question success'
             });
         } else {
             return res.status(400).json({
