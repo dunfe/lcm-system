@@ -77,7 +77,7 @@ const HomePage = () => {
     }, [selectedKeys])
 
     return (
-        <Layout style={{ height: '100vh' }}>
+        <Layout>
             <Sider collapsible theme={'dark'}>
                 <LogoContainer className="logo">
                     <Logo />
@@ -102,7 +102,7 @@ const HomePage = () => {
                         subTitle={pageHeader.subtitle}
                     />
                 ) : null}
-                <Content style={{ margin: '24px 16px 0' }}>
+                <Content style={{ margin: '24px 16px 0', minHeight: 600 }}>
                     <Switch>
                         <>
                             {role === 'mentee' ? (

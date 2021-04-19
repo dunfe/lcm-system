@@ -1,22 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { questions } from '../../utils/api/questions'
-
-export interface IQuestion {
-    receivedBy: string[]
-    point: number
-    skill: string[]
-    time: number
-    status: string
-    _id: string
-    title: string
-    menteeId: string
-    menteeName: string
-    content: string
-    note: string
-    createAt: string
-    __v: number
-}
+import { IQuestion } from './questionSlice'
 
 export interface IUpdateQuestion {
     token: string
@@ -24,16 +9,25 @@ export interface IUpdateQuestion {
     question: any
 }
 
+export interface IEditModal {
+    visible: boolean
+    id: string
+}
+
 interface QuestionState {
     question: IQuestion | null
     status: string
     error: string | undefined
+    selectedQuestionId: string
+    editModalVisible: boolean
 }
 
 const initialState: QuestionState = {
     question: null,
     status: 'idle',
+    selectedQuestionId: '',
     error: undefined,
+    editModalVisible: false,
 }
 
 export const update = createAsyncThunk(
@@ -47,7 +41,14 @@ export const update = createAsyncThunk(
 export const updateQuestionSlice = createSlice({
     name: 'updateQuestion',
     initialState,
-    reducers: {},
+    reducers: {
+        showEditModal: (state, action) => {
+            const { visible, id } = action.payload
+
+            state.editModalVisible = visible
+            state.selectedQuestionId = id
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(update.fulfilled, (state, action) => {
             state.question = action.payload
@@ -66,7 +67,14 @@ export const updateQuestionSlice = createSlice({
     },
 })
 
+export const { showEditModal } = updateQuestionSlice.actions
+
 export const selectUpdateQuestionStatus = (state: RootState) =>
     state.updateQuestion.status
+export const selectEditModalVisible = (state: RootState) =>
+    state.updateQuestion.editModalVisible
+
+export const selectSelectedId = (state: RootState) =>
+    state.updateQuestion.selectedQuestionId
 
 export default updateQuestionSlice.reducer

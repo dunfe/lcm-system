@@ -123,7 +123,7 @@ const AddQuestion = (props: IProps) => {
     }
 
     useEffect(() => {
-        if (_skills) {
+        if (Array.isArray(_skills) && _skills.length > 0) {
             const data = _skills.map((item) => {
                 return {
                     label: item.name,
