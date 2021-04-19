@@ -232,7 +232,7 @@ export const viewPointOutTransactionUser = async (req, res) => {
     const results = {}
     let userId = await useridFromToken(req, res);
     let data, list, startIndex, endIndex, listUser =[];
-    data = await User.findById(userId,{pointInHistory: 1, currentPoint: 1}).then((user) => {
+    data = await User.findById(userId,{pointOutHistory: 1, currentPoint: 1}).then((user) => {
         results.currentPoint = user.currentPoint;
         listUser = listUser.concat(user.pointOutHistory);
         listUser = listUser.reverse();
