@@ -77,7 +77,7 @@ const HomePage = () => {
     }, [selectedKeys])
 
     return (
-        <Layout>
+        <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible theme={'dark'}>
                 <LogoContainer className="logo">
                     <Logo />
@@ -102,19 +102,15 @@ const HomePage = () => {
                         subTitle={pageHeader.subtitle}
                     />
                 ) : null}
-                <Content style={{ margin: '24px 16px 0', minHeight: 600 }}>
-                    <Switch>
-                        <>
-                            {role === 'mentee' ? (
-                                <MenteeContent
-                                    path={path}
-                                    setSelectedKeys={setSelectedKeys}
-                                />
-                            ) : (
-                                <MentorContent path={path} />
-                            )}
-                        </>
-                    </Switch>
+                <Content style={{ margin: '24px 16px 0' }}>
+                    {role === 'mentee' ? (
+                        <MenteeContent
+                            path={path}
+                            setSelectedKeys={setSelectedKeys}
+                        />
+                    ) : (
+                        <MentorContent path={path} />
+                    )}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>LCM ©2020</Footer>
             </Layout>
