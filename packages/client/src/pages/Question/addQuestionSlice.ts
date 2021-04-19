@@ -1,22 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { questions } from '../../utils/api/questions'
-
-export interface IQuestion {
-    receivedBy: string[]
-    point: number
-    skill: string[]
-    time: number
-    status: string
-    _id: string
-    title: string
-    menteeId: string
-    menteeName: string
-    content: string
-    note: string
-    createAt: string
-    __v: number
-}
+import { IQuestion } from './questionSlice'
 
 export interface IAddQuestion {
     token: string

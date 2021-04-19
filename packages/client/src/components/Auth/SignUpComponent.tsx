@@ -50,7 +50,7 @@ const SignUpComponent = () => {
             <Form.Item wrapperCol={{ span: 24 }} name="display_name">
                 <Input
                     width={'100%'}
-                    placeholder={t('Fullname')}
+                    placeholder={t('Full name')}
                     prefix={
                         <UserOutlined
                             className="site-form-item-icon"

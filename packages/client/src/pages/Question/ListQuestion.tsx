@@ -1,16 +1,19 @@
 import * as React from 'react'
-import { Tabs, Table, Skeleton, Space, Modal, message, Tag } from 'antd'
+import { Tabs, Table, Skeleton, Modal, message, Tag, Button } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import QuestionDetail from '../../components/Question/QuestionDetail'
 import { useTranslation } from 'react-i18next'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    get,
+    deleteQuestion,
+    getDone,
+    getNew,
     selectNewQuestion,
     selectOldQuestion,
     selectQuestionsStatus,
-    selectTotalQuestions,
+    selectTotalNewQuestion,
+    selectTotalOldQuestion,
 } from './questionSlice'
 import { useToken } from '../../utils/hooks/useToken'
 import { status } from '../../utils/status'
@@ -28,15 +31,18 @@ const ListQuestion = () => {
     const newQuestion = useSelector(selectNewQuestion)
     const oldQuestion = useSelector(selectOldQuestion)
     const questionsStatus = useSelector(selectQuestionsStatus)
-    const total = useSelector(selectTotalQuestions)
+    const totalNew = useSelector(selectTotalNewQuestion)
+    const totalDone = useSelector(selectTotalOldQuestion)
 
     const dispatch = useDispatch()
-    const [current, setCurrent] = useState(1)
+    const [currentNew, setCurrentNew] = useState(1)
+    const [currentDone, setCurrentDone] = useState(1)
     const [selectedId, setSelectedId] = useState<string>('')
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [mode, setMode] = useState('detail')
 
-    const columns = [
+    const columns = (current: number) => [
         {
             title: t('No'),
             width: '5%',
@@ -48,8 +54,8 @@ const ListQuestion = () => {
             title: t('Title'),
             dataIndex: 'title',
             key: 'title',
+            width: 500,
             ellipsis: true,
-            width: 800,
             render(text, record) {
                 return <a onClick={() => showModal(record._id)}>{text}</a>
             },
@@ -80,13 +86,28 @@ const ListQuestion = () => {
             title: t('Action'),
             key: 'action',
             render(text, record): JSX.Element {
+                const available = record.status === 'new'
                 return (
-                    <Space size="middle">
-                        <a onClick={() => showEdit()}>{t('Edit')}</a>
-                        <a onClick={() => onDelete(record._id)}>
+                    <div>
+                        <Button
+                            type="primary"
+                            disabled={!available}
+                            onClick={() => showEdit(record._id)}
+                        >
+                            {t('Edit')}
+                        </Button>
+                        <Button
+                            style={{
+                                marginLeft: 12,
+                            }}
+                            type="dashed"
+                            danger
+                            disabled={!available}
+                            onClick={() => onDelete(record._id)}
+                        >
                             {t('Delete')}
-                        </a>
-                    </Space>
+                        </Button>
+                    </div>
                 )
             },
         },
@@ -104,6 +125,7 @@ const ListQuestion = () => {
                     .delete(`/api/users/questions/${id}`)
                     .then((response) => {
                         if (response.status === 200) {
+                            dispatch(deleteQuestion(id))
                             message.success(t('Delete successfully'))
                         } else {
                             message.error(response.data.message ?? t('Failed'))
@@ -118,20 +140,14 @@ const ListQuestion = () => {
         })
     }
 
-    const showEdit = () => {
-        return (
-            <Modal
-                style={{ minWidth: 600 }}
-                title={'Test'}
-                visible={isModalVisible}
-                onCancel={handleCancel}
-            >
-                test
-            </Modal>
-        )
+    const showEdit = (id: string) => {
+        setMode('edit')
+        setIsModalVisible(true)
+        setSelectedId(id)
     }
 
     const showModal = (id: string) => {
+        setMode('detail')
         setIsModalVisible(true)
         setSelectedId(id)
     }
@@ -140,16 +156,24 @@ const ListQuestion = () => {
         setIsModalVisible(false)
     }
 
-    const onPageChange = (page) => {
-        setCurrent(page)
+    const onNewPageChange = (page) => {
+        setCurrentNew(page)
         if (token) {
-            dispatch(get({ token, page }))
+            dispatch(getNew({ token, page }))
+        }
+    }
+
+    const onDonePageChange = (page) => {
+        setCurrentDone(page)
+        if (token) {
+            dispatch(getDone({ token, page }))
         }
     }
 
     useEffect(() => {
-        if (token) {
-            dispatch(get({ token, page: 1 }))
+        if (!isModalVisible && token) {
+            dispatch(getNew({ token, page: 1 }))
+            dispatch(getDone({ token, page: 1 }))
         }
     }, [isModalVisible])
 
@@ -169,14 +193,14 @@ const ListQuestion = () => {
                         <Skeleton active={true} />
                     ) : (
                         <Table
-                            columns={columns}
+                            columns={columns(currentNew)}
                             dataSource={newQuestion}
                             rowKey={'_id'}
                             pagination={{
-                                current,
+                                current: currentNew,
                                 pageSize: 10,
-                                onChange: onPageChange,
-                                total: total,
+                                onChange: onNewPageChange,
+                                total: totalNew,
                             }}
                         />
                     )}
@@ -186,14 +210,22 @@ const ListQuestion = () => {
                         <Skeleton active={true} />
                     ) : (
                         <Table
-                            columns={columns}
+                            columns={columns(currentDone)}
                             dataSource={oldQuestion}
                             rowKey={'_id'}
+                            pagination={{
+                                current: currentDone,
+                                pageSize: 10,
+                                onChange: onDonePageChange,
+                                total: totalDone,
+                            }}
                         />
                     )}
                 </TabPane>
             </Tabs>
             <QuestionDetail
+                mode={mode}
+                setMode={setMode}
                 selectedId={selectedId}
                 isModalVisible={isModalVisible}
                 handleCancel={handleCancel}

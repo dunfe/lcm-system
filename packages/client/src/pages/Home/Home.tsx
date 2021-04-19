@@ -102,7 +102,7 @@ const HomePage = () => {
                         subTitle={pageHeader.subtitle}
                     />
                 ) : null}
-                <Content style={{ margin: '24px 16px 0' }}>
+                <Content style={{ margin: '24px 16px 0', minHeight: 600 }}>
                     <Switch>
                         <>
                             {role === 'mentee' ? (

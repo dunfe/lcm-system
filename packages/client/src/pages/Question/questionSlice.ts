@@ -25,7 +25,10 @@ interface IGetQuestion {
 
 interface QuestionState {
     all: IQuestion[]
-    current: number
+    newQuestion: IQuestion[]
+    doneQuestion: IQuestion[]
+    totalNew: number
+    totalDone: number
     total: number
     status: string
     error: string | undefined
@@ -33,7 +36,10 @@ interface QuestionState {
 
 const initialState: QuestionState = {
     all: [],
-    current: 1,
+    newQuestion: [],
+    doneQuestion: [],
+    totalNew: 0,
+    totalDone: 0,
     total: 0,
     status: 'idle',
     error: undefined,
@@ -47,18 +53,33 @@ export const get = createAsyncThunk(
     }
 )
 
+export const getNew = createAsyncThunk(
+    'questions/getnew',
+    async (payload: IGetQuestion) => {
+        const { token, page } = payload
+        return questions.getNew(token, page)
+    }
+)
+
+export const getDone = createAsyncThunk(
+    'questions/getdone',
+    async (payload: IGetQuestion) => {
+        const { token, page } = payload
+        return questions.getDone(token, page)
+    }
+)
+
 export const questionSlice = createSlice({
     name: 'questions',
     initialState,
     reducers: {
-        next: (state) => {
-            if (state.current < state.total) {
-                state.current += 1
-            }
-        },
-        prev: (state) => {
-            if (state.current > 1) {
-                state.current -= 1
+        deleteQuestion: (state, action) => {
+            const id = action.payload
+            if (id) {
+                state.newQuestion = state.newQuestion.filter(
+                    (item) => item._id !== id
+                )
+                state.totalNew = state.totalNew - 1
             }
         },
     },
@@ -69,7 +90,9 @@ export const questionSlice = createSlice({
 
         builder.addCase(get.fulfilled, (state, action) => {
             const { totalItem, results } = action.payload
-            state.all = results
+            if (results) {
+                state.all = results
+            }
             state.total = totalItem
             state.status = 'succeeded'
         })
@@ -78,20 +101,61 @@ export const questionSlice = createSlice({
             state.status = 'failed'
             state.error = action.error.message
         })
+
+        builder.addCase(getNew.pending, (state) => {
+            state.status = 'loading'
+        })
+
+        builder.addCase(getNew.fulfilled, (state, action) => {
+            const { totalItem, results } = action.payload
+            if (results) {
+                state.newQuestion = results
+            }
+            state.totalNew = totalItem
+            state.status = 'succeeded'
+        })
+
+        builder.addCase(getNew.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
+
+        builder.addCase(getDone.pending, (state) => {
+            state.status = 'loading'
+        })
+
+        builder.addCase(getDone.fulfilled, (state, action) => {
+            const { totalItem, results } = action.payload
+            if (results) {
+                state.doneQuestion = results
+            }
+            state.totalDone = totalItem
+            state.status = 'succeeded'
+        })
+
+        builder.addCase(getDone.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
     },
 })
 
-export const { next, prev } = questionSlice.actions
+export const { deleteQuestion } = questionSlice.actions
 
 export const selectNewQuestion = (state: RootState) => {
-    return state.questions.all.filter((question) => {
-        if (question.status === 'new' || question.status === 'doing') {
-            return question
-        }
-    })
+    return state.questions.newQuestion
 }
+
+export const selectTotalNewQuestion = (state: RootState) => {
+    return state.questions.totalNew
+}
+
 export const selectOldQuestion = (state: RootState) => {
-    return state.questions.all.filter((question) => question.status === 'done')
+    return state.questions.doneQuestion
+}
+
+export const selectTotalOldQuestion = (state: RootState) => {
+    return state.questions.totalDone
 }
 
 export const selectAllQuestion = (state: RootState) => {
@@ -102,9 +166,10 @@ export const selectQuestionsStatus = (state: RootState) =>
     state.questions.status
 
 export const selectTotalQuestions = (state: RootState) => state.questions.total
-
-export const selectCurrentQuestions = (state: RootState) =>
-    state.questions.current
+export const selectTotalNewQuestions = (state: RootState) =>
+    state.questions.totalNew
+export const selectTotalDoneQuestions = (state: RootState) =>
+    state.questions.totalDone
 
 export const selectQuestionById = (state: RootState, questionId) => {
     return state.questions.all.find((question) => question._id === questionId)
