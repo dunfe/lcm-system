@@ -4,7 +4,7 @@ import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
 import {createQuestion,viewListNewOrdoingQuestion, viewListDoneQuestion, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
 import {getAllSkills} from '../controller/skill.js';
-import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
+import {viewPointOutTransactionUser, viewPointInTransactionUser } from "../controller/staff.js";
 import {registerMentorRequest, uploadCVFile} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
 import { createReport, uploadImagesReport } from '../controller/report.js';
@@ -293,8 +293,8 @@ router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
 router.put('/',protect,restrictTo('mentee', 'mentor'),editProfileUserById);
 
 //vỉew history point transaction
-router.get('/pointIn/:id',protect,restrictTo('mentee', 'mentor'),viewPointInTransactionById);
-router.get('/pointOut/:id',protect,restrictTo('mentee', 'mentor'),viewPointOutTransactionById);
+router.get('/pointIn',protect,restrictTo('mentee', 'mentor'),viewPointInTransactionUser);
+router.get('/pointOut',protect,restrictTo('mentee', 'mentor'),viewPointOutTransactionUser);
 
 // get all skill for all role
 router.get('/skills',getAllSkills);

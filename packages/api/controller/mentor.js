@@ -24,17 +24,15 @@ export function getAllMentor(model) {
       if(page<1 || page > totalPage) page = 1;
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
-      if (endIndex < await model.countDocuments().exec()) {
+      if (endIndex < totalPage) {
         results.next = {
           page: page + 1,
-          limit: limit
         }
       }
 
       if (startIndex > 0) {
         results.previous = {
           page: page - 1,
-          limit: limit
         }
       }
       try {

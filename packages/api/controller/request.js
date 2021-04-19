@@ -128,7 +128,7 @@ export function getAllRequest(model) {
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
       
-      if (endIndex < await model.countDocuments().exec()) {
+      if (endIndex < data.length) {
         results.next = {
           page: page + 1,
           limit: limit
