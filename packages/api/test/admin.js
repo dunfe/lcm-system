@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 let token;
 const skillID = '6050ad2ff8cf812818f850a6';
 const delSkillId = '60538170470d552f44dabcd8';
-const menteeID = '606eb7be0cf11106a844578f';
+const menteeID = '605ac0808bab85394cab6a8e';
 const mentorID = '6050b3337a2015252ca6e8a0';
 const questionID = '606bc34ab1a5090030db1c5b';
 const requestID = '605f084eddd6a545245cbee2';
@@ -128,7 +128,7 @@ describe('Check Admin API', () => {
     it('Update mentee by id', function(done){
         chai.request(app).put(`/api/admin/users/${menteeID}`)
         .set('Authorization', token)
-        .send({ level: '1'})
+        .send({ fullname: 'dat',level: '1'})
         .end((err,res) => {
             expect(res.status).to.equal(200);
             expect(res.body.data.level).to.equal(1);

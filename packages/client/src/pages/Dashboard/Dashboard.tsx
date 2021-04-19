@@ -1,17 +1,16 @@
 import * as React from 'react'
 import { Row, Col, Card, Table, message } from 'antd'
-import { useAuth } from '../../utils/hooks/useAuth'
-import axios from 'axios'
-import { IData } from '../Question/ListQuestion'
 import { useTranslation } from 'react-i18next'
+import { useAPI } from '../../utils/hooks/useAPI'
+import { IQuestion } from '../Question/questionSlice'
 
 const { useEffect, useState } = React
 
 const Dashboard = () => {
-    const auth = useAuth()
     const { t } = useTranslation()
+    const instance = useAPI()
 
-    const [data, setData] = useState<IData[]>([])
+    const [data, setData] = useState<IQuestion[]>([])
 
     const columns = [
         {
@@ -33,15 +32,9 @@ const Dashboard = () => {
         },
     ]
 
-    const instance = axios.create({ baseURL: 'https://livecoding.me' })
-
     useEffect(() => {
         instance
-            .get('/api/users/questions', {
-                headers: {
-                    Authorization: auth.user?.user.token,
-                },
-            })
+            .get('/api/users/questions')
             .then((response) => {
                 if (response.status === 200) {
                     setData(response.data.data.results)

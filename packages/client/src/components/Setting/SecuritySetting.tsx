@@ -17,11 +17,11 @@ const SecuritySetting = () => {
     const instance = useAPI()
 
     const onFinish = (values: any) => {
-        const { newPassword } = values
+        const { password1 } = values
 
-        if (newPassword) {
+        if (password1) {
             instance
-                .post(`/api/users/change-password`)
+                .post(`/api/users/change-password`, { newPassword: password1 })
                 .then((response) => {
                     if (response.status === 200) {
                         message.success(t('Change Successfully'))
@@ -55,14 +55,14 @@ const SecuritySetting = () => {
 
             <Form.Item
                 label="New Password"
-                name="newPassword"
+                name="password1"
                 rules={passwordRule(t)}
             >
                 <Input.Password />
             </Form.Item>
 
             <Form.Item
-                name="confirm"
+                name="password2"
                 label="Confirm Password"
                 dependencies={['newPassword']}
                 hasFeedback
@@ -73,7 +73,10 @@ const SecuritySetting = () => {
                     },
                     ({ getFieldValue }) => ({
                         validator(_, value) {
-                            if (!value || getFieldValue('password') === value) {
+                            if (
+                                !value ||
+                                getFieldValue('password1') === value
+                            ) {
                                 return Promise.resolve()
                             }
                             return Promise.reject(

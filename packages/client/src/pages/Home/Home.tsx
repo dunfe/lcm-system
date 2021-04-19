@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Layout, notification } from 'antd'
 import HeaderComponent from '../../components/Header/Header'
-import { Switch, useRouteMatch } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
 import PageHeader from '../../components/Header/PageHeader'
 import MenteeContent from '../../components/Home/Content/MenteeContent'
 import MentorContent from '../../components/Home/Content/MentorContent'
@@ -77,7 +77,7 @@ const HomePage = () => {
     }, [selectedKeys])
 
     return (
-        <Layout style={{ height: '100vh' }}>
+        <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible theme={'dark'}>
                 <LogoContainer className="logo">
                     <Logo />
@@ -103,18 +103,14 @@ const HomePage = () => {
                     />
                 ) : null}
                 <Content style={{ margin: '24px 16px 0' }}>
-                    <Switch>
-                        <>
-                            {role === 'mentee' ? (
-                                <MenteeContent
-                                    path={path}
-                                    setSelectedKeys={setSelectedKeys}
-                                />
-                            ) : (
-                                <MentorContent path={path} />
-                            )}
-                        </>
-                    </Switch>
+                    {role === 'mentee' ? (
+                        <MenteeContent
+                            path={path}
+                            setSelectedKeys={setSelectedKeys}
+                        />
+                    ) : (
+                        <MentorContent path={path} />
+                    )}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>LCM ©2020</Footer>
             </Layout>
