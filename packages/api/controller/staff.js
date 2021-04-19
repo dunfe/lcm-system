@@ -5,6 +5,7 @@ import Mentor from '../models/mentor.js'
 import Report from '../models/report.js';
 import Rate from '../models/rateExchange.js';
 import dotenv from 'dotenv'
+import { useridFromToken } from '../controller/mentor.js';
 const router = express.Router();
 dotenv.config();
 const ObjectId = mongoose.Types.ObjectId;
@@ -184,6 +185,82 @@ export const viewPointInTransactionById = async (req, res) => {
             })
         };
     })
+}
+
+export const viewPointInTransactionUser = async (req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const results = {}
+    let userId = await useridFromToken(req, res);
+    let data, list, startIndex, endIndex, listUser =[];
+    data = await User.findById(userId,{pointInHistory: 1}).then((user) => {
+        listUser = listUser.concat(user.pointInHistory);
+        listUser = listUser.reverse();
+    })
+    const totalPage = Math.ceil(listUser.length / limit);
+    results.totalPage = totalPage;
+    results.totalItem = listUser.length;
+    if (page < 1 || page > totalPage) page = 1;
+    startIndex = (page - 1) * limit
+    endIndex = page * limit
+    // list = await User.findById(userId,{pointInHistory: 1}).sort({ createAt: 1 }).limit(limit).skip(startIndex).exec();
+    list = listUser.slice(startIndex, endIndex);
+    if (endIndex < totalPage) {
+        results.next = { page: page + 1 }
+    }
+    if (startIndex > 0) {
+        results.previous = { page: page - 1 }
+    }
+    try {
+        results.results = list;
+        return res.status(200).json({
+            status: 'success',
+            data: results
+        });
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
+}
+
+export const viewPointOutTransactionUser = async (req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const results = {}
+    let userId = await useridFromToken(req, res);
+    let data, list, startIndex, endIndex, listUser =[];
+    data = await User.findById(userId,{pointOutHistory: 1}).then((user) => {
+        listUser = listUser.concat(user.pointOutHistory);
+        listUser = listUser.reverse();
+    })
+    const totalPage = Math.ceil(listUser.length / limit);
+    results.totalPage = totalPage;
+    results.totalItem = listUser.length;
+    if (page < 1 || page > totalPage) page = 1;
+    startIndex = (page - 1) * limit
+    endIndex = page * limit
+    // list = await User.findById(userId,{pointInHistory: 1}).sort({ createAt: 1 }).limit(limit).skip(startIndex).exec();
+    list = listUser.slice(startIndex, endIndex);
+    if (endIndex < totalPage) {
+        results.next = { page: page + 1 }
+    }
+    if (startIndex > 0) {
+        results.previous = { page: page - 1 }
+    }
+    try {
+        results.results = list;
+        return res.status(200).json({
+            status: 'success',
+            data: results
+        });
+    } catch (e) {
+        return res.status(400).json({
+            status: 'fail',
+            message: e.message
+        })
+    }
 }
 
 export const viewPointOutTransactionById = async (req, res) => {
