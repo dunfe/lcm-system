@@ -11,6 +11,10 @@ export const passwordRule = (t) => {
             ),
         },
         {
+            pattern: new RegExp('^((?!\\s).)*$'),
+            message: t('The password must not contain whitespace'),
+        },
+        {
             pattern: new RegExp('(?=.*[A-Z])'),
             message: t(
                 'The password must contain at least 1 uppercase alphabetical character'
