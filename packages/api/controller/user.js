@@ -27,9 +27,9 @@ export function getAllMentee(model) {
         const data = await model.find({
             $or: [{ role: 'mentee' }, { role: 'banned' }]
         });
-        const totalPage = Math.ceil(data.length / limit);
-        results.totalPage = totalPage;
-        if (page < 1 || page > totalPage) page = 1;
+        const totalItem = Math.ceil(data.length / limit);
+        results.totalItem = totalItem;
+        if (page < 1 || page > totalItem) page = 1;
         const startIndex = (page - 1) * limit
         const endIndex = page * limit
         if (endIndex < data.length) {
@@ -380,9 +380,9 @@ export const viewListFavoriteMentor = async (req, res) => {
         }
     })
     let data = favoriteMentor;
-    const totalPage = Math.ceil(data.length / limit);
-    results.totalPage = totalPage;
-    if (page < 1 || page > totalPage) page = 1;
+    const totalItem = Math.ceil(data.length / limit);
+    results.totalItem = totalItem;
+    if (page < 1 || page > totalItem) page = 1;
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
     if (endIndex < data.length) {

@@ -13,9 +13,9 @@ export function getAllReport(model) {
       const limit = 6;
       const results = {}
       const data = await model.find();
-      const totalPage = Math.ceil(data.length/limit) ;
-      results.totalPage = totalPage;
-      if(page<1 || page > totalPage) page = 1;
+      const totalItem = Math.ceil(data.length/limit) ;
+      results.totalItem = totalItem;
+      if(page<1 || page > totalItem) page = 1;
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
       

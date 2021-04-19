@@ -38,9 +38,9 @@ export const getAllNotification = async (req, res) => {
     const data = await Notify.find({receivedById : userId});
     const readFalse = await Notify.find({receivedById : userId, read: false});
     countReadFalse = readFalse.length;
-    const totalPage = Math.ceil(data.length/limit) ;
-    results.totalPage = totalPage;
-    if(page<1 || page > totalPage) page = 1;
+    const totalItem = Math.ceil(data.length/limit) ;
+    results.totalItem = totalItem;
+    if(page<1 || page > totalItem) page = 1;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     // var socketio = io("ws://localhost:3007");
