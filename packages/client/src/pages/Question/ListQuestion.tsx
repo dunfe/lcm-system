@@ -173,6 +173,7 @@ const ListQuestion = () => {
                             dataSource={newQuestion}
                             rowKey={'_id'}
                             pagination={{
+                                current,
                                 pageSize: 10,
                                 onChange: onPageChange,
                                 total: total,

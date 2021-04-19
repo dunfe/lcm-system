@@ -68,9 +68,9 @@ export const questionSlice = createSlice({
         })
 
         builder.addCase(get.fulfilled, (state, action) => {
-            const { totalPage, results } = action.payload
+            const { totalItem, results } = action.payload
             state.all = results
-            state.total = totalPage
+            state.total = totalItem
             state.status = 'succeeded'
         })
 
