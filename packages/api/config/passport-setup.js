@@ -29,7 +29,8 @@ passport.use('register', new LocalStrategy({
     passReqToCallback : true
 },async function(req, username, password, done){
     try {
-        const user = await User.findOne({'username': username});
+        const lowerUsername = username.toString().toLowerCase();
+        const user = await User.findOne({'username': lowerUsername});
         const userEmail = await User.findOne({'email': req.body.email});
         if (user) {
             return done(null, false, {message : 'username đã được sử dụng, vui lòng chọn username khác'});
@@ -38,7 +39,7 @@ passport.use('register', new LocalStrategy({
         }else{
             const newUser = new User();
         // lưu thông tin cho tài khoản local
-            newUser.username = username;
+            newUser.username = lowerUsername;
             newUser.password = password;
             newUser.email = req.body.email;
             newUser.fullname = req.body.fullname;
