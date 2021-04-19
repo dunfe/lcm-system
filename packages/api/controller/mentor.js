@@ -20,6 +20,7 @@ export function getAllMentor(model) {
       const data = await model.find({role : 'mentor'});
       const totalPage = Math.ceil(data.length/limit) ;
       results.totalPage = totalPage;
+      results.totalItem = data.length;
       if(page<1 || page > totalPage) page = 1;
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
@@ -109,7 +110,7 @@ export const selectQuestion = async (req,res) =>{
     // countReadFalse = readFalse.length;
     // socketio.emit("news",countReadFalse);
     var roomId = room._id;
-    Question.findByIdAndUpdate(req.params.id,{$set : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
+    Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',

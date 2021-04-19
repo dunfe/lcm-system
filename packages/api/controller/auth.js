@@ -7,6 +7,7 @@ import { promisify } from 'util';
 
 import User from '../models/user.js';
 import sendEmail from '../utils/email.js';
+import { fail } from 'assert';
 // import { json } from 'body-parser';
 
 const router = express.Router();
@@ -31,27 +32,32 @@ export const forgotPassword =  async(req, res, next) => {
 
     // 3) Send it to email
     // const resetURL = `${req.protocal}://${req.get('host')}/api/users/reset-password/${resetToken}}`;
-    const resetURL = `localhost:3000/api/users/reset-password/${resetToken}}`;
-
-    const message = `Forgot your password? Submit a PATCH request with your new massword and password confirm to: ${resetURL}.\nIf you did not forget your password, please ignore this email!`;
+    const resetUrlAPI = `localhost:3000/api/users/reset-password/${resetToken}`;
+    const resetUrl = `https://livecoding.me/users/reset-password/${resetToken}`;
+    const message = `Forgot your password?\nSubmit a new password to: ${resetUrl}.\nIf you did not forget your password, please ignore this email!`;
 
     try {
         await sendEmail({
             email: user.email,
-            subject: 'Your password reset token (valid for only 10 mins)',
+            subject: '👩‍💻 Your password reset token (valid for only 10 mins) 👨‍💻',
             message
         });
     
         res.status(200).json({
             status: 'success',
-            message: 'Token sent to email!'
+            message: 'Token sent to email!',
+            resetUrlAPI: resetUrlAPI,
+            resetUrl: resetUrl
         });
     } catch (err) {
         user.passwordResetToken = undefined;
         user.passwordResetExpires = undefined;
         await user.save({ validateBeforeSave: false });
 
-        return res.status(500).send(err.message);
+        return res.status(500).json({
+            status: fail,
+            message: err.message
+        })
     }
     
 };
