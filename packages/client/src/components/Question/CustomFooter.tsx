@@ -18,6 +18,10 @@ const CustomFooter = (props: IProps) => {
     const { t } = useTranslation()
     const instance = useAPI()
 
+    const onEdit = () => {
+        setMode('edit')
+    }
+
     const onDelete = () => {
         confirm({
             title: t('Are you sure delete this question?'),
@@ -42,10 +46,6 @@ const CustomFooter = (props: IProps) => {
                 console.log('Cancel')
             },
         })
-    }
-
-    const onEdit = () => {
-        setMode('edit')
     }
 
     const onBack = () => {

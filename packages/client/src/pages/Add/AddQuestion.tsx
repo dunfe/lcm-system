@@ -4,7 +4,6 @@ import {
     Input,
     Select,
     Button,
-    message,
     InputNumber,
     Modal,
     Skeleton,
@@ -15,6 +14,13 @@ import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useForm } from 'antd/es/form/Form'
 import dayjs from 'dayjs'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectQuestionsStatus } from '../Question/questionSlice'
+import {
+    get,
+    selectAllSkills,
+    selectSkillsStatus,
+} from '../../features/skill/skillsSlice'
 
 interface IProps {
     mode: string
@@ -53,10 +59,15 @@ const AddQuestion = (props: IProps) => {
     const { t } = useTranslation()
     const instance = useAPI()
     const [form] = useForm()
+    const dispatch = useDispatch()
 
     const { setSelectedKeys, selectedId, mode, setMode, reloadQuestion } = props
 
-    const [skills, setSkills] = useState([])
+    const questionsStatus = useSelector(selectQuestionsStatus)
+    const _skills = useSelector(selectAllSkills)
+    const skillsStatus = useSelector(selectSkillsStatus)
+
+    const [skills, setSkills] = useState<{ label: string; value: string }[]>([])
     const [question, setQuestion] = useState<IQuestion>()
     const [loading, setLoading] = useState(true)
     const [addLoading, setAddLoading] = React.useState(false)
@@ -112,6 +123,34 @@ const AddQuestion = (props: IProps) => {
     }
 
     useEffect(() => {
+        if (Array.isArray(_skills) && _skills.length > 0) {
+            const data = _skills.map((item) => {
+                return {
+                    label: item.name,
+                    value: item.name,
+                }
+            })
+            setSkills(data)
+        }
+    }, [_skills])
+
+    useEffect(() => {
+        if (skillsStatus === 'loading') {
+            setLoading(true)
+        } else {
+            setLoading(false)
+        }
+    }, [skillsStatus])
+
+    useEffect(() => {
+        if (questionsStatus === 'loading') {
+            setAddLoading(true)
+        } else {
+            setAddLoading(false)
+        }
+    }, [questionsStatus])
+
+    useEffect(() => {
         if (selectedId && question && mode === 'update') {
             form.setFieldsValue(question)
         }
@@ -133,39 +172,7 @@ const AddQuestion = (props: IProps) => {
     }, [selectedId])
 
     useEffect(() => {
-        console.log(loading)
-    }, [loading])
-
-    useEffect(() => {
-        setLoading(true)
-        const getSkills = () => {
-            instance
-                .get('/api/admin/skills', {
-                    method: 'get',
-                    headers: {
-                        Authorization:
-                            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwNTBhOGU4YTAxYzljMjdmMDNhZDk4NiIsInVzZXJuYW1lIjoiYWRtaW4xIn0sImlhdCI6MTYxNTg5OTc2MX0.GqyRhTl1HqKCsKrvEcX0PYI97AHKqep5021xmdJP_14',
-                    },
-                })
-                .then((response) => {
-                    if (response.status === 200) {
-                        const options = response.data.skill.map((item: any) => {
-                            return {
-                                label: item.name,
-                                value: item.name,
-                            }
-                        })
-                        if (options) {
-                            setSkills(options)
-                        }
-                    }
-                })
-                .finally(() => setLoading(false))
-                .catch((error) => message.error(error.message))
-        }
-        getSkills()
-
-        return () => setSkills([])
+        dispatch(get())
     }, [])
 
     return (
@@ -233,7 +240,7 @@ const AddQuestion = (props: IProps) => {
                     >
                         <TimePicker.RangePicker
                             format={'HH:mm'}
-                            style={{ width: '15%' }}
+                            style={{ width: '20%' }}
                         />
                     </Form.Item>
                     <Form.Item
