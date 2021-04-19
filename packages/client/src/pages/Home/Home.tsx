@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Layout, notification } from 'antd'
 import HeaderComponent from '../../components/Header/Header'
-import { Switch, useRouteMatch } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
 import PageHeader from '../../components/Header/PageHeader'
 import MenteeContent from '../../components/Home/Content/MenteeContent'
 import MentorContent from '../../components/Home/Content/MentorContent'

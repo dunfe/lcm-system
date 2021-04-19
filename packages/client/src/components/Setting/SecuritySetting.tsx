@@ -21,7 +21,7 @@ const SecuritySetting = () => {
 
         if (newPassword) {
             instance
-                .post(`/api/users/change-password`)
+                .post(`/api/users/change-password`, newPassword)
                 .then((response) => {
                     if (response.status === 200) {
                         message.success(t('Change Successfully'))
@@ -73,7 +73,10 @@ const SecuritySetting = () => {
                     },
                     ({ getFieldValue }) => ({
                         validator(_, value) {
-                            if (!value || getFieldValue('password') === value) {
+                            if (
+                                !value ||
+                                getFieldValue('newPassword') === value
+                            ) {
                                 return Promise.resolve()
                             }
                             return Promise.reject(
