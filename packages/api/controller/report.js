@@ -20,7 +20,7 @@ export function getAllReport(model) {
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
       
-      if (endIndex < totalPage) {
+      if (endIndex < data.length) {
         results.next = {
           page: page + 1,
           limit: limit

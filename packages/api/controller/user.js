@@ -33,7 +33,7 @@ export function getAllMentee(model) {
         if (page < 1 || page > totalPage) page = 1;
         const startIndex = (page - 1) * limit
         const endIndex = page * limit
-        if (endIndex < totalPage) {
+        if (endIndex < data.length) {
             results.next = {
                 page: page + 1,
                 limit: limit
@@ -387,7 +387,7 @@ export const viewListFavoriteMentor = async (req, res) => {
     if (page < 1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
-    if (endIndex < totalPage) {
+    if (endIndex < data.length) {
         results.next = { page: page + 1 }
     }
     if (startIndex > 0) {

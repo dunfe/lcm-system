@@ -80,7 +80,7 @@ export const listRoom = async (req, res) => {
         endIndex = page * limit
         listRoom = await colabRoom.find({"menteeInfo._id" : userId}).sort({ createAt: 'descending' }).limit(limit).skip(startIndex).exec();
     }
-    if (endIndex < totalPage) {
+    if (endIndex < data.length) {
         results.next = { page: page + 1 }
     }
     if (startIndex > 0) {

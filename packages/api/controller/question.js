@@ -52,7 +52,7 @@ export const getAllQuestions = async ( req, res) => {
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
       
-    if (endIndex < totalPage) {
+    if (endIndex < data.length) {
         results.next = {
           page: page + 1,
           limit: limit
@@ -194,7 +194,7 @@ export const viewListNewOrdoingQuestion = async (req, res) => {
         endIndex = page * limit
         listQues = await Question.find({menteeId: userId, status : {$ne : "done"} }).sort({ status: -1, createdAt: 'ascending' }).limit(limit).skip(startIndex).exec();
     }
-    if (endIndex < totalPage) {
+    if (endIndex < data.length) {
         results.next = { page: page + 1 }
     }
     if (startIndex > 0) {
@@ -240,7 +240,7 @@ export const viewListDoneQuestion = async (req, res) => {
         endIndex = page * limit
         listQues = await Question.find({menteeId: userId, status : "done" }).sort({ createdAt: 'ascending' }).limit(limit).skip(startIndex).exec();
     }
-    if (endIndex < totalPage) {
+    if (endIndex < data.length) {
         results.next = { page: page + 1 }
     }
     if (startIndex > 0) {
@@ -279,7 +279,7 @@ export const viewListQuestionForMentor = async (req, res) => {
     if (page < 1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
-    if (endIndex < totalPage) {
+    if (endIndex < data.length) {
         results.next = { page: page + 1 }
     }
     if (startIndex > 0) {
@@ -326,7 +326,7 @@ export const viewListQuestionById = async (req, res) => {
         endIndex = page * limit
         listQues = await Question.find({menteeId: userId}).sort({ createdAt: 'ascending' }).limit(limit).skip(startIndex).sort().exec();
     }
-    if (endIndex < totalPage) {
+    if (endIndex < data.length) {
         results.next = { page: page + 1 }
     }
     if (startIndex > 0) {

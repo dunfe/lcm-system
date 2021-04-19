@@ -46,7 +46,7 @@ export const getAllNotification = async (req, res) => {
     const endIndex = page * limit;
     // var socketio = io("ws://localhost:3007");
     // socketio.emit("news", 5);
-    if (endIndex < totalPage) {
+    if (endIndex < data.length) {
       results.next = {
         page: page + 1
       }

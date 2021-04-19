@@ -206,7 +206,7 @@ export const viewPointInTransactionUser = async (req, res) => {
     endIndex = page * limit
     // list = await User.findById(userId,{pointInHistory: 1}).sort({ createAt: 1 }).limit(limit).skip(startIndex).exec();
     list = listUser.slice(startIndex, endIndex);
-    if (endIndex < totalPage) {
+    if (endIndex < listUser.length) {
         results.next = { page: page + 1 }
     }
     if (startIndex > 0) {
@@ -245,7 +245,7 @@ export const viewPointOutTransactionUser = async (req, res) => {
     endIndex = page * limit
     // list = await User.findById(userId,{pointInHistory: 1}).sort({ createAt: 1 }).limit(limit).skip(startIndex).exec();
     list = listUser.slice(startIndex, endIndex);
-    if (endIndex < totalPage) {
+    if (endIndex < listUser.length) {
         results.next = { page: page + 1 }
     }
     if (startIndex > 0) {
