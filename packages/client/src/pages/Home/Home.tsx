@@ -77,7 +77,7 @@ const HomePage = () => {
     }, [selectedKeys])
 
     return (
-        <Layout style={{ height: '100vh' }}>
+        <Layout>
             <Sider collapsible theme={'dark'}>
                 <LogoContainer className="logo">
                     <Logo />

@@ -97,6 +97,7 @@ export const selectOldQuestion = (state: RootState) => {
 export const selectAllQuestion = (state: RootState) => {
     return state.questions.all
 }
+
 export const selectQuestionsStatus = (state: RootState) =>
     state.questions.status
 
