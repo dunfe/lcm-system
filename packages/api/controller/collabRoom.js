@@ -63,17 +63,19 @@ export const listRoom = async (req, res) => {
     let data, listRoom, startIndex, endIndex;
     if(CurrUser.role == 'mentor'){
         data = await colabRoom.find({"mentorInfo._id" : userId});
-        const totalItem = Math.ceil(data.length / limit);
-        results.totalItem = totalItem;
-        if (page < 1 || page > totalItem) page = 1;
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if (page < 1 || page > totalPage) page = 1;
         startIndex = (page - 1) * limit
         endIndex = page * limit
         listRoom = await colabRoom.find({"mentorInfo._id" : userId}).sort({ createAt: 'descending' }).limit(limit).skip(startIndex).exec();
     }else if(CurrUser.role == 'mentee'){
         data = await colabRoom.find({"mentorInfo._id" : userId});
-        const totalItem = Math.ceil(data.length / limit);
-        results.totalItem = totalItem;
-        if (page < 1 || page > totalItem) page = 1;
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if (page < 1 || page > totalPage) page = 1;
         startIndex = (page - 1) * limit
         endIndex = page * limit
         listRoom = await colabRoom.find({"menteeInfo._id" : userId}).sort({ createAt: 'descending' }).limit(limit).skip(startIndex).exec();

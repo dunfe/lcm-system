@@ -18,9 +18,10 @@ export function getAllMentor(model) {
       const limit = 50;
       const results = {}
       const data = await model.find({role : 'mentor'});
-      const totalItem = Math.ceil(data.length/limit) ;
-      results.totalItem = totalItem;
-      if(page<1 || page > totalItem) page = 1;
+      const totalPage = Math.ceil(data.length/limit) ;
+      results.totalPage = totalPage;
+      results.totalItem = data.length;
+      if(page<1 || page > totalPage) page = 1;
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
       if (endIndex < await model.countDocuments().exec()) {

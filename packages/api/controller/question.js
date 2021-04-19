@@ -45,9 +45,10 @@ export const getAllQuestions = async ( req, res) => {
     const limit = 50;
     const results = {}
     const data = await Question.find();
-    const totalItem = Math.ceil(data.length/limit) ;
-    results.totalItem = totalItem;
-    if(page<1 || page > totalItem) page = 1;
+    const totalPage = Math.ceil(data.length/limit) ;
+    results.totalPage = totalPage;
+    results.totalItem = data.length;
+    if(page<1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
       
@@ -176,17 +177,19 @@ export const viewListNewOrdoingQuestion = async (req, res) => {
     let data, listQues, startIndex, endIndex;
     if(CurrUser.role == 'mentor'){
         data = await Question.find({receivedBy: userId, status : "doing" });
-        const totalItem = Math.ceil(data.length / limit);
-        results.totalItem = totalItem;
-        if (page < 1 || page > totalItem) page = 1;
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if (page < 1 || page > totalPage) page = 1;
         startIndex = (page - 1) * limit
         endIndex = page * limit
         listQues = await Question.find({receivedBy: userId, status : "doing" }).sort({ point: 'descending' }).limit(limit).skip(startIndex).exec();
     }else if(CurrUser.role == 'mentee'){
         data = await Question.find({menteeId: userId, status : {$ne : "done"} });
-        const totalItem = Math.ceil(data.length / limit);
-        results.totalItem = totalItem;
-        if (page < 1 || page > totalItem) page = 1;
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if (page < 1 || page > totalPage) page = 1;
         startIndex = (page - 1) * limit
         endIndex = page * limit
         listQues = await Question.find({menteeId: userId, status : {$ne : "done"} }).sort({ status: -1, createdAt: 'ascending' }).limit(limit).skip(startIndex).exec();
@@ -220,17 +223,19 @@ export const viewListDoneQuestion = async (req, res) => {
     let data, listQues, startIndex, endIndex;
     if(CurrUser.role == 'mentor'){
         data = await Question.find({receivedBy: userId, status : "done" });
-        const totalItem = Math.ceil(data.length / limit);
-        results.totalItem = totalItem;
-        if (page < 1 || page > totalItem) page = 1;
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if (page < 1 || page > totalPage) page = 1;
         startIndex = (page - 1) * limit
         endIndex = page * limit
         listQues = await Question.find({receivedBy: userId, status : "done" }).sort({ point: 'descending' }).limit(limit).skip(startIndex).exec();
     }else if(CurrUser.role == 'mentee'){
         data = await Question.find({menteeId: userId, status : "done" });
-        const totalItem = Math.ceil(data.length / limit);
-        results.totalItem = totalItem;
-        if (page < 1 || page > totalItem) page = 1;
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if (page < 1 || page > totalPage) page = 1;
         startIndex = (page - 1) * limit
         endIndex = page * limit
         listQues = await Question.find({menteeId: userId, status : "done" }).sort({ createdAt: 'ascending' }).limit(limit).skip(startIndex).exec();
@@ -268,9 +273,10 @@ export const viewListQuestionForMentor = async (req, res) => {
         }
     })
     const data = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId }, status: "new" });
-    const totalItem = Math.ceil(data.length / limit);
-    results.totalItem = totalItem;
-    if (page < 1 || page > totalItem) page = 1;
+    const totalPage = Math.ceil(data.length / limit);
+    results.totalPage = totalPage;
+    results.totalItem = data.length;
+    if (page < 1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
     if (endIndex < data.length) {
@@ -303,17 +309,19 @@ export const viewListQuestionById = async (req, res) => {
     let data, listQues, startIndex, endIndex;
     if(CurrUser.role == 'mentor'){
         data = await Question.find({receivedBy: userId});
-        const totalItem = Math.ceil(data.length / limit);
-        results.totalItem = totalItem;
-        if (page < 1 || page > totalItem) page = 1;
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if (page < 1 || page > totalPage) page = 1;
         startIndex = (page - 1) * limit
         endIndex = page * limit
         listQues = await Question.find({receivedBy: userId}).sort({ point: 'descending' }).limit(limit).skip(startIndex).exec();
     }else if(CurrUser.role == 'mentee'){
         data = await Question.find({menteeId: userId});
-        const totalItem = Math.ceil(data.length / limit);
-        results.totalItem = totalItem;
-        if (page < 1 || page > totalItem) page = 1;
+        const totalPage = Math.ceil(data.length / limit);
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if (page < 1 || page > totalPage) page = 1;
         startIndex = (page - 1) * limit
         endIndex = page * limit
         listQues = await Question.find({menteeId: userId}).sort({ createdAt: 'ascending' }).limit(limit).skip(startIndex).sort().exec();
