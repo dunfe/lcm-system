@@ -150,6 +150,9 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+userSchema.path('username').validate(function (input){
+    return validate.isAlphaNumericOnly(input) && validate.isLongEnough(input);
+}, "Username  only contains Alpha or numerical characters and must have atleast 6  characters")
 userSchema.path('password').validate(function (input){
     return validate.isGoodPassword(input) && validate.isLongEnough(input);
 },"contains at least one number, one lowercase and one uppercase letter and is at least six characters long");
