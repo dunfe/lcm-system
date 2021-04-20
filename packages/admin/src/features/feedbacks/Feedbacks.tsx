@@ -1,23 +1,24 @@
 import * as React from 'react'
-import { Table, Space, message } from 'antd'
+import { Table, Space, message, Tag, Button } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 
 const { useState, useEffect } = React
 
 export interface IFeedback {
-    "img": string[],
-    "_id": string,
-    "title": string,
-    "createBy": string,
-    "content": string,
-    "createdAt": string,
-    "__v": number
+    'img': string[],
+    '_id': string,
+    'title': string,
+    'createBy': string,
+    'content': string,
+    'createdAt': string,
+    '__v': number
 }
 
 const Feedbacks = () => {
     const [data, setData] = useState<IFeedback[]>([])
     const [current, setCurrent] = useState(1)
+    const [total, setTotal] = useState(0)
 
     const auth = useAuth()
     const instance = axios.create({
@@ -35,19 +36,26 @@ const Feedbacks = () => {
             },
         },
         {
-            title: 'Tên',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'Tiêu đề',
+            dataIndex: 'title',
+            key: 'title',
         },
         {
-            title: 'ID',
-            dataIndex: '_id',
-            key: '_id',
-        },
-        {
-            title: 'Created at', 
+            title: 'Created at',
             dataIndex: 'createdAt',
             key: 'createdAt',
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'status',
+            render(text: string, record: any) {
+                return (
+                    <Tag color={record.status === 'open' ? 'green' : 'red'}>
+                        {text}
+                    </Tag>
+                )
+            },
         },
         {
             title: 'Hành động',
@@ -55,7 +63,7 @@ const Feedbacks = () => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <a onClick={() => onResolved(record._id)}>Resolved</a>
+                    <Button type={'primary'} onClick={() => onResolved(record._id)}>Resolved</Button>
                 </Space>
             },
         },
@@ -73,20 +81,29 @@ const Feedbacks = () => {
         setCurrent(page)
     }
 
+    const expandRender = (record: any) => <p style={{ margin: 0 }}>{record.content}</p>
+
     const getData = () => {
-        instance.get('/api/admin/reports').then((response) => {
+        instance.get(`/api/admin/reports?page=${current}`).then((response) => {
             setData(response.data.results)
+            setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message))
     }
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [current])
 
     return (
         <>
-            <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
+            <Table columns={columns}
+                   expandable={{
+                       expandedRowRender: expandRender,
+                       rowExpandable: (record) => record.title !== 'Not Expandable',
+                   }}
+                   dataSource={data} rowKey={'_id'} pagination={{
                 current: current,
+                total: total,
                 onChange: onPageChange,
                 defaultPageSize: 10,
             }} />
