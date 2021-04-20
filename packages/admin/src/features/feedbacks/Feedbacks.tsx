@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, Space, Modal, Form, Input, Button, message } from 'antd'
+import { Table, Space, Modal, Form, message } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
@@ -14,18 +14,9 @@ const { useState, useEffect } = React
 const { useForm } = Form
 const { confirm } = Modal
 
-const layout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 20 },
-}
-const tailLayout = {
-    wrapperCol: { offset: 4, span: 20 },
-}
-
-const Skills = (props: IProps) => {
-    const { onAdd, visible, setVisible } = props
+const Feedbacks = (props: IProps) => {
+    const { setVisible } = props
     const [data, setData] = useState([])
-    const [confirmLoading, setConfirmLoading] = React.useState(false)
     const [mode, setMode] = useState('add')
     const [updateId, setUpdateId] = useState('')
     const [itemDetail, setItemDetail] = useState({})
@@ -104,42 +95,10 @@ const Skills = (props: IProps) => {
         setVisible(true)
     }
 
-    const handleCancel = () => {
-        setVisible(false)
-        setMode('add')
-        setUpdateId('')
-    }
-
     const getData = () => {
-        instance.get('/api/admin/skills').then((response) => {
+        instance.get('/api/admin/reports').then((response) => {
             setData(response.data.skill)
         }).catch((error) => console.error(error.message))
-    }
-
-    const onFinish = (values: any) => {
-        setConfirmLoading(true)
-
-        if (mode === 'update' && updateId !== '') {
-            instance.put(`/api/admin/skills/${updateId}`, values).then((response) => {
-                if (response.status === 200) {
-                    getData()
-                    message.success('Cập nhật thành công').then(() => {
-                        setVisible(false)
-                    })
-                }
-            }).catch((error) => message.error(error.message))
-        } else {
-            onAdd(values).then((response) => {
-                if (response.status === 200) {
-                    getData()
-                    message.success('Thêm thành công').then(() => {
-                        setVisible(false)
-                    })
-                }
-            }).catch((error) => message.error(error.message))
-        }
-
-        setConfirmLoading(false)
     }
 
     useEffect(() => {
@@ -164,35 +123,6 @@ const Skills = (props: IProps) => {
 
     return (
         <>
-            <Modal
-                title='Thêm kỹ năng'
-                visible={visible}
-                footer={null}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-            >
-                <Form
-                    {...layout}
-                    name='add'
-                    form={form}
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                >
-                    <Form.Item
-                        label='Tên'
-                        name='name'
-                        rules={[{ required: true, message: 'Vui lòng nhập tên kỹ năng' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item {...tailLayout}>
-                        <Button type='primary' htmlType='submit'>
-                            {mode === 'add' ? 'Thêm' : 'Cập nhật'}
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
             <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
                 current: current,
                 onChange: onPageChange,
@@ -202,4 +132,4 @@ const Skills = (props: IProps) => {
     )
 }
 
-export default Skills
+export default Feedbacks
