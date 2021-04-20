@@ -215,4 +215,27 @@ export const getAllReportFromUser = async(req, res, next) => {
     }
 }
 
+export const resolveFeedback = (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({
+        status: 'fail',
+        message: `Invalid id ${req.params.id}`
+    })
+  };
+
+  Report.findByIdAndUpdate(req.params.id, {status: 'closed'}, { new: true}, (err,doc) =>{
+    if (!err) {
+      return res.status(200).json({
+          status: 'success',
+          data: doc
+      });
+  } else {
+      return res.status(400).json({
+          status: 'fail',
+          message: err.message
+      })
+  }
+  })
+}
+
 export default router;

@@ -170,7 +170,7 @@ export const updateUserById = async (req, res, next) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later'
+                message: err.message
             })
         }
     });
