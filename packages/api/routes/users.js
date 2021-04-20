@@ -7,7 +7,10 @@ import {getAllSkills} from '../controller/skill.js';
 import {viewPointOutTransactionUser, viewPointInTransactionUser } from "../controller/staff.js";
 import {registerMentorRequest, uploadCVFile} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
-import { createReport, uploadImagesReport } from '../controller/report.js';
+import { createReport, uploadImagesReport, updateReportById, delReportById, getAllReportFromUser, getReportById } from '../controller/report.js';
+import {getAllNotification, clickNotify} from '../controller/noti.js'
+
+import Report from '../models/report.js';
 import upload from '../utils/multer.js';
 import cloudinary from '../utils/cloudinary.js';
 import cors from 'cors'
@@ -15,7 +18,7 @@ import cors from 'cors'
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import {getAllNotification, clickNotify} from '../controller/noti.js'
+
 dotenv.config();
 
 const router = express.Router();
@@ -256,8 +259,11 @@ router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorReques
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
 //CRUD report mentor
-
 router.post('/reports', protect, restrictTo('mentee'), createReport);
+router.get('/reports', protect, restrictTo('mentee'), getAllReportFromUser);
+router.get('/reports/:id', protect, restrictTo('mentee'), getReportById);
+router.put('/reports/:id', protect,restrictTo('mentee'), updateReportById);
+router.delete('/reports/:id', protect, restrictTo('mentee'), delReportById);
 
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
