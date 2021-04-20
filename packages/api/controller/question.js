@@ -40,17 +40,18 @@ export const createQuestion = async (req, res) => {
     });
 };
 
-export const getAllQuestions = async ( req, res) => {
-    let page = parseInt(req.query.page) || 1;
-    const limit = 50;
-    const results = {}
-    const data = await Question.find();
-    const totalPage = Math.ceil(data.length/limit) ;
-    results.totalPage = totalPage;
-    results.totalItem = data.length;
-    if(page<1 || page > totalPage) page = 1;
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
+export function getAllQuestions(model) { 
+    return async ( req, res) => {
+        let page = parseInt(req.query.page) || 1;
+        const limit = 6;
+        const results = {}
+        const data = await model.find();
+        const totalPage = Math.ceil(data.length/limit) ;
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if(page<1 || page > totalPage) page = 1;
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
       
     if (endIndex < data.length) {
         results.next = {
@@ -66,11 +67,12 @@ export const getAllQuestions = async ( req, res) => {
         }
     }
     try {
-        results.results = await Question.find().limit(limit).skip(startIndex).exec()
+        results.results = await model.find().limit(limit).skip(startIndex).exec()
         return res.status(200).json(results);
     } catch (e) {
         res.status(500).json({ message: e.message })
     }
+}
 }
 
 
