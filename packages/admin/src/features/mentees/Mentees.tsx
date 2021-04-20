@@ -1,50 +1,53 @@
-import * as React from "react";
-import {Table, Space, Modal, Form, Input, Button, message} from "antd";
-import axios from "axios";
-import {useAuth} from "../../utils/hooks/useAuth";
+import * as React from 'react'
+import { Table, Space, Modal, Form, Input, Button, message, Tag } from 'antd'
+import axios from 'axios'
+import { useAuth } from '../../utils/hooks/useAuth'
 
 interface IProps {
     visible: boolean;
     setVisible: (state: boolean) => void;
 }
 
-const {useState, useEffect} = React;
-const {useForm} = Form;
+const { useState, useEffect } = React
+const { useForm } = Form
 
 const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
-};
+}
 const tailLayout = {
     wrapperCol: { offset: 4, span: 20 },
-};
+}
 
 const Mentees = (props: IProps) => {
-    const {visible, setVisible} = props;
-    const [data, setData] = useState([]);
-    const [confirmLoading, setConfirmLoading] = React.useState(false);
-    const [mode, setMode] = useState('add');
-    const [updateId, setUpdateId] = useState('');
-    const [itemDetail, setItemDetail] = useState({});
-    const [form] = useForm();
+    const { visible, setVisible } = props
+    const [data, setData] = useState([])
+    const [confirmLoading, setConfirmLoading] = React.useState(false)
+    const [mode, setMode] = useState('add')
+    const [updateId, setUpdateId] = useState('')
+    const [itemDetail, setItemDetail] = useState({})
+    const [current, setCurrent] = useState(1)
+    const [form] = useForm()
 
-    const auth = useAuth();
+    const auth = useAuth()
     const instance = axios.create({
         baseURL: 'https://livecoding.me',
         headers: {
             'Authorization': auth?.user?.user.token,
-        }
+        },
     })
     const columns = [
+        {
+            title: 'No',
+            width: '5%',
+            render(text: string, record: any, index: number) {
+                return (current - 1) * 10 + index + 1
+            },
+        },
         {
             title: 'Tên',
             dataIndex: 'fullname',
             key: 'fullname',
-        },
-        {
-            title: 'ID',
-            dataIndex: '_id',
-            key: '_id',
         },
         {
             title: 'Email',
@@ -52,76 +55,103 @@ const Mentees = (props: IProps) => {
             key: 'email',
         },
         {
+            title: 'Role',
+            dataIndex: 'role',
+            key: 'role',
+            render(text: string) {
+                return (
+                    <Tag color={text === 'banned' ? 'red': 'green'}>
+                        {text}
+                    </Tag>
+                )
+            }
+        },
+        {
             title: 'Hành động',
             dataIndex: 'action',
             key: 'action',
             render(text: string, record: any) {
-                return <Space size="middle" key={record._id}>
+                return <Space size='middle' key={record._id}>
                     <a onClick={() => onEdit(record._id)}>Edit</a>
-                </Space>;
+                    <a onClick={() => onBan(record._id)}>Ban</a>
+                </Space>
             },
-        }
+        },
     ]
 
+    const onBan = (id: string) => {
+        instance.post(`/api/admin/users/${id}`).then((response) => {
+            if (response.status === 200) {
+                message.success('Banned')
+            }
+        }).then(() => getData()).catch((error) => console.error(error.message))
+    }
+
+    const onPageChange = (page: number) => {
+        setCurrent(page)
+    }
+
     const onEdit = (id: string) => {
-        setMode('update');
-        setUpdateId(id);
-        setVisible(true);
+        setMode('update')
+        setUpdateId(id)
+        setVisible(true)
     }
 
     const handleCancel = () => {
-        setVisible(false);
-        setMode('add');
-        setUpdateId('');
-    };
+        setVisible(false)
+        setMode('add')
+        setUpdateId('')
+    }
 
     const getData = () => {
         instance.get('/api/admin/users').then((response) => {
-            setData(response.data.data);
-        }).catch((error) => console.error(error.message));
-    };
+            setData(response.data.results)
+        }).catch((error) => console.error(error.message))
+    }
 
     const onFinish = (values: any) => {
-        setConfirmLoading(true);
+        setConfirmLoading(true)
 
         if (mode === 'update' && updateId !== '') {
             instance.put(`/api/admin/users/${updateId}`, values).then((response) => {
                 if (response.status === 200) {
-                    getData();
                     message.success('Cập nhật thành công').then(() => {
-                        setVisible(false);
+                        setVisible(false)
                     })
                 }
-            }).catch((error) => message.error(error.message))
+            }).then(() => getData(),
+            ).catch((error) => message.error(error.message))
         }
 
-        setConfirmLoading(false);
-    };
+        setConfirmLoading(false)
+    }
 
     useEffect(() => {
         if (updateId !== '') {
             instance.get(`/api/admin/users/${updateId}`).then((response) => {
                 if (response.status === 200) {
-                    setItemDetail(response.data.data);
+                    setItemDetail(response.data.results)
                 }
             })
         }
-    }, [updateId]);
+    }, [updateId])
 
     useEffect(() => {
         if (mode === 'update') {
-            form.setFieldsValue(itemDetail);
+            form.setFieldsValue(itemDetail)
         }
-    }, [itemDetail]);
+    }, [itemDetail])
 
     useEffect(() => {
-        getData();
-    }, []);
+        if (!visible) {
+            getData()
+        }
+    }, [visible])
 
     return (
         <>
             <Modal
-                title="Sửa thông tin"
+                title='Sửa thông tin'
                 visible={visible}
                 footer={null}
                 confirmLoading={confirmLoading}
@@ -129,31 +159,33 @@ const Mentees = (props: IProps) => {
             >
                 <Form
                     {...layout}
-                    name="add"
+                    name='add'
                     form={form}
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="Tên"
-                        name="name"
+                        label='Tên'
+                        name='fullname'
                         rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
+                        <Button type='primary' htmlType='submit'>
                             Cập nhật
                         </Button>
                     </Form.Item>
                 </Form>
             </Modal>
             <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
+                current: current,
+                onChange: onPageChange,
                 defaultPageSize: 10,
-            }}/>
+            }} />
         </>
     )
 }
 
-export default Mentees;
+export default Mentees
