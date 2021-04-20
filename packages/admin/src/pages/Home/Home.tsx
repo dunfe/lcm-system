@@ -70,7 +70,7 @@ export function HomePage() {
                         subtitle: ''
                     });
                     break;
-                case '/feedback':
+                case '/feedbacks':
                     setPageHeader({
                         title: 'Quản lý feedback',
                         subtitle: 'Giải quyết các feedback'
