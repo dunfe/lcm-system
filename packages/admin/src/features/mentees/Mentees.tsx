@@ -72,8 +72,8 @@ const Mentees = (props: IProps) => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <a onClick={() => onEdit(record._id)}>Edit</a>
-                    <a onClick={() => onBan(record._id)}>Ban</a>
+                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
+                    <Button danger onClick={() => onBan(record._id)}>Ban</Button>
                 </Space>
             },
         },

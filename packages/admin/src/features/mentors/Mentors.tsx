@@ -72,8 +72,8 @@ const Mentors = (props: IProps) => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <a onClick={() => onEdit(record._id)}>Edit</a>
-                    <a onClick={() => onBan(record._id)}>Ban</a>
+                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
+                    <Button danger onClick={() => onBan(record._id)}>Ban</Button>
                 </Space>
             },
         },
@@ -177,7 +177,10 @@ const Mentors = (props: IProps) => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
+            <Table columns={columns}
+                   dataSource={data}
+                   rowKey={'_id'}
+                   pagination={{
                 current: current,
                 onChange: onPageChange,
                 defaultPageSize: 10,
