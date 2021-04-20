@@ -97,7 +97,9 @@ export const createReport = async (req, res) => {
   })
 }
 
-export const getReportById = (req, res) => {
+export const getReportById = async (req, res) => {
+  let userId = await useridFromToken(req, res);
+
   if(!ObjectId.isValid(req.params.id)) { 
     return res.status(400).json({
         status: 'fail',
@@ -105,7 +107,7 @@ export const getReportById = (req, res) => {
     })
   };
 
-  Report.findById(req.params.id, (err,doc) => {
+  Report.find({createBy: userId, _id:req.params.id}, (err,doc) => {
     if (!err){
       return res.status(200).json({
           status: 'success',
@@ -121,6 +123,8 @@ export const getReportById = (req, res) => {
 }
 
 export const updateReportById = async(req, res, next) => {
+  let userId = await useridFromToken(req, res);
+
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).json({
         status: 'fail',
@@ -130,7 +134,7 @@ export const updateReportById = async(req, res, next) => {
 
   const updateReport = {
     title: req.body.title,
-    createBy: req.body.createBy,
+    createBy: userId,
     content: req.body.content,
     img: req.body.img,
     createdAt: Date.now()
@@ -172,6 +176,43 @@ export const delReportById = async (req, res) => {
           })
       }
   });
+}
+
+export const getAllReportFromUser = async(req, res, next) => {
+    let userId = await useridFromToken(req, res);
+    let page = parseInt(req.query.page) || 1;
+    const limit = 50;
+    const results = {};
+    const data = await Report.find({
+        createBy: userId
+    });
+    const totalPage = Math.ceil(data.length / limit);
+    results.totalPage = totalPage;
+    results.totalItem = data.length;
+    if (page < 1 || page > totalPage) page = 1;
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    if (endIndex < data.length) {
+        results.next = {
+            page: page + 1,
+            limit: limit
+        }
+    }
+
+    if (startIndex > 0) {
+        results.previous = {
+            page: page - 1,
+            limit: limit
+        }
+    }
+    try {
+        results.results = await Report.find({
+          createBy: userId
+      }).limit(limit).skip(startIndex).exec()
+        return res.status(200).json(results);
+    } catch (e) {
+        res.status(500).json({ message: e.message })
+    }
 }
 
 export default router;
