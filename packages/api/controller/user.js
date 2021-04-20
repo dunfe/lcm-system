@@ -120,7 +120,7 @@ export const countAllRecord = async (req, res) => {
         };
     });
 
-    await Mentor.countDocuments((err, doc) => {
+    await User.countDocuments({role:'mentor'},(err, doc) => {
         if (!err) {
             total_array.totalMentor = doc;
         } else {
