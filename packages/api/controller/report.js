@@ -12,7 +12,7 @@ const ObjectId = mongoose.Types.ObjectId;
 export function getAllReport(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
-      const limit = 6;
+      const limit = 10;
       const results = {}
       const data = await model.find();
       const totalPage = Math.ceil(data.length/limit) ;
@@ -181,7 +181,7 @@ export const delReportById = async (req, res) => {
 export const getAllReportFromUser = async(req, res, next) => {
     let userId = await useridFromToken(req, res);
     let page = parseInt(req.query.page) || 1;
-    const limit = 50;
+    const limit = 10;
     const results = {};
     const data = await Report.find({
         createBy: userId
