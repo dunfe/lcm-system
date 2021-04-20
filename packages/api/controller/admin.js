@@ -18,9 +18,21 @@ export const  totalUser = (req, res) => {
         if (!err){ 
             res.json(doc);
         } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
+            // console.log('Error' + JSON.stringify(err, undefined, 2));
+            res.json({
+                status: 'fail',
+                message: err.message
+            })
         };
     });
 };
+
+export const getAllRole = (req, res) => {
+   const allRole = ['mentor', 'mentee', 'staff', 'admin', 'banned'];
+   res.json({
+       status:'success',
+       roles: allRole
+   })
+}
 
 export default router;
