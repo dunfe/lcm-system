@@ -4,11 +4,13 @@ import Icon from '@ant-design/icons'
 import { Facebook } from '../../components/Logo/Facebook'
 import { Google } from '../../components/Logo/Google'
 import { Github } from '../../components/Logo/Github'
+import { useTranslation } from 'react-i18next'
 
 const QuickLogin = () => {
+    const { t } = useTranslation()
     return (
         <QuickLoginContainer>
-            <span>Đăng nhập nhanh: </span>
+            <span>{t('Quick Login')}: </span>
             <a href="https://livecoding.me/api/users/facebook">
                 <Icon component={Facebook} />
             </a>

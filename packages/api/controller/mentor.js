@@ -15,25 +15,24 @@ const ObjectId = mongoose.Types.ObjectId;
 export function getAllMentor(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
-      const limit = 50;
+      const limit = 10;
       const results = {}
       const data = await model.find({role : 'mentor'});
       const totalPage = Math.ceil(data.length/limit) ;
       results.totalPage = totalPage;
+      results.totalItem = data.length;
       if(page<1 || page > totalPage) page = 1;
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
-      if (endIndex < await model.countDocuments().exec()) {
+      if (endIndex < totalPage) {
         results.next = {
           page: page + 1,
-          limit: limit
         }
       }
 
       if (startIndex > 0) {
         results.previous = {
           page: page - 1,
-          limit: limit
         }
       }
       try {
@@ -67,7 +66,6 @@ export const selectQuestion = async (req,res) =>{
         })
     };
     var count = await countQuestionNotDoneOfMentor(req,res);
-    console.log(count)
     if(count > 5){
         return res.status(400).json({
             status: 'fail',
@@ -239,10 +237,12 @@ export const ratingMentor = async (req,res,next) =>{
             message: `Invalid id ${req.params.id}`
         })
     };
-    var userId = await useridFromToken(req,res);
+    let room = await colabRoom.findById(req.params.id);
+    let mentorId = room.mentorInfo._id;
+    let userId = await useridFromToken(req,res);
     let star = parseInt(req.body.star);
     const currentMentee = await User.findById(userId);
-    const currentMentor = await User.findById(req.params.id);
+    const currentMentor = await User.findById(mentorId);
     let totalRating1 = currentMentor.rate.totalRating1;
     let totalRating2 = currentMentor.rate.totalRating2;
     let totalRating3 = currentMentor.rate.totalRating3;
@@ -269,7 +269,7 @@ export const ratingMentor = async (req,res,next) =>{
         content : req.body.content,
         star : star
     }
-    User.findByIdAndUpdate(req.params.id,{ $set : {rate : rate}, $push : {reviews: reviews} },{new: true},(err, doc) => {
+    User.findByIdAndUpdate(mentorId,{ $set : {rate : rate}, $push : {reviews: reviews} },{new: true},(err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',

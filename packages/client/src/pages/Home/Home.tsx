@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Layout, notification } from 'antd'
 import HeaderComponent from '../../components/Header/Header'
-import { Switch, useRouteMatch } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
 import PageHeader from '../../components/Header/PageHeader'
 import MenteeContent from '../../components/Home/Content/MenteeContent'
 import MentorContent from '../../components/Home/Content/MentorContent'
@@ -10,15 +10,18 @@ import MentorMenu from '../../components/Menu/MentorMenu'
 import { LogoContainer } from '../../components/Logo/LogoContainer'
 import { Logo } from '../../components/Logo/Logo'
 import { useRole } from '../../utils/hooks/useRole'
+import { useTranslation } from 'react-i18next'
 
 const { Sider, Content, Footer } = Layout
 
 const { useState, useEffect } = React
 
-export function HomePage() {
+const HomePage = () => {
     //check login
     const role = useRole()
     const { path } = useRouteMatch()
+    const { t } = useTranslation()
+
     const [selectedKeys, setSelectedKeys] = useState([location.pathname])
     const [pageHeader, setPageHeader] = useState({
         title: '',
@@ -34,38 +37,39 @@ export function HomePage() {
             switch (selectedKeys[0]) {
                 case '/add':
                     setPageHeader({
-                        title: 'Tạo câu hỏi',
-                        subtitle: 'Tạo một câu hỏi để được giúp đỡ',
+                        title: t('Add question'),
+                        subtitle: t('Ask a question for help'),
                     })
                     break
                 case '/questions':
                     setPageHeader({
-                        title: 'Danh sách câu hỏi',
-                        subtitle: 'Danh sách những câu hỏi của bạn',
+                        title: t('Questions'),
+                        subtitle: t('Your questions'),
                     })
                     break
                 case '/matching':
                     notification.open({
-                        message: 'Hướng dẫn sử dụng',
-                        description:
-                            'Sử dụng chuột click và kéo câu hỏi sang bên phải để chấp nhận trả lời, kéo sang trái để bỏ qua!',
+                        message: t('Guide'),
+                        description: t(
+                            'Use your mouse then click onto the card and swipe to right to choose, left to ignore'
+                        ),
                         placement: 'bottomRight',
                     })
                     setPageHeader({
-                        title: 'Matching',
-                        subtitle: 'Chọn câu hỏi để trả lời',
+                        title: t('Matching'),
+                        subtitle: t('Swipe right to select a question'),
                     })
                     break
                 case '/session':
                     setPageHeader({
-                        title: 'Session',
-                        subtitle: 'Danh sách session',
+                        title: t('Session'),
+                        subtitle: t('Your session'),
                     })
                     break
                 case '/setting':
                     setPageHeader({
-                        title: 'Cài đặt',
-                        subtitle: 'Tuỳ chỉnh tài khoản của bạn',
+                        title: t('Setting'),
+                        subtitle: t('Setting your account'),
                     })
                     break
             }
@@ -73,7 +77,7 @@ export function HomePage() {
     }, [selectedKeys])
 
     return (
-        <Layout style={{ height: '100vh' }}>
+        <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible theme={'dark'}>
                 <LogoContainer className="logo">
                     <Logo />
@@ -99,21 +103,19 @@ export function HomePage() {
                     />
                 ) : null}
                 <Content style={{ margin: '24px 16px 0' }}>
-                    <Switch>
-                        <>
-                            {role === 'mentee' ? (
-                                <MenteeContent
-                                    path={path}
-                                    setSelectedKeys={setSelectedKeys}
-                                />
-                            ) : (
-                                <MentorContent path={path} />
-                            )}
-                        </>
-                    </Switch>
+                    {role === 'mentee' ? (
+                        <MenteeContent
+                            path={path}
+                            setSelectedKeys={setSelectedKeys}
+                        />
+                    ) : (
+                        <MentorContent path={path} />
+                    )}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>LCM ©2020</Footer>
             </Layout>
         </Layout>
     )
 }
+
+export default HomePage

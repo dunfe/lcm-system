@@ -17,7 +17,7 @@ export const clickNotify = async (req, res) => {
     Notify.findByIdAndUpdate(req.params.id, {$set: {read: true}}, {new : true}, (err, doc) =>{
       if (!err) {
         return res.status(200).json({
-            status: 'Update success',
+            status: 'success',
             roomid : doc.content
         });
     } else {
@@ -40,6 +40,7 @@ export const getAllNotification = async (req, res) => {
     countReadFalse = readFalse.length;
     const totalPage = Math.ceil(data.length/limit) ;
     results.totalPage = totalPage;
+    results.totalItem = data.length;
     if(page<1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;

@@ -8,6 +8,21 @@ import upload from '../utils/multer.js';
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
+export const uploadCVFile = async (req, res) => {
+  try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      return res.status(200).json({
+          status: 'Success',
+          url: result.secure_url
+      })
+  } catch (error) {
+      return res.status(400).json({
+          status: 'fail',
+          message: 'Lỗi ở try'
+      })
+  }
+}
+
 export const registerMentorRequest = async (req, res) => {
     var userId = await useridFromToken(req,res);
     const user = await User.findById(userId);
@@ -19,18 +34,15 @@ export const registerMentorRequest = async (req, res) => {
       modifieAt: Date.now()
     }
 
-    //upload CV
-    const result = await cloudinary.uploader.upload(req.file.path);
-
     const request = new Request({
         title: req.body.title,
         createdId: user._id,
         createdName: user.fullname,
-        receivedBy: req.body.receivedBy,
         content: req.body.content,
-        cv: result.secure_url,
-        createdAt: req.body.createdAt
+        cv: req.body.cv,
+        createdAt: Date.now()
     });
+    console.log(request)
     User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
       if(!err) {
          
@@ -107,7 +119,7 @@ export function getAllRequest(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
     //   const limit = parseInt(req.query.limit)
-      const limit = 50;
+      const limit = 10;
       const results = {}
       const data = await model.find();
       const totalPage = Math.ceil(data.length/limit) ;
@@ -116,7 +128,7 @@ export function getAllRequest(model) {
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
       
-      if (endIndex < await model.countDocuments().exec()) {
+      if (endIndex < data.length) {
         results.next = {
           page: page + 1,
           limit: limit

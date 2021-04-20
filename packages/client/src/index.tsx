@@ -5,6 +5,7 @@ import App from './pages/App'
 import { store } from './app/store'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
+import './i18n/config'
 
 ReactDOM.render(
     <React.StrictMode>

@@ -22,13 +22,14 @@ export const getSignToken = user => {
 export function getAllMentee(model) {
     return async (req, res) => {
         let page = parseInt(req.query.page) || 1;
-        const limit = 50;
+        const limit = 10;
         const results = {};
         const data = await model.find({
             $or: [{ role: 'mentee' }, { role: 'banned' }]
         });
         const totalPage = Math.ceil(data.length / limit);
         results.totalPage = totalPage;
+        results.totalItem = data.length;
         if (page < 1 || page > totalPage) page = 1;
         const startIndex = (page - 1) * limit
         const endIndex = page * limit
@@ -140,10 +141,10 @@ export const countAllRecord = async (req, res) => {
 
 export const changePassword = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        let userId = await useridFromToken(req, res);
         const salt = await bcrypt.genSalt(10);
         const newPasswordSalted = await bcrypt.hash(req.body.newPassword, salt);
-        const userPassword = await User.findByIdAndUpdate({ _id: id }, { password: newPasswordSalted }, { new: true });
+        const userPassword = await User.findByIdAndUpdate({ _id: userId }, { password: newPasswordSalted }, { new: true });
         return res.status(200).json({ status: true, data: userPassword });
     } catch (error) {
         return res.status(400).json({ status: false, error: error.message });
@@ -169,7 +170,7 @@ export const updateUserById = async (req, res, next) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later'
+                message: err.message
             })
         }
     });
@@ -209,7 +210,8 @@ export const banUserById = async (req, res, next) => {
     User.findByIdAndUpdate(req.params.id, { $set: { role: 'banned' } }, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'User has been banned',
+                status: 'success',
+                message: 'User has been banned',
                 data: doc
             });
         } else {
@@ -261,15 +263,16 @@ export const editProfileUserById = async (req, res) => {
         skill: req.body.skill,
         bio: req.body.bio,
         github: req.body.github,
+        fullname: req.body.fullname
     }
     const update = {
-        dob : req.body.dob,
+        dob: req.body.dob,
         phone: req.body.phone,
         avatar: req.body.avatar,
         gender: req.body.gender,
         address: req.body.address,
         currentJob: req.body.currentJob,
-        achievement: req.body.achievement
+        achievement: req.body.achievement,
     };
     // const currentUser =  await User.findById(userId);
     // if(currentUser.detail.avatar == ''){
@@ -285,7 +288,7 @@ export const editProfileUserById = async (req, res) => {
 
     // console.log(currentUser.detail.avatar)
 
-    User.findOneAndUpdate({ _id: userId }, {detail: update, $set : info}, { new: true }, (err, doc) => {
+    User.findOneAndUpdate({ _id: userId }, { detail: update, $set: info }, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
                 status: 'success',
@@ -303,6 +306,13 @@ export const editProfileUserById = async (req, res) => {
 //Question of mentee 
 
 export const addFavoriteMentorById = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
     let userId = await useridFromToken(req, res);
     const currentMentor = await User.findById(req.params.id);
     const favorite = {
@@ -312,12 +322,12 @@ export const addFavoriteMentorById = async (req, res) => {
     let index;
     var favoriteMentor = [];
     const mentee = await User.findById(userId).then((mentee) => {
-            favoriteMentor = favoriteMentor.concat(mentee.favoriteMentor);
-            favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
+        favoriteMentor = favoriteMentor.concat(mentee.favoriteMentor);
+        favoriteMentor = uniqBy(favoriteMentor, JSON.stringify);
     })
-    let checkId=false;
-    if(favoriteMentor.length > 0 ){
-        for (var i=0; i < favoriteMentor.length; i++) {
+    let checkId = false;
+    if (favoriteMentor.length > 0) {
+        for (var i = 0; i < favoriteMentor.length; i++) {
             if (JSON.stringify(favoriteMentor[i].mentorId) === JSON.stringify(currentMentor._id)) {
                 checkId = true;
                 index = i;
@@ -361,7 +371,7 @@ export const addFavoriteMentorById = async (req, res) => {
 
 export const viewListFavoriteMentor = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
-    const limit = 50;
+    const limit = 10;
     const results = {}
     let userId = await useridFromToken(req, res);
     var favoriteMentor = [];
@@ -374,6 +384,7 @@ export const viewListFavoriteMentor = async (req, res) => {
     let data = favoriteMentor;
     const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;
+    results.totalItem = data.length;
     if (page < 1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
@@ -398,7 +409,7 @@ export const viewListFavoriteMentor = async (req, res) => {
     }
 }
 
-export const countMentorFaverite = async (req,res) =>{
+export const countMentorFaverite = async (req, res) => {
     let userId = await useridFromToken(req, res);
     var favoriteMentor = [];
     const mentee = await User.find({ _id: userId }).then((mentee) => {
@@ -409,7 +420,7 @@ export const countMentorFaverite = async (req,res) =>{
     })
     return res.status(200).json({
         status: 'success',
-        count : favoriteMentor.length
+        count: favoriteMentor.length
     });
 }
 

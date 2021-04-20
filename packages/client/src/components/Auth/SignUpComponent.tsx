@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
+import { passwordRule } from '../../utils/rules/passwordRule'
 
 const layout = {
     labelCol: { span: 8 },
@@ -13,6 +15,7 @@ const layout = {
 const SignUpComponent = () => {
     const history = useHistory()
     const auth = useAuth()
+    const { t } = useTranslation()
 
     const onFinish = (values: any) => {
         const { username, email, password, display_name } = values
@@ -20,21 +23,21 @@ const SignUpComponent = () => {
         auth.signUp(username, email, password, display_name)
             .then((response) => {
                 if (response) {
-                    message.success('Đăng ký thành công').then(() => {
+                    message.success(t('Register successfully')).then(() => {
                         console.log(response)
                     })
                     history.push('/')
                 }
             })
             .catch((error) => {
-                message.error('Đăng ký không thành công: ' + error).then(() => {
+                message.error(t(`Can't register`) + error).then(() => {
                     console.error(error)
                 })
             })
     }
 
     const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo)
+        console.log(t('Failed'), errorInfo)
     }
     return (
         <Form
@@ -47,7 +50,7 @@ const SignUpComponent = () => {
             <Form.Item wrapperCol={{ span: 24 }} name="display_name">
                 <Input
                     width={'100%'}
-                    placeholder="Họ và tên"
+                    placeholder={t('Full name')}
                     prefix={
                         <UserOutlined
                             className="site-form-item-icon"
@@ -60,7 +63,7 @@ const SignUpComponent = () => {
             <Form.Item wrapperCol={{ span: 24 }} name="username">
                 <Input
                     width={'100%'}
-                    placeholder="Tên người dùng"
+                    placeholder={t('Username')}
                     prefix={
                         <UserOutlined
                             className="site-form-item-icon"
@@ -76,9 +79,9 @@ const SignUpComponent = () => {
                 rules={[
                     {
                         type: 'email',
-                        message: 'Email không hợp lệ',
+                        message: t('Invalid email'),
                     },
-                    { required: true, message: 'Vui lòng điền email!' },
+                    { required: true, message: t('Please enter your email') },
                 ]}
             >
                 <Input
@@ -95,11 +98,11 @@ const SignUpComponent = () => {
             <Form.Item
                 wrapperCol={{ span: 24 }}
                 name="password"
-                rules={[{ required: true, message: 'Vui lòng điền mật khẩu!' }]}
+                rules={passwordRule(t)}
                 hasFeedback
             >
                 <Input.Password
-                    placeholder="Mật khẩu"
+                    placeholder={t('Password')}
                     prefix={
                         <LockOutlined
                             className="site-form-item-icon"
@@ -117,23 +120,21 @@ const SignUpComponent = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Vui lòng xác nhận mật khẩu!',
+                        message: t('Please re enter your password'),
                     },
                     ({ getFieldValue }) => ({
                         validator(_, value) {
                             if (!value || getFieldValue('password') === value) {
                                 return Promise.resolve()
                             }
-                            return Promise.reject(
-                                'Hai mật khẩu cần giống nhau!'
-                            )
+                            return Promise.reject(t('Password need to match'))
                         },
                     }),
                 ]}
             >
                 <Input.Password
                     width={'100%'}
-                    placeholder="Nhập lại mật khẩu"
+                    placeholder={t('Re password')}
                     prefix={
                         <LockOutlined
                             className="site-form-item-icon"
@@ -152,19 +153,19 @@ const SignUpComponent = () => {
                         validator: (_, value) =>
                             value
                                 ? Promise.resolve()
-                                : Promise.reject('Should accept agreement'),
+                                : Promise.reject(t('Should accept agreement')),
                     },
                 ]}
             >
                 <Checkbox>
-                    Tôi đã đọc và đồng ý với{' '}
-                    <a href="">điều khoản & chính sách sử dụng</a>
+                    {t('I have read and agree to')}{' '}
+                    <a href="">{t('The terms and conditions')}</a>
                 </Checkbox>
             </Form.Item>
 
             <Form.Item wrapperCol={{ span: 24 }}>
                 <StyledButton type="primary" htmlType="submit">
-                    Đăng ký
+                    {t('Register')}
                 </StyledButton>
             </Form.Item>
         </Form>
