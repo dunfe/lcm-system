@@ -6,6 +6,7 @@ import cloudinary from '../utils/cloudinary.js';
 import upload from '../utils/multer.js';
 
 const router = express.Router();
+const ObjectId = mongoose.Types.ObjectId;
 
 export function getAllReport(model) {
     return async (req, res) => {
@@ -92,6 +93,29 @@ export const createReport = async (req, res) => {
           message: err.message
       })
   }
+  })
+}
+
+export const getReportById = (req, res) => {
+  if(!ObjectId.isValid(req.params.id)) { 
+    return res.status(400).json({
+        status: 'fail',
+        message: `Invalid id ${req.params.id}`
+    })
+  };
+
+  Report.findById(req.params.id, (err,doc) => {
+    if (!err){
+      return res.status(200).json({
+          status: 'success',
+          data: doc
+      });
+    } else {
+      return res.status(400).json({
+          status: 'fail',
+          message: err.message
+      }) 
+    };
   })
 }
 
