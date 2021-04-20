@@ -210,7 +210,8 @@ export const banUserById = async (req, res, next) => {
     User.findByIdAndUpdate(req.params.id, { $set: { role: 'banned' } }, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'User has been banned',
+                status: 'success',
+                message: 'User has been banned',
                 data: doc
             });
         } else {
