@@ -2,8 +2,6 @@ FROM node:14.16.0-alpine as build-stage
 
 WORKDIR /api
 
-RUN yarn global add pm2
-
 COPY yarn.lock /api
 COPY package.json /api
 COPY .yarnrc.yml /api
@@ -16,4 +14,4 @@ COPY packages/api /api/packages/api/
 
 EXPOSE 3000
 
-CMD pm2 start packages/api/app.js
+CMD yarn start:api
