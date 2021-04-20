@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Table, Space, Modal, Form, Input, Button, message} from "antd";
+import { Table, Space, Modal, Form, Input, Button, message, Tag } from 'antd'
 import axios from "axios";
 import {useAuth} from "../../utils/hooks/useAuth";
 
@@ -26,6 +26,7 @@ const Mentors = (props: IProps) => {
     const [mode, setMode] = useState('add');
     const [updateId, setUpdateId] = useState('');
     const [itemDetail, setItemDetail] = useState({});
+    const [current, setCurrent] = useState(1)
     const [form] = useForm();
 
     const auth = useAuth();
@@ -37,14 +38,16 @@ const Mentors = (props: IProps) => {
     })
     const columns = [
         {
+            title: 'No',
+            width: '5%',
+            render(text: string, record: any, index: number) {
+                return (current - 1) * 10 + index + 1
+            },
+        },
+        {
             title: 'Tên',
             dataIndex: 'fullname',
             key: 'fullname',
-        },
-        {
-            title: 'ID',
-            dataIndex: '_id',
-            key: '_id',
         },
         {
             title: 'Email',
@@ -52,16 +55,41 @@ const Mentors = (props: IProps) => {
             key: 'email',
         },
         {
+            title: 'Role',
+            dataIndex: 'role',
+            key: 'role',
+            render(text: string) {
+                return (
+                    <Tag color={text === 'banned' ? 'red': 'green'}>
+                        {text}
+                    </Tag>
+                )
+            }
+        },
+        {
             title: 'Hành động',
             dataIndex: 'action',
             key: 'action',
             render(text: string, record: any) {
-                return <Space size="middle" key={record._id}>
+                return <Space size='middle' key={record._id}>
                     <a onClick={() => onEdit(record._id)}>Edit</a>
-                </Space>;
+                    <a onClick={() => onBan(record._id)}>Ban</a>
+                </Space>
             },
-        }
+        },
     ]
+
+    const onBan = (id: string) => {
+        instance.post(`/api/admin/users/${id}`).then((response) => {
+            if (response.status === 200) {
+                message.success('Banned')
+            }
+        }).then(() => getData()).catch((error) => console.error(error.message))
+    }
+
+    const onPageChange = (page: number) => {
+        setCurrent(page)
+    }
 
     const onEdit = (id: string) => {
         setMode('update');
@@ -77,7 +105,7 @@ const Mentors = (props: IProps) => {
 
     const getData = () => {
         instance.get('/api/admin/mentors').then((response) => {
-            setData(response.data.data);
+            setData(response.data.results);
         }).catch((error) => console.error(error.message));
     };
 
@@ -102,7 +130,7 @@ const Mentors = (props: IProps) => {
         if (updateId !== '') {
             instance.get(`/api/admin/mentors/${updateId}`).then((response) => {
                 if (response.status === 200) {
-                    setItemDetail(response.data.data);
+                    setItemDetail(response.data.results);
                 }
             })
         }
@@ -121,7 +149,7 @@ const Mentors = (props: IProps) => {
     return (
         <>
             <Modal
-                title="Thêm kỹ năng"
+                title="'Sửa thông tin"
                 visible={visible}
                 footer={null}
                 confirmLoading={confirmLoading}
@@ -136,7 +164,7 @@ const Mentors = (props: IProps) => {
                 >
                     <Form.Item
                         label="Tên"
-                        name="name"
+                        name="fullname"
                         rules={[{ required: true, message: 'Vui lòng nhập tên kỹ năng' }]}
                     >
                         <Input />
@@ -150,6 +178,8 @@ const Mentors = (props: IProps) => {
                 </Form>
             </Modal>
             <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
+                current: current,
+                onChange: onPageChange,
                 defaultPageSize: 10,
             }}/>
         </>
