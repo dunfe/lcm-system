@@ -4,6 +4,7 @@ import Report from '../models/report.js';
 import { useridFromToken } from '../controller/mentor.js'
 import cloudinary from '../utils/cloudinary.js';
 import upload from '../utils/multer.js';
+import { updateUserById } from './user.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
@@ -116,6 +117,37 @@ export const getReportById = (req, res) => {
           message: err.message
       }) 
     };
+  })
+}
+
+export const updateReportById = async(req, res, next) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({
+        status: 'fail',
+        message: `Invalid id ${req.params.id}`
+    })
+  }
+
+  const updateReport = {
+    title: req.body.title,
+    createBy: req.body.createBy,
+    content: req.body.content,
+    img: req.body.img,
+    createdAt: Date.now()
+  }
+
+  Report.findByIdAndUpdate(req.params.id, {$set: updateReport}, { new: true}, (err,doc) => {
+    if (!err) {
+      return res.status(200).json({
+          status: 'success',
+          data: doc
+      });
+  } else {
+      return res.status(400).json({
+          status: 'fail',
+          message: err.message
+      })
+    }
   })
 }
 

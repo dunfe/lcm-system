@@ -141,7 +141,7 @@ export const updateQuestionById = async (req, res, next) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later11'
+                message: err.message
             })
         }
     });
