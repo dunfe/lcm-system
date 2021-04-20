@@ -32,6 +32,8 @@ passport.use('register', new LocalStrategy({
 },async function(req, username, password, done){
     try {
         const lowerUsername = username.toString().toLowerCase();
+        const upperFullname = req.body.fullname.toString().toUpperCase();
+
         const user = await User.findOne({'username': lowerUsername});
         const userEmail = await User.findOne({'email': req.body.email});
         if (user) {
@@ -44,7 +46,7 @@ passport.use('register', new LocalStrategy({
             newUser.username = lowerUsername;
             newUser.password = password;
             newUser.email = req.body.email;
-            newUser.fullname = req.body.fullname;
+            newUser.fullname = upperFullname;
             newUser.save(function (err) {
                 if (err) return done(null, false,{ message: err.message });
                 return done(null, newUser)
