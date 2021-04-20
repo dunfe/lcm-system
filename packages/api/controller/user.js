@@ -22,7 +22,7 @@ export const getSignToken = user => {
 export function getAllMentee(model) {
     return async (req, res) => {
         let page = parseInt(req.query.page) || 1;
-        const limit = 50;
+        const limit = 10;
         const results = {};
         const data = await model.find({
             $or: [{ role: 'mentee' }, { role: 'banned' }]
@@ -170,7 +170,7 @@ export const updateUserById = async (req, res, next) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later'
+                message: err.message
             })
         }
     });
@@ -371,7 +371,7 @@ export const addFavoriteMentorById = async (req, res) => {
 
 export const viewListFavoriteMentor = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
-    const limit = 50;
+    const limit = 10;
     const results = {}
     let userId = await useridFromToken(req, res);
     var favoriteMentor = [];

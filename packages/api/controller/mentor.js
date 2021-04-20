@@ -15,7 +15,7 @@ const ObjectId = mongoose.Types.ObjectId;
 export function getAllMentor(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
-      const limit = 50;
+      const limit = 10;
       const results = {}
       const data = await model.find({role : 'mentor'});
       const totalPage = Math.ceil(data.length/limit) ;

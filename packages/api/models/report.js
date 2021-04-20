@@ -13,6 +13,11 @@ const reportSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please input report content!'] 
     },
+    status:{
+        type:String,
+        enum: ["open", "closed"],
+        default: "open",
+    },
     img: [String],
     createdAt: { type: Date, default: Date.now},
 });

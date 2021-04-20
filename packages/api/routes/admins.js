@@ -8,7 +8,7 @@ import { getAllMentor, getMentorById, getMentorByName, updateMentorById, delMent
 import { createQuestion, getAllQuestions, getQuestionById, updateQuestionById, delQuestionById } from '../controller/question.js';
 import { getAllRequest, getRequestById} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
-import { getAllReport, getReportById,updateReportById, delReportById } from '../controller/report.js';
+import { getAllReport, getReportById,updateReportById, delReportById, resolveFeedback } from '../controller/report.js';
 import { getAllRole } from '../controller/admin.js';
 
 const router = express.Router();
@@ -46,6 +46,8 @@ router.get("/reports", protect, restrictTo('admin'), getAllReport(Report));
 router.get("/reports/:id", protect, restrictTo('admin'), getReportById);
 router.put("/reports/:id", protect,restrictTo('admin'), updateReportById);
 router.delete('/reports/:id', protect, restrictTo('admin'), delReportById);
+
+router.post("/reports/:id", protect, restrictTo('admin'), resolveFeedback);
 
 //Get all role
 router.get("/roles", protect, restrictTo('admin'), getAllRole);
