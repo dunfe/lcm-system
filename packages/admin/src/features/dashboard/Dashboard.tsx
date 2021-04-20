@@ -2,31 +2,55 @@ import {Row, Col, Card, Table, Avatar, List} from "antd";
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import * as React from "react";
 import "./Dashboard.css";
+import { useAPI } from '../../utils/hooks/useAPI'
 
 const {Meta} = Card;
 
+interface IDashboard {
+    "totalUser": number,
+    "totalMentor": number,
+    "totalQuestion": number,
+    "totalSkill": number
+}
+
+const {useEffect, useState} = React
 const Dashboard = () => {
+    const instance = useAPI()
+
+    const [total, setTotal] = useState<IDashboard>({
+        "totalUser": 0,
+        "totalMentor": 0,
+        "totalQuestion": 0,
+        "totalSkill": 0
+    })
+
+    useEffect(() => {
+        instance.get('/api/admin/dashboard').then((response) => {
+            setTotal(response.data)
+        }).catch((error) => console.error(error))
+    }, [])
+
     return (
         <div className="site-card-wrapper">
             <Row gutter={16}>
                 <Col span={6}>
                     <Card title="Số lượng mentee" bordered={false}>
-                        Card content
+                        {total.totalUser}
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card title="Câu hỏi tháng này" bordered={false}>
-                        Card content
+                        {total.totalQuestion}
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card title="Số lượng mentor" bordered={false}>
-                        Card content
+                        {total.totalMentor}
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card title="Số lượng skill" bordered={false}>
-                        Card content
+                        {total.totalSkill}
                     </Card>
                 </Col>
             </Row>

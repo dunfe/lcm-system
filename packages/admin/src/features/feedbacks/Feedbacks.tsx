@@ -1,13 +1,24 @@
 import * as React from 'react'
-import { Table, Space } from 'antd'
+import { Table, Space, message, Tag, Button } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 
 const { useState, useEffect } = React
 
+export interface IFeedback {
+    'img': string[],
+    '_id': string,
+    'title': string,
+    'createBy': string,
+    'content': string,
+    'createdAt': string,
+    '__v': number
+}
+
 const Feedbacks = () => {
-    const [data, setData] = useState([])
+    const [data, setData] = useState<IFeedback[]>([])
     const [current, setCurrent] = useState(1)
+    const [total, setTotal] = useState(0)
 
     const auth = useAuth()
     const instance = axios.create({
@@ -25,14 +36,9 @@ const Feedbacks = () => {
             },
         },
         {
-            title: 'Tên',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: 'ID',
-            dataIndex: '_id',
-            key: '_id',
+            title: 'Tiêu đề',
+            dataIndex: 'title',
+            key: 'title',
         },
         {
             title: 'Created at',
@@ -40,39 +46,64 @@ const Feedbacks = () => {
             key: 'createdAt',
         },
         {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'status',
+            render(text: string, record: any) {
+                return (
+                    <Tag color={record.status === 'open' ? 'green' : 'red'}>
+                        {text}
+                    </Tag>
+                )
+            },
+        },
+        {
             title: 'Hành động',
             dataIndex: 'action',
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <a onClick={() => onResolved(record._id)}>Resolved</a>
+                    <Button type={'primary'} onClick={() => onResolved(record._id)}>Resolved</Button>
                 </Space>
             },
         },
     ]
 
     const onResolved = (id: string) => {
-        console.log(id)
+        instance.post(`/api/admin/reports/${id}`).then((response) => {
+            if (response.status === 200) {
+                message.success('Resolved')
+            }
+        }).then(() => getData()).catch((error) => console.error(error.message))
     }
 
     const onPageChange = (page: number) => {
         setCurrent(page)
     }
 
+    const expandRender = (record: any) => <p style={{ margin: 0 }}>{record.content}</p>
+
     const getData = () => {
-        instance.get('/api/admin/reports').then((response) => {
-            setData(response.data.data)
+        instance.get(`/api/admin/reports?page=${current}`).then((response) => {
+            setData(response.data.results)
+            setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message))
     }
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [current])
 
     return (
         <>
-            <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
+            <Table columns={columns}
+                   expandable={{
+                       expandedRowRender: expandRender,
+                       rowExpandable: (record) => record.title !== 'Not Expandable',
+                   }}
+                   dataSource={data} rowKey={'_id'} pagination={{
                 current: current,
+                total: total,
                 onChange: onPageChange,
                 defaultPageSize: 10,
             }} />

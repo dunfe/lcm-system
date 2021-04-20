@@ -48,14 +48,14 @@ const Skills = (props: IProps) => {
             },
         },
         {
-            title: 'Tên',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
             title: 'ID',
             dataIndex: '_id',
             key: '_id',
+        },
+        {
+            title: 'Tên',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
             title: 'Created at',
@@ -68,8 +68,8 @@ const Skills = (props: IProps) => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <a onClick={() => onEdit(record._id)}>Edit</a>
-                    <a onClick={() => onDelete(record._id)}>Delete</a>
+                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
+                    <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
                 </Space>
             },
         },
