@@ -28,7 +28,7 @@ const Dashboard = () => {
         instance.get('/api/admin/dashboard').then((response) => {
             setTotal(response.data)
         }).catch((error) => console.error(error))
-    })
+    }, [])
 
     return (
         <div className="site-card-wrapper">
