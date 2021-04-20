@@ -151,4 +151,27 @@ export const updateReportById = async(req, res, next) => {
   })
 }
 
+export const delReportById = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+          status: 'fail',
+          message: `Invalid id ${req.params.id}`
+      })
+  };
+
+  Report.findByIdAndRemove(req.params.id, (err, doc) => {
+      if (!err) {
+          return res.status(200).json({
+              status: 'success',
+              message: 'Delete question success'
+          });
+      } else {
+          return res.status(400).json({
+              status: 'fail',
+              message: 'Something wrong, try again later'
+          })
+      }
+  });
+}
+
 export default router;
