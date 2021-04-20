@@ -3,6 +3,7 @@ import { Table, Space, Modal, Form, Input, Button, message } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
+import dayjs from 'dayjs'
 
 interface IProps {
     onAdd: (state: any) => Promise<any>;
@@ -61,6 +62,9 @@ const Skills = (props: IProps) => {
             title: 'Created at',
             dataIndex: 'createdAt',
             key: 'createdAt',
+            render(text: string) {
+                return dayjs(text).format('LLLL')
+            },
         },
         {
             title: 'Hành động',
