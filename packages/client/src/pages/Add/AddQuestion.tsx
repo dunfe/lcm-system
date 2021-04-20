@@ -8,6 +8,8 @@ import {
     Modal,
     Skeleton,
     TimePicker,
+    Row,
+    Col,
 } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -176,110 +178,120 @@ const AddQuestion = (props: IProps) => {
     }, [])
 
     return (
-        <>
-            {loading ? (
-                <Skeleton active={true} />
-            ) : (
-                <Form
-                    {...layout}
-                    name="question"
-                    onFinish={onFinish}
-                    form={form}
-                >
-                    <Form.Item
-                        name={'title'}
-                        label={t('Title')}
-                        rules={[
-                            {
-                                required: true,
-                                max: 50,
-                                message: t(
-                                    'Title is require and title must less than 50 character'
-                                ),
-                            },
-                        ]}
-                    >
-                        <Input placeholder={t('Title')} />
-                    </Form.Item>
-                    <Form.Item
-                        name={'content'}
-                        label={t('Content')}
-                        rules={[
-                            {
-                                required: true,
-                                message: t('You must enter something'),
-                            },
-                        ]}
-                    >
-                        <Input.TextArea placeholder={t('Content')} />
-                    </Form.Item>
-                    <Form.Item
-                        name={'skill'}
-                        label={t('Skill')}
-                        rules={[
-                            {
-                                required: true,
-                                message: t('Please select the skill'),
-                            },
-                        ]}
-                    >
-                        <Select
-                            mode="tags"
-                            style={{ width: '100%' }}
-                            options={skills}
-                            placeholder={t('Skill')}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        name={'time'}
-                        label={t(t('Time Available'))}
-                        initialValue={[
-                            dayjs().startOf('day'),
-                            dayjs().endOf('day'),
-                        ]}
-                    >
-                        <TimePicker.RangePicker
-                            format={'HH:mm'}
-                            style={{ width: '20%' }}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        name={'point'}
-                        label={t('Point')}
-                        initialValue={0}
-                        rules={[
-                            {
-                                required: true,
-                                message: t('Please set at least 10 point'),
-                            },
-                            {
-                                type: 'number',
-                                min: 10,
-                                max: 1000,
-                                message: t('Point must be between 10 and 1000'),
-                            },
-                        ]}
-                    >
-                        <InputNumber
-                            placeholder={t('Point')}
-                            style={{ width: '10%' }}
-                        />
-                    </Form.Item>
-                    <Form.Item name={'note'} label={t('Note')}>
-                        <Input placeholder={t('Note')} />
-                    </Form.Item>
-                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            loading={addLoading}
+        <div className="site-card-wrapper">
+            <Row gutter={16}>
+                <Col span={24}>
+                    {loading ? (
+                        <Skeleton active={true} />
+                    ) : (
+                        <Form
+                            {...layout}
+                            name="question"
+                            onFinish={onFinish}
+                            form={form}
                         >
-                            {mode === 'add' ? t('Create') : t('Save')}
-                        </Button>
-                    </Form.Item>
-                </Form>
-            )}
-        </>
+                            <Form.Item
+                                name={'title'}
+                                label={t('Title')}
+                                rules={[
+                                    {
+                                        required: true,
+                                        max: 50,
+                                        message: t(
+                                            'Title is require and title must less than 50 character'
+                                        ),
+                                    },
+                                ]}
+                            >
+                                <Input placeholder={t('Title')} />
+                            </Form.Item>
+                            <Form.Item
+                                name={'content'}
+                                label={t('Content')}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: t('You must enter something'),
+                                    },
+                                ]}
+                            >
+                                <Input.TextArea placeholder={t('Content')} />
+                            </Form.Item>
+                            <Form.Item
+                                name={'skill'}
+                                label={t('Skill')}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: t('Please select the skill'),
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    mode="tags"
+                                    style={{ width: '100%' }}
+                                    options={skills}
+                                    placeholder={t('Skill')}
+                                />
+                            </Form.Item>
+                            <Form.Item
+                                name={'time'}
+                                label={t(t('Time Available'))}
+                                initialValue={[
+                                    dayjs().startOf('day'),
+                                    dayjs().endOf('day'),
+                                ]}
+                            >
+                                <TimePicker.RangePicker
+                                    format={'HH:mm'}
+                                    style={{ width: '20%' }}
+                                />
+                            </Form.Item>
+                            <Form.Item
+                                name={'point'}
+                                label={t('Point')}
+                                initialValue={0}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: t(
+                                            'Please set at least 10 point'
+                                        ),
+                                    },
+                                    {
+                                        type: 'number',
+                                        min: 10,
+                                        max: 1000,
+                                        message: t(
+                                            'Point must be between 10 and 1000'
+                                        ),
+                                    },
+                                ]}
+                            >
+                                <InputNumber
+                                    placeholder={t('Point')}
+                                    style={{ width: '10%' }}
+                                />
+                            </Form.Item>
+                            <Form.Item name={'note'} label={t('Note')}>
+                                <Input placeholder={t('Note')} />
+                            </Form.Item>
+                            <Form.Item
+                                wrapperCol={{ ...layout.wrapperCol, offset: 4 }}
+                            >
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    loading={addLoading}
+                                >
+                                    {mode === 'add' ? t('Create') : t('Save')}
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    )}
+                </Col>
+            </Row>
+        </div>
     )
 }
 

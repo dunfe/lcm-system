@@ -112,21 +112,21 @@ const InfoSetting = () => {
 
         if (user.role.toLowerCase() === 'mentee') {
             form.setFieldsValue({
-                fullname: user.fullname,
+                fullname: user?.fullname,
                 email: user.email,
-                phone: user.detail.phone,
-                gender: user.detail.gender.toLowerCase() || 'male',
-                address: user.detail.address,
-                currentJob: user.detail.currentJob,
-                achievement: user.detail.achievement,
-                dob: dayjs(user.detail.dob),
+                phone: user.detail?.phone,
+                gender: user.detail?.gender?.toLowerCase() || 'male',
+                address: user.detail?.address,
+                currentJob: user.detail?.currentJob,
+                achievement: user.detail?.achievement,
+                dob: dayjs(user.detail?.dob),
             })
         } else {
             form.setFieldsValue({
                 fullname: user.fullname,
                 email: user.email,
                 phone: user.detail.phone,
-                gender: user.detail.gender.toLowerCase() || 'male',
+                gender: user.detail.gender?.toLowerCase() || 'male',
                 address: user.detail.address,
                 currentJob: user.detail.currentJob,
                 skill: user.skill,
