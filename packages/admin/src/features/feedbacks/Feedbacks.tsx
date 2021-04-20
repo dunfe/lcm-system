@@ -1,12 +1,22 @@
 import * as React from 'react'
-import { Table, Space } from 'antd'
+import { Table, Space, message } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 
 const { useState, useEffect } = React
 
+export interface IFeedback {
+    "img": string[],
+    "_id": string,
+    "title": string,
+    "createBy": string,
+    "content": string,
+    "createdAt": string,
+    "__v": number
+}
+
 const Feedbacks = () => {
-    const [data, setData] = useState([])
+    const [data, setData] = useState<IFeedback[]>([])
     const [current, setCurrent] = useState(1)
 
     const auth = useAuth()
@@ -35,7 +45,7 @@ const Feedbacks = () => {
             key: '_id',
         },
         {
-            title: 'Created at',
+            title: 'Created at', 
             dataIndex: 'createdAt',
             key: 'createdAt',
         },
@@ -52,7 +62,11 @@ const Feedbacks = () => {
     ]
 
     const onResolved = (id: string) => {
-        console.log(id)
+        instance.post(`/api/admin/reports/${id}`).then((response) => {
+            if (response.status === 200) {
+                message.success('Resolved')
+            }
+        }).then(() => getData()).catch((error) => console.error(error.message))
     }
 
     const onPageChange = (page: number) => {
@@ -61,7 +75,7 @@ const Feedbacks = () => {
 
     const getData = () => {
         instance.get('/api/admin/reports').then((response) => {
-            setData(response.data.data)
+            setData(response.data.results)
         }).catch((error) => console.error(error.message))
     }
 
