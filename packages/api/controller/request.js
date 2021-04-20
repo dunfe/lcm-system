@@ -119,7 +119,7 @@ export function getAllRequest(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
     //   const limit = parseInt(req.query.limit)
-      const limit = 50;
+      const limit = 10;
       const results = {}
       const data = await model.find();
       const totalPage = Math.ceil(data.length/limit) ;

@@ -12,7 +12,7 @@ const ObjectId = mongoose.Types.ObjectId;
 export function getAllReport(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
-      const limit = 6;
+      const limit = 10;
       const results = {}
       const data = await model.find();
       const totalPage = Math.ceil(data.length/limit) ;
@@ -181,7 +181,7 @@ export const delReportById = async (req, res) => {
 export const getAllReportFromUser = async(req, res, next) => {
     let userId = await useridFromToken(req, res);
     let page = parseInt(req.query.page) || 1;
-    const limit = 50;
+    const limit = 10;
     const results = {};
     const data = await Report.find({
         createBy: userId
@@ -213,6 +213,29 @@ export const getAllReportFromUser = async(req, res, next) => {
     } catch (e) {
         res.status(500).json({ message: e.message })
     }
+}
+
+export const resolveFeedback = (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({
+        status: 'fail',
+        message: `Invalid id ${req.params.id}`
+    })
+  };
+
+  Report.findByIdAndUpdate(req.params.id, {status: 'closed'}, { new: true}, (err,doc) =>{
+    if (!err) {
+      return res.status(200).json({
+          status: 'success',
+          data: doc
+      });
+  } else {
+      return res.status(400).json({
+          status: 'fail',
+          message: err.message
+      })
+  }
+  })
 }
 
 export default router;

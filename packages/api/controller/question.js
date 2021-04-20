@@ -43,7 +43,7 @@ export const createQuestion = async (req, res) => {
 export function getAllQuestions(model) { 
     return async ( req, res) => {
         let page = parseInt(req.query.page) || 1;
-        const limit = 6;
+        const limit = 10;
         const results = {}
         const data = await model.find();
         const totalPage = Math.ceil(data.length/limit) ;
