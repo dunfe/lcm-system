@@ -2,8 +2,12 @@ import * as React from 'react'
 import { Table, Space, message, Tag, Button } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
+import dayjs from 'dayjs'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 
 const { useState, useEffect } = React
+
+dayjs.extend(LocalizedFormat)
 
 export interface IFeedback {
     'img': string[],
@@ -44,6 +48,9 @@ const Feedbacks = () => {
             title: 'Created at',
             dataIndex: 'createdAt',
             key: 'createdAt',
+            render(text: string) {
+                return dayjs(text).format('LLLL')
+            },
         },
         {
             title: 'Trạng thái',
