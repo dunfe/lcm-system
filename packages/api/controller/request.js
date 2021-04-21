@@ -68,6 +68,29 @@ export const registerMentorRequest = async (req, res) => {
     });
 };
 
+export const delRequest = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({
+        status: 'fail',
+        message: `Invalid id ${req.params.id}`
+    })
+};
+
+Request.findByIdAndRemove(req.params.id, (err, doc) => {
+    if (!err) {
+        return res.status(200).json({
+            status: 'success',
+            message: 'Delete request success'
+        });
+    } else {
+        return res.status(400).json({
+            status: 'fail',
+            message: err.message
+        })
+    }
+});
+}
+
 export const confirmRequestMentorRegister = async (req,res) =>{
   if(!ObjectId.isValid(req.params.id)){
     return res.status(400).json({

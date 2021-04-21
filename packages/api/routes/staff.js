@@ -13,5 +13,5 @@ router.post('/updatePoint/:id',protect, restrictTo('staff'),updatePoint_Transact
 //router.post('/addRate',addRateExchange);
 router.post('/updateRateExchange/:id',updateRateExchange);
 // confirm request mentee register mentor
-router.post('/mentor/confirm/:id',protect, restrictTo('staff'),confirmRequestMentorRegister);
+// router.post('/mentor/confirm/:id',protect, restrictTo('staff'),confirmRequestMentorRegister);
 export default router;
