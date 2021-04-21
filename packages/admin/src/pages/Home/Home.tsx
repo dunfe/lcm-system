@@ -81,7 +81,7 @@ export function HomePage() {
     }, [selectedKeys]);
 
     return (
-        <Layout style={{height: '100vh'}}>
+        <Layout style={{minHeight: '100vh'}}>
             <Layout>
                 <Sider
                     breakpoint="lg"

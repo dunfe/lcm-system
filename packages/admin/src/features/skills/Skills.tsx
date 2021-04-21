@@ -3,6 +3,7 @@ import { Table, Space, Modal, Form, Input, Button, message } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
+import dayjs from 'dayjs'
 
 interface IProps {
     onAdd: (state: any) => Promise<any>;
@@ -48,19 +49,22 @@ const Skills = (props: IProps) => {
             },
         },
         {
-            title: 'Tên',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
             title: 'ID',
             dataIndex: '_id',
             key: '_id',
         },
         {
+            title: 'Tên',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
             title: 'Created at',
             dataIndex: 'createdAt',
             key: 'createdAt',
+            render(text: string) {
+                return dayjs(text).format('LLLL')
+            },
         },
         {
             title: 'Hành động',
@@ -68,8 +72,8 @@ const Skills = (props: IProps) => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <a onClick={() => onEdit(record._id)}>Edit</a>
-                    <a onClick={() => onDelete(record._id)}>Delete</a>
+                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
+                    <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
                 </Space>
             },
         },

@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Table, Space, Modal, Form, Input, Button, message, Tag } from 'antd'
-import axios from 'axios'
-import { useAuth } from '../../utils/hooks/useAuth'
+import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, Rate } from 'antd'
+import { useAPI } from '../../utils/hooks/useAPI'
+import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
 
 interface IProps {
     visible: boolean;
@@ -25,17 +25,14 @@ const Mentees = (props: IProps) => {
     const [confirmLoading, setConfirmLoading] = React.useState(false)
     const [mode, setMode] = useState('add')
     const [updateId, setUpdateId] = useState('')
-    const [itemDetail, setItemDetail] = useState({})
+    const [itemDetail, setItemDetail] = useState<IUserDetail>()
     const [current, setCurrent] = useState(1)
+    const [total, setTotal] = useState(0)
+    const [detail, setDetail] = useState(false)
+
     const [form] = useForm()
 
-    const auth = useAuth()
-    const instance = axios.create({
-        baseURL: 'https://livecoding.me',
-        headers: {
-            'Authorization': auth?.user?.user.token,
-        },
-    })
+    const instance = useAPI()
     const columns = [
         {
             title: 'No',
@@ -48,6 +45,11 @@ const Mentees = (props: IProps) => {
             title: 'Tên',
             dataIndex: 'fullname',
             key: 'fullname',
+            render(text: string, record: any) {
+                return (
+                    <a onClick={() => onViewDetail(record._id)}>{text}</a>
+                )
+            }
         },
         {
             title: 'Email',
@@ -72,12 +74,17 @@ const Mentees = (props: IProps) => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <a onClick={() => onEdit(record._id)}>Edit</a>
-                    <a onClick={() => onBan(record._id)}>Ban</a>
+                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
+                    <Button danger onClick={() => onBan(record._id)}>Ban</Button>
                 </Space>
             },
         },
     ]
+
+    const onViewDetail = (id: string) => {
+        setUpdateId(id)
+        setDetail(true)
+    }
 
     const onBan = (id: string) => {
         instance.post(`/api/admin/users/${id}`).then((response) => {
@@ -103,9 +110,15 @@ const Mentees = (props: IProps) => {
         setUpdateId('')
     }
 
+    const handleDetailCancel = () => {
+        setDetail(false)
+        setUpdateId('')
+    }
+
     const getData = () => {
-        instance.get('/api/admin/users').then((response) => {
+        instance.get(`/api/admin/users?page=${current}`).then((response) => {
             setData(response.data.results)
+            setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message))
     }
 
@@ -130,7 +143,7 @@ const Mentees = (props: IProps) => {
         if (updateId !== '') {
             instance.get(`/api/admin/users/${updateId}`).then((response) => {
                 if (response.status === 200) {
-                    setItemDetail(response.data.results)
+                    setItemDetail(response.data.data)
                 }
             })
         }
@@ -146,10 +159,72 @@ const Mentees = (props: IProps) => {
         if (!visible) {
             getData()
         }
-    }, [visible])
+    }, [visible, current])
 
     return (
         <>
+            <Modal
+                width={1000}
+                title={itemDetail?.fullname}
+                visible={detail}
+                footer={null}
+                onCancel={handleDetailCancel}
+            >
+                <Descriptions
+                    key={itemDetail?._id}
+                    className={'matching-description'}
+                    bordered
+                >
+                    <Descriptions.Item label={'Email'} span={3}>
+                        {itemDetail?.email}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Role'} span={3}>
+                        {itemDetail?.role}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Bio'} span={3}>
+                        {itemDetail?.bio}
+                    </Descriptions.Item>
+
+                    <Descriptions.Item label={'Date of birth'} span={2}>
+                        {itemDetail?.detail.dob}
+                    </Descriptions.Item>
+
+                    <Descriptions.Item label={'Current Point'}>
+                        {itemDetail?.currentPoint}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Skill'} span={3}>
+                        {itemDetail?.skill?.join(',')}
+                    </Descriptions.Item>
+
+                    <Descriptions.Item label={'Gender'}>
+                        {itemDetail?.detail.gender}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Total question'}>
+                        {itemDetail?.detail.totalQuestion}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Rate'}>
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                            <Space><Rate value={5}/> {itemDetail?.rate.totalRating5}</Space>
+                            <Space><Rate value={4}/> {itemDetail?.rate.totalRating4}</Space>
+                            <Space><Rate value={3}/> {itemDetail?.rate.totalRating3}</Space>
+                            <Space><Rate value={2}/> {itemDetail?.rate.totalRating2}</Space>
+                            <Space><Rate value={1}/> {itemDetail?.rate.totalRating1}</Space>
+                        </div>
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Phone'} span={2}>
+                        {itemDetail?.detail.phone}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Current Job'}>
+                        {itemDetail?.detail.currentJob}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Achievement'} span={3}>
+                        {itemDetail?.detail?.achievement?.map((item) => item)}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={'Github'} span={3}>
+                        <a href={itemDetail?.github}>{itemDetail?.github}</a>
+                    </Descriptions.Item>
+                </Descriptions>
+            </Modal>
             <Modal
                 title='Sửa thông tin'
                 visible={visible}
@@ -181,6 +256,7 @@ const Mentees = (props: IProps) => {
             </Modal>
             <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
                 current: current,
+                total,
                 onChange: onPageChange,
                 defaultPageSize: 10,
             }} />

@@ -73,11 +73,20 @@ function useProvideAuth(): IUseAuthType {
                 }
             )
             .then((response) => {
-                setUser(response.data)
-                setLoading(false)
-                Cookies.set('user', JSON.stringify(response.data))
+                const role = response.data?.user?.data?.role
+                if (role === 'admin') {
+                    window.open('https://admin.livecoding.me', '_self')
+                    return false
+                } else if (role === 'staff') {
+                    window.open('https://staff.livecoding.me', '_self')
+                    return false
+                } else {
+                    setUser(response.data)
+                    setLoading(false)
+                    Cookies.set('user', JSON.stringify(response.data))
 
-                return true
+                    return true
+                }
             })
             .catch((error) => {
                 console.error(error)
