@@ -8,6 +8,7 @@ import Dashboard from "../../features/dashboard/Dashboard";
 import styled from "styled-components/macro";
 import Feedbacks from '../../features/feedbacks/Feedbacks'
 import Questions from '../../features/questions/Questions'
+import Requests from '../../features/requests/Requests'
 
 interface IProps {
     path: string;
@@ -25,6 +26,11 @@ const HomeContent = (props: IProps) => {
             <Switch>
                 <Route exact path={path}>
                     <Dashboard/>
+                </Route>
+                <Route path={`/requests`}>
+                    <ContentWrapper>
+                        <Requests />
+                    </ContentWrapper>
                 </Route>
                 <Route path={`/skills`}>
                     <ContentWrapper>
