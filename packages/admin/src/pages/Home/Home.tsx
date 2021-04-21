@@ -104,6 +104,9 @@ export function HomePage() {
                         <Menu.Item key="/" icon={<DashboardOutlined/>}>
                             <Link to={`/`}>Dashboard</Link>
                         </Menu.Item>
+                        <Menu.Item key="/requests" icon={<FormOutlined/>}>
+                            <Link to={`/requests`}>Quản lí yêu cầu</Link>
+                        </Menu.Item>
                         <Menu.Item key="/skills" icon={<FormOutlined/>}>
                             <Link to={`/skills`}>Quản lí kỹ năng</Link>
                         </Menu.Item>
