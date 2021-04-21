@@ -3,7 +3,7 @@ import Request from '../models/request.js';
 import Report from '../models/report.js'
 import User from '../models/user.js'; 
 import Question from '../models/question.js'
-import { getAllMentee, getUserById, countAllRecord,banUserById, updateUserById } from '../controller/user.js';
+import { getAllMentee, getUserById, countAllRecord,banUserById, updateUserById, unbanUserById } from '../controller/user.js';
 import { getAllMentor, getMentorById, getMentorByName, updateMentorById, delMentorById} from '../controller/mentor.js';
 import { createQuestion, getAllQuestions, getQuestionById, updateQuestionById, delQuestionById } from '../controller/question.js';
 import { getAllRequest, getRequestById} from '../controller/request.js';
@@ -21,7 +21,7 @@ router.get("/users/:id", protect, restrictTo('admin'), getUserById);
 
 router.put('/users/:id', protect, restrictTo('admin'), updateUserById);
 router.post('/users/:id', protect, restrictTo('admin'), banUserById);
-
+router.post('/users/unban/:id', protect, restrictTo('admin'), unbanUserById);
 //Mentor
 router.get("/mentors", protect, restrictTo('admin'), getAllMentor(User));
 router.get("/mentors/:id", protect, restrictTo('admin'), getMentorById);
