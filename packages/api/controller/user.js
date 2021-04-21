@@ -223,6 +223,30 @@ export const banUserById = async (req, res, next) => {
     });
 }
 
+export const unbanUserById = async (req, res, next) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    User.findByIdAndUpdate(req.params.id, { $set: { role: 'mentee' } }, { new: true }, (err, doc) => {
+        if (!err) {
+            return res.status(200).json({
+                status: 'success',
+                message: 'User has been unbanned and set role become to mentee',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: err.message
+            })
+        }
+    });
+}
+
 export const viewUserInfo = async (req, res) => {
     let userId = await useridFromToken(req, res);
     User.find({ _id: userId }, (err, doc) => {
