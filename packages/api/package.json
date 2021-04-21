@@ -40,7 +40,7 @@
   "type": "module",
   "scripts": {
     "deploy": "pm2 start app.js",
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "test": "NODE_ENV=test mocha --recursive --exit --timeout 50000",
     "runtest": "NODE_ENV=test nodemon app.js",
     "dev:api": "nodemon app.js"

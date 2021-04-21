@@ -7,19 +7,24 @@ import VideoChat from '../../components/Session/VideoChat'
 import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useRole } from '../../utils/hooks/useRole'
+import { useHistory } from 'react-router-dom'
+import Report from '../../components/Session/Report'
+import EndSessionFooter from '../../components/Session/EndSessionFooter'
 
 const { Sider, Content } = Layout
 const { TabPane } = Tabs
 
-const { useState } = React
+const { useState, useEffect } = React
 const SessionPage = () => {
     const { t } = useTranslation()
     const instance = useAPI()
     const role = useRole()
+    const history = useHistory()
 
     const [connected, setConnected] = useState(true)
     const [rating, setRating] = useState(false)
     const [star, setStar] = useState(0)
+    const [endMode, setEndMode] = useState('rate')
 
     const handleDisconnect = () => {
         if (role === 'mentee') {
@@ -41,8 +46,18 @@ const SessionPage = () => {
         setRating(false)
     }
 
-    const handleRate = () => {
-        if (star) {
+    const handleOk = () => {
+        if (endMode === 'rate') {
+            setRating(false)
+            setConnected(false)
+            history.push('/')
+        } else {
+            setEndMode('rate')
+        }
+    }
+
+    useEffect(() => {
+        if (star > 0) {
             instance
                 .post(`/api/users/mentor/rate/mentorId`)
                 .then((response) => {
@@ -52,12 +67,9 @@ const SessionPage = () => {
                         message.error(t('Failed'))
                     }
                 })
-                .finally(() => {
-                    setRating(false)
-                    setConnected(false)
-                })
+                .catch((error) => console.error(error))
         }
-    }
+    }, [star])
 
     return (
         <Layout className="session-layout">
@@ -71,22 +83,36 @@ const SessionPage = () => {
                 }}
             >
                 <Modal
+                    width={800}
                     visible={rating}
-                    onOk={handleRate}
+                    footer={
+                        <EndSessionFooter
+                            handleOk={handleOk}
+                            endMode={endMode}
+                        />
+                    }
                     onCancel={handleCancelRate}
-                    title={t('Please rate this mentor')}
+                    title={
+                        endMode === 'rate'
+                            ? t('Please rate this mentor')
+                            : t('Report this mentor')
+                    }
                     style={{
                         display: 'grid',
                         placeItems: 'center',
                     }}
                 >
-                    <Rate
-                        value={star}
-                        style={{
-                            fontSize: 80,
-                        }}
-                        onChange={handleStarChange}
-                    />
+                    {endMode === 'rate' ? (
+                        <Rate
+                            value={star}
+                            style={{
+                                fontSize: 80,
+                            }}
+                            onChange={handleStarChange}
+                        />
+                    ) : (
+                        <Report />
+                    )}
                 </Modal>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab={t('Real-time Collaborative Editor')} key="1">

@@ -7,6 +7,7 @@ import Mentors from "../../features/mentors/Mentors";
 import Dashboard from "../../features/dashboard/Dashboard";
 import styled from "styled-components/macro";
 import Feedbacks from '../../features/feedbacks/Feedbacks'
+import Questions from '../../features/questions/Questions'
 
 interface IProps {
     path: string;
@@ -28,6 +29,11 @@ const HomeContent = (props: IProps) => {
                 <Route path={`/skills`}>
                     <ContentWrapper>
                         <Skills onAdd={onAdd} visible={addModalVisible} setVisible={setAddModalVisible}/>
+                    </ContentWrapper>
+                </Route>
+                <Route path={`/questions`}>
+                    <ContentWrapper>
+                        <Questions onAdd={onAdd} visible={addModalVisible} setVisible={setAddModalVisible}/>
                     </ContentWrapper>
                 </Route>
                 <Route path={`/mentees`}>
