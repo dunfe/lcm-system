@@ -25,7 +25,7 @@ router.post('/users/unban/:id', protect, restrictTo('admin'), unbanUserById);
 //Mentor
 router.get("/mentors", protect, restrictTo('admin'), getAllMentor(User));
 router.get("/mentors/:id", protect, restrictTo('admin'), getMentorById);
-router.post("/mentors/name",protect,restrictTo('admin'),getMentorByName);
+router.get("/search/mentors",protect,restrictTo('admin'),getMentorByName(User));
 // router.post("/mentors", protect, restrictTo('admin'), createMentor);
 router.put('/mentors/:id', protect, restrictTo('admin'), updateMentorById);
 router.delete('/mentors/:id', protect, restrictTo('admin'), delMentorById);
@@ -51,5 +51,8 @@ router.post("/reports/:id", protect, restrictTo('admin'), resolveFeedback);
 
 //Get all role
 router.get("/roles", protect, restrictTo('admin'), getAllRole);
+
+//Search mentor API
+// router.get("/reports", protect, restrictTo('admin'), getAllReport(Report));
 
 export default router;
