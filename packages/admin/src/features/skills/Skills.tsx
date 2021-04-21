@@ -4,6 +4,8 @@ import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectSkills, update } from './skillsSlice'
 
 interface IProps {
     onAdd: (state: any) => Promise<any>;
@@ -25,7 +27,8 @@ const tailLayout = {
 
 const Skills = (props: IProps) => {
     const { onAdd, visible, setVisible } = props
-    const [data, setData] = useState([])
+    const dispatch = useDispatch()
+    const data = useSelector(selectSkills)
     const [confirmLoading, setConfirmLoading] = React.useState(false)
     const [mode, setMode] = useState('add')
     const [updateId, setUpdateId] = useState('')
@@ -40,6 +43,7 @@ const Skills = (props: IProps) => {
             'Authorization': auth?.user?.user.token,
         },
     })
+
     const columns = [
         {
             title: 'No',
@@ -116,7 +120,7 @@ const Skills = (props: IProps) => {
 
     const getData = () => {
         instance.get('/api/admin/skills').then((response) => {
-            setData(response.data.skill)
+            dispatch(update(response.data.skill))
         }).catch((error) => console.error(error.message))
     }
 

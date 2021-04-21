@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, Rate } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectMentees, update } from './menteesSlice'
 
 interface IProps {
     visible: boolean;
@@ -21,7 +23,8 @@ const tailLayout = {
 
 const Mentees = (props: IProps) => {
     const { visible, setVisible } = props
-    const [data, setData] = useState([])
+    const dispatch = useDispatch()
+    const data = useSelector(selectMentees)
     const [confirmLoading, setConfirmLoading] = React.useState(false)
     const [mode, setMode] = useState('add')
     const [updateId, setUpdateId] = useState('')
@@ -117,7 +120,7 @@ const Mentees = (props: IProps) => {
 
     const getData = () => {
         instance.get(`/api/admin/users?page=${current}`).then((response) => {
-            setData(response.data.results)
+            dispatch(update(response.data.results))
             setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message))
     }
