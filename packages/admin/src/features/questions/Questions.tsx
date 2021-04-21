@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectSkills, update } from './questionsSlice'
+import { selectQuestions, updateQuestions } from './questionsSlice'
 import { status} from '../../utils/status'
 
 interface IProps {
@@ -20,7 +20,7 @@ const { confirm } = Modal
 const Questions = (props: IProps) => {
     const { setVisible } = props
     const dispatch = useDispatch()
-    const data = useSelector(selectSkills)
+    const data = useSelector(selectQuestions)
     const [mode, setMode] = useState('add')
     const [updateId, setUpdateId] = useState('')
     const [itemDetail, setItemDetail] = useState({})
@@ -47,11 +47,6 @@ const Questions = (props: IProps) => {
             title: 'Title',
             dataIndex: 'title',
             key: 'title',
-        },
-        {
-            title: 'Mentee',
-            dataIndex: 'menteeName',
-            key: 'menteeName',
         },
         {
             title: 'Status',
@@ -112,8 +107,8 @@ const Questions = (props: IProps) => {
     }
 
     const getData = () => {
-        instance.get('/api/admin/questions').then((response) => {
-            dispatch(update(response.data.results))
+        instance.get(`/api/admin/questions?page=${current}`).then((response) => {
+            dispatch(updateQuestions(response.data.results))
         }).catch((error) => console.error(error.message))
     }
 
@@ -144,7 +139,7 @@ const Questions = (props: IProps) => {
             <Table columns={columns}
                    expandable={{
                        expandedRowRender: expandRender,
-                       rowExpandable: record => record.name !== 'Not Expandable',
+                       rowExpandable: record => record.title !== 'Not Expandable',
                    }}
                    dataSource={data} rowKey={'_id'} pagination={{
                 current: current,

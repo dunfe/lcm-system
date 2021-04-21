@@ -1,5 +1,4 @@
-import { Row, Col, Card, Table, Avatar, List, Tag } from "antd";
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Row, Col, Card, Table, Tag, Space, Button } from 'antd'
 import * as React from "react";
 import "./Dashboard.css";
 import { useAPI } from '../../utils/hooks/useAPI'
@@ -7,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectSkills, updateSkills } from '../skills/skillsSlice'
 import dayjs from 'dayjs'
 import { selectMentees, updateMentees } from '../mentees/menteesSlice'
-
-const {Meta} = Card;
+import { selectMentors, updateMentors } from '../mentors/mentorsSlice'
+import { selectQuestions } from '../questions/questionsSlice'
+import { status } from '../../utils/status'
 
 interface IDashboard {
     "totalUser": number,
@@ -23,6 +23,8 @@ const Dashboard = () => {
     const instance = useAPI()
     const skills = useSelector(selectSkills)
     const mentees = useSelector(selectMentees)
+    const mentors = useSelector(selectMentors)
+    const questions = useSelector(selectQuestions)
     const dispatch = useDispatch()
 
     const [total, setTotal] = useState<IDashboard>({
@@ -32,6 +34,36 @@ const Dashboard = () => {
         "totalSkill": 0
     })
 
+    const questionsColumns = [
+        {
+            title: 'No',
+            width: '5%',
+            render(text: string, record: any, index: number) {
+                return index + 1
+            },
+        },
+        {
+            title: 'Title',
+            dataIndex: 'title',
+            key: 'title',
+        },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            key: 'status',
+            render: (text: string, record: any) => {
+                return status.map((item) => {
+                    if (item.value === record.status) {
+                        return (
+                            <Tag color={item.color} key={record._id}>
+                                {record.status}
+                            </Tag>
+                        )
+                    }
+                })
+            },
+        }
+    ]
 
     const menteesColumns = [
         {
@@ -93,9 +125,12 @@ const Dashboard = () => {
     ]
 
     useEffect(() => {
+        instance.get(`/api/admin/mentors`).then((response) => {
+            dispatch(updateMentors(response.data.results));
+        }).catch((error) => console.error(error.message))
+
         instance.get(`/api/admin/users`).then((response) => {
             dispatch(updateMentees(response.data.results))
-            setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message))
 
         instance.get('/api/admin/skills').then((response) => {
@@ -135,40 +170,13 @@ const Dashboard = () => {
                 <Table columns={skillsColumns}  dataSource={skills}/>
             </Card>
             <Card title="Danh sách câu hỏi" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                <Table  dataSource={[]}/>
+                <Table columns={questionsColumns}  dataSource={questions}/>
             </Card>
             <Card title="Danh sách mentor" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                <Table columns={menteesColumns}  dataSource={mentees}/>
+                <Table columns={menteesColumns}  dataSource={mentors}/>
             </Card>
             <Card title="Danh sách mentee" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                <List
-                    grid={{ gutter: 16, column: 4 }}
-                    dataSource={mentees}
-                    renderItem={() => (
-                        <List.Item>
-                            <Card
-                                style={{ width: 300 }}
-                                cover={
-                                    <img
-                                        alt="example"
-                                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                    />
-                                }
-                                actions={[
-                                    <SettingOutlined key="setting" />,
-                                    <EditOutlined key="edit" />,
-                                    <EllipsisOutlined key="ellipsis" />,
-                                ]}
-                            >
-                                <Meta
-                                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                    title="Card title"
-                                    description="This is the description"
-                                />
-                            </Card>
-                        </List.Item>
-                    )}
-                />
+                <Table columns={menteesColumns}  dataSource={mentees}/>
             </Card>
         </div>
     )

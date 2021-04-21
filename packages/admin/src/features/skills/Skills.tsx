@@ -5,7 +5,7 @@ import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectSkills, update } from './skillsSlice'
+import { selectSkills, updateSkills } from './skillsSlice'
 
 interface IProps {
     onAdd: (state: any) => Promise<any>;
@@ -120,7 +120,7 @@ const Skills = (props: IProps) => {
 
     const getData = () => {
         instance.get('/api/admin/skills').then((response) => {
-            dispatch(update(response.data.skill))
+            dispatch(updateSkills(response.data.skill))
         }).catch((error) => console.error(error.message))
     }
 

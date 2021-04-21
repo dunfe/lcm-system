@@ -53,18 +53,18 @@ const initialState: SkillsState = {
   list: [],
 };
 
-export const menteesSlice = createSlice({
-  name: 'mentees',
+export const mentorsSlice = createSlice({
+  name: 'mentors',
   initialState,
   reducers: {
-    updateMentees: (state, action: PayloadAction<IUserDetail[]>) => {
+    updateMentors: (state, action: PayloadAction<IUserDetail[]>) => {
       state.list = action.payload;
     },
   },
 });
 
-export const { updateMentees } = menteesSlice.actions;
+export const { updateMentors } = mentorsSlice.actions;
 
-export const selectMentees = (state: RootState) => state.mentees.list;
+export const selectMentors = (state: RootState) => state.mentors.list;
 
-export default menteesSlice.reducer;
+export default mentorsSlice.reducer;
