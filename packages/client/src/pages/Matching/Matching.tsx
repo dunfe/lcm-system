@@ -82,11 +82,11 @@ const Matching = () => {
                         .then((response) => {
                             if (response.status === 200) {
                                 message.success(t('Selected this question'))
-                            } else {
-                                message.error(response.data.message)
                             }
                         })
-                        .catch((error) => console.error(error))
+                        .catch((error) =>
+                            message.error(error.response.data.message)
+                        )
                 }
                 const x = isGone
                     ? (200 + window.innerWidth) * dir

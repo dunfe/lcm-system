@@ -58,6 +58,12 @@ export function HomePage() {
                         subtitle: 'Thêm sửa xoá các loại kỹ năng'
                     });
                     break;
+                case '/questions':
+                    setPageHeader({
+                        title: 'Quản lý câu hỏi',
+                        subtitle: ''
+                    });
+                    break;
                 case '/mentees':
                     setPageHeader({
                         title: 'Quản lý Mentee',
@@ -98,8 +104,14 @@ export function HomePage() {
                         <Menu.Item key="/" icon={<DashboardOutlined/>}>
                             <Link to={`/`}>Dashboard</Link>
                         </Menu.Item>
+                        <Menu.Item key="/requests" icon={<FormOutlined/>}>
+                            <Link to={`/requests`}>Quản lí yêu cầu</Link>
+                        </Menu.Item>
                         <Menu.Item key="/skills" icon={<FormOutlined/>}>
                             <Link to={`/skills`}>Quản lí kỹ năng</Link>
+                        </Menu.Item>
+                        <Menu.Item key="/questions" icon={<FormOutlined/>}>
+                            <Link to={`/questions`}>Quản lí câu hỏi</Link>
                         </Menu.Item>
                         <Menu.Item key="/mentees" icon={<TeamOutlined/>}>
                             <Link to={`/mentees`}>Quản lí Mentee</Link>
