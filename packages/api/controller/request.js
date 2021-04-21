@@ -141,13 +141,14 @@ export const confirmRequestMentorRegister = async (req,res) =>{
 export function getAllRequest(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
-    //   const limit = parseInt(req.query.limit)
       const limit = 10;
       const results = {}
       const data = await model.find();
       const totalPage = Math.ceil(data.length/limit) ;
       results.totalPage = totalPage;
+      results.totalItem = data.length;
       if(page<1 || page > totalPage) page = 1;
+
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
       
