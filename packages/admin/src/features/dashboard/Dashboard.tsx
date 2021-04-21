@@ -1,12 +1,12 @@
-import { Row, Col, Card, Table, Avatar, List } from 'antd'
+import { Row, Col, Card, Table, Avatar, List, Tag } from "antd";
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import * as React from "react";
 import "./Dashboard.css";
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectSkills, update } from '../skills/skillsSlice'
+import { selectSkills, updateSkills } from '../skills/skillsSlice'
 import dayjs from 'dayjs'
-import { selectMentees } from '../mentees/menteesSlice'
+import { selectMentees, updateMentees } from '../mentees/menteesSlice'
 
 const {Meta} = Card;
 
@@ -32,6 +32,38 @@ const Dashboard = () => {
         "totalSkill": 0
     })
 
+
+    const menteesColumns = [
+        {
+            title: 'No',
+            width: '5%',
+            render(text: string, record: any, index: number) {
+                return index + 1
+            },
+        },
+        {
+            title: 'Tên',
+            dataIndex: 'fullname',
+            key: 'fullname',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Role',
+            dataIndex: 'role',
+            key: 'role',
+            render(text: string) {
+                return (
+                  <Tag color={text === 'banned' ? 'red': 'green'}>
+                      {text}
+                  </Tag>
+                )
+            }
+        },
+    ]
     const skillsColumns = [
         {
             title: 'No',
@@ -61,8 +93,13 @@ const Dashboard = () => {
     ]
 
     useEffect(() => {
+        instance.get(`/api/admin/users`).then((response) => {
+            dispatch(updateMentees(response.data.results))
+            setTotal(response.data.totalItem)
+        }).catch((error) => console.error(error.message))
+
         instance.get('/api/admin/skills').then((response) => {
-            dispatch(update(response.data.skill))
+            dispatch(updateSkills(response.data.skill))
         }).catch((error) => console.error(error.message))
 
         instance.get('/api/admin/dashboard').then((response) => {
@@ -101,34 +138,7 @@ const Dashboard = () => {
                 <Table  dataSource={[]}/>
             </Card>
             <Card title="Danh sách mentor" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                <List
-                    grid={{ gutter: 16, column: 4 }}
-                    dataSource={[]}
-                    renderItem={() => (
-                        <List.Item>
-                            <Card
-                                style={{ width: 300 }}
-                                cover={
-                                    <img
-                                        alt="example"
-                                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                    />
-                                }
-                                actions={[
-                                    <SettingOutlined key="setting" />,
-                                    <EditOutlined key="edit" />,
-                                    <EllipsisOutlined key="ellipsis" />,
-                                ]}
-                            >
-                                <Meta
-                                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                    title="Card title"
-                                    description="This is the description"
-                                />
-                            </Card>
-                        </List.Item>
-                    )}
-                />
+                <Table columns={menteesColumns}  dataSource={mentees}/>
             </Card>
             <Card title="Danh sách mentee" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
                 <List

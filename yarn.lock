@@ -4377,23 +4377,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mongodb@npm:*, @types/mongodb@npm:^3.5.27":
+"@types/mongodb@npm:^3.5.27":
   version: 3.6.12
   resolution: "@types/mongodb@npm:3.6.12"
   dependencies:
     "@types/bson": "*"
     "@types/node": "*"
   checksum: 7e41e42a941a5c07cc45f83722e617f1e96942b27cabae8f06dd253ae86b420c1ca5c75e1de7bfbce787bb703714bc297bef45215ef1275815e8d355e03bc27c
-  languageName: node
-  linkType: hard
-
-"@types/mongoose@npm:^5":
-  version: 5.10.4
-  resolution: "@types/mongoose@npm:5.10.4"
-  dependencies:
-    "@types/mongodb": "*"
-    "@types/node": "*"
-  checksum: 79b271db6def51ef62718eb07aa54f9e18239e2a5657e84764c0445a8331b170896ec035046cb6bf566ec6dea8e3b6cac91f28a4d85f357827da680b26239ace
   languageName: node
   linkType: hard
 
@@ -18057,36 +18047,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mongodb@npm:3.6.5":
-  version: 3.6.5
-  resolution: "mongodb@npm:3.6.5"
-  dependencies:
-    bl: ^2.2.1
-    bson: ^1.1.4
-    denque: ^1.4.1
-    require_optional: ^1.0.1
-    safe-buffer: ^5.1.2
-    saslprep: ^1.0.0
-  dependenciesMeta:
-    saslprep:
-      optional: true
-  peerDependenciesMeta:
-    aws4:
-      optional: true
-    bson-ext:
-      optional: true
-    kerberos:
-      optional: true
-    mongodb-client-encryption:
-      optional: true
-    mongodb-extjson:
-      optional: true
-    snappy:
-      optional: true
-  checksum: 6a838b79e104cee243e2ed10a5ded90490bb4db687ca1f1cabeab6c578441b1db64136fd33bad7112ca4a09e60a99a3b039d1c11e515521ffffa66ed91fb3148
-  languageName: node
-  linkType: hard
-
 "mongoose-legacy-pluralize@npm:1.0.2":
   version: 1.0.2
   resolution: "mongoose-legacy-pluralize@npm:1.0.2"
@@ -18113,26 +18073,6 @@ fsevents@^1.2.7:
     sift: 7.0.1
     sliced: 1.0.1
   checksum: b8670af3ac998605a89e895ce859c5336ef1789a80992b03f3a95824f30c3d94c84f975975da34bd8c2e057d93ce57b70a2d337bddf6cbf0204896e503b3aa24
-  languageName: node
-  linkType: hard
-
-"mongoose@npm:5.12.3, mongoose@npm:^5.12.3":
-  version: 5.12.3
-  resolution: "mongoose@npm:5.12.3"
-  dependencies:
-    "@types/mongodb": ^3.5.27
-    bson: ^1.1.4
-    kareem: 2.3.2
-    mongodb: 3.6.5
-    mongoose-legacy-pluralize: 1.0.2
-    mpath: 0.8.3
-    mquery: 3.2.5
-    ms: 2.1.2
-    regexp-clone: 1.0.0
-    safe-buffer: 5.2.1
-    sift: 7.0.1
-    sliced: 1.0.1
-  checksum: 50e05e10571347562ffe2df29f797446954c257fe0ae6f2075136af214aacf58a698a9a5d8ebe45aa44d010ea8b490bfc64670cb222336fa859c3a3863bb5b72
   languageName: node
   linkType: hard
 
@@ -18167,19 +18107,6 @@ fsevents@^1.2.7:
     safe-buffer: 5.1.2
     sliced: 1.0.1
   checksum: 4eecfd75bfd1f0094e24aa5905df70e96e630f002a3fbee5b0443cd56e21720930a8f38f8afff6a7d4318fcb3d04317d632bca2f7a06c3facd3913365bc32420
-  languageName: node
-  linkType: hard
-
-"mquery@npm:3.2.5":
-  version: 3.2.5
-  resolution: "mquery@npm:3.2.5"
-  dependencies:
-    bluebird: 3.5.1
-    debug: 3.1.0
-    regexp-clone: ^1.0.0
-    safe-buffer: 5.1.2
-    sliced: 1.0.1
-  checksum: d7d611b3eed531f4ebb4a0d58bd5704712b5b0fb88c058e9ed433bb25f3dda72a5fbbcac8026c9c11a56a8d3983c039abd90d329ff91137f31fdea93ee7ce5d1
   languageName: node
   linkType: hard
 
@@ -18730,20 +18657,6 @@ fsevents@^1.2.7:
   checksum: 15a714724414fc7c9d761539d88a8109a212a54e4f058c096afcf6a7987023c22729b6945e4b3d4d48575259de3abe22e21414af46e3493a06f182deff241c8c
   languageName: node
   linkType: hard
-
-"notify-server@workspace:packages/notify-server":
-  version: 0.0.0-use.local
-  resolution: "notify-server@workspace:packages/notify-server"
-  dependencies:
-    "@types/cors": ^2
-    "@types/express": ^4
-    "@types/mongoose": ^5
-    cors: ^2.8.5
-    express: ^4.17.1
-    mongoose: ^5.12.3
-    socket.io: ^4.0.1
-  languageName: unknown
-  linkType: soft
 
 "npm-bundled@npm:^1.1.1":
   version: 1.1.1

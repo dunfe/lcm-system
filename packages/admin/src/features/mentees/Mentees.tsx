@@ -3,7 +3,7 @@ import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, R
 import { useAPI } from '../../utils/hooks/useAPI'
 import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectMentees, update } from './menteesSlice'
+import { selectMentees, updateMentees } from './menteesSlice'
 
 interface IProps {
     visible: boolean;
@@ -120,7 +120,7 @@ const Mentees = (props: IProps) => {
 
     const getData = () => {
         instance.get(`/api/admin/users?page=${current}`).then((response) => {
-            dispatch(update(response.data.results))
+            dispatch(updateMentees(response.data.results))
             setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message))
     }

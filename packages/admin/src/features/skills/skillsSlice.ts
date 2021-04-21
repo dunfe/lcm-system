@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+2import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 
 export interface ISkill {
@@ -20,13 +20,13 @@ export const skillsSlice = createSlice({
   name: 'skills',
   initialState,
   reducers: {
-    update: (state, action: PayloadAction<ISkill[]>) => {
+    updateSkills: (state, action: PayloadAction<ISkill[]>) => {
       state.list = action.payload;
     },
   },
 });
 
-export const { update } = skillsSlice.actions;
+export const { updateSkills } = skillsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

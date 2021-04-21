@@ -57,13 +57,13 @@ export const menteesSlice = createSlice({
   name: 'skills',
   initialState,
   reducers: {
-    update: (state, action: PayloadAction<IUserDetail[]>) => {
+    updateMentees: (state, action: PayloadAction<IUserDetail[]>) => {
       state.list = action.payload;
     },
   },
 });
 
-export const { update } = menteesSlice.actions;
+export const { updateMentees } = menteesSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
