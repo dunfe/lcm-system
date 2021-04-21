@@ -30,7 +30,9 @@ export function getAllMentee(model) {
         const totalPage = Math.ceil(data.length / limit);
         results.totalPage = totalPage;
         results.totalItem = data.length;
+        
         if (page < 1 || page > totalPage) page = 1;
+
         const startIndex = (page - 1) * limit
         const endIndex = page * limit
         if (endIndex < data.length) {
