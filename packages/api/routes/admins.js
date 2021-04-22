@@ -41,7 +41,7 @@ router.delete('/questions/:id', protect, restrictTo('admin'), delQuestionById);
 // router.post("/requests", protect, restrictTo('admin'), createRequest);
 router.get("/requests", protect, restrictTo('admin','staff'), getAllRequest(Request));
 router.get("/requests/:id", protect, restrictTo('admin'), getRequestById);
-router.post('/requests/:id',protect, restrictTo('admin'),confirmRequestMentorRegister);
+router.post('/requests/:id',protect, restrictTo('admin','staff'),confirmRequestMentorRegister);
 router.delete('/requests/:id', protect, restrictTo('admin'), delRequest);
 //CRUD Report
 router.get("/reports", protect, restrictTo('admin'), getAllReport(Report));
