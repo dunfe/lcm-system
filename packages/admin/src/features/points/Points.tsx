@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { Table, Space, Modal, Button, message, Tag } from 'antd'
-import axios from 'axios'
-import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectPoints, updatePoints } from './pointsSlice'
 import { requestStatus } from '../../utils/requestStatus'
+import { useAPI } from '../../utils/hooks/useAPI'
 
 const { useState, useEffect } = React
 const { confirm } = Modal
@@ -13,17 +12,10 @@ const { confirm } = Modal
 const Points = () => {
     const dispatch = useDispatch()
     const data = useSelector(selectPoints)
+    const instance = useAPI()
     
     const [current, setCurrent] = useState(1)
     const [total, setTotal] = useState(0)
-
-    const auth = useAuth()
-    const instance = axios.create({
-        baseURL: 'https://livecoding.me',
-        headers: {
-            'Authorization': auth?.user?.user.token,
-        },
-    })
 
     const columns = [
         {
@@ -60,23 +52,13 @@ const Points = () => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <Button type={'primary'} onClick={() => onApprove(record._id)}>Approve</Button>
-                    <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
+                    <Button danger onClick={() => onUpdate(record._id)}>Update</Button>
                 </Space>
             },
         },
     ]
 
-    const onApprove = (id: string) => {
-        instance.post(`/api/admin/requests/${id}`).then((response) => {
-            if (response) {
-                message.success('Approved')
-                getData()
-            }
-        }).catch((error) => console.error(error.message))
-    }
-
-    const onDelete = (id: string) => {
+    const onUpdate = (id: string) => {
         confirm({
             title: 'Xác nhận?',
             icon: <DeleteOutlined />,
@@ -100,7 +82,7 @@ const Points = () => {
     }
 
     const getData = () => {
-        instance.get(`/api/admin/requests?page=${current}`).then((response) => {
+        instance.get(`/api/staff/users?page=${current}`).then((response) => {
             dispatch(updatePoints(response.data.results))
             setTotal(response.data.totalPage * 10)
         }).catch((error) => console.error(error.message))
