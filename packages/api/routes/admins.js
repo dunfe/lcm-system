@@ -44,10 +44,10 @@ router.get("/requests/:id", protect, restrictTo('admin'), getRequestById);
 router.post('/requests/:id',protect, restrictTo('admin','staff'),confirmRequestMentorRegister);
 router.delete('/requests/:id', protect, restrictTo('admin'), delRequest);
 //CRUD Report
-router.get("/reports", protect, restrictTo('admin'), getAllReport(Report));
-router.get("/reports/:id", protect, restrictTo('admin'), getReportById);
-router.put("/reports/:id", protect,restrictTo('admin'), updateReportById);
-router.delete('/reports/:id', protect, restrictTo('admin'), delReportById);
+router.get("/reports", protect, restrictTo('admin','staff'), getAllReport(Report));
+router.get("/reports/:id", protect, restrictTo('admin','staff'), getReportById);
+router.put("/reports/:id", protect,restrictTo('admin','staff'), updateReportById);
+router.delete('/reports/:id', protect, restrictTo('admin','staff'), delReportById);
 
 router.post("/reports/:id", protect, restrictTo('admin'), resolveFeedback);
 
