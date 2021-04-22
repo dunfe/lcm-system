@@ -4,7 +4,6 @@ import Request from '../models/request.js';
 import {updatePoint_Transaction,viewPointInTransactionById,viewPointOutTransactionById,
         plusPoint_Transaction,minusPoint_Transaction, addRateExchange, updateRateExchange} from '../controller/staff.js';
 import { getAllRequest, getRequestById, confirmRequestMentorRegister, delRequest} from '../controller/request.js';
-import {confirmRequestMentorRegister} from '../controller/request.js';
 import {getAllUser} from '../controller/mentor.js';
 import { protect, restrictTo} from '../controller/auth.js';
 import { getAllReport, getReportById,updateReportById, delReportById, resolveFeedback } from '../controller/report.js';
