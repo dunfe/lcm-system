@@ -13,7 +13,7 @@ let token;
 const skillID = '6050ad2ff8cf812818f850a6';
 const delSkillId = '60538170470d552f44dabcd8';
 const menteeID = '605ac0808bab85394cab6a8e';
-const mentorID = '6050b3337a2015252ca6e8a0';
+const mentorID = '60519d0a54327d3e983e4ba7';
 const questionID = '606bc34ab1a5090030db1c5b';
 const requestID = '605f084eddd6a545245cbee2';
 
@@ -137,27 +137,26 @@ describe('Check Admin API', () => {
     })
 
     //MENTOR
-    // it('View all mentor', function(done) {
-    //     chai.request(app).get('/api/admin/mentors')
-    //     .set('Authorization', token)
-    //     .end((err, res) => {
-    //         expect(res.status).to.equal(200);
-    //         expect(res.body.status).to.equal('success');
-    //         expect(res.body).to.contain.property('data');
-    //         done();
-    //     })
-    // })
+    it('View all mentor', function(done) {
+        chai.request(app).get('/api/admin/mentors')
+        .set('Authorization', token)
+        .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body).to.contain.property('results');
+            done();
+        })
+    })
 
-    // it('View mentor by id', function(done) {
-    //     chai.request(app).get(`/api/admin/mentors/${mentorID}`)
-    //     .set('Authorization', token)
-    //     .end((err, res) => {
-    //         expect(res.status).to.equal(200);
-    //         expect(res.body.status).to.equal('success');
-    //         expect(res.body.data).is.not.null;
-    //         done();
-    //     })
-    // })
+    it('View mentor by id', function(done) {
+        chai.request(app).get(`/api/admin/mentors/${mentorID}`)
+        .set('Authorization', token)
+        .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.status).to.equal('success');
+            expect(res.body.data).is.not.null;
+            done();
+        })
+    })
 
     // it('Update mentor by id', function(done){
     //     chai.request(app).put(`/api/admin/mentors/${mentorID}`)
@@ -226,6 +225,7 @@ describe('Check Admin API', () => {
             done();
         })
     })
+
 
 })
 
