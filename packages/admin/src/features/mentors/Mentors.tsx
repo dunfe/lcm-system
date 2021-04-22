@@ -36,7 +36,6 @@ const Mentors = (props: IProps) => {
     const [current, setCurrent] = useState(1)
     const [detail, setDetail] = useState(false)
     const [total, setTotal] = useState(0)
-    const [searchText, setSearchText] = useState('')
     const [form] = useForm();
 
     const auth = useAuth();
@@ -152,16 +151,8 @@ const Mentors = (props: IProps) => {
         setConfirmLoading(false);
     };
 
-    const onSearchChange = (value: any) => {
-        setSearchText(value.target.value)
-    }
-
-    const onSearch = () => {
-        instance.get(`/api/admin/mentors`, {
-            data: {
-                fullname: searchText
-            }
-        }).then((response) => {
+    const onSearch = (value: string) => {
+        instance.get(`/api/admin/search/mentors?name=${value}`).then((response) => {
             dispatch(updateMentors(response.data.results));
             setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message));
@@ -282,7 +273,8 @@ const Mentors = (props: IProps) => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Search style={{paddingBottom: 12}} placeholder="Enter mentor name" onSearch={onSearch} onChange={onSearchChange} enterButton />
+            <Search style={{paddingBottom: 12}} placeholder="Enter mentor name"
+                    onSearch={onSearch} enterButton />
             <Table columns={columns}
                    dataSource={data}
                    rowKey={'_id'}
