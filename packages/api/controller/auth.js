@@ -80,8 +80,8 @@ export const resetPassword = async (req, res, next) => {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     
-    console.log(req.body.newPassword);
-    console.log(user.password)
+    // console.log(req.body.newPassword);
+    // console.log(user.password)
     // 3) Update changedPasswordAt property for the user
 
     // 4) Log the user in, send JWT
