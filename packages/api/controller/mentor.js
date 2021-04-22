@@ -167,7 +167,7 @@ export const getMentorById = async (req, res) => {
 
 export function getMentorByName(model){
     return async ( req, res) => {
-        const fullname = req.body.fullname;
+        const fullname = req.query.name;
 
         let page = parseInt(req.query.page) || 1;
         const limit = 10;
