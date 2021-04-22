@@ -57,6 +57,11 @@ const HomeContent = (props: IProps) => {
                         <Feedbacks />
                     </ContentWrapper>
                 </Route>
+                <Route path={`/points`}>
+                    <ContentWrapper>
+                        <Feedbacks />
+                    </ContentWrapper>
+                </Route>
             </Switch>
         </Content>
     )
