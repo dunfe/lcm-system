@@ -30,7 +30,9 @@ export function getAllMentee(model) {
         const totalPage = Math.ceil(data.length / limit);
         results.totalPage = totalPage;
         results.totalItem = data.length;
+        
         if (page < 1 || page > totalPage) page = 1;
+
         const startIndex = (page - 1) * limit
         const endIndex = page * limit
         if (endIndex < data.length) {
@@ -218,6 +220,30 @@ export const banUserById = async (req, res, next) => {
             return res.status(400).json({
                 status: 'fail',
                 message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
+export const unbanUserById = async (req, res, next) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    User.findByIdAndUpdate(req.params.id, { $set: { role: 'mentee' } }, { new: true }, (err, doc) => {
+        if (!err) {
+            return res.status(200).json({
+                status: 'success',
+                message: 'User has been unbanned and set role become to mentee',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: err.message
             })
         }
     });

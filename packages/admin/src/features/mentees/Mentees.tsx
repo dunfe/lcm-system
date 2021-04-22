@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, Rate } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectMentees, updateMentees } from './menteesSlice'
 
 interface IProps {
     visible: boolean;
@@ -21,7 +23,8 @@ const tailLayout = {
 
 const Mentees = (props: IProps) => {
     const { visible, setVisible } = props
-    const [data, setData] = useState([])
+    const dispatch = useDispatch()
+    const data = useSelector(selectMentees)
     const [confirmLoading, setConfirmLoading] = React.useState(false)
     const [mode, setMode] = useState('add')
     const [updateId, setUpdateId] = useState('')
@@ -49,7 +52,7 @@ const Mentees = (props: IProps) => {
                 return (
                     <a onClick={() => onViewDetail(record._id)}>{text}</a>
                 )
-            }
+            },
         },
         {
             title: 'Email',
@@ -62,11 +65,11 @@ const Mentees = (props: IProps) => {
             key: 'role',
             render(text: string) {
                 return (
-                    <Tag color={text === 'banned' ? 'red': 'green'}>
+                    <Tag color={text === 'banned' ? 'red' : 'green'}>
                         {text}
                     </Tag>
                 )
-            }
+            },
         },
         {
             title: 'Hành động',
@@ -75,7 +78,8 @@ const Mentees = (props: IProps) => {
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
                     <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
-                    <Button danger onClick={() => onBan(record._id)}>Ban</Button>
+                    {record.role === 'banned' ? <Button onClick={() => onUnban(record._id)}>Unban</Button> :
+                        <Button danger onClick={() => onBan(record._id)}>Ban</Button>}
                 </Space>
             },
         },
@@ -84,6 +88,14 @@ const Mentees = (props: IProps) => {
     const onViewDetail = (id: string) => {
         setUpdateId(id)
         setDetail(true)
+    }
+
+    const onUnban = (id: string) => {
+        instance.post(`/api/admin/users/unban/${id}`).then((response) => {
+            if (response.status === 200) {
+                message.success('Unbanned')
+            }
+        }).then(() => getData()).catch((error) => console.error(error.message))
     }
 
     const onBan = (id: string) => {
@@ -117,7 +129,7 @@ const Mentees = (props: IProps) => {
 
     const getData = () => {
         instance.get(`/api/admin/users?page=${current}`).then((response) => {
-            setData(response.data.results)
+            dispatch(updateMentees(response.data.results))
             setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message))
     }
@@ -203,12 +215,12 @@ const Mentees = (props: IProps) => {
                         {itemDetail?.detail.totalQuestion}
                     </Descriptions.Item>
                     <Descriptions.Item label={'Rate'}>
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                            <Space><Rate value={5}/> {itemDetail?.rate.totalRating5}</Space>
-                            <Space><Rate value={4}/> {itemDetail?.rate.totalRating4}</Space>
-                            <Space><Rate value={3}/> {itemDetail?.rate.totalRating3}</Space>
-                            <Space><Rate value={2}/> {itemDetail?.rate.totalRating2}</Space>
-                            <Space><Rate value={1}/> {itemDetail?.rate.totalRating1}</Space>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <Space><Rate value={5} /> {itemDetail?.rate.totalRating5}</Space>
+                            <Space><Rate value={4} /> {itemDetail?.rate.totalRating4}</Space>
+                            <Space><Rate value={3} /> {itemDetail?.rate.totalRating3}</Space>
+                            <Space><Rate value={2} /> {itemDetail?.rate.totalRating2}</Space>
+                            <Space><Rate value={1} /> {itemDetail?.rate.totalRating1}</Space>
                         </div>
                     </Descriptions.Item>
                     <Descriptions.Item label={'Phone'} span={2}>
