@@ -6,12 +6,16 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
+interface IProps {
+    setActiveKey: (state: string) => void
+}
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
 }
 
-const SignInComponent = () => {
+const SignInComponent = (props: IProps) => {
+    const { setActiveKey } = props
     const history = useHistory()
     const auth = useAuth()
     const { t } = useTranslation()
@@ -90,8 +94,14 @@ const SignInComponent = () => {
                 />
             </Form.Item>
 
-            <Form.Item name="remember" valuePropName="checked">
-                <Checkbox>{t('Remember me')}</Checkbox>
+            <Form.Item wrapperCol={{ span: 24 }}>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Checkbox>{t('Remember me')} </Checkbox>
+                </Form.Item>
+
+                <a onClick={() => setActiveKey('3')} style={{ float: 'right' }}>
+                    {t('Forgot password?')}
+                </a>
             </Form.Item>
 
             <Form.Item wrapperCol={{ span: 24 }}>

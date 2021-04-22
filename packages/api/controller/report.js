@@ -107,7 +107,7 @@ export const getReportById = async (req, res) => {
     })
   };
 
-  Report.find({createBy: userId, _id:req.params.id}, (err,doc) => {
+  Report.find({ _id:req.params.id}, (err,doc) => {
     if (!err){
       return res.status(200).json({
           status: 'success',
