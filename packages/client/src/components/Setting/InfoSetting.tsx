@@ -228,7 +228,7 @@ const InfoSetting = () => {
                                 />
                             </Form.Item>
                             <Form.Item label={t('Bio')} name="bio">
-                                <Input />
+                                <Input.TextArea />
                             </Form.Item>
                             <Form.Item
                                 label={t('Github')}

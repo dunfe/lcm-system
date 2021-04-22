@@ -7,18 +7,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectQuestions, updateQuestions } from './questionsSlice'
 import { status} from '../../utils/status'
 
-interface IProps {
-    onAdd: (state: any) => Promise<any>;
-    visible: boolean;
-    setVisible: (state: boolean) => void;
-}
-
 const { useState, useEffect } = React
 const { useForm } = Form
 const { confirm } = Modal
 
-const Questions = (props: IProps) => {
-    const { setVisible } = props
+const Questions = () => {
     const dispatch = useDispatch()
     const data = useSelector(selectQuestions)
     const [mode, setMode] = useState('add')
@@ -103,7 +96,6 @@ const Questions = (props: IProps) => {
     const onEdit = (id: string) => {
         setMode('update')
         setUpdateId(id)
-        setVisible(true)
     }
 
     const getData = () => {

@@ -70,7 +70,7 @@ const Feedbacks = () => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <Button type={'primary'} onClick={() => onResolved(record._id)}>Resolved</Button>
+                    <Button disabled={record.status !== 'open'} type={'primary'} onClick={() => onResolved(record._id)}>Resolved</Button>
                 </Space>
             },
         },

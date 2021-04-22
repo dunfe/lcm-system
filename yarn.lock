@@ -5756,7 +5756,7 @@ __metadata:
     "@types/react-redux": ^7.1.7
     "@types/react-router-dom": ^5.1.7
     "@types/styled-components": ^5.1.9
-    antd: ^4.14.1
+    antd: ^4.15.2
     axios: ^0.21.1
     craco-antd: ^1.19.0
     dayjs: ^1.10.4
@@ -6083,6 +6083,59 @@ __metadata:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
   checksum: e54bf77e05a25b0d7055aa02ff2b6a4147d73051e60f53bcecab91bbfee19eaae6dd47ca4a6bebe996b08c7d17cddb96138f437e00ccccbcef852ac010399fe5
+  languageName: node
+  linkType: hard
+
+"antd@npm:^4.15.2":
+  version: 4.15.2
+  resolution: "antd@npm:4.15.2"
+  dependencies:
+    "@ant-design/colors": ^6.0.0
+    "@ant-design/icons": ^4.6.2
+    "@ant-design/react-slick": ~0.28.1
+    "@babel/runtime": ^7.12.5
+    array-tree-filter: ^2.1.0
+    classnames: ^2.2.6
+    copy-to-clipboard: ^3.2.0
+    lodash: ^4.17.21
+    moment: ^2.25.3
+    rc-cascader: ~1.4.0
+    rc-checkbox: ~2.3.0
+    rc-collapse: ~3.1.0
+    rc-dialog: ~8.5.1
+    rc-drawer: ~4.3.0
+    rc-dropdown: ~3.2.0
+    rc-field-form: ~1.20.0
+    rc-image: ~5.2.4
+    rc-input-number: ~7.0.1
+    rc-mentions: ~1.5.0
+    rc-menu: ~8.10.0
+    rc-motion: ^2.4.0
+    rc-notification: ~4.5.2
+    rc-pagination: ~3.1.6
+    rc-picker: ~2.5.10
+    rc-progress: ~3.1.0
+    rc-rate: ~2.9.0
+    rc-resize-observer: ^1.0.0
+    rc-select: ~12.1.6
+    rc-slider: ~9.7.1
+    rc-steps: ~4.1.0
+    rc-switch: ~3.2.0
+    rc-table: ~7.13.0
+    rc-tabs: ~11.7.0
+    rc-textarea: ~0.3.0
+    rc-tooltip: ~5.1.0
+    rc-tree: ~4.1.0
+    rc-tree-select: ~4.3.0
+    rc-trigger: ^5.2.1
+    rc-upload: ~4.2.0-alpha.0
+    rc-util: ^5.9.4
+    scroll-into-view-if-needed: ^2.2.25
+    warning: ^4.0.3
+  peerDependencies:
+    react: ">=16.9.0"
+    react-dom: ">=16.9.0"
+  checksum: b76fdae92c3a771e9734b857fe584e617f2d8c73c395b03c88b83ffd0cabca785d1def1ce7cce0572c32d05e05d3d8aa4cf9d7872d48ea91d476441e7a2a545b
   languageName: node
   linkType: hard
 

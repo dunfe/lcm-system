@@ -3,6 +3,8 @@ import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, R
 import axios from "axios";
 import {useAuth} from "../../utils/hooks/useAuth";
 import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectMentors, updateMentors } from './mentorsSlice'
 
 interface IProps {
     visible: boolean;
@@ -20,9 +22,13 @@ const tailLayout = {
     wrapperCol: { offset: 4, span: 20 },
 };
 
+const { Search } = Input;
+
 const Mentors = (props: IProps) => {
     const {visible, setVisible} = props;
-    const [data, setData] = useState([]);
+    const dispatch = useDispatch()
+
+    const data = useSelector(selectMentors)
     const [confirmLoading, setConfirmLoading] = React.useState(false);
     const [mode, setMode] = useState('add');
     const [updateId, setUpdateId] = useState('');
@@ -118,7 +124,7 @@ const Mentors = (props: IProps) => {
 
     const getData = () => {
         instance.get(`/api/admin/mentors?page=${current}`).then((response) => {
-            setData(response.data.results);
+            dispatch(updateMentors(response.data.results));
             setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message));
     };
@@ -144,6 +150,13 @@ const Mentors = (props: IProps) => {
 
         setConfirmLoading(false);
     };
+
+    const onSearch = (value: string) => {
+        instance.get(`/api/admin/search/mentors?name=${value}`).then((response) => {
+            dispatch(updateMentors(response.data.results));
+            setTotal(response.data.totalItem)
+        }).catch((error) => console.error(error.message));
+    }
 
     useEffect(() => {
         if (updateId !== '') {
@@ -260,6 +273,8 @@ const Mentors = (props: IProps) => {
                     </Form.Item>
                 </Form>
             </Modal>
+            <Search style={{paddingBottom: 12}} placeholder="Enter mentor name"
+                    onSearch={onSearch} enterButton />
             <Table columns={columns}
                    dataSource={data}
                    rowKey={'_id'}
