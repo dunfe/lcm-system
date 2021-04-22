@@ -67,7 +67,12 @@ const Requests = () => {
     ]
 
     const onApprove = (id: string) => {
-        console.log('approve' + id)
+        instance.post(`/api/admin/requests/${id}`).then((response) => {
+            if (response) {
+                message.success('Approved')
+                getData()
+            }
+        }).catch((error) => console.error(error.message))
     }
 
     const onDelete = (id: string) => {
@@ -76,7 +81,7 @@ const Requests = () => {
             icon: <DeleteOutlined />,
             content: 'Hành động này không thể khôi phục',
             onOk() {
-                instance.delete(`/api/admin/questions/${id}`).then((response) => {
+                instance.delete(`/api/admin/requests/${id}`).then((response) => {
                     if (response.status === 200) {
                         getData()
                         message.success('Xoá thành công').then()

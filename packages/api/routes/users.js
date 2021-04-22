@@ -18,6 +18,7 @@ import cors from 'cors'
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import {createPayemnt} from '../controller/payment.js';
 
 dotenv.config();
 
@@ -308,4 +309,7 @@ router.get('/skills',getAllSkills);
 //notify
 router.get('/notify',protect,restrictTo('mentee', 'mentor'),getAllNotification);
 router.put('/notify/:id',protect,restrictTo('mentee', 'mentor'),clickNotify)
+
+//payment
+router.post('/payment',protect,restrictTo('mentee','mentor'),createPayemnt);
 export default router;

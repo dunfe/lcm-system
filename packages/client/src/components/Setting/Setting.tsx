@@ -4,11 +4,14 @@ import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
 import InfoSetting from './InfoSetting'
 import { useTranslation } from 'react-i18next'
 import SecuritySetting from './SecuritySetting'
+import FavoriteMentor from './FavoriteMentor'
+import { useRole } from '../../utils/hooks/useRole'
 
 const { useState, useEffect } = React
 const Setting = () => {
     const { path, url } = useRouteMatch()
     const { t } = useTranslation()
+    const role = useRole()
 
     const [selectedKeys, setSelectedKeys] = useState<string[]>([])
 
@@ -33,6 +36,13 @@ const Setting = () => {
                     <Menu.Item key={url}>
                         <Link to={`${url}`}>{t('Basic Information')}</Link>
                     </Menu.Item>
+                    {role === 'mentee' ? (
+                        <Menu.Item key={`${url}/favorite`}>
+                            <Link to={`${url}/favorite`}>
+                                {t('Favorite Mentor')}
+                            </Link>
+                        </Menu.Item>
+                    ) : null}
                     <Menu.Item key={`${url}/security`}>
                         <Link to={`${url}/security`}>
                             {t('Security Setting')}
@@ -57,6 +67,13 @@ const Setting = () => {
                             <InfoSetting />
                         </div>
                     </Route>
+                    {role === 'mentee' ? (
+                        <Route path={`${path}/favorite`}>
+                            <div style={{ padding: 24 }}>
+                                <FavoriteMentor />
+                            </div>
+                        </Route>
+                    ) : null}
                     <Route path={`${path}/security`}>
                         <div style={{ padding: 24 }}>
                             <SecuritySetting />

@@ -6,15 +6,23 @@ import SignUpComponent from '../../components/Auth/SignUpComponent'
 import QuickLogin from '../../components/Auth/QuickLogin'
 import { Logo } from '../../components/Logo/Logo'
 import { useTranslation } from 'react-i18next'
+import ForgotPassword from '../../components/Auth/ForgotPassword'
 
 const { TabPane } = Tabs
 const { Option } = Select
 
+const { useState } = React
+
 const LoginPage = () => {
     const { t, i18n } = useTranslation()
+    const [activeKey, setActiveKey] = useState('1')
 
     const onLocaleChange = (value) => {
         i18n.changeLanguage(value)
+    }
+
+    const onChange = (key) => {
+        setActiveKey(key)
     }
 
     return (
@@ -33,12 +41,15 @@ const LoginPage = () => {
                 <Logo />
             </LogoContainer>
             <QuickLogin />
-            <StyledTabs defaultActiveKey="1">
+            <StyledTabs activeKey={activeKey} onChange={onChange}>
                 <TabPane tab={t('Login')} key="1">
-                    <SignInComponent />
+                    <SignInComponent setActiveKey={setActiveKey} />
                 </TabPane>
                 <TabPane tab={t('Register')} key="2">
                     <SignUpComponent />
+                </TabPane>
+                <TabPane tab={t('Forgot Password')} key="3">
+                    <ForgotPassword setActiveKey={setActiveKey} />
                 </TabPane>
             </StyledTabs>
         </LoginPageContainer>
@@ -49,7 +60,7 @@ const StyledTabs = styled(Tabs)`
     width: 360px;
 `
 
-const LoginPageContainer = styled.div`
+export const LoginPageContainer = styled.div`
     display: grid;
     place-items: center;
 `
