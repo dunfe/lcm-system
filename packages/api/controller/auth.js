@@ -75,10 +75,13 @@ export const resetPassword = async (req, res, next) => {
         return next(res.status(400).send('Token is invalid or has expired'));
     }
     const tempUser = new User();
-    user.password = tempUser.generateHash(req.body.newPassword);
+    // user.password = tempUser.generateHash(req.body.newPassword);
+    user.password = req.body.newPassword;
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     
+    console.log(req.body.newPassword);
+    console.log(user.password)
     // 3) Update changedPasswordAt property for the user
 
     // 4) Log the user in, send JWT
