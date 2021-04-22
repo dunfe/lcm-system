@@ -1,21 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
-
-export interface IPoint {
-    receivedBy: string
-    status: string
-    _id: string
-    title: string
-    createdId: string
-    createdName: string
-    content: string
-    picture: string
-    createAt: string
-    __v: number
-}
+import { IUserDetail } from '../mentors/mentorsSlice'
 
 interface PointsState {
-    list: IPoint[];
+    list: IUserDetail[];
 }
 
 const initialState: PointsState = {
@@ -26,7 +14,7 @@ export const pointsSlice = createSlice({
     name: 'point',
     initialState,
     reducers: {
-        updatePoints: (state, action: PayloadAction<IPoint[]>) => {
+        updatePoints: (state, action: PayloadAction<IUserDetail[]>) => {
             state.list = action.payload
         },
     },

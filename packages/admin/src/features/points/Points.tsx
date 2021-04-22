@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectPoints, updatePoints } from './pointsSlice'
 import { requestStatus } from '../../utils/requestStatus'
 import { useAPI } from '../../utils/hooks/useAPI'
+import { status } from '../../utils/status'
 
 const { useState, useEffect } = React
 const { confirm } = Modal
@@ -13,7 +14,7 @@ const Points = () => {
     const dispatch = useDispatch()
     const data = useSelector(selectPoints)
     const instance = useAPI()
-    
+
     const [current, setCurrent] = useState(1)
     const [total, setTotal] = useState(0)
 
@@ -26,20 +27,30 @@ const Points = () => {
             },
         },
         {
-            title: 'Title',
-            dataIndex: 'title',
-            key: 'title',
+            title: 'Username',
+            dataIndex: 'username',
+            key: 'username',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Current Point',
+            dataIndex: 'currentPoint',
+            key: 'currentPoint',
         },
         {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
             render: (text: string, record: any) => {
-                return requestStatus.map((item) => {
+                return status.map((item) => {
                     if (item.value === record.status) {
                         return (
                             <Tag color={item.color} key={record._id}>
-                                {record.status.toUpperCase()}
+                                {record.status}
                             </Tag>
                         )
                     }
@@ -84,11 +95,9 @@ const Points = () => {
     const getData = () => {
         instance.get(`/api/staff/users?page=${current}`).then((response) => {
             dispatch(updatePoints(response.data.results))
-            setTotal(response.data.totalPage * 10)
+            setTotal(response.data.totalItem)
         }).catch((error) => console.error(error.message))
     }
-
-    const expandRender = (record: any) => <p style={{ margin: 0 }}>{record.content}</p>
 
     useEffect(() => {
         getData()
@@ -97,10 +106,6 @@ const Points = () => {
     return (
         <>
             <Table columns={columns}
-                   expandable={{
-                       expandedRowRender: expandRender,
-                       rowExpandable: record => record.title !== 'Not Expandable',
-                   }}
                    dataSource={data} rowKey={'_id'} pagination={{
                 current: current,
                 total,
