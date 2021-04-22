@@ -39,7 +39,7 @@ const HomeContent = (props: IProps) => {
                 </Route>
                 <Route path={`/questions`}>
                     <ContentWrapper>
-                        <Questions onAdd={onAdd} visible={addModalVisible} setVisible={setAddModalVisible}/>
+                        <Questions />
                     </ContentWrapper>
                 </Route>
                 <Route path={`/mentees`}>

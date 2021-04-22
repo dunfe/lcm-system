@@ -1,4 +1,4 @@
-import { Row, Col, Card, Table, Tag, Space, Button } from 'antd'
+import { Row, Col, Card, Table, Tag } from 'antd'
 import * as React from "react";
 import "./Dashboard.css";
 import { useAPI } from '../../utils/hooks/useAPI'
@@ -7,7 +7,7 @@ import { selectSkills, updateSkills } from '../skills/skillsSlice'
 import dayjs from 'dayjs'
 import { selectMentees, updateMentees } from '../mentees/menteesSlice'
 import { selectMentors, updateMentors } from '../mentors/mentorsSlice'
-import { selectQuestions } from '../questions/questionsSlice'
+import { selectQuestions, updateQuestions } from '../questions/questionsSlice'
 import { status } from '../../utils/status'
 
 interface IDashboard {
@@ -125,6 +125,10 @@ const Dashboard = () => {
     ]
 
     useEffect(() => {
+        instance.get(`/api/admin/questions`).then((response) => {
+            dispatch(updateQuestions(response.data.results));
+        }).catch((error) => console.error(error.message))
+
         instance.get(`/api/admin/mentors`).then((response) => {
             dispatch(updateMentors(response.data.results));
         }).catch((error) => console.error(error.message))
