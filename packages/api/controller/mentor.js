@@ -15,25 +15,24 @@ const ObjectId = mongoose.Types.ObjectId;
 export function getAllMentor(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
-      const limit = 50;
+      const limit = 10;
       const results = {}
       const data = await model.find({role : 'mentor'});
       const totalPage = Math.ceil(data.length/limit) ;
       results.totalPage = totalPage;
+      results.totalItem = data.length;
       if(page<1 || page > totalPage) page = 1;
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
-      if (endIndex < await model.countDocuments().exec()) {
+      if (endIndex < totalPage) {
         results.next = {
           page: page + 1,
-          limit: limit
         }
       }
 
       if (startIndex > 0) {
         results.previous = {
           page: page - 1,
-          limit: limit
         }
       }
       try {
@@ -109,7 +108,7 @@ export const selectQuestion = async (req,res) =>{
     // countReadFalse = readFalse.length;
     // socketio.emit("news",countReadFalse);
     var roomId = room._id;
-    Question.findByIdAndUpdate(req.params.id,{$set : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
+    Question.findByIdAndUpdate(req.params.id,{$push : {receivedBy: userId}, $set: {status: "doing"}},{new: true},(err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',
@@ -148,23 +147,66 @@ export const getMentorById = async (req, res) => {
     });
 };
 
-export const getMentorByName = (req, res) => {
-    const fullname = req.body.fullname;
-    User.find({
-        "fullname" : {'$regex' : new RegExp(fullname, "i")},
-        role : 'mentor'
-    }, (err, doc) => {
-        if(!err) {
-            if(doc.toString() == ""){
-                return res.status(400).send(`No record with given name: ${req.body.fullname}`)
-            }else {
-                res.send(doc);
-            }
-        } else {
-            console.log('Error' + JSON.stringify(err, undefined, 2));
-        };
-    })
-};
+// export const getMentorByName = (req, res) => {
+//     const fullname = req.body.fullname;
+//     User.find({
+//         "fullname" : {'$regex' : new RegExp(fullname, "i")},
+//         role : 'mentor'
+//     }, (err, doc) => {
+//         if(!err) {
+//             if(doc.toString() == ""){
+//                 return res.status(400).send(`No record with given name: ${req.body.fullname}`)
+//             }else {
+//                 res.send(doc);
+//             }
+//         } else {
+//             console.log('Error' + JSON.stringify(err, undefined, 2));
+//         };
+//     })
+// };
+
+export function getMentorByName(model){
+    return async ( req, res) => {
+        const fullname = req.query.name;
+
+        let page = parseInt(req.query.page) || 1;
+        const limit = 10;
+        const results = {}
+        const data = await model.find({
+            "fullname" : {'$regex' : new RegExp(fullname, "i")},
+            role : 'mentor'
+        });
+        const totalPage = Math.ceil(data.length/limit) ;
+        results.totalPage = totalPage;
+        results.totalItem = data.length;
+        if(page<1 || page > totalPage) page = 1;
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
+      
+    if (endIndex < data.length) {
+        results.next = {
+          page: page + 1,
+          limit: limit
+        }
+    }
+      
+    if (startIndex > 0) {
+        results.previous = {
+          page: page - 1,
+          limit: limit
+        }
+    }
+    try {
+        results.results = await model.find({
+            "fullname" : {'$regex' : new RegExp(fullname, "i")},
+            role : 'mentor'
+        }).limit(limit).skip(startIndex).exec()
+        return res.status(200).json(results);
+    } catch (e) {
+        res.status(500).json({ message: e.message })
+    }
+    }
+}
 
 export const  totalMentor = (req, res) => {
     Mentor.aggregate([
@@ -238,10 +280,12 @@ export const ratingMentor = async (req,res,next) =>{
             message: `Invalid id ${req.params.id}`
         })
     };
-    var userId = await useridFromToken(req,res);
+    let room = await colabRoom.findById(req.params.id);
+    let mentorId = room.mentorInfo._id;
+    let userId = await useridFromToken(req,res);
     let star = parseInt(req.body.star);
     const currentMentee = await User.findById(userId);
-    const currentMentor = await User.findById(req.params.id);
+    const currentMentor = await User.findById(mentorId);
     let totalRating1 = currentMentor.rate.totalRating1;
     let totalRating2 = currentMentor.rate.totalRating2;
     let totalRating3 = currentMentor.rate.totalRating3;
@@ -268,7 +312,7 @@ export const ratingMentor = async (req,res,next) =>{
         content : req.body.content,
         star : star
     }
-    User.findByIdAndUpdate(req.params.id,{ $set : {rate : rate}, $push : {reviews: reviews} },{new: true},(err, doc) => {
+    User.findByIdAndUpdate(mentorId,{ $set : {rate : rate}, $push : {reviews: reviews} },{new: true},(err, doc) => {
         if(!err) {
             return res.status(200).json({
                 status: 'success',

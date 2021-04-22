@@ -4,10 +4,13 @@ import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
 import {createQuestion,viewListNewOrdoingQuestion, viewListDoneQuestion, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
 import {getAllSkills} from '../controller/skill.js';
-import {viewPointInTransactionById, viewPointOutTransactionById } from "../controller/staff.js";
+import {viewPointOutTransactionUser, viewPointInTransactionUser } from "../controller/staff.js";
 import {registerMentorRequest, uploadCVFile} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
-import { createReport, uploadImagesReport } from '../controller/report.js';
+import { createReport, uploadImagesReport, updateReportById, delReportById, getAllReportFromUser, getReportById } from '../controller/report.js';
+import {getAllNotification, clickNotify} from '../controller/noti.js'
+
+import Report from '../models/report.js';
 import upload from '../utils/multer.js';
 import cloudinary from '../utils/cloudinary.js';
 import cors from 'cors'
@@ -15,8 +18,8 @@ import cors from 'cors'
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import {getAllNotification, clickNotify} from '../controller/noti.js'
 import {createPayemnt} from '../controller/payment.js';
+
 dotenv.config();
 
 const router = express.Router();
@@ -142,7 +145,6 @@ router.get('/google/redirect', (req, res, next) =>
                 achievement: user.detail.achievement
             }
         }
-        console.log(data)
         res.cookie('user', JSON.stringify({
             user: {
                 token,
@@ -247,7 +249,7 @@ router.get('/logout', (req, res) => {
 })
 
 //password function
-router.post('/:id/admin', changePassword);
+router.post('/change-password', protect, changePassword);
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPassword);
 
@@ -258,8 +260,11 @@ router.post('/mentor/register',protect,restrictTo('mentee'),registerMentorReques
 router.post('/mentor/rate/:id',protect,restrictTo('mentee'),ratingMentor);
 
 //CRUD report mentor
-
 router.post('/reports', protect, restrictTo('mentee'), createReport);
+router.get('/reports', protect, restrictTo('mentee'), getAllReportFromUser);
+router.get('/reports/:id', protect, restrictTo('mentee'), getReportById);
+router.put('/reports/:id', protect,restrictTo('mentee'), updateReportById);
+router.delete('/reports/:id', protect, restrictTo('mentee'), delReportById);
 
 // user crud question
 router.post('/questions',protect,restrictTo('mentee'),createQuestion);
@@ -295,8 +300,8 @@ router.get('/',protect,restrictTo('mentee', 'mentor'),viewUserInfo);
 router.put('/',protect,restrictTo('mentee', 'mentor'),editProfileUserById);
 
 //vỉew history point transaction
-router.get('/pointIn/:id',protect,restrictTo('mentee', 'mentor'),viewPointInTransactionById);
-router.get('/pointOut/:id',protect,restrictTo('mentee', 'mentor'),viewPointOutTransactionById);
+router.get('/pointIn',protect,restrictTo('mentee', 'mentor'),viewPointInTransactionUser);
+router.get('/pointOut',protect,restrictTo('mentee', 'mentor'),viewPointOutTransactionUser);
 
 // get all skill for all role
 router.get('/skills',getAllSkills);

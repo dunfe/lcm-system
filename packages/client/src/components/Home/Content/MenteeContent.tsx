@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Dashboard from '../../../pages/Dashboard/Dashboard'
 import AddQuestion from '../../../pages/Add/AddQuestion'
 import ListQuestion from '../../../pages/Question/ListQuestion'
@@ -15,7 +15,7 @@ const MenteeContent = (props: IProps) => {
     const { path, setSelectedKeys } = props
 
     return (
-        <>
+        <Switch>
             <Route exact path={path}>
                 <Dashboard />
             </Route>
@@ -27,7 +27,10 @@ const MenteeContent = (props: IProps) => {
                         backgroundColor: 'white',
                     }}
                 >
-                    <AddQuestion setSelectedKeys={setSelectedKeys} />
+                    <AddQuestion
+                        mode={'add'}
+                        setSelectedKeys={setSelectedKeys}
+                    />
                 </div>
             </Route>
             <Route path={`/questions`}>
@@ -57,7 +60,7 @@ const MenteeContent = (props: IProps) => {
                     <Setting />
                 </div>
             </Route>
-        </>
+        </Switch>
     )
 }
 

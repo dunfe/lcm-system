@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Dashboard from '../../../pages/Dashboard/Dashboard'
 import ListQuestion from '../../../pages/Question/ListQuestion'
 import Join from '../../Session/Join'
@@ -15,7 +15,7 @@ const MentorContent = (props: IProps) => {
     const { path } = props
 
     return (
-        <>
+        <Switch>
             <Route exact path={path}>
                 <Dashboard />
             </Route>
@@ -49,7 +49,7 @@ const MentorContent = (props: IProps) => {
                     <Setting />
                 </div>
             </Route>
-        </>
+        </Switch>
     )
 }
 

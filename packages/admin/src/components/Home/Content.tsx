@@ -1,12 +1,14 @@
 import {Route, Switch} from "react-router-dom";
 import {Layout} from "antd";
 import * as React from "react";
-import ListManager from "../../features/list/ListManager";
 import Skills from "../../features/skills/Skills";
 import Mentees from "../../features/mentees/Mentees";
 import Mentors from "../../features/mentors/Mentors";
 import Dashboard from "../../features/dashboard/Dashboard";
 import styled from "styled-components/macro";
+import Feedbacks from '../../features/feedbacks/Feedbacks'
+import Questions from '../../features/questions/Questions'
+import Requests from '../../features/requests/Requests'
 
 interface IProps {
     path: string;
@@ -25,9 +27,19 @@ const HomeContent = (props: IProps) => {
                 <Route exact path={path}>
                     <Dashboard/>
                 </Route>
+                <Route path={`/requests`}>
+                    <ContentWrapper>
+                        <Requests />
+                    </ContentWrapper>
+                </Route>
                 <Route path={`/skills`}>
                     <ContentWrapper>
                         <Skills onAdd={onAdd} visible={addModalVisible} setVisible={setAddModalVisible}/>
+                    </ContentWrapper>
+                </Route>
+                <Route path={`/questions`}>
+                    <ContentWrapper>
+                        <Questions />
                     </ContentWrapper>
                 </Route>
                 <Route path={`/mentees`}>
@@ -42,7 +54,7 @@ const HomeContent = (props: IProps) => {
                 </Route>
                 <Route path={`/feedbacks`}>
                     <ContentWrapper>
-                        <ListManager visible={addModalVisible} setVisible={setAddModalVisible}/>
+                        <Feedbacks />
                     </ContentWrapper>
                 </Route>
             </Switch>
@@ -51,8 +63,8 @@ const HomeContent = (props: IProps) => {
 };
 
 const ContentWrapper = styled.div`
-    padding: 24;
-    minHeight: 360;
+    padding: 24px;
+    minHeight: 360px;
     background-color: white;
 `
 

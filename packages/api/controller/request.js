@@ -42,6 +42,7 @@ export const registerMentorRequest = async (req, res) => {
         cv: req.body.cv,
         createdAt: Date.now()
     });
+    console.log(request)
     User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
       if(!err) {
          
@@ -66,6 +67,29 @@ export const registerMentorRequest = async (req, res) => {
         };
     });
 };
+
+export const delRequest = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({
+        status: 'fail',
+        message: `Invalid id ${req.params.id}`
+    })
+};
+
+Request.findByIdAndRemove(req.params.id, (err, doc) => {
+    if (!err) {
+        return res.status(200).json({
+            status: 'success',
+            message: 'Delete request success'
+        });
+    } else {
+        return res.status(400).json({
+            status: 'fail',
+            message: err.message
+        })
+    }
+});
+}
 
 export const confirmRequestMentorRegister = async (req,res) =>{
   if(!ObjectId.isValid(req.params.id)){
@@ -117,17 +141,18 @@ export const confirmRequestMentorRegister = async (req,res) =>{
 export function getAllRequest(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;
-    //   const limit = parseInt(req.query.limit)
-      const limit = 50;
+      const limit = 10;
       const results = {}
       const data = await model.find();
       const totalPage = Math.ceil(data.length/limit) ;
       results.totalPage = totalPage;
+      results.totalItem = data.length;
       if(page<1 || page > totalPage) page = 1;
+
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
       
-      if (endIndex < await model.countDocuments().exec()) {
+      if (endIndex < data.length) {
         results.next = {
           page: page + 1,
           limit: limit

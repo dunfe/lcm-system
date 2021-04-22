@@ -84,7 +84,9 @@ const Matching = () => {
                                 message.success(t('Selected this question'))
                             }
                         })
-                        .catch((error) => console.error(error))
+                        .catch((error) =>
+                            message.error(error.response.data.message)
+                        )
                 }
                 const x = isGone
                     ? (200 + window.innerWidth) * dir

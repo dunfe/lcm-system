@@ -5,6 +5,7 @@ import { useAuth } from '../../utils/hooks/useAuth'
 import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import { passwordRule } from '../../utils/rules/passwordRule'
 
 const layout = {
     labelCol: { span: 8 },
@@ -49,7 +50,7 @@ const SignUpComponent = () => {
             <Form.Item wrapperCol={{ span: 24 }} name="display_name">
                 <Input
                     width={'100%'}
-                    placeholder={t('Fullname')}
+                    placeholder={t('Full name')}
                     prefix={
                         <UserOutlined
                             className="site-form-item-icon"
@@ -97,12 +98,7 @@ const SignUpComponent = () => {
             <Form.Item
                 wrapperCol={{ span: 24 }}
                 name="password"
-                rules={[
-                    {
-                        required: true,
-                        message: t('Please enter your password'),
-                    },
-                ]}
+                rules={passwordRule(t)}
                 hasFeedback
             >
                 <Input.Password

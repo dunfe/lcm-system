@@ -22,14 +22,17 @@ export const getSignToken = user => {
 export function getAllMentee(model) {
     return async (req, res) => {
         let page = parseInt(req.query.page) || 1;
-        const limit = 50;
+        const limit = 10;
         const results = {};
         const data = await model.find({
             $or: [{ role: 'mentee' }, { role: 'banned' }]
         });
         const totalPage = Math.ceil(data.length / limit);
         results.totalPage = totalPage;
+        results.totalItem = data.length;
+        
         if (page < 1 || page > totalPage) page = 1;
+
         const startIndex = (page - 1) * limit
         const endIndex = page * limit
         if (endIndex < data.length) {
@@ -119,7 +122,7 @@ export const countAllRecord = async (req, res) => {
         };
     });
 
-    await Mentor.countDocuments((err, doc) => {
+    await User.countDocuments({role:'mentor'},(err, doc) => {
         if (!err) {
             total_array.totalMentor = doc;
         } else {
@@ -140,10 +143,10 @@ export const countAllRecord = async (req, res) => {
 
 export const changePassword = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        let userId = await useridFromToken(req, res);
         const salt = await bcrypt.genSalt(10);
         const newPasswordSalted = await bcrypt.hash(req.body.newPassword, salt);
-        const userPassword = await User.findByIdAndUpdate({ _id: id }, { password: newPasswordSalted }, { new: true });
+        const userPassword = await User.findByIdAndUpdate({ _id: userId }, { password: newPasswordSalted }, { new: true });
         return res.status(200).json({ status: true, data: userPassword });
     } catch (error) {
         return res.status(400).json({ status: false, error: error.message });
@@ -169,7 +172,7 @@ export const updateUserById = async (req, res, next) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later'
+                message: err.message
             })
         }
     });
@@ -209,13 +212,38 @@ export const banUserById = async (req, res, next) => {
     User.findByIdAndUpdate(req.params.id, { $set: { role: 'banned' } }, { new: true }, (err, doc) => {
         if (!err) {
             return res.status(200).json({
-                status: 'User has been banned',
+                status: 'success',
+                message: 'User has been banned',
                 data: doc
             });
         } else {
             return res.status(400).json({
                 status: 'fail',
                 message: 'Something wrong, try again later'
+            })
+        }
+    });
+}
+
+export const unbanUserById = async (req, res, next) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    User.findByIdAndUpdate(req.params.id, { $set: { role: 'mentee' } }, { new: true }, (err, doc) => {
+        if (!err) {
+            return res.status(200).json({
+                status: 'success',
+                message: 'User has been unbanned and set role become to mentee',
+                data: doc
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: err.message
             })
         }
     });
@@ -369,7 +397,7 @@ export const addFavoriteMentorById = async (req, res) => {
 
 export const viewListFavoriteMentor = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
-    const limit = 50;
+    const limit = 10;
     const results = {}
     let userId = await useridFromToken(req, res);
     var favoriteMentor = [];
@@ -382,6 +410,7 @@ export const viewListFavoriteMentor = async (req, res) => {
     let data = favoriteMentor;
     const totalPage = Math.ceil(data.length / limit);
     results.totalPage = totalPage;
+    results.totalItem = data.length;
     if (page < 1 || page > totalPage) page = 1;
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
