@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons'
 import HeaderComponent from '../../components/Header/Header'
 import {
-    Link, useRouteMatch,
+    Link, useHistory, useRouteMatch,
 } from 'react-router-dom'
 import HomeContent from '../../components/Home/Content'
 import PageHeaderComponent from '../../components/Header/PageHeader'
@@ -21,6 +21,7 @@ const { useState, useEffect } = React
 export function HomePage() {
     //check login
     const { path } = useRouteMatch()
+    const history = useHistory()
 
     const [selectedKeys, setSelectedKeys] = useState([location.pathname])
     const [pageHeader, setPageHeader] = useState({
@@ -103,6 +104,13 @@ export function HomePage() {
         }
     }, [selectedKeys])
 
+    useEffect(() => {
+        if (role === 'staff') {
+            setSelectedKeys(['/requests'])
+            history.push('/requests')
+        }
+    }, [])
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Layout>
@@ -117,7 +125,7 @@ export function HomePage() {
                     <LogoContainer className='logo'>
                         <Logo />
                     </LogoContainer>
-                    <Menu theme='dark' mode='inline' defaultSelectedKeys={role === 'admin' ? ['/'] : ['/requests']} onSelect={onSelect}
+                    <Menu theme='dark' mode='inline' onSelect={onSelect}
                           selectedKeys={selectedKeys}>
                         {
                             role === 'admin' ? <Menu.Item key='/' icon={<DashboardOutlined />}>

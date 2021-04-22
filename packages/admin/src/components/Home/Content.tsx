@@ -5,6 +5,7 @@ import Dashboard from "../../features/dashboard/Dashboard";
 import styled from "styled-components/macro";
 import Feedbacks from '../../features/feedbacks/Feedbacks'
 import Requests from '../../features/requests/Requests'
+import { useRole } from '../../utils/hooks/useRole'
 
 interface IProps {
     path: string;
@@ -23,13 +24,17 @@ const Points = React.lazy(() => import('../../features/points/Points'))
 
 const HomeContent = (props: IProps) => {
     const {path, addModalVisible, setAddModalVisible, onAdd} = props;
+    const role = useRole()
 
     return (
         <Content style={{margin: '24px 16px 0'}}>
             <Switch>
-                <Route exact path={path}>
-                    <Dashboard/>
-                </Route>
+                {
+                    role === 'admin' ?                 <Route exact path={path}>
+                        <Dashboard/>
+                    </Route> : null
+                }
+
                 <Route exact path={`/requests`}>
                     <ContentWrapper>
                         <Requests />

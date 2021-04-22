@@ -3,7 +3,6 @@ import { Table, Space, Modal, Button, message, Tag } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectPoints, updatePoints } from './pointsSlice'
-import { requestStatus } from '../../utils/requestStatus'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { status } from '../../utils/status'
 
