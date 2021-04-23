@@ -1,14 +1,11 @@
 import {Route, Switch} from "react-router-dom";
 import {Layout} from "antd";
 import * as React from "react";
-import Skills from "../../features/skills/Skills";
-import Mentees from "../../features/mentees/Mentees";
-import Mentors from "../../features/mentors/Mentors";
 import Dashboard from "../../features/dashboard/Dashboard";
 import styled from "styled-components/macro";
 import Feedbacks from '../../features/feedbacks/Feedbacks'
-import Questions from '../../features/questions/Questions'
 import Requests from '../../features/requests/Requests'
+import { useRole } from '../../utils/hooks/useRole'
 
 interface IProps {
     path: string;
@@ -19,15 +16,26 @@ interface IProps {
 
 const {Content} = Layout;
 
+const Skills = React.lazy(() => import('../../features/skills/Skills'))
+const Questions = React.lazy(() => import('../../features/questions/Questions'))
+const Mentees = React.lazy(() => import('../../features/mentees/Mentees'))
+const Mentors = React.lazy(() => import('../../features/mentors/Mentors'))
+const Points = React.lazy(() => import('../../features/points/Points'))
+
 const HomeContent = (props: IProps) => {
     const {path, addModalVisible, setAddModalVisible, onAdd} = props;
+    const role = useRole()
+
     return (
         <Content style={{margin: '24px 16px 0'}}>
             <Switch>
-                <Route exact path={path}>
-                    <Dashboard/>
-                </Route>
-                <Route path={`/requests`}>
+                {
+                    role === 'admin' ?                 <Route exact path={path}>
+                        <Dashboard/>
+                    </Route> : null
+                }
+
+                <Route exact path={`/requests`}>
                     <ContentWrapper>
                         <Requests />
                     </ContentWrapper>
@@ -57,6 +65,11 @@ const HomeContent = (props: IProps) => {
                         <Feedbacks />
                     </ContentWrapper>
                 </Route>
+                <Route path={`/points`}>
+                    <ContentWrapper>
+                        <Points />
+                    </ContentWrapper>
+                </Route>
             </Switch>
         </Content>
     )
@@ -64,7 +77,7 @@ const HomeContent = (props: IProps) => {
 
 const ContentWrapper = styled.div`
     padding: 24px;
-    minHeight: 360px;
+    min-height: 360px;
     background-color: white;
 `
 
