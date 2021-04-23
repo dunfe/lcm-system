@@ -1,4 +1,13 @@
-import { Avatar, Badge, Dropdown, List, Menu, message, Select } from 'antd'
+import {
+    Avatar,
+    Badge,
+    Divider,
+    Dropdown,
+    List,
+    Menu,
+    message,
+    Select,
+} from 'antd'
 import * as React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../../utils/hooks/useAuth'
@@ -14,6 +23,7 @@ import { useAPI } from '../../utils/hooks/useAPI'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/macro'
 import Text from 'antd/es/typography/Text'
+import Title from 'antd/es/typography/Title'
 
 interface INotify {
     read: boolean
@@ -107,10 +117,12 @@ const HeaderComponent = (props: IProps) => {
             <List
                 size="large"
                 header={
-                    <h3 style={{ padding: 12 }}>{t('Your notification')}</h3>
+                    <Divider>
+                        <Title level={3}>{t('Your notification')}</Title>
+                    </Divider>
                 }
                 bordered
-                style={{ width: 600 }}
+                style={{ width: 550 }}
                 itemLayout="horizontal"
                 dataSource={notify}
                 renderItem={(item) => (
