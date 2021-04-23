@@ -14,8 +14,6 @@ const { confirm } = Modal
 const Questions = () => {
     const dispatch = useDispatch()
     const data = useSelector(selectQuestions)
-    const [mode, setMode] = useState('add')
-    const [updateId, setUpdateId] = useState('')
     const [itemDetail, setItemDetail] = useState({})
     const [current, setCurrent] = useState(1)
     const [form] = useForm()
@@ -63,7 +61,6 @@ const Questions = () => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
                     <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
                 </Space>
             },
@@ -93,11 +90,6 @@ const Questions = () => {
         setCurrent(page)
     }
 
-    const onEdit = (id: string) => {
-        setMode('update')
-        setUpdateId(id)
-    }
-
     const getData = () => {
         instance.get(`/api/admin/questions?page=${current}`).then((response) => {
             dispatch(updateQuestions(response.data.results))
@@ -105,22 +97,6 @@ const Questions = () => {
     }
 
     const expandRender = (record: any) => <p style={{ margin: 0 }}>{record.content}</p>
-
-    useEffect(() => {
-        if (updateId !== '') {
-            instance.get(`/api/admin/questions/${updateId}`).then((response) => {
-                if (response.status === 200) {
-                    setItemDetail(response.data.results)
-                }
-            })
-        }
-    }, [updateId])
-
-    useEffect(() => {
-        if (mode === 'update') {
-            form.setFieldsValue(itemDetail)
-        }
-    }, [itemDetail])
 
     useEffect(() => {
         getData()
