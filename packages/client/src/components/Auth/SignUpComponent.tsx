@@ -60,7 +60,20 @@ const SignUpComponent = () => {
                 />
             </Form.Item>
 
-            <Form.Item wrapperCol={{ span: 24 }} name="username">
+            <Form.Item
+                wrapperCol={{ span: 24 }}
+                name="username"
+                rules={[
+                    {
+                        pattern: new RegExp(
+                            '^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$'
+                        ),
+                        message: t(
+                            'Only use character or number in your username'
+                        ),
+                    },
+                ]}
+            >
                 <Input
                     width={'100%'}
                     placeholder={t('Username')}
