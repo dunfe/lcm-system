@@ -5,8 +5,7 @@ export const Nav00DataSource = {
   page: { className: 'home-page' },
   logo: {
     className: 'header0-logo kkzlbyayrio-editor_css',
-    children:
-      'https://lh3.googleusercontent.com/5AuBrFOwTT_QSQFHrEe5miOOXA1iM_tINjbQsMxFpO5f97j5-ErD4NtpHwzeHj8RRSScScSNITrHmoM7BHqOrgYoEI5nZnGdo5ffSTsxeZ4JsNRc3_9-ptwbTtRKDW7Yp4pNid92SDljzF8CNgkw4DZrkfD-kDryM0QNYS5Lp8bz_Z8HT7zdfLKUaO1VTQ4A8zlFS73IBAhQZM50dsADhzgBL6Xn0iJQ5sAHxh_fwy7njP4NOHCalcipU2UiXHGfz83MCEd7CBg7qkmwELjTpa0rIwpO3mGu6HQTCODw8v57NswhLrRLG-3pDWfrjN-gs5y-9YGewUatpur38aSU_qb9a7TF7LgQkzUFrya18Jh6TZB-h7ZCKpNwyPqflgH1RMD1t0tCncvXhXgJYisJ9E1De7ai76DVnBczSDotGPVXrSlCSqFY7Ug7qhHwLk2IXXI0fTmroq1dPXMmzuepVoDSHmV9qClzv1r3fzU_LeG7OU1covU2VmiXiaOiZb11hppzTpEVOw78K5OLhrSgu_IJppFdR3Kpnvau4tlEINAMYw3_wU4fYA7Iufmm5Co7BZSwpI48j0LW8m7pNBoamYxE8DBixFk-XLMKYt8AiZeN1LkJb3PQ-zSUDFpzuWvTe0iIzHon0ndytyGBWuVcFuJnN0n2dK9lFn6NTFkrwHcY2mJDKeHf6x3_JRpYRA=w505-h254-no?authuser=0',
+    children: 'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg',
   },
   Menu: {
     className: 'header0-menu kkzltbs73i9-editor_css',
@@ -502,7 +501,7 @@ export const Footer10DataSource = {
         title: {
           className: 'logo',
           children:
-            'https://res.cloudinary.com/dungnqhe151250/image/upload/v1613385122/Asset_2_o3rivc.svg',
+            'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/Logo2_xnkzp1.svg',
         },
         childWrapper: {
           className: 'slogan',
