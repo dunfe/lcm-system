@@ -134,27 +134,27 @@ export function HomePage() {
                         }
 
                         <Menu.Item key='/requests' icon={<FormOutlined />}>
-                            <Link to={`/requests`}>Quản lí yêu cầu</Link>
+                            <Link to={`/requests`}>Quản lý yêu cầu</Link>
                         </Menu.Item>
                         {role === 'admin' ? <>
                             <Menu.Item key='/skills' icon={<FormOutlined />}>
-                                <Link to={`/skills`}>Quản lí kỹ năng</Link>
+                                <Link to={`/skills`}>Quản lý kỹ năng</Link>
                             </Menu.Item>
                             <Menu.Item key='/questions' icon={<FormOutlined />}>
-                                <Link to={`/questions`}>Quản lí câu hỏi</Link>
+                                <Link to={`/questions`}>Quản lý câu hỏi</Link>
                             </Menu.Item>
                             <Menu.Item key='/mentees' icon={<TeamOutlined />}>
-                                <Link to={`/mentees`}>Quản lí Mentee</Link>
+                                <Link to={`/mentees`}>Quản lý Mentee</Link>
                             </Menu.Item>
                             <Menu.Item key='/mentors' icon={<TeamOutlined />}>
-                                <Link to={`/mentors`}>Quản lí Mentor</Link>
+                                <Link to={`/mentors`}>Quản lý Mentor</Link>
                             </Menu.Item>
                         </> : <Menu.Item key='/points' icon={<DollarCircleOutlined />}>
-                            <Link to={`/points`}>Quản lí Point</Link>
+                            <Link to={`/points`}>Quản lý Point</Link>
                         </Menu.Item>}
 
                         <Menu.Item key='/feedbacks' icon={<CheckCircleOutlined />}>
-                            <Link to={`/feedbacks`}>Quản lí Feedback</Link>
+                            <Link to={`/feedbacks`}>Quản lý Feedback</Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>

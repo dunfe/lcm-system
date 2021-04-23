@@ -11,7 +11,7 @@ const Join = () => {
 
     const handleJoin = () => {
         instance.get(`http://localhost:5000/join`).then((res) => {
-            history?.push(`/session/${res.data.link}?`)
+            history.push(`/session/${res.data.link}?`)
         })
     }
     return <Button onClick={handleJoin}>{t('Join')}</Button>
