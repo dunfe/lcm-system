@@ -47,7 +47,16 @@ const SignUpComponent = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
         >
-            <Form.Item wrapperCol={{ span: 24 }} name="display_name">
+            <Form.Item
+                wrapperCol={{ span: 24 }}
+                name="display_name"
+                rules={[
+                    {
+                        required: true,
+                        message: t('Please enter your full name'),
+                    },
+                ]}
+            >
                 <Input
                     width={'100%'}
                     placeholder={t('Fullname')}
