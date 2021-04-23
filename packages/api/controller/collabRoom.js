@@ -71,7 +71,7 @@ export const listRoom = async (req, res) => {
         endIndex = page * limit
         listRoom = await colabRoom.find({"mentorInfo._id" : userId}).sort({ createAt: 'descending' }).limit(limit).skip(startIndex).exec();
     }else if(CurrUser.role == 'mentee'){
-        data = await colabRoom.find({"mentorInfo._id" : userId});
+        data = await colabRoom.find({"menteeInfo._id" : userId});
         totalPage = Math.ceil(data.length / limit);
         results.totalPage = totalPage;
         results.totalItem = data.length;
