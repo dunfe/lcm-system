@@ -25,11 +25,9 @@ const SecuritySetting = () => {
                 .then((response) => {
                     if (response.status === 200) {
                         message.success(t('Change Successfully'))
-                    } else {
-                        message.error(t('Failed'))
                     }
                 })
-                .catch((error) => console.error(error))
+                .catch((error) => message.error(error.response.data.message))
         }
     }
 
