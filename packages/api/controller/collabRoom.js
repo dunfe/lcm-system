@@ -55,36 +55,18 @@ export const joinRoomById = (req, res) => {
 }
 
 export const listRoom = async (req, res) => {
-    let page = parseInt(req.query.page) || 1;
-    const limit = 10;
     const results = {}
     let userId = await useridFromToken(req, res);
     let CurrUser = await User.findById(userId);
-    let data, listRoom, startIndex, endIndex, totalPage;
+    let data, listRoom;
     if(CurrUser.role == 'mentor'){
         data = await colabRoom.find({"mentorInfo._id" : userId});
-        totalPage = Math.ceil(data.length / limit);
-        results.totalPage = totalPage;
         results.totalItem = data.length;
-        if (page < 1 || page > totalPage) page = 1;
-        startIndex = (page - 1) * limit
-        endIndex = page * limit
-        listRoom = await colabRoom.find({"mentorInfo._id" : userId}).sort({ createAt: 'descending' }).limit(limit).skip(startIndex).exec();
+        listRoom = await colabRoom.find({"mentorInfo._id" : userId}).sort({ createAt: 'descending' }).exec();
     }else if(CurrUser.role == 'mentee'){
         data = await colabRoom.find({"menteeInfo._id" : userId});
-        totalPage = Math.ceil(data.length / limit);
-        results.totalPage = totalPage;
         results.totalItem = data.length;
-        if (page < 1 || page > totalPage) page = 1;
-        startIndex = (page - 1) * limit
-        endIndex = page * limit
-        listRoom = await colabRoom.find({"menteeInfo._id" : userId}).sort({ createAt: 'descending' }).limit(limit).skip(startIndex).exec();
-    }
-    if (endIndex < data.length) {
-        results.next = { page: page + 1 }
-    }
-    if (startIndex > 0) {
-        results.previous = { page: page - 1 }
+        listRoom = await colabRoom.find({"menteeInfo._id" : userId}).sort({ createAt: 'descending' }).exec();
     }
     try {
         results.results = listRoom;
@@ -99,5 +81,28 @@ export const listRoom = async (req, res) => {
         })
     }
 }
+
+export const delCollabRoomById = async (req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+
+    colabRoom.findByIdAndRemove(req.params.id, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Delete room success'
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+};
 
 export default router;
