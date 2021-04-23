@@ -46,20 +46,6 @@ const SecuritySetting = () => {
                         required: true,
                         message: t('Please input your password!'),
                     },
-                    ({ getFieldValue }) => ({
-                        validator(_, value) {
-                            if (!value || getFieldValue('password') === value) {
-                                return Promise.resolve()
-                            }
-                            return Promise.reject(
-                                new Error(
-                                    t(
-                                        'The old and the new password must be not the same!'
-                                    )
-                                )
-                            )
-                        },
-                    }),
                 ]}
             >
                 <Input.Password />
