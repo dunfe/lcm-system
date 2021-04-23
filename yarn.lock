@@ -4349,6 +4349,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4":
+  version: 4.14.168
+  resolution: "@types/lodash@npm:4.14.168"
+  checksum: 9a4e25f89fc035b9f0388f1f7be85e5eff49f9e6db0d93432c9a89fce0916f8a89db4e8290415f7ea02de6b00d3573826378dcb655b7b2d20530a6e8d6dd6fd0
+  languageName: node
+  linkType: hard
+
 "@types/mime@npm:^1":
   version: 1.3.2
   resolution: "@types/mime@npm:1.3.2"
@@ -5750,6 +5757,7 @@ __metadata:
     "@testing-library/user-event": ^7.1.2
     "@types/jest": ^24.0.0
     "@types/js-cookie": ^2
+    "@types/lodash": ^4
     "@types/node": ^12.0.0
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
@@ -5761,6 +5769,7 @@ __metadata:
     craco-antd: ^1.19.0
     dayjs: ^1.10.4
     js-cookie: ^2.2.1
+    lodash: ^4.17.21
     react: ^17.0.2
     react-dom: ^17.0.2
     react-redux: ^7.2.0

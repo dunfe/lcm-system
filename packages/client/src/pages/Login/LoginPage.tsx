@@ -38,7 +38,13 @@ const LoginPage = () => {
                 </Select>
             </Locale>
             <LogoContainer>
-                <Logo />
+                <Logo
+                    width={250}
+                    height={150}
+                    src={
+                        'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/Logo2_xnkzp1.svg'
+                    }
+                />
             </LogoContainer>
             <QuickLogin />
             <StyledTabs activeKey={activeKey} onChange={onChange}>
