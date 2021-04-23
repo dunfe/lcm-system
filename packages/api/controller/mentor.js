@@ -118,7 +118,11 @@ export const selectQuestion = async (req,res) =>{
             displayName : currUser.fullname,
             level: currUser.level
         },
-        content: ques.title
+        questionInfo:{
+            _id: ques._id,
+            title: ques.title,
+            content: ques.content,
+        }
     });
     room.save();
     var notify1 = new Notify({
@@ -178,24 +182,6 @@ export const getMentorById = async (req, res) => {
         };
     });
 };
-
-// export const getMentorByName = (req, res) => {
-//     const fullname = req.body.fullname;
-//     User.find({
-//         "fullname" : {'$regex' : new RegExp(fullname, "i")},
-//         role : 'mentor'
-//     }, (err, doc) => {
-//         if(!err) {
-//             if(doc.toString() == ""){
-//                 return res.status(400).send(`No record with given name: ${req.body.fullname}`)
-//             }else {
-//                 res.send(doc);
-//             }
-//         } else {
-//             console.log('Error' + JSON.stringify(err, undefined, 2));
-//         };
-//     })
-// };
 
 export function getMentorByName(model){
     return async ( req, res) => {
