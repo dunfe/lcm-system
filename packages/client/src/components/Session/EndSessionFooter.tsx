@@ -5,15 +5,16 @@ import { useTranslation } from 'react-i18next'
 interface IProps {
     endMode: string
     handleOk: () => void
+    handleReport: () => void
 }
 
 const EndSessionFooter = (props: IProps) => {
-    const { handleOk, endMode } = props
+    const { handleOk, endMode, handleReport } = props
     const { t } = useTranslation()
     return (
         <>
             {endMode === 'rate' ? (
-                <Button danger onClick={handleOk}>
+                <Button danger onClick={handleReport}>
                     {t('Report this mentor')}
                 </Button>
             ) : null}
