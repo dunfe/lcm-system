@@ -46,6 +46,12 @@ const SessionPage = () => {
         setRating(false)
     }
 
+    const handleReport = () => {
+        if (endMode === 'rate') {
+            setEndMode('report')
+        }
+    }
+
     const handleOk = () => {
         if (endMode === 'rate') {
             setRating(false)
@@ -87,6 +93,7 @@ const SessionPage = () => {
                     visible={rating}
                     footer={
                         <EndSessionFooter
+                            handleReport={handleReport}
                             handleOk={handleOk}
                             endMode={endMode}
                         />

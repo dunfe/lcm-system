@@ -89,7 +89,6 @@ function useProvideAuth(): IUseAuthType {
                 }
             })
             .catch((error) => {
-                console.error(error)
                 message.error(error.response.data.message)
 
                 return false
