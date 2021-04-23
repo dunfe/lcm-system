@@ -66,6 +66,12 @@ const HomePage = () => {
                         subtitle: t('Your session'),
                     })
                     break
+                case '/favorite':
+                    setPageHeader({
+                        title: t('Your favorite mentor'),
+                        subtitle: '',
+                    })
+                    break
                 case '/setting':
                     setPageHeader({
                         title: t('Setting'),
