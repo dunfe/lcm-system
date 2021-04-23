@@ -5,6 +5,7 @@ import {useAuth} from "../../utils/hooks/useAuth";
 import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectMentors, updateMentors } from './mentorsSlice'
+import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 interface IProps {
     visible: boolean;
@@ -52,6 +53,7 @@ const Mentors = (props: IProps) => {
             render(text: string, record: any, index: number) {
                 return (current - 1) * 10 + index + 1
             },
+            responsive: ['md'] as Breakpoint[],
         },
         {
             title: 'Tên',
@@ -61,12 +63,14 @@ const Mentors = (props: IProps) => {
                 return (
                     <a onClick={() => onViewDetail(record._id)}>{text}</a>
                 )
-            }
+            },
+            responsive: ['md'] as Breakpoint[],
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
+            responsive: ['sm'] as Breakpoint[],
         },
         {
             title: 'Role',
@@ -78,7 +82,8 @@ const Mentors = (props: IProps) => {
                         {text}
                     </Tag>
                 )
-            }
+            },
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: 'Hành động',
@@ -90,6 +95,7 @@ const Mentors = (props: IProps) => {
                     <Button danger onClick={() => onBan(record._id)}>Ban</Button>
                 </Space>
             },
+            responsive: ['sm'] as Breakpoint[],
         },
     ]
 
