@@ -1,14 +1,19 @@
-import { Avatar, Badge, Menu, message, Select } from 'antd'
+import { Avatar, Badge, Dropdown, List, Menu, message, Select } from 'antd'
 import * as React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../../utils/hooks/useAuth'
-import { BellOutlined, UserOutlined } from '@ant-design/icons'
+import {
+    BellOutlined,
+    UserOutlined,
+    CheckCircleTwoTone,
+} from '@ant-design/icons'
 import './Header.css'
 import { useFullname } from '../../utils/hooks/useFullname'
 import { useAvatar } from '../../utils/hooks/useAvatar'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/macro'
+import Text from 'antd/es/typography/Text'
 
 interface INotify {
     read: boolean
@@ -58,7 +63,7 @@ const HeaderComponent = (props: IProps) => {
         setSelectedKeys(['/setting'])
     }
 
-    useEffect(() => {
+    const getNotify = () => {
         instance
             .get(`/api/users/notify`)
             .then((response) => {
@@ -69,47 +74,99 @@ const HeaderComponent = (props: IProps) => {
                 }
             })
             .catch((error) => console.error(error))
+    }
+
+    useEffect(() => {
+        getNotify()
     }, [])
 
-    const _notify = notify.map((item) => (
-        <StyledMenuItem key={item._id}>{item.title}</StyledMenuItem>
-    ))
+    const NotifyIcon = () => {
+        return (
+            <Dropdown overlay={overlay} trigger={['click']}>
+                <Badge count={count} showZero={true}>
+                    <BellOutlined />
+                </Badge>
+            </Dropdown>
+        )
+    }
 
-    const MenuIcon = (
-        <Badge count={count} showZero={true}>
-            <BellOutlined style={{ fontSize: 20, paddingLeft: 10 }} />
-        </Badge>
-    )
+    const markRead = (id: string) => {
+        instance
+            .put(`/api/users/notify/${id}`)
+            .then((response) => {
+                if (response.status === 200) {
+                    getNotify()
+                }
+            })
+            .then(() => history.push('/session'))
+            .catch((error) => console.error(error))
+    }
+
+    const overlay = () => {
+        return (
+            <List
+                size="large"
+                header={
+                    <h3 style={{ padding: 12 }}>{t('Your notification')}</h3>
+                }
+                bordered
+                style={{ width: 600 }}
+                itemLayout="horizontal"
+                dataSource={notify}
+                renderItem={(item) => (
+                    <List.Item>
+                        <List.Item.Meta
+                            avatar={
+                                <CheckCircleTwoTone twoToneColor={'#2ecc71'} />
+                            }
+                            title={
+                                item.read ? (
+                                    <Text disabled>{item.title}</Text>
+                                ) : (
+                                    <Text strong>
+                                        <a onClick={() => markRead(item._id)}>
+                                            {' '}
+                                            {item.title}
+                                        </a>
+                                    </Text>
+                                )
+                            }
+                        />
+                    </List.Item>
+                )}
+            />
+        )
+    }
 
     return (
-        <StyledHeader mode="horizontal">
-            <SubMenu key="notify" icon={MenuIcon} style={{ paddingTop: 5 }}>
-                <Menu.ItemGroup title={t('Your notification')}>
-                    {_notify}
-                </Menu.ItemGroup>
-            </SubMenu>
-            <SubMenu
-                key="profile"
-                icon={<Avatar src={avatar} icon={<UserOutlined />} />}
-            >
-                <StyledMenuItem onClick={onClickSetting}>
-                    <Link to={`/setting`}>{userFullname}</Link>
-                </StyledMenuItem>
-                <Menu.Item danger>
-                    <a onClick={onSignOut}>{t('Logout')}</a>
+        <div>
+            <StyledHeader mode="horizontal">
+                <Menu.Item key={'notify'}>
+                    <NotifyIcon />
                 </Menu.Item>
-            </SubMenu>
-            <Menu.Item danger>
-                <Select
-                    defaultValue="vi"
-                    size={'small'}
-                    onChange={onLocaleChange}
+                <SubMenu
+                    key="profile"
+                    icon={<Avatar src={avatar} icon={<UserOutlined />} />}
                 >
-                    <Option value="vi">VI</Option>
-                    <Option value="en">EN</Option>
-                </Select>
-            </Menu.Item>
-        </StyledHeader>
+                    <StyledMenuItem onClick={onClickSetting}>
+                        <Link to={`/setting`}>{userFullname}</Link>
+                    </StyledMenuItem>
+                    <Menu.Item danger>
+                        <a onClick={onSignOut}>{t('Logout')}</a>
+                    </Menu.Item>
+                </SubMenu>
+                <Menu.Item danger>
+                    <Select
+                        defaultValue="vi"
+                        size={'small'}
+                        onChange={onLocaleChange}
+                    >
+                        <Option value="vi">VI</Option>
+                        <Option value="en">EN</Option>
+                    </Select>
+                </Menu.Item>
+            </StyledHeader>
+        </div>
     )
 }
 
