@@ -1,22 +1,19 @@
 import * as React from 'react'
-import { Table, Space, Modal, Form, Button, message, Tag } from 'antd'
+import { Table, Space, Modal, Button, message, Tag } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectQuestions, updateQuestions } from './questionsSlice'
-import { status} from '../../utils/status'
+import { status } from '../../utils/status'
 
 const { useState, useEffect } = React
-const { useForm } = Form
 const { confirm } = Modal
 
 const Questions = () => {
     const dispatch = useDispatch()
     const data = useSelector(selectQuestions)
-    const [itemDetail, setItemDetail] = useState({})
     const [current, setCurrent] = useState(1)
-    const [form] = useForm()
 
     const auth = useAuth()
     const instance = axios.create({
@@ -103,18 +100,16 @@ const Questions = () => {
     }, [])
 
     return (
-        <>
-            <Table columns={columns}
-                   expandable={{
-                       expandedRowRender: expandRender,
-                       rowExpandable: record => record.title !== 'Not Expandable',
-                   }}
-                   dataSource={data} rowKey={'_id'} pagination={{
-                current: current,
-                onChange: onPageChange,
-                defaultPageSize: 10,
-            }} />
-        </>
+        <Table columns={columns}
+               expandable={{
+                   expandedRowRender: expandRender,
+                   rowExpandable: record => record.title !== 'Not Expandable',
+               }}
+               dataSource={data} rowKey={'_id'} pagination={{
+            current: current,
+            onChange: onPageChange,
+            defaultPageSize: 10,
+        }} />
     )
 }
 
