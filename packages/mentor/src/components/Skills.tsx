@@ -25,10 +25,7 @@ const Skills = (props: IProps) => {
     }
 
     useEffect(() => {
-        instance.get('/api/admin/skills', {
-            method: 'get',
-            url: 'https://livecoding.me/api/users/skills',
-        }).then((response) => {
+        instance.get('/api/users/skills').then((response) => {
             if (response.status === 200) {
                 const options = response.data.skill.map((item: any) => {
                     return {
