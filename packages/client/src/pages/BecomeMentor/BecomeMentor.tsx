@@ -1,10 +1,12 @@
-import { Steps, Button } from 'antd'
+import { Steps, Button, message } from 'antd'
 import * as React from 'react'
 import { useForm } from 'antd/es/form/Form'
 import { LogoContainer, SelectLocale, useTrans } from 'common'
 import Info from '../../components/BecomeMentor/Info'
 import Skills from '../../components/BecomeMentor/Skills'
 import Results from '../../components/BecomeMentor/Results'
+import './BecomeMentor.css'
+import { useAPI } from '../../utils/hooks/useAPI'
 
 const { Step } = Steps
 const { useState } = React
@@ -18,19 +20,47 @@ const BecomeMentor = () => {
     const [info] = useForm()
     const [skill] = useForm()
     const trans = useTrans()
+    const instance = useAPI()
 
     const onInfoFinish = () => {
-        info.validateFields().then(() => {
-            setFinish({ ...finish, info: true })
-            setCurrent(current + 1)
-        })
+        info.validateFields()
+            .then((values) => {
+                delete values.email
+                instance
+                    .put('/api/users', values)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            message.success(trans('Updated'))
+                        }
+                    })
+                    .catch((error) =>
+                        message.error(error.response.data.message ?? 'Failed')
+                    )
+            })
+            .then(() => {
+                setFinish({ ...finish, info: true })
+                setCurrent(current + 1)
+            })
+            .catch((error) => message.error(error.message))
     }
 
     const onSkillFinish = () => {
-        skill.validateFields().then(() => {
-            setFinish({ ...finish, skill: true })
-            setCurrent(current + 1)
-        })
+        skill
+            .validateFields()
+            .then((values) => {
+                instance
+                    .post('/api/users/mentor/register', values)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            setFinish({ ...finish, skill: true })
+                            setCurrent(current + 1)
+                        }
+                    })
+                    .catch((error) =>
+                        message.error(error.response.data.message)
+                    )
+            })
+            .catch((error) => message.error(error.response.data.message))
     }
 
     const steps = [

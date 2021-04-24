@@ -1,67 +1,101 @@
-import * as React from "react";
-import {DatePicker, Form, FormInstance, Input, InputNumber, Radio} from "antd";
-import { usePasswordRule } from '../../../common/index'
+import * as React from 'react'
+import { Form, FormInstance, Input, Radio, Select } from 'antd'
+import { usePhoneNumberRule } from 'common'
 import { useTrans } from 'common'
+import { useFullname } from '../../utils/hooks/useFullname'
+import { useUsername } from '../../utils/hooks/useUsername'
+import { useEmail } from '../../utils/hooks/useEmail'
+import { usePhoneNumber } from '../../utils/hooks/usePhoneNumber'
+import DatePicker from '../Custom/DatePicker'
+import dayjs from 'dayjs'
+import { useDOB } from '../../utils/hooks/useDOB'
 
 interface IProps {
-    form: FormInstance<any>;
+    form: FormInstance
 }
 const layout = {
-    labelCol: {span: 8},
-    wrapperCol: {span: 10},
-};
+    labelCol: { span: 8 },
+    wrapperCol: { span: 10 },
+}
+
+const { Option } = Select
 
 const Info = (props: IProps) => {
-    const {form} = props;
+    const { form } = props
     const trans = useTrans()
+    const fullname = useFullname()
+    const username = useUsername()
+    const email = useEmail()
+    const phone = usePhoneNumber()
+    const dob = useDOB()
+
+    const prefixSelector = (
+        <Form.Item name="prefix" noStyle initialValue={'+84'}>
+            <Select style={{ width: 70 }}>
+                <Option value="+84">+84</Option>
+            </Select>
+        </Form.Item>
+    )
 
     return (
-        <Form form={form} style={{paddingTop: 24}} {...layout} name="info">
-            <Form.Item name={'username'} label={trans('Username')} hasFeedback rules={[{required: true, message: 'Vui lòng nhập tên đăng nhập!'}]}>
-                <Input/>
-            </Form.Item>
-            <Form.Item name={'password'} label={trans('Password')} hasFeedback rules={usePasswordRule()}>
-                <Input.Password/>
-            </Form.Item>
-            <Form.Item name={'confirm'} label={trans('Re password')}
-                       dependencies={['user', 'password']}
-                       hasFeedback
-                       rules={[
-                           {
-                               required: true,
-                               message: trans('Please re enter your password'),
-                           },
-                           ({getFieldValue}) => ({
-                               validator(_, value) {
-                                   if (!value || getFieldValue('password') === value) {
-                                       return Promise.resolve();
-                                   }
-                                   return Promise.reject(new Error(trans('Password need to match')));
-                               },
-                           }),
-                       ]}
+        <Form form={form} style={{ paddingTop: 24 }} {...layout} name="info">
+            <Form.Item
+                label={trans('Username')}
+                name={'username'}
+                initialValue={username}
             >
-                <Input.Password/>
+                <Input disabled />
             </Form.Item>
-            <Form.Item name={'fullname'} label="Họ và tên" hasFeedback rules={[{required: true, message: trans('Please enter your full name')}]}>
-                <Input/>
+            <Form.Item label="Email" name={'email'} initialValue={email}>
+                <Input disabled />
             </Form.Item>
-            <Form.Item name={'email'} label="Email" hasFeedback                 rules={[
-                {
-                    type: 'email',
-                    message: trans('Invalid email'),
-                },
-                { required: true, message: trans('Please enter your email') },
-            ]}>
-                <Input/>
+            <Form.Item
+                name={'fullname'}
+                label="Họ và tên"
+                hasFeedback
+                initialValue={fullname}
+                rules={[
+                    {
+                        required: true,
+                        message: trans('Please enter your full name'),
+                    },
+                ]}
+            >
+                <Input />
             </Form.Item>
-            <Form.Item name={'phone'} label={trans('Phone Number')}>
-                <InputNumber style={{width: "30%"}} keyboard={false}/>
+            <Form.Item
+                name={'phone'}
+                label={trans('Phone Number')}
+                initialValue={phone}
+                rules={[
+                    ...usePhoneNumberRule(),
+                    {
+                        required: true,
+                        message: trans('Please input your phone number'),
+                    },
+                ]}
+            >
+                <Input style={{ width: '50%' }} addonBefore={prefixSelector} />
             </Form.Item>
-            <Form.Item name={'age'} label={trans('Date of birth')} rules={[{type: 'date'}]}>
-                <DatePicker placeholder={trans('Choose the day')}/>
+            <Form.Item
+                name={'age'}
+                label={trans('Date of birth')}
+                initialValue={dob ? dayjs(dob) : null}
+                rules={[
+                    { type: 'date' },
+                    {
+                        required: true,
+                        message: trans('Please input your date of birth'),
+                    },
+                ]}
+            >
+                <DatePicker placeholder={trans('Choose the day')} />
             </Form.Item>
-            <Form.Item name={'gender'} label={trans('Gender')} initialValue={'male'}>
+            <Form.Item
+                name={'gender'}
+                label={trans('Gender')}
+                initialValue={'male'}
+            >
                 <Radio.Group name="radiogroup">
                     <Radio value={'male'}>{trans('Male')}</Radio>
                     <Radio value={'female'}>{trans('Female')}</Radio>
@@ -71,4 +105,4 @@ const Info = (props: IProps) => {
     )
 }
 
-export default Info;
+export default Info

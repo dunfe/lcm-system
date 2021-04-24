@@ -21,6 +21,7 @@ import dayjs from 'dayjs'
 import DatePicker from '../Custom/DatePicker'
 import { useSelector } from 'react-redux'
 import { selectAllSkills } from '../../features/skill/skillsSlice'
+import { usePhoneNumberRule } from 'common'
 
 const layout = {
     labelCol: { span: 6 },
@@ -170,14 +171,7 @@ const InfoSetting = () => {
                     <Form.Item
                         label={t('Phone Number')}
                         name="phone"
-                        rules={[
-                            {
-                                pattern: new RegExp(
-                                    '(9|1[2|6|8|9])+([0-9]{8})\\b'
-                                ),
-                                message: t('Please enter a valid phone number'),
-                            },
-                        ]}
+                        rules={usePhoneNumberRule()}
                     >
                         <InputNumber
                             style={{ width: '50%' }}

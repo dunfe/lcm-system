@@ -19955,6 +19955,16 @@ var useUsernameRule = function () {
     ];
 };
 
+var usePhoneNumberRule = function () {
+    var t = useTranslation().t;
+    return [
+        {
+            pattern: new RegExp('(9|1[2|6|8|9])+([0-9]{8})\\b'),
+            message: t('Please enter a valid phone number'),
+        },
+    ];
+};
+
 var changeLocale = function (value) {
     i18next.changeLanguage(value).then(function () {
         console.log('Changed locale to' + value);
@@ -19966,4 +19976,4 @@ var useTrans = function () {
     return t;
 };
 
-export { InAppLogo, LogoContainer, SelectLocale, changeLocale, usePasswordRule, useTrans, useUsernameRule };
+export { InAppLogo, LogoContainer, SelectLocale, changeLocale, usePasswordRule, usePhoneNumberRule, useTrans, useUsernameRule };
