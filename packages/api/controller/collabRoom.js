@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import colabRoom from '../models/collabRoom.js';
 import User from '../models/user.js'
+import Question from '../models/question.js';
 import { useridFromToken } from '../controller/mentor.js'
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
@@ -95,6 +96,160 @@ export const delCollabRoomById = async (req, res, next) => {
             return res.status(200).json({
                 status: 'success',
                 message: 'Delete room success'
+            });
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        }
+    });
+};
+
+async function minusPointUser(userId, point){
+    return async ( req, res) => {
+        const user = await User.findById(userId);
+        const pointBefore = user.currentPoint;
+        const amount = point;
+        const pointAfter = pointBefore - amount;
+        User.findByIdAndUpdate(userId, 
+            { $push: {pointOutHistory : {method : "point-point",
+                                    pointBefore : pointBefore,
+                                    pointAfter: pointAfter,
+                                    amount : amount, 
+                                    ref : user.fullname, 
+                                    note : ''}} },
+            { new: false }, (err, doc) => {
+                if(!err) {
+                
+                } else {
+                    return res.status(400).json({
+                        status: 'fail',
+                        message: 'Something wrong, try again later'
+                    })
+                };
+        });
+        User.findByIdAndUpdate(userId, { $set: {currentPoint : pointAfter} }, { new: true }, (err, doc) => {
+            if (!err) {
+            
+            } else {
+                console.log('Error Point Update: ' + JSON.stringify(err, undefined, 2));
+            };
+        });
+    }
+}
+
+async function PlusPointUser(userId, point){
+    return async ( req, res) => {
+    const user = await User.findById(userId);
+    const pointBefore = user.currentPoint;
+    const amount = point;
+    const pointAfter = pointBefore + amount;
+    User.findByIdAndUpdate(userId, 
+        { $push: {pointInHistory : {method : "point-point",
+                                    pointBefore : pointBefore,
+                                    pointAfter: pointAfter,
+                                    amount : amount, 
+                                    ref : user.fullname, 
+                                    note : ''}} },
+        { new: false }, (err, doc) => {
+            if(!err) {
+                
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            };
+    });
+    User.findByIdAndUpdate(userId, { $set: {currentPoint : pointAfter} }, { new: true }, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                data: doc
+            }); 
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        };
+    });
+}
+}
+
+export const endCollabRoomById = async (req, res, next) => {
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            status: 'fail',
+            message: `Invalid id ${req.params.id}`
+        })
+    };
+    let room = await colabRoom.findById(req.params.id);
+    let ques = await Question.findById(room.questionInfo._id);
+    //set status question done
+    Question.findByIdAndUpdate(room.questionInfo._id,{$set: {status: "done"}},{new: true},(err, doc) => {
+        if(!err) {
+            
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Something wrong, try again later'
+            })
+        };
+    });
+    minusPointUser(room.menteeInfo._id, ques.point);
+    //plus point to mentor
+    let user = await User.findById(room.mentorInfo._id);
+    let pointBefore = user.currentPoint;
+    let amount = ques.point;
+    let pointAfter = pointBefore + amount;
+    User.findByIdAndUpdate(room.mentorInfo._id, 
+        { $push: {pointInHistory : {method : "point-point",
+                                    pointBefore : pointBefore,
+                                    pointAfter: pointAfter,
+                                    amount : amount, 
+                                    ref : user.fullname, 
+                                    note : ''}},
+        $set: {currentPoint : pointAfter} },
+        { new: true }, (err, doc) => {
+            if(!err) {
+                
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            };
+    });
+    //minus point of mentee
+    user = await User.findById(room.menteeInfo._id);
+    pointBefore = user.currentPoint;
+    pointAfter = pointBefore - amount;
+    User.findByIdAndUpdate(room.menteeInfo._id, 
+        { $push: {pointOutHistory : {method : "point-point",
+                                    pointBefore : pointBefore,
+                                    pointAfter: pointAfter,
+                                    amount : amount, 
+                                    ref : user.fullname, 
+                                    note : ''}},
+        $set: {currentPoint : pointAfter} },
+        { new: true }, (err, doc) => {
+            if(!err) {
+                
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            };
+    });
+    //delete room
+    colabRoom.findByIdAndRemove(req.params.id, (err, doc) => {
+        if(!err) {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Kết thúc session!'
             });
         } else {
             return res.status(400).json({

@@ -9,6 +9,7 @@ import Question from '../models/question.js';
 import Mentor from '../models/mentor.js';
 import Skill from '../models/skill.js';
 import cloudinary from '../utils/cloudinary.js';
+import validate from '../validator/user.validation.js';
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
@@ -144,10 +145,35 @@ export const countAllRecord = async (req, res) => {
 export const changePassword = async (req, res, next) => {
     try {
         let userId = await useridFromToken(req, res);
+        
+        const oldPassword = req.body.oldPassword;
+        const user = await User.findById(userId);
+        // if(req.body.oldPassword != user)
         const salt = await bcrypt.genSalt(10);
-        const newPasswordSalted = await bcrypt.hash(req.body.newPassword, salt);
-        const userPassword = await User.findByIdAndUpdate({ _id: userId }, { password: newPasswordSalted }, { new: true });
-        return res.status(200).json({ status: true, data: userPassword });
+
+        const compare = await bcrypt.compare(oldPassword, user.password);
+        if(compare){
+            if(validate.isGoodPassword(req.body.newPassword) && validate.isLongEnough(req.body.newPassword)){
+                const newPasswordSalted = await bcrypt.hash(req.body.newPassword, salt);
+                 const userPassword = await User.findByIdAndUpdate({ _id: userId }, { password: newPasswordSalted }, { new: true });
+                return res.status(200).json({ 
+                status: 'success',
+                message: 'Correct old password',
+                data: userPassword });
+            } else {
+                     return res.status(200).json({ 
+                    status: 'fail',
+                    message: 'Password contains at least one number, one lowercase and one uppercase letter and is at least six characters long'
+                    });
+            }
+            
+        } else {
+            return res.status(200).json({ 
+                status: 'fail',
+                message: 'Incorrect old password'
+                });
+        }
+        
     } catch (error) {
         return res.status(400).json({ status: false, error: error.message });
     }

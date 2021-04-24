@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 const { useState, useEffect } = React
 
@@ -38,11 +39,13 @@ const Feedbacks = () => {
             render(text: string, record: any, index: number) {
                 return (current - 1) * 10 + index + 1
             },
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: 'Tiêu đề',
             dataIndex: 'title',
             key: 'title',
+            responsive: ['md'] as Breakpoint[],
         },
         {
             title: 'Created at',
@@ -51,6 +54,7 @@ const Feedbacks = () => {
             render(text: string) {
                 return dayjs(text).format('LLLL')
             },
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: 'Trạng thái',
@@ -63,6 +67,7 @@ const Feedbacks = () => {
                     </Tag>
                 )
             },
+            responsive: ['md'] as Breakpoint[],
         },
         {
             title: 'Hành động',
@@ -73,6 +78,7 @@ const Feedbacks = () => {
                     <Button disabled={record.status !== 'open'} type={'primary'} onClick={() => onResolved(record._id)}>Resolved</Button>
                 </Space>
             },
+            responsive: ['sm'] as Breakpoint[],
         },
     ]
 
