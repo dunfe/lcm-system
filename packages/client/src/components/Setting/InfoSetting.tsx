@@ -233,7 +233,9 @@ const InfoSetting = () => {
                                 rules={[
                                     {
                                         max: 100,
-                                        mes,
+                                        message: t(
+                                            'Must lower then 100 character'
+                                        ),
                                     },
                                 ]}
                             >
