@@ -20003,6 +20003,22 @@ var usePhoneNumberRule = function () {
     ];
 };
 
+var useFullnameRule = function () {
+    var t = useTranslation().t;
+    return [
+        {
+            required: true,
+            message: t('Please enter your full name'),
+        },
+        {
+            pattern: new RegExp('^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +\n' +
+                '            "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +\n' +
+                '            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\\\s]+$'),
+            message: t('Please input exactly your full name'),
+        },
+    ];
+};
+
 var changeLocale = function (value) {
     i18next.changeLanguage(value).then(function () {
         console.log('Changed locale to' + value);
@@ -20018,6 +20034,7 @@ exports.InAppLogo = InAppLogo;
 exports.LogoContainer = LogoContainer;
 exports.SelectLocale = SelectLocale;
 exports.changeLocale = changeLocale;
+exports.useFullnameRule = useFullnameRule;
 exports.usePasswordRule = usePasswordRule;
 exports.usePhoneNumberRule = usePhoneNumberRule;
 exports.useTrans = useTrans;

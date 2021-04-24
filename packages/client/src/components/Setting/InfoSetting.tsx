@@ -21,7 +21,7 @@ import dayjs from 'dayjs'
 import DatePicker from '../Custom/DatePicker'
 import { useSelector } from 'react-redux'
 import { selectAllSkills } from '../../features/skill/skillsSlice'
-import { usePhoneNumberRule } from 'common'
+import { useFullnameRule, usePhoneNumberRule } from 'common'
 
 const layout = {
     labelCol: { span: 6 },
@@ -162,7 +162,11 @@ const InfoSetting = () => {
                     onFinish={onFinish}
                     form={form}
                 >
-                    <Form.Item label={t('Full name')} name="fullname">
+                    <Form.Item
+                        label={t('Full name')}
+                        name="fullname"
+                        rules={useFullnameRule()}
+                    >
                         <Input />
                     </Form.Item>
                     <Form.Item label={t('Email')} name="email">

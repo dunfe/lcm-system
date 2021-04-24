@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Form, FormInstance, Input, Radio, Select } from 'antd'
-import { usePhoneNumberRule } from 'common'
+import { useFullnameRule, usePhoneNumberRule } from 'common'
 import { useTrans } from 'common'
 import { useFullname } from '../../utils/hooks/useFullname'
 import { useUsername } from '../../utils/hooks/useUsername'
@@ -54,12 +54,7 @@ const Info = (props: IProps) => {
                 label="Họ và tên"
                 hasFeedback
                 initialValue={fullname}
-                rules={[
-                    {
-                        required: true,
-                        message: trans('Please enter your full name'),
-                    },
-                ]}
+                rules={useFullnameRule()}
             >
                 <Input />
             </Form.Item>
