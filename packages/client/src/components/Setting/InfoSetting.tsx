@@ -227,7 +227,16 @@ const InfoSetting = () => {
                                     placeholder={t('Skill')}
                                 />
                             </Form.Item>
-                            <Form.Item label={t('Bio')} name="bio">
+                            <Form.Item
+                                label={t('Bio')}
+                                name="bio"
+                                rules={[
+                                    {
+                                        max: 100,
+                                        mes,
+                                    },
+                                ]}
+                            >
                                 <Input.TextArea />
                             </Form.Item>
                             <Form.Item
