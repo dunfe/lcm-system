@@ -26,6 +26,7 @@ import styled from 'styled-components/macro'
 import Text from 'antd/es/typography/Text'
 import Title from 'antd/es/typography/Title'
 import { useTrans } from 'common'
+import { useRole } from '../../utils/hooks/useRole'
 
 interface INotify {
     read: boolean
@@ -54,6 +55,7 @@ const HeaderComponent = (props: IProps) => {
     const instance = useAPI()
     const { t, i18n } = useTranslation()
     const trans = useTrans()
+    const role = useRole()
 
     const { setSelectedKeys } = props
 
@@ -159,11 +161,13 @@ const HeaderComponent = (props: IProps) => {
 
     return (
         <StyledHeader mode="horizontal">
-            <Menu.Item key={'become'}>
-                <Button type={'primary'} onClick={onBecome}>
-                    {trans('Become a Mentor')}
-                </Button>
-            </Menu.Item>
+            {role === 'mentee' ? (
+                <Menu.Item key={'become'}>
+                    <Button type={'primary'} onClick={onBecome}>
+                        {trans('Become a Mentor')}
+                    </Button>
+                </Menu.Item>
+            ) : null}
             <Menu.Item key={'notify'}>
                 <NotifyIcon />
             </Menu.Item>
