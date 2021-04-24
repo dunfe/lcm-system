@@ -273,7 +273,18 @@ const AddQuestion = (props: IProps) => {
                                     style={{ width: '10%' }}
                                 />
                             </Form.Item>
-                            <Form.Item name={'note'} label={t('Note')}>
+                            <Form.Item
+                                name={'note'}
+                                label={t('Note')}
+                                rules={[
+                                    {
+                                        max: 50,
+                                        message: t(
+                                            'Note must not longer than 100 character'
+                                        ),
+                                    },
+                                ]}
+                            >
                                 <Input placeholder={t('Note')} />
                             </Form.Item>
                             <Form.Item
