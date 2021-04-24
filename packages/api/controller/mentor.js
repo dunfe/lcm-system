@@ -79,7 +79,6 @@ export function getAllMentor(model) {
 export const countQuestionNotDoneOfMentor = async (req,res)=> {
     var userId = await useridFromToken(req,res);
     var data = await Question.find({receivedBy: userId, status: "doing"});
-    console.log(data)
     return data.length;
 }
 
@@ -99,7 +98,6 @@ export const selectQuestion = async (req,res) =>{
         })
     };
     var count = await countQuestionNotDoneOfMentor(req,res);
-    console.log(count);
     if(count > 5){
         return res.status(400).json({
             status: 'fail',
@@ -109,16 +107,20 @@ export const selectQuestion = async (req,res) =>{
     var userId = await useridFromToken(req,res);
     var currUser = await User.findById(userId);
     var ques = await Question.findById(req.params.id);
+    var mentee = await User.findById(ques.menteeId);
+    console.log(mentee.detail.avatar);
     var room = new colabRoom({
         menteeInfo: {
             _id : ques.menteeId,
             displayName : ques.menteeName,
-            level: 0
+            level: 0,
+            avatar: mentee.detail.avatar
         },
         mentorInfo: {
             _id : currUser._id,
             displayName : currUser.fullname,
-            level: currUser.level
+            level: currUser.level,
+            avatar: currUser.detail.avatar
         },
         questionInfo:{
             _id: ques._id,
