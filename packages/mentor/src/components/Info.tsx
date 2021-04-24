@@ -1,5 +1,6 @@
 import * as React from "react";
 import {DatePicker, Form, FormInstance, Input, InputNumber, Radio} from "antd";
+import { usePasswordRule } from '../../../common/index'
 
 interface IProps {
     form: FormInstance<any>;
@@ -17,7 +18,7 @@ const Info = (props: IProps) => {
             <Form.Item name={'username'} label="Tên đăng nhập" hasFeedback rules={[{required: true, message: 'Vui lòng nhập tên đăng nhập!'}]}>
                 <Input/>
             </Form.Item>
-            <Form.Item name={'password'} label="Mật khẩu" hasFeedback rules={[{required: true, message: 'Vui lòng nhập mật khẩu!'}]}>
+            <Form.Item name={'password'} label="Mật khẩu" hasFeedback rules={usePasswordRule()}>
                 <Input.Password/>
             </Form.Item>
             <Form.Item name={'confirm'} label="Mật khẩu"

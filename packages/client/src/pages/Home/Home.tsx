@@ -7,10 +7,9 @@ import MenteeContent from '../../components/Home/Content/MenteeContent'
 import MentorContent from '../../components/Home/Content/MentorContent'
 import MenteeMenu from '../../components/Menu/MenteeMenu'
 import MentorMenu from '../../components/Menu/MentorMenu'
-import { LogoContainer } from '../../components/Logo/LogoContainer'
-import { Logo } from '../../components/Logo/Logo'
 import { useRole } from '../../utils/hooks/useRole'
 import { useTranslation } from 'react-i18next'
+import { InAppLogo } from 'common'
 
 const { Sider, Content, Footer } = Layout
 
@@ -85,15 +84,7 @@ const HomePage = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible theme={'dark'}>
-                <LogoContainer>
-                    <Logo
-                        width={200}
-                        height={60}
-                        src={
-                            'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg'
-                        }
-                    />
-                </LogoContainer>
+                <InAppLogo />
                 {role === 'mentee' ? (
                     <MenteeMenu
                         selectedKeys={selectedKeys}
