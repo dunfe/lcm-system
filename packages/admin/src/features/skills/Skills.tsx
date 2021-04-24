@@ -6,6 +6,7 @@ import { DeleteOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectSkills, updateSkills } from './skillsSlice'
+import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 interface IProps {
     onAdd: (state: any) => Promise<any>;
@@ -51,16 +52,13 @@ const Skills = (props: IProps) => {
             render(text: string, record: any, index: number) {
                 return (current - 1) * 10 + index + 1
             },
-        },
-        {
-            title: 'ID',
-            dataIndex: '_id',
-            key: '_id',
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: 'Tên',
             dataIndex: 'name',
             key: 'name',
+            responsive: ['sm'] as Breakpoint[],
         },
         {
             title: 'Created at',
@@ -69,6 +67,7 @@ const Skills = (props: IProps) => {
             render(text: string) {
                 return dayjs(text).format('LLLL')
             },
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: 'Hành động',
@@ -80,6 +79,7 @@ const Skills = (props: IProps) => {
                     <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
                 </Space>
             },
+            responsive: ['sm'] as Breakpoint[],
         },
     ]
 
@@ -135,7 +135,7 @@ const Skills = (props: IProps) => {
                         setVisible(false)
                     })
                 }
-            }).catch((error) => message.error(error.message))
+            }).catch((error) => message.error(error.response.data.message))
         } else {
             onAdd(values).then((response) => {
                 if (response.status === 200) {
@@ -144,7 +144,7 @@ const Skills = (props: IProps) => {
                         setVisible(false)
                     })
                 }
-            }).catch((error) => message.error(error.message))
+            }).catch((error) => message.error(error.response.data.message))
         }
 
         setConfirmLoading(false)
@@ -193,7 +193,6 @@ const Skills = (props: IProps) => {
                     >
                         <Input />
                     </Form.Item>
-
                     <Form.Item {...tailLayout}>
                         <Button type='primary' htmlType='submit'>
                             {mode === 'add' ? 'Thêm' : 'Cập nhật'}

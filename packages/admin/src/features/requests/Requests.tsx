@@ -6,6 +6,7 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectRequests, updateRequests } from './requestsSlice'
 import { requestStatus } from '../../utils/requestStatus'
+import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 const { useState, useEffect } = React
 const { confirm } = Modal
@@ -31,11 +32,13 @@ const Requests = () => {
             render(text: string, record: any, index: number) {
                 return (current - 1) * 10 + index + 1
             },
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: 'Title',
             dataIndex: 'title',
             key: 'title',
+            responsive: ['sm'] as Breakpoint[],
         },
         {
             title: 'Status',
@@ -51,7 +54,7 @@ const Requests = () => {
                         )
                     }
                 })
-            },
+            },            responsive: ['md'] as Breakpoint[],
         },
         {
             title: 'Hành động',
@@ -63,6 +66,7 @@ const Requests = () => {
                     <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
                 </Space>
             },
+            responsive: ['sm'] as Breakpoint[],
         },
     ]
 
