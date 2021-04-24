@@ -31,6 +31,22 @@ const SecuritySetting = () => {
         }
     }
 
+    const chgpwdRule = [
+        ...passwordRule(t),
+        ({ getFieldValue }) => ({
+            validator(_, value) {
+                if (getFieldValue('password') !== value) {
+                    return Promise.resolve()
+                }
+                return Promise.reject(
+                    new Error(
+                        t('The old and the new password must be not the same!')
+                    )
+                )
+            },
+        }),
+    ]
+
     return (
         <Form
             {...layout}
@@ -51,11 +67,7 @@ const SecuritySetting = () => {
                 <Input.Password />
             </Form.Item>
 
-            <Form.Item
-                label="New Password"
-                name="password1"
-                rules={passwordRule(t)}
-            >
+            <Form.Item label="New Password" name="password1" rules={chgpwdRule}>
                 <Input.Password />
             </Form.Item>
 

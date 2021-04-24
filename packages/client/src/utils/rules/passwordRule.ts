@@ -1,17 +1,5 @@
 export const passwordRule = (t) => {
     return [
-        ({ getFieldValue }) => ({
-            validator(_, value) {
-                if (getFieldValue('password') !== value) {
-                    return Promise.resolve()
-                }
-                return Promise.reject(
-                    new Error(
-                        t('The old and the new password must be not the same!')
-                    )
-                )
-            },
-        }),
         {
             required: true,
             message: 'Please input the new password!',

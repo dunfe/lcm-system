@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, Rate } from 'antd'
+import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, Rate, Popconfirm } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectMentees, updateMentees } from './menteesSlice'
+import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 interface IProps {
     visible: boolean;
@@ -43,6 +44,7 @@ const Mentees = (props: IProps) => {
             render(text: string, record: any, index: number) {
                 return (current - 1) * 10 + index + 1
             },
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: 'Tên',
@@ -53,11 +55,14 @@ const Mentees = (props: IProps) => {
                     <a onClick={() => onViewDetail(record._id)}>{text}</a>
                 )
             },
+            responsive: ['md'] as Breakpoint[],
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
+            responsive: ['sm'] as Breakpoint[],
+
         },
         {
             title: 'Role',
@@ -70,6 +75,7 @@ const Mentees = (props: IProps) => {
                     </Tag>
                 )
             },
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: 'Hành động',
@@ -78,12 +84,38 @@ const Mentees = (props: IProps) => {
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
                     <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
-                    {record.role === 'banned' ? <Button onClick={() => onUnban(record._id)}>Unban</Button> :
-                        <Button danger onClick={() => onBan(record._id)}>Ban</Button>}
+                    {record.role === 'banned' ? unban(record._id) : ban(record._id)}
                 </Space>
             },
+            responsive: ['sm'] as Breakpoint[],
         },
     ]
+
+    const unban = (id: string) => {
+        return (
+            <Popconfirm
+                title={'Are you sure?'}
+                onConfirm={() => onUnban(id)}
+                okText="Yes"
+                cancelText="No"
+            >
+                <Button >Unban</Button>
+            </Popconfirm>
+            )
+    }
+
+    const ban = (id: string) => {
+        return (
+            <Popconfirm
+                title={'Are you sure?'}
+                onConfirm={() => onBan(id)}
+                okText="Yes"
+                cancelText="No"
+            >
+                <Button >Ban</Button>
+            </Popconfirm>
+        )
+    }
 
     const onViewDetail = (id: string) => {
         setUpdateId(id)
@@ -99,6 +131,7 @@ const Mentees = (props: IProps) => {
     }
 
     const onBan = (id: string) => {
+
         instance.post(`/api/admin/users/${id}`).then((response) => {
             if (response.status === 200) {
                 message.success('Banned')

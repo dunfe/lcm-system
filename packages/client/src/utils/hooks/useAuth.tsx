@@ -2,6 +2,7 @@ import { message } from 'antd'
 import axios from 'axios'
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import Cookies from 'js-cookie'
+import { useTranslation } from 'react-i18next'
 
 interface IUser {
     user: {
@@ -58,6 +59,7 @@ export const useAuth = (): IUseAuthType => {
 function useProvideAuth(): IUseAuthType {
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState<IUser | null>(null)
+    const { t } = useTranslation()
 
     // Wrap any Firebase methods we want to use making sure ...
     // ... to save the user to state.
@@ -79,6 +81,9 @@ function useProvideAuth(): IUseAuthType {
                     return false
                 } else if (role === 'staff') {
                     window.open('https://staff.livecoding.me', '_self')
+                    return false
+                } else if (role === 'banned') {
+                    message.error(t('Your account has been banned'))
                     return false
                 } else {
                     setUser(response.data)
