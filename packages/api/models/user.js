@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please enter a password'],
-        minlength: [6, 'Password must have atleast 6 character']
     },
     passportId: {
         type: String,
@@ -155,7 +154,7 @@ userSchema.path('username').validate(function (input){
 }, "Username  only contains Alpha or numerical characters and must have atleast 6  characters")
 userSchema.path('password').validate(function (input){
     return validate.isGoodPassword(input) && validate.isLongEnough(input);
-},"contains at least one number, one lowercase and one uppercase letter and is at least six characters long");
+},"Password contains at least one number, one lowercase, one uppercase letter and it's at least six characters long");
 
 userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
