@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Row, Col, List, Card } from 'antd'
+import { Row, Col, List, Avatar } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 
 interface IFavoriteMentor {
@@ -30,11 +30,17 @@ const FavoriteMentor = () => {
         <Row gutter={24}>
             <Col span={24}>
                 <List
-                    grid={{ gutter: 16, column: 4 }}
+                    itemLayout="horizontal"
                     dataSource={data}
                     renderItem={(item) => (
                         <List.Item>
-                            <Card title={item.mentorName}>Card content</Card>
+                            <List.Item.Meta
+                                avatar={
+                                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                }
+                                title={item.mentorName}
+                                description={'Mentor bio'}
+                            />
                         </List.Item>
                     )}
                 />

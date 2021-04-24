@@ -30,7 +30,9 @@ function App(): JSX.Element {
                     <Router>
                         <Switch>
                             <Route path="/login" component={LoginPage} />
-                            <Route path="/join" component={SessionPage} />
+                            <PrivateRoute path="/join">
+                                <SessionPage />
+                            </PrivateRoute>
                             <PrivateRoute path="/">
                                 <HomePage />
                             </PrivateRoute>

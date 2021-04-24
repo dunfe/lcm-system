@@ -66,6 +66,12 @@ const HomePage = () => {
                         subtitle: t('Your session'),
                     })
                     break
+                case '/favorite':
+                    setPageHeader({
+                        title: t('Your favorite mentor'),
+                        subtitle: '',
+                    })
+                    break
                 case '/setting':
                     setPageHeader({
                         title: t('Setting'),
@@ -79,8 +85,14 @@ const HomePage = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible theme={'dark'}>
-                <LogoContainer className="logo">
-                    <Logo />
+                <LogoContainer>
+                    <Logo
+                        width={200}
+                        height={60}
+                        src={
+                            'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg'
+                        }
+                    />
                 </LogoContainer>
                 {role === 'mentee' ? (
                     <MenteeMenu

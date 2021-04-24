@@ -50,7 +50,7 @@ const SignUpComponent = () => {
             <Form.Item wrapperCol={{ span: 24 }} name="display_name">
                 <Input
                     width={'100%'}
-                    placeholder={t('Full name')}
+                    placeholder={t('Fullname')}
                     prefix={
                         <UserOutlined
                             className="site-form-item-icon"
@@ -60,7 +60,26 @@ const SignUpComponent = () => {
                 />
             </Form.Item>
 
-            <Form.Item wrapperCol={{ span: 24 }} name="username">
+            <Form.Item
+                wrapperCol={{ span: 24 }}
+                name="username"
+                rules={[
+                    {
+                        pattern: new RegExp('(?=.{8,20}$)'),
+                        message: t(
+                            'Username must be between 8 and 20 character'
+                        ),
+                    },
+                    {
+                        pattern: new RegExp(
+                            '^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$'
+                        ),
+                        message: t(
+                            'Only use character or number in your username'
+                        ),
+                    },
+                ]}
+            >
                 <Input
                     width={'100%'}
                     placeholder={t('Username')}
