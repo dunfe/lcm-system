@@ -20,7 +20,7 @@ const Info = (props: IProps) => {
             <Form.Item name={'username'} label={trans('Username')} hasFeedback rules={[{required: true, message: 'Vui lòng nhập tên đăng nhập!'}]}>
                 <Input/>
             </Form.Item>
-            <Form.Item name={'password'} label="Mật khẩu" hasFeedback rules={usePasswordRule()}>
+            <Form.Item name={'password'} label={trans('Password')} hasFeedback rules={usePasswordRule()}>
                 <Input.Password/>
             </Form.Item>
             <Form.Item name={'confirm'} label={trans('Re password')}
@@ -29,36 +29,42 @@ const Info = (props: IProps) => {
                        rules={[
                            {
                                required: true,
-                               message: 'Vui lòng xác nhận mật khẩu!',
+                               message: trans('Please re enter your password'),
                            },
                            ({getFieldValue}) => ({
                                validator(_, value) {
                                    if (!value || getFieldValue('password') === value) {
                                        return Promise.resolve();
                                    }
-                                   return Promise.reject(new Error('Hai mật khẩu phải giống nhau!'));
+                                   return Promise.reject(new Error(trans('Password need to match')));
                                },
                            }),
                        ]}
             >
                 <Input.Password/>
             </Form.Item>
-            <Form.Item name={'fullname'} label="Họ và tên" hasFeedback rules={[{required: true, message: 'Vui lòng nhập đầy đủ họ và tên!'}]}>
+            <Form.Item name={'fullname'} label="Họ và tên" hasFeedback rules={[{required: true, message: trans('Please enter your full name')}]}>
                 <Input/>
             </Form.Item>
-            <Form.Item name={'email'} label="Email" hasFeedback rules={[{type: 'email', required: true, message: 'Vui lòng nhập email!'}]}>
+            <Form.Item name={'email'} label="Email" hasFeedback                 rules={[
+                {
+                    type: 'email',
+                    message: trans('Invalid email'),
+                },
+                { required: true, message: trans('Please enter your email') },
+            ]}>
                 <Input/>
             </Form.Item>
-            <Form.Item name={'phone'} label="Số điện thoại">
+            <Form.Item name={'phone'} label={trans('Phone Number')}>
                 <InputNumber style={{width: "30%"}} keyboard={false}/>
             </Form.Item>
-            <Form.Item name={'age'} label="Ngày sinh" rules={[{type: 'date'}]}>
-                <DatePicker placeholder={'Chọn ngày'}/>
+            <Form.Item name={'age'} label={trans('Date of birth')} rules={[{type: 'date'}]}>
+                <DatePicker placeholder={trans('Choose the day')}/>
             </Form.Item>
-            <Form.Item name={'gender'} label="Giới tính">
+            <Form.Item name={'gender'} label={trans('Gender')} initialValue={'male'}>
                 <Radio.Group name="radiogroup">
-                    <Radio value={'male'}>Nam</Radio>
-                    <Radio value={'female'}>Nữ</Radio>
+                    <Radio value={'male'}>{trans('Male')}</Radio>
+                    <Radio value={'female'}>{trans('Female')}</Radio>
                 </Radio.Group>
             </Form.Item>
         </Form>

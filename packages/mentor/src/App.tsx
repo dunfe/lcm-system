@@ -5,7 +5,7 @@ import * as React from "react";
 import Skills from "./components/Skills";
 import Results from "./components/Results";
 import {useForm} from "antd/es/form/Form";
-import { LogoContainer, SelectLocale } from 'common'
+import { LogoContainer, SelectLocale, useTrans } from 'common'
 
 const {Step} = Steps;
 const {useState} = React;
@@ -18,6 +18,7 @@ const App = () => {
     })
     const [info] = useForm();
     const [skill] = useForm();
+    const trans = useTrans()
 
     const onInfoFinish = () => {
         info.validateFields().then(() => {
@@ -35,15 +36,15 @@ const App = () => {
 
     const steps = [
         {
-            title: 'Thông tin cơ bản',
+            title: trans('Basic information'),
             content: <Info form={info}/>,
         },
         {
-            title: 'Kỹ năng',
+            title: trans('Skills'),
             content: <Skills form={skill}/>,
         },
         {
-            title: 'Hoàn tất',
+            title: trans('Done'),
             content: <Results/>,
         },
     ];
@@ -84,17 +85,17 @@ const App = () => {
                 <div className="steps-action">
                     {current < steps.length - 1 && (
                         <Button type="primary" onClick={() => next()}>
-                            Tiếp theo
+                            {trans('Next')}
                         </Button>
                     )}
                     {current === steps.length - 1 && (
                         <Button type="primary">
-                            <a href={"https://livecoding.me"}>Hoàn tất</a>
+                            <a href={"https://livecoding.me"}>{trans('Finish')}</a>
                         </Button>
                     )}
                     {current > 0 && current < 2 && (
                         <Button style={{margin: '0 8px'}} onClick={() => prev()}>
-                            Trước
+                            {trans('Previous')}
                         </Button>
                     )}
                 </div>
