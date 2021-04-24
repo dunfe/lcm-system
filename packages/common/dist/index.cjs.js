@@ -3541,11 +3541,12 @@ var LogoContainer = function () {
 };
 
 var InAppLogo = function () {
-    return (jsxRuntime.jsx("div", __assign({ style: { paddingTop: 12,
+    return (jsxRuntime.jsx("div", __assign({ style: {
             width: 200,
             height: 100,
             display: 'grid',
-            placeItems: 'center' } }, { children: jsxRuntime.jsx("img", { alt: 'in-app-logo', width: 200, height: 60, src: 'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg' }, void 0) }), void 0));
+            placeItems: 'center'
+        } }, { children: jsxRuntime.jsx("img", { alt: 'in-app-logo', width: 200, height: 60, src: 'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg' }, void 0) }), void 0));
 };
 
 function _extends$1() {

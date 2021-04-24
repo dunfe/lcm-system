@@ -2,7 +2,7 @@ import * as React from 'react'
 
 const InAppLogo = () => {
     return (
-        <div style={{    paddingTop: 12,
+        <div style={{
             width: 200,
             height: 100,
             display: 'grid',
