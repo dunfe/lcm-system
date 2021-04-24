@@ -7,6 +7,7 @@ import Skills from '../../components/BecomeMentor/Skills'
 import Results from '../../components/BecomeMentor/Results'
 import './BecomeMentor.css'
 import { useAPI } from '../../utils/hooks/useAPI'
+import { useHistory } from 'react-router-dom'
 
 const { Step } = Steps
 const { useState } = React
@@ -21,6 +22,7 @@ const BecomeMentor = () => {
     const [skill] = useForm()
     const trans = useTrans()
     const instance = useAPI()
+    const history = useHistory()
 
     const onInfoFinish = () => {
         info.validateFields()
@@ -105,10 +107,14 @@ const BecomeMentor = () => {
                     position: 'absolute',
                     top: 10,
                     display: 'flex',
-                    justifyContent: 'flex-end',
-                    right: 12,
+                    justifyContent: 'space-between',
+                    paddingLeft: 12,
+                    paddingRight: 12,
                 }}
             >
+                <Button type={'primary'} onClick={() => history.goBack()}>
+                    {trans('Back')}
+                </Button>
                 <SelectLocale />
             </div>
             <div className="steps-container">
