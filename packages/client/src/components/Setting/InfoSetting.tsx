@@ -19,6 +19,8 @@ import { useUserInfo } from '../../utils/hooks/useUserInfo'
 import { useForm } from 'antd/es/form/Form'
 import dayjs from 'dayjs'
 import DatePicker from '../Custom/DatePicker'
+import { useSelector } from 'react-redux'
+import { selectAllSkills } from '../../features/skill/skillsSlice'
 
 const layout = {
     labelCol: { span: 6 },
@@ -43,9 +45,11 @@ const InfoSetting = () => {
     const [form] = useForm()
     const user = useUserInfo()
 
+    const _skills = useSelector(selectAllSkills)
+
     const [loading, setLoading] = useState(false)
     const [imgURL, setImgURL] = useState('')
-    const [skills, setSkills] = useState()
+    const [skills, setSkills] = useState<{ label: string; value: string }[]>()
 
     const uploadButton = (
         <div>
@@ -106,6 +110,18 @@ const InfoSetting = () => {
     }
 
     useEffect(() => {
+        if (Array.isArray(_skills) && _skills.length > 0) {
+            const data = _skills.map((item) => {
+                return {
+                    label: item.name,
+                    value: item.name,
+                }
+            })
+            setSkills(data)
+        }
+    }, [_skills])
+
+    useEffect(() => {
         if (!user) {
             return
         }
@@ -135,36 +151,6 @@ const InfoSetting = () => {
             })
         }
     }, [user])
-
-    useEffect(() => {
-        setLoading(true)
-        const getSkills = () => {
-            instance
-                .get('/api/admin/skills', {
-                    method: 'get',
-                    headers: {
-                        Authorization:
-                            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwNTBhOGU4YTAxYzljMjdmMDNhZDk4NiIsInVzZXJuYW1lIjoiYWRtaW4xIn0sImlhdCI6MTYxNTg5OTc2MX0.GqyRhTl1HqKCsKrvEcX0PYI97AHKqep5021xmdJP_14',
-                    },
-                })
-                .then((response) => {
-                    if (response.status === 200) {
-                        const options = response.data.skill.map((item: any) => {
-                            return {
-                                label: item.name,
-                                value: item.name,
-                            }
-                        })
-                        if (options) {
-                            setSkills(options)
-                        }
-                    }
-                })
-                .finally(() => setLoading(false))
-                .catch((error) => message.error(error.message))
-        }
-        getSkills()
-    }, [])
 
     return (
         <Row gutter={24}>
@@ -227,7 +213,18 @@ const InfoSetting = () => {
                                     placeholder={t('Skill')}
                                 />
                             </Form.Item>
-                            <Form.Item label={t('Bio')} name="bio">
+                            <Form.Item
+                                label={t('Bio')}
+                                name="bio"
+                                rules={[
+                                    {
+                                        max: 100,
+                                        message: t(
+                                            'Must lower then 100 character'
+                                        ),
+                                    },
+                                ]}
+                            >
                                 <Input.TextArea />
                             </Form.Item>
                             <Form.Item

@@ -17,11 +17,14 @@ const SecuritySetting = () => {
     const instance = useAPI()
 
     const onFinish = (values: any) => {
-        const { password1 } = values
+        const { password1, password } = values
 
         if (password1) {
             instance
-                .post(`/api/users/change-password`, { newPassword: password1 })
+                .post(`/api/users/change-password`, {
+                    newPassword: password1,
+                    oldPassword: password,
+                })
                 .then((response) => {
                     if (response.status === 200) {
                         message.success(t('Change Successfully'))
