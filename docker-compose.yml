@@ -13,7 +13,6 @@ services:
       - ./packages/admin/build:/usr/share/nginx/admin/html
       - ./packages/client/build:/usr/share/nginx/client/html
       - ./packages/landing/dist:/usr/share/nginx/landing/html
-      - ./packages/mentor/build:/usr/share/nginx/mentor/html
     links:
       - api
     networks:
