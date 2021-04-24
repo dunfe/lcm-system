@@ -140,13 +140,7 @@ const InfoSetting = () => {
         setLoading(true)
         const getSkills = () => {
             instance
-                .get('/api/admin/skills', {
-                    method: 'get',
-                    headers: {
-                        Authorization:
-                            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwNTBhOGU4YTAxYzljMjdmMDNhZDk4NiIsInVzZXJuYW1lIjoiYWRtaW4xIn0sImlhdCI6MTYxNTg5OTc2MX0.GqyRhTl1HqKCsKrvEcX0PYI97AHKqep5021xmdJP_14',
-                    },
-                })
+                .get('/api/admin/skills')
                 .then((response) => {
                     if (response.status === 200) {
                         const options = response.data.skill.map((item: any) => {
@@ -227,7 +221,18 @@ const InfoSetting = () => {
                                     placeholder={t('Skill')}
                                 />
                             </Form.Item>
-                            <Form.Item label={t('Bio')} name="bio">
+                            <Form.Item
+                                label={t('Bio')}
+                                name="bio"
+                                rules={[
+                                    {
+                                        max: 100,
+                                        message: t(
+                                            'Must lower then 100 character'
+                                        ),
+                                    },
+                                ]}
+                            >
                                 <Input.TextArea />
                             </Form.Item>
                             <Form.Item

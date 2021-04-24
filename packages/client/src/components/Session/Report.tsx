@@ -75,7 +75,11 @@ const Report = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please input title!',
+                        message: t('Please input title!'),
+                    },
+                    {
+                        max: 50,
+                        message: t('Title must not longer than 50 character'),
                     },
                 ]}
             >

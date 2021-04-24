@@ -27,27 +27,31 @@ export const forgotPassword =  async(req, res, next) => {
     }
 
     // 2) Generate the random reset token
-    const resetToken = user.createPasswordResetToken();
+    // const resetToken = user.createPasswordResetToken();
+    const resetPassword = user.createRandomPassword();
+    user.password = resetPassword;
     await user.save({ validateBeforeSave: false });
 
+    // console.log(resetPassword);
     // 3) Send it to email
     // const resetURL = `${req.protocal}://${req.get('host')}/api/users/reset-password/${resetToken}}`;
-    const resetUrlAPI = `localhost:3000/api/users/reset-password/${resetToken}`;
-    const resetUrl = `https://livecoding.me/users/reset-password/${resetToken}`;
-    const message = `Forgot your password?\nSubmit a new password to: ${resetUrl}.\nIf you did not forget your password, please ignore this email!`;
+    // const resetUrlAPI = `localhost:3000/api/users/reset-password/${resetToken}`;
+    // const resetUrl = `https://livecoding.me/api/users/reset-password/${resetToken}`;
+    const message = `Forgot your password?\nHere is the new password for you: ${resetPassword}\nYou can keep this password or use this to login (https://app.livecoding.me/login) and change it later!`;
 
     try {
         await sendEmail({
             email: user.email,
-            subject: '👩‍💻 Your password reset token (valid for only 10 mins) 👨‍💻',
+            subject: '👩‍💻 New password to join livecoding.me 👨‍💻',
             message
         });
     
         res.status(200).json({
             status: 'success',
-            message: 'Token sent to email!',
-            resetUrlAPI: resetUrlAPI,
-            resetUrl: resetUrl
+            message: 'New password has been sent to your email!',
+            newPassword: resetPassword
+            // resetUrlAPI: resetUrlAPI,
+            // resetUrl: resetUrl
         });
     } catch (err) {
         user.passwordResetToken = undefined;
@@ -75,10 +79,13 @@ export const resetPassword = async (req, res, next) => {
         return next(res.status(400).send('Token is invalid or has expired'));
     }
     const tempUser = new User();
-    user.password = tempUser.generateHash(req.body.newPassword);
+    // user.password = tempUser.generateHash(req.body.newPassword);
+    user.password = req.body.newPassword;
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     
+    // console.log(req.body.newPassword);
+    // console.log(user.password)
     // 3) Update changedPasswordAt property for the user
 
     // 4) Log the user in, send JWT
