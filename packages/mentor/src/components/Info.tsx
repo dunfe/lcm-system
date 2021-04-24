@@ -1,6 +1,7 @@
 import * as React from "react";
 import {DatePicker, Form, FormInstance, Input, InputNumber, Radio} from "antd";
 import { usePasswordRule } from '../../../common/index'
+import { useTrans } from 'common'
 
 interface IProps {
     form: FormInstance<any>;
@@ -12,16 +13,17 @@ const layout = {
 
 const Info = (props: IProps) => {
     const {form} = props;
+    const trans = useTrans()
 
     return (
-        <Form form={form} style={{paddingTop: 24}} {...layout} name="nest-messages">
-            <Form.Item name={'username'} label="Tên đăng nhập" hasFeedback rules={[{required: true, message: 'Vui lòng nhập tên đăng nhập!'}]}>
+        <Form form={form} style={{paddingTop: 24}} {...layout} name="info">
+            <Form.Item name={'username'} label={trans('Username')} hasFeedback rules={[{required: true, message: 'Vui lòng nhập tên đăng nhập!'}]}>
                 <Input/>
             </Form.Item>
             <Form.Item name={'password'} label="Mật khẩu" hasFeedback rules={usePasswordRule()}>
                 <Input.Password/>
             </Form.Item>
-            <Form.Item name={'confirm'} label="Mật khẩu"
+            <Form.Item name={'confirm'} label={trans('Re password')}
                        dependencies={['user', 'password']}
                        hasFeedback
                        rules={[

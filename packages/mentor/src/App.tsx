@@ -5,7 +5,7 @@ import * as React from "react";
 import Skills from "./components/Skills";
 import Results from "./components/Results";
 import {useForm} from "antd/es/form/Form";
-import { LogoContainer } from 'common'
+import { LogoContainer, SelectLocale } from 'common'
 
 const {Step} = Steps;
 const {useState} = React;
@@ -70,6 +70,9 @@ const App = () => {
 
     return (
         <div className="App">
+            <div style={{width: '100%', position: 'absolute', top: 10, display: 'flex', justifyContent: 'flex-end', right: 12}}>
+                <SelectLocale/>
+            </div>
             <div className="steps-container">
                 <LogoContainer/>
                 <Steps className="steps" current={current}>

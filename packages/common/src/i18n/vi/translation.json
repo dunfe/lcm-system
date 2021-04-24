@@ -93,5 +93,7 @@
 
   "Disconnect": "Ngắt kết nối",
   "Connect": "Kết nối",
-  "Chat": "Trò chuyện"
+  "Chat": "Trò chuyện",
+
+  "The password must contain at least 1 lowercase alphabetical character": "Mật khẩu phải chứa ít nhất một ký tự viết thường"
 }

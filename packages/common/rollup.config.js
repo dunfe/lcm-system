@@ -27,6 +27,11 @@ const config = {
         }),
         del({ targets: ['dist/*'] }),
     ],
+    onwarn: function(warning) {
+        if ( warning.code === 'THIS_IS_UNDEFINED' || warning.code === 'CIRCULAR_DEPENDENCY') { return; }
+
+        console.warn( warning.message );
+    },
     external: Object.keys(pkg.peerDependencies || {}),
 };
 

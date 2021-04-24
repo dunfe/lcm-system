@@ -92,5 +92,7 @@
 
   "Disconnect": "Disconnect",
   "Connect": "Connect",
-  "Chat": "Chat"
+  "Chat": "Chat",
+
+  "The password must contain at least 1 lowercase alphabetical character": "The password must contain at least 1 lowercase alphabetical character"
 }
