@@ -78,7 +78,8 @@ export function getAllMentor(model) {
 
 export const countQuestionNotDoneOfMentor = async (req,res)=> {
     var userId = await useridFromToken(req,res);
-    var data = await Question.find({receivedBy: userId},{status: "doing"});
+    var data = await Question.find({receivedBy: userId, status: "doing"});
+    console.log(data)
     return data.length;
 }
 
@@ -98,6 +99,7 @@ export const selectQuestion = async (req,res) =>{
         })
     };
     var count = await countQuestionNotDoneOfMentor(req,res);
+    console.log(count);
     if(count > 5){
         return res.status(400).json({
             status: 'fail',
