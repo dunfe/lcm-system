@@ -11,6 +11,14 @@ const skillSchema = new mongoose.Schema({
 });
 
 
+// skillSchema.methods.checkName = function (skillName) {
+//     if(this.name.toLowerCase() == skillName.toLowerCase()){
+//         return false;
+//     } else { 
+//         return true;
+//     }
+// }
+
 var skill = mongoose.model('skill', skillSchema);
 
 export default skill;
