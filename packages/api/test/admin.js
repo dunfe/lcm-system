@@ -136,6 +136,26 @@ describe('Check Admin API', () => {
         })
     })
 
+    it('ban mentee by id', function(done){
+        chai.request(app).post(`/api/admin/users/${menteeID}`)
+        .set('Authorization', token)
+        .end((err,res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.data.role).to.equal('banned');
+            done();
+        })
+    })
+
+    it('unban mentee by id', function(done){
+        chai.request(app).post(`/api/admin/users/unban/${menteeID}`)
+        .set('Authorization', token)
+        .end((err,res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.data.role).to.equal('mentee');
+            done();
+        })
+    })
+
     //MENTOR
     it('View all mentor', function(done) {
         chai.request(app).get('/api/admin/mentors')
