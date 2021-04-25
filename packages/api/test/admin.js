@@ -109,6 +109,24 @@ describe('Check Admin API', () => {
             })
     })
 
+    it('Should return message fail of update skill without Authorization' , function(done){
+        chai.request(app).put(`/api/admin/skills/${skillID}`)
+        .end((err,res) => {
+            expect(res.body.status).to.equal('fail');
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return massage fail of update skill with wrong id input', function(done){
+        chai.request(app).put(`/api/admin/skills/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
+
     it('Delete skill', function(done) {
         chai.request(app).put(`/api/admin/skills/${delSkillId}`)
         .set('Authorization', token)
