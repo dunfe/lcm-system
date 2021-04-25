@@ -16,6 +16,7 @@ const menteeID = '605ac0808bab85394cab6a8e';
 const mentorID = '60519d0a54327d3e983e4ba7';
 const questionID = '606bc34ab1a5090030db1c5b';
 const requestID = '605f084eddd6a545245cbee2';
+let wrongId = 'a'
 
 describe('Admin login successful',  () => {
     
@@ -69,6 +70,23 @@ describe('Check Admin API', () => {
             })
     })
 
+    it('Should return message fail of skill with id input without Authorization' , function(done){
+        chai.request(app).get(`/api/admin/skills/${skillID}`)
+        .end((err,res) => {
+            expect(res.body.status).to.equal('fail');
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
+    it('Should return massage fail of skill with wrong id input', function(done){
+        chai.request(app).get(`/api/admin/skills/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
     // it('Create new skill', function(done) {
     //         chai.request(app).post(`/api/admin/skills`)
     //         .set('Authorization', token)
