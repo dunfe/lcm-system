@@ -125,19 +125,6 @@ export const confirmRequestMentorRegister = async (req,res) =>{
 
 };
 
-// export const getAllRequest = async (req, res) => {
-//     try {
-//         const data = await Request.find();
-//         return res.status(200).json({
-//             status: 'success',
-//             result: data.length,
-//             data: data
-//         })
-//     } catch (error) {
-//         return res.status(500).send(error.message);
-//     }
-// };
-
 export function getAllRequest(model) {
     return async (req, res) => {
       let page = parseInt(req.query.page) || 1;

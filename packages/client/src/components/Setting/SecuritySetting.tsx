@@ -17,21 +17,38 @@ const SecuritySetting = () => {
     const instance = useAPI()
 
     const onFinish = (values: any) => {
-        const { password1 } = values
+        const { password1, password } = values
 
         if (password1) {
             instance
-                .post(`/api/users/change-password`, { newPassword: password1 })
+                .post(`/api/users/change-password`, {
+                    newPassword: password1,
+                    oldPassword: password,
+                })
                 .then((response) => {
                     if (response.status === 200) {
                         message.success(t('Change Successfully'))
-                    } else {
-                        message.error(t('Failed'))
                     }
                 })
-                .catch((error) => console.error(error))
+                .catch((error) => message.error(error.response.data.message))
         }
     }
+
+    const chgpwdRule = [
+        ...passwordRule(t),
+        ({ getFieldValue }) => ({
+            validator(_, value) {
+                if (getFieldValue('password') !== value) {
+                    return Promise.resolve()
+                }
+                return Promise.reject(
+                    new Error(
+                        t('The old and the new password must be not the same!')
+                    )
+                )
+            },
+        }),
+    ]
 
     return (
         <Form
@@ -48,30 +65,12 @@ const SecuritySetting = () => {
                         required: true,
                         message: t('Please input your password!'),
                     },
-                    ({ getFieldValue }) => ({
-                        validator(_, value) {
-                            if (!value || getFieldValue('password') === value) {
-                                return Promise.resolve()
-                            }
-                            return Promise.reject(
-                                new Error(
-                                    t(
-                                        'The old and the new password must be not the same!'
-                                    )
-                                )
-                            )
-                        },
-                    }),
                 ]}
             >
                 <Input.Password />
             </Form.Item>
 
-            <Form.Item
-                label="New Password"
-                name="password1"
-                rules={passwordRule(t)}
-            >
+            <Form.Item label="New Password" name="password1" rules={chgpwdRule}>
                 <Input.Password />
             </Form.Item>
 

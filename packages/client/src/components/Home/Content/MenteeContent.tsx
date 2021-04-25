@@ -5,6 +5,8 @@ import AddQuestion from '../../../pages/Add/AddQuestion'
 import ListQuestion from '../../../pages/Question/ListQuestion'
 import Join from '../../Session/Join'
 import Setting from '../../Setting/Setting'
+import FavoriteMentor from '../../Setting/FavoriteMentor'
+import Billing from '../../../pages/Billing/Billing'
 
 interface IProps {
     path: string
@@ -53,6 +55,28 @@ const MenteeContent = (props: IProps) => {
                     }}
                 >
                     <Join />
+                </div>
+            </Route>
+            <Route path={`/billing`}>
+                <div
+                    style={{
+                        padding: 24,
+                        minHeight: 360,
+                        backgroundColor: 'white',
+                    }}
+                >
+                    <Billing />
+                </div>
+            </Route>
+            <Route path={`/favorite`}>
+                <div
+                    style={{
+                        padding: 24,
+                        minHeight: 360,
+                        backgroundColor: 'white',
+                    }}
+                >
+                    <FavoriteMentor />
                 </div>
             </Route>
             <Route path={`/setting`}>

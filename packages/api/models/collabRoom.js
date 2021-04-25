@@ -5,14 +5,19 @@ const colabRoomSchema = new mongoose.Schema({
         _id: String,
         displayName: String,
         level: Number,
+        avatar: String
     },
     mentorInfo:{
         _id: String,
         displayName: String,
         level: Number,
+        avatar: String
     },
-    content: String,
-    note: String,
+    questionInfo:{
+        _id: String,
+        title: String,
+        content: String,
+    },
     createAt: {
         type: Date,
         default: Date.now()

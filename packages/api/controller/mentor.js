@@ -24,7 +24,7 @@ export function getAllMentor(model) {
       if(page<1 || page > totalPage) page = 1;
       const startIndex = (page - 1) * limit
       const endIndex = page * limit
-      if (endIndex < totalPage) {
+      if (endIndex < data.length) {
         results.next = {
           page: page + 1,
         }
@@ -44,9 +44,41 @@ export function getAllMentor(model) {
     }
   }
 
+  export function getAllUser(model) {
+    return async (req, res) => {
+      let page = parseInt(req.query.page) || 1;
+      const limit = 10;
+      const results = {}
+      const data = await model.find({role : 'mentor',role : 'mentee'});
+      const totalPage = Math.ceil(data.length/limit) ;
+      results.totalPage = totalPage;
+      results.totalItem = data.length;
+      if(page<1 || page > totalPage) page = 1;
+      const startIndex = (page - 1) * limit
+      const endIndex = page * limit
+      if (endIndex < data.length) {
+        results.next = {
+          page: page + 1,
+        }
+      }
+
+      if (startIndex > 0) {
+        results.previous = {
+          page: page - 1,
+        }
+      }
+      try {
+        results.results = await model.find({role : 'mentor',role : 'mentee'}).limit(limit).skip(startIndex).exec()
+        return res.status(200).json(results);
+      } catch (e) {
+        res.status(500).json({ message: e.message })
+      }
+    }
+  }
+
 export const countQuestionNotDoneOfMentor = async (req,res)=> {
     var userId = await useridFromToken(req,res);
-    var data = await Question.find({receivedBy: userId},{status: "doing"});
+    var data = await Question.find({receivedBy: userId, status: "doing"});
     return data.length;
 }
 
@@ -75,18 +107,26 @@ export const selectQuestion = async (req,res) =>{
     var userId = await useridFromToken(req,res);
     var currUser = await User.findById(userId);
     var ques = await Question.findById(req.params.id);
+    var mentee = await User.findById(ques.menteeId);
+    console.log(mentee.detail.avatar);
     var room = new colabRoom({
         menteeInfo: {
             _id : ques.menteeId,
             displayName : ques.menteeName,
-            level: 0
+            level: 0,
+            avatar: mentee.detail.avatar
         },
         mentorInfo: {
             _id : currUser._id,
             displayName : currUser.fullname,
-            level: currUser.level
+            level: currUser.level,
+            avatar: currUser.detail.avatar
         },
-        content: ques.title
+        questionInfo:{
+            _id: ques._id,
+            title: ques.title,
+            content: ques.content,
+        }
     });
     room.save();
     var notify1 = new Notify({
@@ -146,24 +186,6 @@ export const getMentorById = async (req, res) => {
         };
     });
 };
-
-// export const getMentorByName = (req, res) => {
-//     const fullname = req.body.fullname;
-//     User.find({
-//         "fullname" : {'$regex' : new RegExp(fullname, "i")},
-//         role : 'mentor'
-//     }, (err, doc) => {
-//         if(!err) {
-//             if(doc.toString() == ""){
-//                 return res.status(400).send(`No record with given name: ${req.body.fullname}`)
-//             }else {
-//                 res.send(doc);
-//             }
-//         } else {
-//             console.log('Error' + JSON.stringify(err, undefined, 2));
-//         };
-//     })
-// };
 
 export function getMentorByName(model){
     return async ( req, res) => {

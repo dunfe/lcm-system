@@ -10,4 +10,6 @@ export default {
   theme: {
     "primary-color": "#ff8e3c",
   },
+  title: 'Live Coding Mentorship',
+  favicon: '/favicon.ico'
 }

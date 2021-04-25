@@ -6,6 +6,7 @@ import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { passwordRule } from '../../utils/rules/passwordRule'
+import { useFullnameRule } from 'common'
 
 const layout = {
     labelCol: { span: 8 },
@@ -47,10 +48,14 @@ const SignUpComponent = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
         >
-            <Form.Item wrapperCol={{ span: 24 }} name="display_name">
+            <Form.Item
+                wrapperCol={{ span: 24 }}
+                name="display_name"
+                rules={useFullnameRule()}
+            >
                 <Input
                     width={'100%'}
-                    placeholder={t('Full name')}
+                    placeholder={t('Fullname')}
                     prefix={
                         <UserOutlined
                             className="site-form-item-icon"
@@ -60,7 +65,26 @@ const SignUpComponent = () => {
                 />
             </Form.Item>
 
-            <Form.Item wrapperCol={{ span: 24 }} name="username">
+            <Form.Item
+                wrapperCol={{ span: 24 }}
+                name="username"
+                rules={[
+                    {
+                        pattern: new RegExp('(?=.{8,20}$)'),
+                        message: t(
+                            'Username must be between 8 and 20 character'
+                        ),
+                    },
+                    {
+                        pattern: new RegExp(
+                            '^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$'
+                        ),
+                        message: t(
+                            'Only use character or number in your username'
+                        ),
+                    },
+                ]}
+            >
                 <Input
                     width={'100%'}
                     placeholder={t('Username')}

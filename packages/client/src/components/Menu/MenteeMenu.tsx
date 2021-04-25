@@ -1,11 +1,13 @@
 import * as React from 'react'
 import { Menu } from 'antd'
 import {
+    DollarCircleOutlined,
     AppstoreAddOutlined,
     SettingOutlined,
     TeamOutlined,
     UnorderedListOutlined,
     UserOutlined,
+    HeartOutlined,
 } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -37,6 +39,12 @@ const MenteeMenu = (props: IProps) => {
             </Menu.Item>
             <Menu.Item key="/session" icon={<TeamOutlined />}>
                 <Link to={`/session`}>{t('Session')}</Link>
+            </Menu.Item>
+            <Menu.Item key={`/billing`} icon={<DollarCircleOutlined />}>
+                <Link to={`/billing`}>{t('Billing')}</Link>
+            </Menu.Item>
+            <Menu.Item key={`/favorite`} icon={<HeartOutlined />}>
+                <Link to={`/favorite`}>{t('Favorite Mentor')}</Link>
             </Menu.Item>
             <Menu.Item key="/setting" icon={<SettingOutlined />}>
                 <Link to={`/setting`}>{t('Setting')}</Link>

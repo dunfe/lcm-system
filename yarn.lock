@@ -1761,21 +1761,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@craco/craco@npm:^5.0.0":
-  version: 5.9.0
-  resolution: "@craco/craco@npm:5.9.0"
-  dependencies:
-    cross-spawn: ^7.0.0
-    lodash: ^4.17.15
-    webpack-merge: ^4.2.2
-  peerDependencies:
-    react-scripts: "*"
-  bin:
-    craco: bin/craco.js
-  checksum: ce064ea3bd46250710927747af8715e3507b3e773293bb7e9047805046f214d61ff881188749ad032966c081c245180756ceed0c24643a8f5c5791f5d2f5862f
-  languageName: node
-  linkType: hard
-
 "@craco/craco@npm:^6.1.1":
   version: 6.1.1
   resolution: "@craco/craco@npm:6.1.1"
@@ -3597,6 +3582,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-commonjs@npm:^18.0.0":
+  version: 18.0.0
+  resolution: "@rollup/plugin-commonjs@npm:18.0.0"
+  dependencies:
+    "@rollup/pluginutils": ^3.1.0
+    commondir: ^1.0.1
+    estree-walker: ^2.0.1
+    glob: ^7.1.6
+    is-reference: ^1.2.1
+    magic-string: ^0.25.7
+    resolve: ^1.17.0
+  peerDependencies:
+    rollup: ^2.30.0
+  checksum: 4778002ae37e9bde747294132c19c7fc450e81fa5328793c7c3ce843bf24654d817663f3351c02b674966f3edf5682f33d2d3d928cf2ec1b0ef651268f313701
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-json@npm:^4.1.0":
   version: 4.1.0
   resolution: "@rollup/plugin-json@npm:4.1.0"
@@ -3608,7 +3610,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-node-resolve@npm:^11.0.1":
+"@rollup/plugin-node-resolve@npm:^11.0.1, @rollup/plugin-node-resolve@npm:^11.2.1":
   version: 11.2.1
   resolution: "@rollup/plugin-node-resolve@npm:11.2.1"
   dependencies:
@@ -4300,7 +4302,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^26.0.15, @types/jest@npm:^26.0.22":
+"@types/jest@npm:*, @types/jest@npm:^26.0.15":
   version: 26.0.22
   resolution: "@types/jest@npm:26.0.22"
   dependencies:
@@ -4346,6 +4348,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 3aaf557d5b82e733d5a17b7f55af5d6be953363c3a594f006d64265790fe87c301c6e1400c0b6b1cf72add50a0ceddc25afb8231ab8302a2e5b6ebfbfac30e5d
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4":
+  version: 4.14.168
+  resolution: "@types/lodash@npm:4.14.168"
+  checksum: 9a4e25f89fc035b9f0388f1f7be85e5eff49f9e6db0d93432c9a89fce0916f8a89db4e8290415f7ea02de6b00d3573826378dcb655b7b2d20530a6e8d6dd6fd0
   languageName: node
   linkType: hard
 
@@ -4396,7 +4405,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=8.1.0, @types/node@npm:^14.14.37":
+"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=8.1.0":
   version: 14.14.37
   resolution: "@types/node@npm:14.14.37"
   checksum: 5e2d9baf7594ebacaf016716515f30de0765169412787f981481c2fb8b468923149bb9e2e3219ee672399811672ceddc339a7372a61cf15bc656836a5494d991
@@ -5750,6 +5759,7 @@ __metadata:
     "@testing-library/user-event": ^7.1.2
     "@types/jest": ^24.0.0
     "@types/js-cookie": ^2
+    "@types/lodash": ^4
     "@types/node": ^12.0.0
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
@@ -5758,9 +5768,11 @@ __metadata:
     "@types/styled-components": ^5.1.9
     antd: ^4.15.2
     axios: ^0.21.1
+    common: ^0.1.0
     craco-antd: ^1.19.0
     dayjs: ^1.10.4
     js-cookie: ^2.2.1
+    lodash: ^4.17.21
     react: ^17.0.2
     react-dom: ^17.0.2
     react-redux: ^7.2.0
@@ -8198,6 +8210,7 @@ __metadata:
     "@typescript-eslint/parser": latest
     antd: ^4.14.1
     axios: ^0.21.1
+    common: ^0.1.0
     craco-antd: ^1.19.0
     dayjs: ^1.10.4
     eslint: ^7.24.0
@@ -8516,14 +8529,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"common@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "common@npm:0.2.5"
-  checksum: f70257990abf90769d83d9ed9731a25a9f630bf9e2ca8049db8c5b2935919e690ece3d2f042a3c9618b656ef94cb16594cd420a1562cfd887e8c5139f0cd8047
-  languageName: node
-  linkType: hard
-
-"common@workspace:packages/common":
+"common@^0.1.0, common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "common@workspace:packages/common"
   dependencies:
@@ -8534,6 +8540,9 @@ __metadata:
     "@babel/preset-react": ^7.13.13
     "@craco/craco": ^6.1.1
     "@rollup/plugin-babel": ^5.3.0
+    "@rollup/plugin-commonjs": ^18.0.0
+    "@rollup/plugin-json": ^4.1.0
+    "@rollup/plugin-node-resolve": ^11.2.1
     "@rollup/plugin-typescript": ^8.2.1
     "@svgr/rollup": ^5.5.0
     "@testing-library/jest-dom": ^5.11.4
@@ -8550,8 +8559,11 @@ __metadata:
     antd: ^4.15.0
     common: ^0.2.5
     craco-antd: ^1.19.0
+    i18next: ^20.2.1
+    i18next-browser-languagedetector: ^6.1.0
     microbundle: ^0.13.0
     npm-run-all: ^4.1.5
+    react-i18next: ^11.8.13
     react-scripts: 4.0.3
     rollup: ^2.44.0
     rollup-plugin-delete: ^2.0.0
@@ -8564,6 +8576,13 @@ __metadata:
     typescript: ^4.1.2
   languageName: unknown
   linkType: soft
+
+"common@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "common@npm:0.2.5"
+  checksum: f70257990abf90769d83d9ed9731a25a9f630bf9e2ca8049db8c5b2935919e690ece3d2f042a3c9618b656ef94cb16594cd420a1562cfd887e8c5139f0cd8047
+  languageName: node
+  linkType: hard
 
 "commondir@npm:^1.0.1":
   version: 1.0.1
@@ -9160,15 +9179,6 @@ __metadata:
     antd: ">= 3.0.0"
     react-scripts: ^3.4.3
   checksum: 3b9a0b902c1d1885860cec68f559886b270d6bd05e10b99c09875ad00db0dbcd5574ddd5e1be21565ee47f01a1c38aaa6570a6bbf6b6362b0eb711a31b3e2ac2
-  languageName: node
-  linkType: hard
-
-"craco-babel-loader@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "craco-babel-loader@npm:0.1.4"
-  dependencies:
-    "@craco/craco": ^5.0.0
-  checksum: 33278c1b7eeba3532aa400ee0e11370db9ce308ab57126ed06419848712cc881035b5460f0465e37c543b41a2759d3aa7b8580a7c56ad1d8b5e67970a47a7211
   languageName: node
   linkType: hard
 
@@ -17451,31 +17461,6 @@ fsevents@^1.2.7:
   checksum: 825bcc7d3eb8bd021a1b0f8c81e4d7a8dc2eced1f8bb79d41ec978547cf118146d6863f5e6134f02bb55ee5d963a8689793e6e82ce8eb989bac339ae782728bb
   languageName: node
   linkType: hard
-
-"mentor@workspace:packages/mentor":
-  version: 0.0.0-use.local
-  resolution: "mentor@workspace:packages/mentor"
-  dependencies:
-    "@craco/craco": ^6.1.1
-    "@testing-library/jest-dom": ^5.11.4
-    "@testing-library/react": ^11.1.0
-    "@testing-library/user-event": ^12.1.10
-    "@types/jest": ^26.0.22
-    "@types/node": ^14.14.37
-    "@types/react": ^17.0.3
-    "@types/react-dom": ^17.0.3
-    "@types/testing-library__jest-dom": ^5
-    antd: ^4.15.0
-    axios: ^0.21.1
-    craco-antd: ^1.19.0
-    craco-babel-loader: ^0.1.4
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    react-scripts: 4.0.3
-    typescript: ^4.2.3
-    web-vitals: ^1.0.1
-  languageName: unknown
-  linkType: soft
 
 "meow@npm:^3.3.0":
   version: 3.7.0

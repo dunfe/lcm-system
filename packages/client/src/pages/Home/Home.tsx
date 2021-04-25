@@ -7,10 +7,9 @@ import MenteeContent from '../../components/Home/Content/MenteeContent'
 import MentorContent from '../../components/Home/Content/MentorContent'
 import MenteeMenu from '../../components/Menu/MenteeMenu'
 import MentorMenu from '../../components/Menu/MentorMenu'
-import { LogoContainer } from '../../components/Logo/LogoContainer'
-import { Logo } from '../../components/Logo/Logo'
 import { useRole } from '../../utils/hooks/useRole'
 import { useTranslation } from 'react-i18next'
+import { InAppLogo } from 'common'
 
 const { Sider, Content, Footer } = Layout
 
@@ -66,6 +65,18 @@ const HomePage = () => {
                         subtitle: t('Your session'),
                     })
                     break
+                case '/favorite':
+                    setPageHeader({
+                        title: t('Your favorite mentor'),
+                        subtitle: '',
+                    })
+                    break
+                case '/billing':
+                    setPageHeader({
+                        title: t('Billing'),
+                        subtitle: '',
+                    })
+                    break
                 case '/setting':
                     setPageHeader({
                         title: t('Setting'),
@@ -79,9 +90,7 @@ const HomePage = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible theme={'dark'}>
-                <LogoContainer className="logo">
-                    <Logo />
-                </LogoContainer>
+                <InAppLogo />
                 {role === 'mentee' ? (
                     <MenteeMenu
                         selectedKeys={selectedKeys}

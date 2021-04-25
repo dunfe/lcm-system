@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please enter a password'],
-        minlength: [6, 'Password must have atleast 6 character']
     },
     passportId: {
         type: String,
@@ -150,12 +149,12 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// userSchema.path('username').validate(function (input){
-//     return validate.isAlphaNumericOnly(input) && validate.isLongEnough(input);
-// }, "Username  only contains Alpha or numerical characters and must have atleast 6  characters")
+userSchema.path('username').validate(function (input){
+    return validate.isAlphaNumericOnly(input) && validate.isLongEnough(input);
+}, "Username  only contains Alpha or numerical characters and must have atleast 6  characters")
 userSchema.path('password').validate(function (input){
     return validate.isGoodPassword(input) && validate.isLongEnough(input);
-},"contains at least one number, one lowercase and one uppercase letter and is at least six characters long");
+},"Password contains at least one number, one lowercase, one uppercase letter and it's at least six characters long");
 
 userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
@@ -181,6 +180,17 @@ userSchema.pre('save', async function (next) {
     this.passwordChangedAt = Date.now() - 1000;
     next();
 });
+
+userSchema.methods.createRandomPassword = function () {
+    const result           = [];
+    const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for ( var i = 0; i < 9; i++ ) {
+        result.push(characters.charAt(Math.floor(Math.random() * 
+        62)));
+     }
+
+     return result.join('');
+}
 
 userSchema.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex');
