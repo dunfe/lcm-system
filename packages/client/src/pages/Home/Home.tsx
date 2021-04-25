@@ -71,6 +71,12 @@ const HomePage = () => {
                         subtitle: '',
                     })
                     break
+                case '/billing':
+                    setPageHeader({
+                        title: t('Billing'),
+                        subtitle: '',
+                    })
+                    break
                 case '/setting':
                     setPageHeader({
                         title: t('Setting'),
