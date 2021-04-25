@@ -34,7 +34,7 @@ function App(): JSX.Element {
                             <PrivateRoute path="/become-mentor">
                                 <BecomeMentor />
                             </PrivateRoute>
-                            <PrivateRoute path="/join">
+                            <PrivateRoute path="/room/:id">
                                 <SessionPage />
                             </PrivateRoute>
                             <PrivateRoute path="/">

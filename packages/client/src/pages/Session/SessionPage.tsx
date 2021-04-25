@@ -1,5 +1,14 @@
 import * as React from 'react'
-import { Button, Card, Layout, message, Modal, Rate, Tabs } from 'antd'
+import {
+    Button,
+    Card,
+    Layout,
+    message,
+    Modal,
+    Rate,
+    Tabs,
+    Typography,
+} from 'antd'
 import styled from 'styled-components'
 import './SessionPage.css'
 import RCE from '../../components/Session/RCE'
@@ -7,16 +16,21 @@ import VideoChat from '../../components/Session/VideoChat'
 import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useRole } from '../../utils/hooks/useRole'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import Report from '../../components/Session/Report'
 import EndSessionFooter from '../../components/Session/EndSessionFooter'
+import { useMentorId } from '../../utils/hooks/useMentorId'
 
 const { Sider, Content } = Layout
 const { TabPane } = Tabs
 
+const { Text } = Typography
+
 const { useState, useEffect } = React
 const SessionPage = () => {
     const { t } = useTranslation()
+    const { id } = useParams() as any
+    const mentorId = useMentorId(id)
     const instance = useAPI()
     const role = useRole()
     const history = useHistory()
@@ -65,7 +79,9 @@ const SessionPage = () => {
     useEffect(() => {
         if (star > 0) {
             instance
-                .post(`/api/users/mentor/rate/mentorId`)
+                .post(`/api/users/mentor/rate/${mentorId}`, {
+                    star,
+                })
                 .then((response) => {
                     if (response.status === 200) {
                         message.success(t('Rated'))
@@ -146,6 +162,7 @@ const SessionPage = () => {
                         marginTop: 20,
                     }}
                 >
+                    <Text>Room: {id}</Text>
                     {connected ? (
                         <Button onClick={handleDisconnect}>
                             {t('Disconnect')}
