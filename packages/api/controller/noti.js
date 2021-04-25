@@ -30,35 +30,17 @@ export const clickNotify = async (req, res) => {
 }
 
 export const getAllNotification = async (req, res) => {
-    let page = parseInt(req.query.page) || 1;
-    const limit = 6;
     const results = {}
     let countReadFalse;
     let userId = await useridFromToken(req, res);
     const data = await Notify.find({receivedById : userId});
     const readFalse = await Notify.find({receivedById : userId, read: false});
     countReadFalse = readFalse.length;
-    const totalPage = Math.ceil(data.length/limit) ;
-    results.totalPage = totalPage;
     results.totalItem = data.length;
-    if(page<1 || page > totalPage) page = 1;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
     // var socketio = io("ws://localhost:3007");
     // socketio.emit("news", 5);
-    if (endIndex < data.length) {
-      results.next = {
-        page: page + 1
-      }
-    }
-    if (startIndex > 0) {
-      results.previous = {
-        page: page - 1
-      }
-    }
     try {
-      results.results = await Notify.find({receivedById : userId})
-        .sort({createdAt: 'descending'}).limit(limit).skip(startIndex).exec()
+      results.results = await Notify.find({receivedById : userId}).sort({createdAt: 'descending'}).exec()
       return res.status(200).json({
           status: 'success',
           readFalse : countReadFalse,

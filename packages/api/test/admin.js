@@ -88,15 +88,6 @@ describe('Check Admin API', () => {
             done();
         })
     })
-    // it('Create new skill', function(done) {
-    //         chai.request(app).post(`/api/admin/skills`)
-    //         .set('Authorization', token)
-    //         .send({name: 'Javalab'})
-    //         .end((err,res) => {
-    //             expect(res.body.status).to.equal('success');
-    //             done();
-    //         })
-
 
     it('Create new skill', function(done) {
         chai.request(app).post(`/api/admin/skills`)
@@ -186,6 +177,7 @@ describe('Check Admin API', () => {
         })     
     })
 
+    //Mentee
     it('View all mentee', function(done) {
         chai.request(app).get('/api/admin/users')
         .set('Authorization', token)
