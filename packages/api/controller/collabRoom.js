@@ -83,29 +83,27 @@ export const listRoom = async (req, res) => {
     }
 }
 
-export const delCollabRoomById = async (req, res, next) => {
+export const viewCollabRoomById = async (req, res) => {
     if(!ObjectId.isValid(req.params.id)){
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
         })
     };
-
-    colabRoom.findByIdAndRemove(req.params.id, (err, doc) => {
-        if(!err) {
+    colabRoom.findById(req.params.id, (err, doc) =>{
+        if(!err) { 
             return res.status(200).json({
                 status: 'success',
-                message: 'Delete room success'
-            });
+                data: doc
+            });  
         } else {
             return res.status(400).json({
                 status: 'fail',
                 message: 'Something wrong, try again later'
-            })
-        }
-    });
-};
-
+            }) 
+        };
+    })
+}
 
 export const endCollabRoomById = async (req, res, next) => {
     if(!ObjectId.isValid(req.params.id)){

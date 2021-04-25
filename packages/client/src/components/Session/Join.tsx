@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { Button, List, Space } from 'antd'
+import { List, Space } from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useTranslation } from 'react-i18next'
 import { PlayCircleOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
-interface IRoom {
+export interface IRoom {
     menteeInfo: {
         _id: string
         displayName: string
@@ -40,10 +41,6 @@ const Join = () => {
         </Space>
     )
 
-    const onJoin = (id: string) => {
-        console.log(id)
-    }
-
     useEffect(() => {
         instance
             .get('/api/users/colab-room')
@@ -64,13 +61,13 @@ const Join = () => {
                 <List.Item
                     key={item._id}
                     actions={[
-                        <Button key={item._id} onClick={() => onJoin(item._id)}>
+                        <Link key={item._id} to={`/room/${item._id}`}>
                             <IconText
                                 icon={PlayCircleOutlined}
                                 text={t('Join session')}
                                 key={item._id}
                             />
-                        </Button>,
+                        </Link>,
                     ]}
                     extra={
                         <img

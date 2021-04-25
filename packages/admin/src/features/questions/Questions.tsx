@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { Table, Space, Modal, Button, message, Tag } from 'antd'
 import axios from 'axios'
-import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectQuestions, updateQuestions } from './questionsSlice'
 import { status } from '../../utils/status'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
+import { useToken } from '../../utils/hooks/useToken'
+import { Preview } from 'common'
 
 const { useState, useEffect } = React
 const { confirm } = Modal
@@ -14,13 +15,13 @@ const { confirm } = Modal
 const Questions = () => {
     const dispatch = useDispatch()
     const data = useSelector(selectQuestions)
+    const token = useToken()
     const [current, setCurrent] = useState(1)
 
-    const auth = useAuth()
     const instance = axios.create({
         baseURL: 'https://livecoding.me',
         headers: {
-            'Authorization': auth?.user?.user.token,
+            Authorization: token,
         },
     })
 
@@ -61,9 +62,13 @@ const Questions = () => {
             dataIndex: 'action',
             key: 'action',
             render(text: string, record: any) {
-                return <Space size='middle' key={record._id}>
-                    <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
-                </Space>
+                return (
+                    <Space size="middle" key={record._id}>
+                        <Button danger onClick={() => onDelete(record._id)}>
+                            Delete
+                        </Button>
+                    </Space>
+                )
             },
             responsive: ['sm'] as Breakpoint[],
         },
@@ -75,12 +80,15 @@ const Questions = () => {
             icon: <DeleteOutlined />,
             content: 'Hành động này không thể khôi phục',
             onOk() {
-                instance.delete(`/api/admin/questions/${id}`).then((response) => {
-                    if (response.status === 200) {
-                        getData()
-                        message.success('Xoá thành công').then()
-                    }
-                }).catch((error) => message.error(error.message))
+                instance
+                    .delete(`/api/admin/questions/${id}`)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            getData()
+                            message.success('Xoá thành công').then()
+                        }
+                    })
+                    .catch((error) => message.error(error.message))
             },
             onCancel() {
                 console.log('Huỷ')
@@ -93,28 +101,35 @@ const Questions = () => {
     }
 
     const getData = () => {
-        instance.get(`/api/admin/questions?page=${current}`).then((response) => {
-            dispatch(updateQuestions(response.data.results))
-        }).catch((error) => console.error(error.message))
+        instance
+            .get(`/api/admin/questions?page=${current}`)
+            .then((response) => {
+                dispatch(updateQuestions(response.data.results))
+            })
+            .catch((error) => console.error(error.message))
     }
 
-    const expandRender = (record: any) => <p style={{ margin: 0 }}>{record.content}</p>
+    const expandRender = (record: any) => <Preview content={record.content} />
 
     useEffect(() => {
         getData()
     }, [])
 
     return (
-        <Table columns={columns}
-               expandable={{
-                   expandedRowRender: expandRender,
-                   rowExpandable: record => record.title !== 'Not Expandable',
-               }}
-               dataSource={data} rowKey={'_id'} pagination={{
-            current: current,
-            onChange: onPageChange,
-            defaultPageSize: 10,
-        }} />
+        <Table
+            columns={columns}
+            expandable={{
+                expandedRowRender: expandRender,
+                rowExpandable: (record) => record.title !== 'Not Expandable',
+            }}
+            dataSource={data}
+            rowKey={'_id'}
+            pagination={{
+                current: current,
+                onChange: onPageChange,
+                defaultPageSize: 10,
+            }}
+        />
     )
 }
 

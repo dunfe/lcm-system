@@ -2,11 +2,14 @@ import * as React from 'react'
 
 const InAppLogo = () => {
     return (
-        <div style={{
-            width: 200,
-            height: 100,
-            display: 'grid',
-            placeItems: 'center'}}>
+        <div
+            style={{
+                width: 200,
+                height: 100,
+                display: 'grid',
+                placeItems: 'center',
+            }}
+        >
             <img
                 alt={'in-app-logo'}
                 width={200}

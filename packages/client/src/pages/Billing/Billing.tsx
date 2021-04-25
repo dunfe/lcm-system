@@ -92,6 +92,22 @@ const Billing = () => {
                         </Form.Item>
                     </Form.Item>
                     <Form.Item
+                        name="currency"
+                        label="Currency"
+                        initialValue={'vnd'}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please pick a payment method!',
+                            },
+                        ]}
+                    >
+                        <Radio.Group style={{ width: '100%' }}>
+                            <Radio value="vnd">VND</Radio>
+                            <Radio value="usd">USD</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item
                         name="method"
                         label="Payment method"
                         initialValue={'visa'}

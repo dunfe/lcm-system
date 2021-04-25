@@ -11,13 +11,13 @@ const { useState, useEffect } = React
 dayjs.extend(LocalizedFormat)
 
 export interface IFeedback {
-    'img': string[],
-    '_id': string,
-    'title': string,
-    'createBy': string,
-    'content': string,
-    'createdAt': string,
-    '__v': number
+    img: string[]
+    _id: string
+    title: string
+    createBy: string
+    content: string
+    createdAt: string
+    __v: number
 }
 
 const Feedbacks = () => {
@@ -29,7 +29,7 @@ const Feedbacks = () => {
     const instance = axios.create({
         baseURL: 'https://livecoding.me',
         headers: {
-            'Authorization': auth?.user?.user.token,
+            Authorization: auth?.user?.user.token,
         },
     })
     const columns = [
@@ -74,33 +74,50 @@ const Feedbacks = () => {
             dataIndex: 'action',
             key: 'action',
             render(text: string, record: any) {
-                return <Space size='middle' key={record._id}>
-                    <Button disabled={record.status !== 'open'} type={'primary'} onClick={() => onResolved(record._id)}>Resolved</Button>
-                </Space>
+                return (
+                    <Space size="middle" key={record._id}>
+                        <Button
+                            disabled={record.status !== 'open'}
+                            type={'primary'}
+                            onClick={() => onResolved(record._id)}
+                        >
+                            Resolved
+                        </Button>
+                    </Space>
+                )
             },
             responsive: ['sm'] as Breakpoint[],
         },
     ]
 
     const onResolved = (id: string) => {
-        instance.post(`/api/admin/reports/${id}`).then((response) => {
-            if (response.status === 200) {
-                message.success('Resolved')
-            }
-        }).then(() => getData()).catch((error) => console.error(error.message))
+        instance
+            .post(`/api/admin/reports/${id}`)
+            .then((response) => {
+                if (response.status === 200) {
+                    message.success('Resolved')
+                }
+            })
+            .then(() => getData())
+            .catch((error) => console.error(error.message))
     }
 
     const onPageChange = (page: number) => {
         setCurrent(page)
     }
 
-    const expandRender = (record: any) => <p style={{ margin: 0 }}>{record.content}</p>
+    const expandRender = (record: any) => (
+        <p style={{ margin: 0 }}>{record.content}</p>
+    )
 
     const getData = () => {
-        instance.get(`/api/admin/reports?page=${current}`).then((response) => {
-            setData(response.data.results)
-            setTotal(response.data.totalItem)
-        }).catch((error) => console.error(error.message))
+        instance
+            .get(`/api/admin/reports?page=${current}`)
+            .then((response) => {
+                setData(response.data.results)
+                setTotal(response.data.totalItem)
+            })
+            .catch((error) => console.error(error.message))
     }
 
     useEffect(() => {
@@ -109,17 +126,22 @@ const Feedbacks = () => {
 
     return (
         <>
-            <Table columns={columns}
-                   expandable={{
-                       expandedRowRender: expandRender,
-                       rowExpandable: (record) => record.title !== 'Not Expandable',
-                   }}
-                   dataSource={data} rowKey={'_id'} pagination={{
-                current: current,
-                total: total,
-                onChange: onPageChange,
-                defaultPageSize: 10,
-            }} />
+            <Table
+                columns={columns}
+                expandable={{
+                    expandedRowRender: expandRender,
+                    rowExpandable: (record) =>
+                        record.title !== 'Not Expandable',
+                }}
+                dataSource={data}
+                rowKey={'_id'}
+                pagination={{
+                    current: current,
+                    total: total,
+                    onChange: onPageChange,
+                    defaultPageSize: 10,
+                }}
+            />
         </>
     )
 }
