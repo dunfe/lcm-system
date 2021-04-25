@@ -72,7 +72,7 @@ export const createSkill = async (req, res) => {
             } else {
                 return res.status(401).json({
                     status: 'fail',
-                    message: err.message
+                    message: 'Skill name already exists !'
                 })
             }
         });
@@ -107,7 +107,7 @@ export const updateSkill = (req, res) => {
         } else {
             return res.status(400).json({
                 status: 'fail',
-                message: 'Something wrong, try again later'
+                message: 'Skill name already exists'
             })
         };
     });

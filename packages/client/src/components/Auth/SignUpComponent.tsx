@@ -6,6 +6,7 @@ import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { passwordRule } from '../../utils/rules/passwordRule'
+import { useFullnameRule } from 'common'
 
 const layout = {
     labelCol: { span: 8 },
@@ -50,12 +51,7 @@ const SignUpComponent = () => {
             <Form.Item
                 wrapperCol={{ span: 24 }}
                 name="display_name"
-                rules={[
-                    {
-                        required: true,
-                        message: t('Please enter your full name'),
-                    },
-                ]}
+                rules={useFullnameRule()}
             >
                 <Input
                     width={'100%'}

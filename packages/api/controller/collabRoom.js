@@ -83,99 +83,26 @@ export const listRoom = async (req, res) => {
     }
 }
 
-export const delCollabRoomById = async (req, res, next) => {
+export const viewCollabRoomById = async (req, res) => {
     if(!ObjectId.isValid(req.params.id)){
         return res.status(400).json({
             status: 'fail',
             message: `Invalid id ${req.params.id}`
         })
     };
-
-    colabRoom.findByIdAndRemove(req.params.id, (err, doc) => {
-        if(!err) {
-            return res.status(200).json({
-                status: 'success',
-                message: 'Delete room success'
-            });
-        } else {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Something wrong, try again later'
-            })
-        }
-    });
-};
-
-async function minusPointUser(userId, point){
-    return async ( req, res) => {
-        const user = await User.findById(userId);
-        const pointBefore = user.currentPoint;
-        const amount = point;
-        const pointAfter = pointBefore - amount;
-        User.findByIdAndUpdate(userId, 
-            { $push: {pointOutHistory : {method : "point-point",
-                                    pointBefore : pointBefore,
-                                    pointAfter: pointAfter,
-                                    amount : amount, 
-                                    ref : user.fullname, 
-                                    note : ''}} },
-            { new: false }, (err, doc) => {
-                if(!err) {
-                
-                } else {
-                    return res.status(400).json({
-                        status: 'fail',
-                        message: 'Something wrong, try again later'
-                    })
-                };
-        });
-        User.findByIdAndUpdate(userId, { $set: {currentPoint : pointAfter} }, { new: true }, (err, doc) => {
-            if (!err) {
-            
-            } else {
-                console.log('Error Point Update: ' + JSON.stringify(err, undefined, 2));
-            };
-        });
-    }
-}
-
-async function PlusPointUser(userId, point){
-    return async ( req, res) => {
-    const user = await User.findById(userId);
-    const pointBefore = user.currentPoint;
-    const amount = point;
-    const pointAfter = pointBefore + amount;
-    User.findByIdAndUpdate(userId, 
-        { $push: {pointInHistory : {method : "point-point",
-                                    pointBefore : pointBefore,
-                                    pointAfter: pointAfter,
-                                    amount : amount, 
-                                    ref : user.fullname, 
-                                    note : ''}} },
-        { new: false }, (err, doc) => {
-            if(!err) {
-                
-            } else {
-                return res.status(400).json({
-                    status: 'fail',
-                    message: 'Something wrong, try again later'
-                })
-            };
-    });
-    User.findByIdAndUpdate(userId, { $set: {currentPoint : pointAfter} }, { new: true }, (err, doc) => {
-        if(!err) {
+    colabRoom.findById(req.params.id, (err, doc) =>{
+        if(!err) { 
             return res.status(200).json({
                 status: 'success',
                 data: doc
-            }); 
+            });  
         } else {
             return res.status(400).json({
                 status: 'fail',
                 message: 'Something wrong, try again later'
-            })
+            }) 
         };
-    });
-}
+    })
 }
 
 export const endCollabRoomById = async (req, res, next) => {
@@ -198,7 +125,6 @@ export const endCollabRoomById = async (req, res, next) => {
             })
         };
     });
-    minusPointUser(room.menteeInfo._id, ques.point);
     //plus point to mentor
     let user = await User.findById(room.mentorInfo._id);
     let pointBefore = user.currentPoint;
@@ -212,7 +138,7 @@ export const endCollabRoomById = async (req, res, next) => {
                                     ref : user.fullname, 
                                     note : ''}},
         $set: {currentPoint : pointAfter} },
-        { new: true }, (err, doc) => {
+        { new: false }, (err, doc) => {
             if(!err) {
                 
             } else {
@@ -234,7 +160,7 @@ export const endCollabRoomById = async (req, res, next) => {
                                     ref : user.fullname, 
                                     note : ''}},
         $set: {currentPoint : pointAfter} },
-        { new: true }, (err, doc) => {
+        { new: false }, (err, doc) => {
             if(!err) {
                 
             } else {

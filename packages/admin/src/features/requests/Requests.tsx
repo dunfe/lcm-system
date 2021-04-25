@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Table, Space, Modal, Button, message, Tag } from 'antd'
 import axios from 'axios'
-import { useAuth } from '../../utils/hooks/useAuth'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectRequests, updateRequests } from './requestsSlice'
 import { requestStatus } from '../../utils/requestStatus'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
+import { useToken } from '../../utils/hooks/useToken'
 
 const { useState, useEffect } = React
 const { confirm } = Modal
@@ -16,12 +16,12 @@ const Requests = () => {
     const data = useSelector(selectRequests)
     const [current, setCurrent] = useState(1)
     const [total, setTotal] = useState(0)
+    const token = useToken()
 
-    const auth = useAuth()
     const instance = axios.create({
         baseURL: 'https://livecoding.me',
         headers: {
-            'Authorization': auth?.user?.user.token,
+            'Authorization': token
         },
     })
 
@@ -62,7 +62,7 @@ const Requests = () => {
             key: 'action',
             render(text: string, record: any) {
                 return <Space size='middle' key={record._id}>
-                    <Button type={'primary'} onClick={() => onApprove(record._id)}>Approve</Button>
+                    <Button disabled={record.status === 'approved'} type={'primary'} onClick={() => onApprove(record._id)}>Approve</Button>
                     <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
                 </Space>
             },

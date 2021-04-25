@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import CustomFooter from './CustomFooter'
 import AddQuestion from '../../pages/Add/AddQuestion'
+import { Preview } from 'common'
 
 interface IProps {
     mode: string
@@ -63,7 +64,7 @@ const QuestionDetail = (props: IProps) => {
                         {dayjs(question?.createAt).format('LLLL')}
                     </Descriptions.Item>
                     <Descriptions.Item label={t('Content')}>
-                        {question?.content}
+                        <Preview content={question?.content!} />
                     </Descriptions.Item>
                 </Descriptions>
             )

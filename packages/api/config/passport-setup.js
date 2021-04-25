@@ -37,9 +37,9 @@ passport.use('register', new LocalStrategy({
         const user = await User.findOne({'username': lowerUsername});
         const userEmail = await User.findOne({'email': req.body.email});
         if (user) {
-            return done(null, false, {message : 'username đã được sử dụng, vui lòng chọn username khác'});
+            return done(null, false, {message : 'Username is already taken, please choose another username'});
         }else if(userEmail){
-            return done(null, false, {message : 'email đã được sử dụng, vui lòng chọn email khác'});
+            return done(null, false, {message : 'Email already in use, please choose another email'});
         }else{
             const newUser = new User();
         // lưu thông tin cho tài khoản local
@@ -48,7 +48,7 @@ passport.use('register', new LocalStrategy({
             newUser.email = req.body.email;
             newUser.fullname = upperFullname;
             newUser.save(function (err) {
-                if (err) return done(null, false,{ message: err.message });
+                if (err) return done(null, false,{ message: 'Password contains at least one number, one lowercase, one uppercase letter and it have at least six characters long' });
                 return done(null, newUser)
         });
         }

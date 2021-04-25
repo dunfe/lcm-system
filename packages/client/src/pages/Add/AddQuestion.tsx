@@ -10,6 +10,7 @@ import {
     TimePicker,
     Row,
     Col,
+    Typography,
 } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -23,6 +24,7 @@ import {
     selectAllSkills,
     selectSkillsStatus,
 } from '../../features/skill/skillsSlice'
+import { Preview, useTrans } from 'common'
 
 interface IProps {
     mode: string
@@ -55,6 +57,7 @@ const layout = {
 
 const { useState, useEffect } = React
 const { success } = Modal
+const { Title } = Typography
 
 const AddQuestion = (props: IProps) => {
     const history = useHistory()
@@ -62,6 +65,7 @@ const AddQuestion = (props: IProps) => {
     const instance = useAPI()
     const [form] = useForm()
     const dispatch = useDispatch()
+    const trans = useTrans()
 
     const { setSelectedKeys, selectedId, mode, setMode, reloadQuestion } = props
 
@@ -73,6 +77,20 @@ const AddQuestion = (props: IProps) => {
     const [question, setQuestion] = useState<IQuestion>()
     const [loading, setLoading] = useState(true)
     const [addLoading, setAddLoading] = React.useState(false)
+    const [content, setContent] = useState('')
+    const [title, setTitle] = useState('')
+
+    const onTitleChange = (event) => {
+        const value = event.target.value
+
+        setTitle(value)
+    }
+
+    const onContentChange = (event) => {
+        const value = event.target.value
+
+        setContent(value)
+    }
 
     const onFinish = (values: any) => {
         setAddLoading(true)
@@ -177,6 +195,7 @@ const AddQuestion = (props: IProps) => {
         dispatch(get())
     }, [])
 
+    // @ts-ignore
     return (
         <div className="site-card-wrapper">
             <Row gutter={16}>
@@ -203,7 +222,10 @@ const AddQuestion = (props: IProps) => {
                                     },
                                 ]}
                             >
-                                <Input placeholder={t('Title')} />
+                                <Input
+                                    placeholder={t('Title')}
+                                    onChange={onTitleChange}
+                                />
                             </Form.Item>
                             <Form.Item
                                 name={'content'}
@@ -215,7 +237,11 @@ const AddQuestion = (props: IProps) => {
                                     },
                                 ]}
                             >
-                                <Input.TextArea placeholder={t('Content')} />
+                                <Input.TextArea
+                                    style={{ minHeight: 300 }}
+                                    placeholder={t('Content')}
+                                    onChange={onContentChange}
+                                />
                             </Form.Item>
                             <Form.Item
                                 name={'skill'}
@@ -244,7 +270,7 @@ const AddQuestion = (props: IProps) => {
                             >
                                 <TimePicker.RangePicker
                                     format={'HH:mm'}
-                                    style={{ width: '20%' }}
+                                    style={{ width: '40%' }}
                                 />
                             </Form.Item>
                             <Form.Item
@@ -273,7 +299,18 @@ const AddQuestion = (props: IProps) => {
                                     style={{ width: '10%' }}
                                 />
                             </Form.Item>
-                            <Form.Item name={'note'} label={t('Note')}>
+                            <Form.Item
+                                name={'note'}
+                                label={t('Note')}
+                                rules={[
+                                    {
+                                        max: 50,
+                                        message: t(
+                                            'Note must not longer than 100 character'
+                                        ),
+                                    },
+                                ]}
+                            >
                                 <Input placeholder={t('Note')} />
                             </Form.Item>
                             <Form.Item
@@ -289,6 +326,15 @@ const AddQuestion = (props: IProps) => {
                             </Form.Item>
                         </Form>
                     )}
+                </Col>
+            </Row>
+            <Row>
+                <Col span={4}>
+                    <Title level={4}>{trans('Preview')}</Title>
+                </Col>
+                <Col span={16}>
+                    <Title level={3}>{title}</Title>
+                    <Preview content={content} />
                 </Col>
             </Row>
         </div>

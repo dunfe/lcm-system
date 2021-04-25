@@ -21,7 +21,7 @@ const initialState: QuestionState = {
     error: undefined,
 }
 
-export const get = createAsyncThunk('questions/get', async () => {
+export const get = createAsyncThunk('skills/get', async () => {
     return skills.get()
 })
 

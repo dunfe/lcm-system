@@ -17,6 +17,7 @@ import {
 } from './questionSlice'
 import { useToken } from '../../utils/hooks/useToken'
 import { status } from '../../utils/status'
+import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 const { TabPane } = Tabs
 const { confirm } = Modal
@@ -49,22 +50,24 @@ const ListQuestion = () => {
             render(text, record, index) {
                 return (current - 1) * 10 + index + 1
             },
+            responsive: ['lg'] as Breakpoint[],
         },
         {
             title: t('Title'),
             dataIndex: 'title',
             key: 'title',
-            width: 500,
             ellipsis: true,
             render(text, record) {
                 return <a onClick={() => showModal(record._id)}>{text}</a>
             },
+            responsive: ['sm'] as Breakpoint[],
         },
         {
             title: t('Point'),
             dataIndex: 'point',
             key: 'point',
             sorter: (a, b) => a.point - b.point,
+            responsive: ['md'] as Breakpoint[],
         },
         {
             title: t('Status'),
@@ -81,6 +84,7 @@ const ListQuestion = () => {
                     }
                 })
             },
+            responsive: ['sm'] as Breakpoint[],
         },
         {
             title: t('Action'),
@@ -110,6 +114,7 @@ const ListQuestion = () => {
                     </div>
                 )
             },
+            responsive: ['lg'] as Breakpoint[],
         },
     ]
 
