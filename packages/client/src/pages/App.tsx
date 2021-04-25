@@ -8,6 +8,7 @@ import LoginPage from './Login/LoginPage'
 import { ConfigProvider, Spin } from 'antd'
 import viVN from 'antd/lib/locale/vi_VN'
 import { useTranslation } from 'react-i18next'
+import BecomeMentor from './BecomeMentor/BecomeMentor'
 
 const { Suspense, lazy } = React
 
@@ -30,7 +31,10 @@ function App(): JSX.Element {
                     <Router>
                         <Switch>
                             <Route path="/login" component={LoginPage} />
-                            <PrivateRoute path="/join">
+                            <PrivateRoute path="/become-mentor">
+                                <BecomeMentor />
+                            </PrivateRoute>
+                            <PrivateRoute path="/room/:id">
                                 <SessionPage />
                             </PrivateRoute>
                             <PrivateRoute path="/">

@@ -133,7 +133,7 @@ export const createPayemnt = async (req, res) => {
     let userId = await useridFromToken(req, res);
     const currentMentee = await User.findById(userId);
     console.log("\n\n Body Passed:", req.body);
-    const { amount,currency,description} = req.body;
+    const { amount,currency} = req.body;
     const {
         cardNumber,
         cardExpMonth,
@@ -166,8 +166,8 @@ export const createPayemnt = async (req, res) => {
             source: cardToken.id,
             receipt_email: currentMentee.email,
             // customer : currentMentee.username,
-            // description: `Nạp point cho tài khoản có email ${currentMentee.email} với số tiền là ${amount} `,
-            description: description,
+            description: `Nạp point cho tài khoản có email ${currentMentee.email} với số tiền là ${amount} `,
+            // description: description,
         });
 
         if (charge.status === "succeeded") {

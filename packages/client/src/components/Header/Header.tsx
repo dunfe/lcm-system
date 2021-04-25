@@ -1,6 +1,7 @@
 import {
     Avatar,
     Badge,
+    Button,
     Divider,
     Dropdown,
     List,
@@ -24,6 +25,8 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/macro'
 import Text from 'antd/es/typography/Text'
 import Title from 'antd/es/typography/Title'
+import { useTrans } from 'common'
+import { useRole } from '../../utils/hooks/useRole'
 
 interface INotify {
     read: boolean
@@ -51,6 +54,8 @@ const HeaderComponent = (props: IProps) => {
     const avatar = useAvatar()
     const instance = useAPI()
     const { t, i18n } = useTranslation()
+    const trans = useTrans()
+    const role = useRole()
 
     const { setSelectedKeys } = props
 
@@ -150,35 +155,44 @@ const HeaderComponent = (props: IProps) => {
         )
     }
 
+    const onBecome = () => {
+        history.push('/become-mentor')
+    }
+
     return (
-        <div>
-            <StyledHeader mode="horizontal">
-                <Menu.Item key={'notify'}>
-                    <NotifyIcon />
+        <StyledHeader mode="horizontal">
+            {role === 'mentee' ? (
+                <Menu.Item key={'become'}>
+                    <Button type={'primary'} onClick={onBecome}>
+                        {trans('Become a Mentor')}
+                    </Button>
                 </Menu.Item>
-                <SubMenu
-                    key="profile"
-                    icon={<Avatar src={avatar} icon={<UserOutlined />} />}
-                >
-                    <StyledMenuItem onClick={onClickSetting}>
-                        <Link to={`/setting`}>{userFullname}</Link>
-                    </StyledMenuItem>
-                    <Menu.Item danger>
-                        <a onClick={onSignOut}>{t('Logout')}</a>
-                    </Menu.Item>
-                </SubMenu>
+            ) : null}
+            <Menu.Item key={'notify'}>
+                <NotifyIcon />
+            </Menu.Item>
+            <SubMenu
+                key="profile"
+                icon={<Avatar src={avatar} icon={<UserOutlined />} />}
+            >
+                <StyledMenuItem onClick={onClickSetting}>
+                    <Link to={`/setting`}>{userFullname}</Link>
+                </StyledMenuItem>
                 <Menu.Item danger>
-                    <Select
-                        defaultValue="vi"
-                        size={'small'}
-                        onChange={onLocaleChange}
-                    >
-                        <Option value="vi">VI</Option>
-                        <Option value="en">EN</Option>
-                    </Select>
+                    <a onClick={onSignOut}>{t('Logout')}</a>
                 </Menu.Item>
-            </StyledHeader>
-        </div>
+            </SubMenu>
+            <Menu.Item danger>
+                <Select
+                    defaultValue="vi"
+                    size={'small'}
+                    onChange={onLocaleChange}
+                >
+                    <Option value="vi">VI</Option>
+                    <Option value="en">EN</Option>
+                </Select>
+            </Menu.Item>
+        </StyledHeader>
     )
 }
 

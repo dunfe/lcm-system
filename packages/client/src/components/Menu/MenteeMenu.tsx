@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Menu } from 'antd'
 import {
+    DollarCircleOutlined,
     AppstoreAddOutlined,
     SettingOutlined,
     TeamOutlined,
@@ -38,6 +39,9 @@ const MenteeMenu = (props: IProps) => {
             </Menu.Item>
             <Menu.Item key="/session" icon={<TeamOutlined />}>
                 <Link to={`/session`}>{t('Session')}</Link>
+            </Menu.Item>
+            <Menu.Item key={`/billing`} icon={<DollarCircleOutlined />}>
+                <Link to={`/billing`}>{t('Billing')}</Link>
             </Menu.Item>
             <Menu.Item key={`/favorite`} icon={<HeartOutlined />}>
                 <Link to={`/favorite`}>{t('Favorite Mentor')}</Link>

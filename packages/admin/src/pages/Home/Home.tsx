@@ -9,11 +9,10 @@ import {
 } from 'react-router-dom'
 import HomeContent from '../../components/Home/Content'
 import PageHeaderComponent from '../../components/Header/PageHeader'
-import { LogoContainer } from '../../components/Logo/LogoContainer'
-import { Logo } from '../../components/Logo/Logo'
 import axios from 'axios'
 import { useToken } from '../../utils/hooks/useToken'
 import { useRole } from '../../utils/hooks/useRole'
+import { InAppLogo } from 'common'
 
 const { Sider } = Layout
 const { useState, useEffect } = React
@@ -122,9 +121,7 @@ export function HomePage() {
                     }}
                     theme='dark'
                 >
-                    <LogoContainer className='logo'>
-                        <Logo />
-                    </LogoContainer>
+                    <InAppLogo />
                     <Menu theme='dark' mode='inline' onSelect={onSelect}
                           selectedKeys={selectedKeys}>
                         {
