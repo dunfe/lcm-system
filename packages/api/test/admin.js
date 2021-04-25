@@ -167,6 +167,14 @@ describe('Check Admin API', () => {
             })     
     })
 
+    it('Should return message fail of View dashboard without Authorization', function(done) {
+        chai.request(app).get('/api/admin/dashboard')
+        .end((err,res) => {
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })     
+    })
+
     it('View all mentee', function(done) {
         chai.request(app).get('/api/admin/users')
         .set('Authorization', token)
