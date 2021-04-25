@@ -10,13 +10,14 @@ import { deleteSkill } from '../controller/skill.js';
 chai.use(chaiHttp);
 
 let token;
+let idDelete;
 const skillID = '6050ad2ff8cf812818f850a6';
 const delSkillId = '60538170470d552f44dabcd8';
 const menteeID = '605ac0808bab85394cab6a8e';
 const mentorID = '60519d0a54327d3e983e4ba7';
 const questionID = '606bc34ab1a5090030db1c5b';
 const requestID = '605f084eddd6a545245cbee2';
-let wrongId = 'a'
+const wrongId = 'a'
 
 describe('Admin login successful',  () => {
     
@@ -96,8 +97,18 @@ describe('Check Admin API', () => {
     //             done();
     //         })
 
-            
-    // })
+
+    it('Create new skill', function(done) {
+        chai.request(app).post(`/api/admin/skills`)
+            .set('Authorization', token)
+            .send({name: 'Javalab1'})
+            .end((err,res) => {
+                expect(res.body.status).to.equal('success');
+                done();
+                idDelete = res.body.data._id;
+            })
+        
+    })
 
     it('Update skill', function(done){
             chai.request(app).put(`/api/admin/skills/${skillID}`)
@@ -128,7 +139,7 @@ describe('Check Admin API', () => {
     })
 
     it('Delete skill', function(done) {
-        chai.request(app).delete(`/api/admin/skills/${delSkillId}`)
+        chai.request(app).delete(`/api/admin/skills/${idDelete}`)
         .set('Authorization', token)
         .end((err,res)=>{
             expect(res.status).to.equal(200);
