@@ -1,50 +1,61 @@
-import * as React from "react";
-import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, Rate } from 'antd'
-import axios from "axios";
-import {useAuth} from "../../utils/hooks/useAuth";
+import * as React from 'react'
+import {
+    Table,
+    Space,
+    Modal,
+    Form,
+    Input,
+    Button,
+    message,
+    Tag,
+    Descriptions,
+    Rate,
+} from 'antd'
+import axios from 'axios'
+import { useAuth } from '../../utils/hooks/useAuth'
 import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectMentors, updateMentors } from './mentorsSlice'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 interface IProps {
-    visible: boolean;
-    setVisible: (state: boolean) => void;
+    visible: boolean
+    setVisible: (state: boolean) => void
 }
 
-const {useState, useEffect} = React;
-const {useForm} = Form;
+const { useState, useEffect } = React
+const { useForm } = Form
 
 const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
-};
+}
 const tailLayout = {
     wrapperCol: { offset: 4, span: 20 },
-};
+}
 
-const { Search } = Input;
+const { Search } = Input
 
 const Mentors = (props: IProps) => {
-    const {visible, setVisible} = props;
+    const { visible, setVisible } = props
     const dispatch = useDispatch()
 
     const data = useSelector(selectMentors)
-    const [confirmLoading, setConfirmLoading] = React.useState(false);
-    const [mode, setMode] = useState('add');
-    const [updateId, setUpdateId] = useState('');
-    const [itemDetail, setItemDetail] = useState<IUserDetail>();
+    const [confirmLoading, setConfirmLoading] = React.useState(false)
+    const [mode, setMode] = useState('add')
+    const [updateId, setUpdateId] = useState('')
+    const [itemDetail, setItemDetail] = useState<IUserDetail>()
     const [current, setCurrent] = useState(1)
     const [detail, setDetail] = useState(false)
     const [total, setTotal] = useState(0)
-    const [form] = useForm();
+    const [form] = useForm()
 
-    const auth = useAuth();
+    const auth = useAuth()
     const instance = axios.create({
         baseURL: 'https://livecoding.me',
         headers: {
-            'Authorization': auth?.user?.user.token,
-        }
+            Authorization: auth?.user?.user.token,
+        },
     })
     const columns = [
         {
@@ -60,9 +71,7 @@ const Mentors = (props: IProps) => {
             dataIndex: 'fullname',
             key: 'fullname',
             render(text: string, record: any) {
-                return (
-                    <a onClick={() => onViewDetail(record._id)}>{text}</a>
-                )
+                return <a onClick={() => onViewDetail(record._id)}>{text}</a>
             },
             responsive: ['md'] as Breakpoint[],
         },
@@ -78,7 +87,7 @@ const Mentors = (props: IProps) => {
             key: 'role',
             render(text: string) {
                 return (
-                    <Tag color={text === 'banned' ? 'red': 'green'}>
+                    <Tag color={text === 'banned' ? 'red' : 'green'}>
                         {text}
                     </Tag>
                 )
@@ -90,10 +99,19 @@ const Mentors = (props: IProps) => {
             dataIndex: 'action',
             key: 'action',
             render(text: string, record: any) {
-                return <Space size='middle' key={record._id}>
-                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
-                    <Button danger onClick={() => onBan(record._id)}>Ban</Button>
-                </Space>
+                return (
+                    <Space size="middle" key={record._id}>
+                        <Button
+                            type={'primary'}
+                            onClick={() => onEdit(record._id)}
+                        >
+                            Edit
+                        </Button>
+                        <Button danger onClick={() => onBan(record._id)}>
+                            Ban
+                        </Button>
+                    </Space>
+                )
             },
             responsive: ['sm'] as Breakpoint[],
         },
@@ -105,11 +123,15 @@ const Mentors = (props: IProps) => {
     }
 
     const onBan = (id: string) => {
-        instance.post(`/api/admin/users/${id}`).then((response) => {
-            if (response.status === 200) {
-                message.success('Banned')
-            }
-        }).then(() => getData()).catch((error) => console.error(error.message))
+        instance
+            .post(`/api/admin/users/${id}`)
+            .then((response) => {
+                if (response.status === 200) {
+                    message.success('Banned')
+                }
+            })
+            .then(() => getData())
+            .catch((error) => console.error(error.message))
     }
 
     const onPageChange = (page: number) => {
@@ -117,23 +139,26 @@ const Mentors = (props: IProps) => {
     }
 
     const onEdit = (id: string) => {
-        setMode('update');
-        setUpdateId(id);
-        setVisible(true);
+        setMode('update')
+        setUpdateId(id)
+        setVisible(true)
     }
 
     const handleCancel = () => {
-        setVisible(false);
-        setMode('add');
-        setUpdateId('');
-    };
+        setVisible(false)
+        setMode('add')
+        setUpdateId('')
+    }
 
     const getData = () => {
-        instance.get(`/api/admin/mentors?page=${current}`).then((response) => {
-            dispatch(updateMentors(response.data.results));
-            setTotal(response.data.totalItem)
-        }).catch((error) => console.error(error.message));
-    };
+        instance
+            .get(`/api/admin/mentors?page=${current}`)
+            .then((response) => {
+                dispatch(updateMentors(response.data.results))
+                setTotal(response.data.totalItem)
+            })
+            .catch((error) => console.error(error.message))
+    }
 
     const handleDetailCancel = () => {
         setDetail(false)
@@ -141,50 +166,56 @@ const Mentors = (props: IProps) => {
     }
 
     const onFinish = (values: any) => {
-        setConfirmLoading(true);
+        setConfirmLoading(true)
 
         if (mode === 'update' && updateId !== '') {
-            instance.put(`/api/admin/mentors/${updateId}`, values).then((response) => {
-                if (response.status === 200) {
-                    getData();
-                    message.success('Cập nhật thành công').then(() => {
-                        setVisible(false);
-                    })
-                }
-            }).catch((error) => message.error(error.message))
+            instance
+                .put(`/api/admin/mentors/${updateId}`, values)
+                .then((response) => {
+                    if (response.status === 200) {
+                        getData()
+                        message.success('Cập nhật thành công').then(() => {
+                            setVisible(false)
+                        })
+                    }
+                })
+                .catch((error) => message.error(error.message))
         }
 
-        setConfirmLoading(false);
-    };
+        setConfirmLoading(false)
+    }
 
     const onSearch = (value: string) => {
-        instance.get(`/api/admin/search/mentors?name=${value}`).then((response) => {
-            dispatch(updateMentors(response.data.results));
-            setTotal(response.data.totalItem)
-        }).catch((error) => console.error(error.message));
+        instance
+            .get(`/api/admin/search/mentors?name=${value}`)
+            .then((response) => {
+                dispatch(updateMentors(response.data.results))
+                setTotal(response.data.totalItem)
+            })
+            .catch((error) => console.error(error.message))
     }
 
     useEffect(() => {
         if (updateId !== '') {
             instance.get(`/api/admin/mentors/${updateId}`).then((response) => {
                 if (response.status === 200) {
-                    setItemDetail(response.data.data);
+                    setItemDetail(response.data.data)
                 }
             })
         }
-    }, [updateId]);
+    }, [updateId])
 
     useEffect(() => {
         if (mode === 'update') {
-            form.setFieldsValue(itemDetail);
+            form.setFieldsValue(itemDetail)
         }
-    }, [itemDetail]);
+    }, [itemDetail])
 
     useEffect(() => {
         if (!visible) {
             getData()
         }
-    }, [visible, current]);
+    }, [visible, current])
 
     return (
         <>
@@ -228,12 +259,29 @@ const Mentors = (props: IProps) => {
                         {itemDetail?.detail.totalQuestion}
                     </Descriptions.Item>
                     <Descriptions.Item label={'Rate'}>
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                            <Space><Rate value={5}/> {itemDetail?.rate.totalRating5}</Space>
-                            <Space><Rate value={4}/> {itemDetail?.rate.totalRating4}</Space>
-                            <Space><Rate value={3}/> {itemDetail?.rate.totalRating3}</Space>
-                            <Space><Rate value={2}/> {itemDetail?.rate.totalRating2}</Space>
-                            <Space><Rate value={1}/> {itemDetail?.rate.totalRating1}</Space>
+                        <div
+                            style={{ display: 'flex', flexDirection: 'column' }}
+                        >
+                            <Space>
+                                <Rate value={5} />{' '}
+                                {itemDetail?.rate.totalRating5}
+                            </Space>
+                            <Space>
+                                <Rate value={4} />{' '}
+                                {itemDetail?.rate.totalRating4}
+                            </Space>
+                            <Space>
+                                <Rate value={3} />{' '}
+                                {itemDetail?.rate.totalRating3}
+                            </Space>
+                            <Space>
+                                <Rate value={2} />{' '}
+                                {itemDetail?.rate.totalRating2}
+                            </Space>
+                            <Space>
+                                <Rate value={1} />{' '}
+                                {itemDetail?.rate.totalRating1}
+                            </Space>
                         </div>
                     </Descriptions.Item>
                     <Descriptions.Item label={'Phone'} span={2}>
@@ -267,7 +315,12 @@ const Mentors = (props: IProps) => {
                     <Form.Item
                         label="Tên"
                         name="fullname"
-                        rules={[{ required: true, message: 'Vui lòng nhập tên kỹ năng' }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập tên kỹ năng',
+                            },
+                        ]}
                     >
                         <Input />
                     </Form.Item>
@@ -279,19 +332,25 @@ const Mentors = (props: IProps) => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Search style={{paddingBottom: 12}} placeholder="Enter mentor name"
-                    onSearch={onSearch} enterButton />
-            <Table columns={columns}
-                   dataSource={data}
-                   rowKey={'_id'}
-                   pagination={{
-                current: current,
-                       total,
-                onChange: onPageChange,
-                defaultPageSize: 10,
-            }}/>
+            <Search
+                style={{ paddingBottom: 12 }}
+                placeholder="Enter mentor name"
+                onSearch={onSearch}
+                enterButton
+            />
+            <Table
+                columns={columns}
+                dataSource={data}
+                rowKey={'_id'}
+                pagination={{
+                    current: current,
+                    total,
+                    onChange: onPageChange,
+                    defaultPageSize: 10,
+                }}
+            />
         </>
     )
 }
 
-export default Mentors;
+export default Mentors

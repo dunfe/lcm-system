@@ -5926,10 +5926,13 @@ __metadata:
     "@testing-library/jest-dom": ^4.2.4
     "@testing-library/react": ^9.3.2
     "@testing-library/user-event": ^7.1.2
+    "@types/eslint": ^7
+    "@types/eslint-plugin-prettier": ^3.1.0
     "@types/jest": ^24.0.0
     "@types/js-cookie": ^2
     "@types/lodash": ^4
     "@types/node": ^12.0.0
+    "@types/prettier": ^2.2.3
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
     "@types/react-redux": ^7.1.7
@@ -5940,8 +5943,15 @@ __metadata:
     common: ^0.1.0
     craco-antd: ^1.19.0
     dayjs: ^1.10.4
+    eslint: ^7.25.0
+    eslint-config-prettier: ^8.3.0
+    eslint-import-resolver-typescript: ^2.4.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    eslint-plugin-react: ^7.23.2
     js-cookie: ^2.2.1
     lodash: ^4.17.21
+    prettier: ^2.2.1
     react: ^17.0.2
     react-dom: ^17.0.2
     react-redux: ^7.2.0

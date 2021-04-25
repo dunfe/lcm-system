@@ -15,7 +15,7 @@ export interface IRequest {
 }
 
 interface RequestsState {
-    list: IRequest[];
+    list: IRequest[]
 }
 
 const initialState: RequestsState = {
