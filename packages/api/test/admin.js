@@ -128,10 +128,28 @@ describe('Check Admin API', () => {
     })
 
     it('Delete skill', function(done) {
-        chai.request(app).put(`/api/admin/skills/${delSkillId}`)
+        chai.request(app).delete(`/api/admin/skills/${delSkillId}`)
         .set('Authorization', token)
         .end((err,res)=>{
             expect(res.status).to.equal(200);
+            done();
+        })
+    })
+
+    it('Should return massage fail of delete skill with wrong id input', function(done){
+        chai.request(app).delete(`/api/admin/skills/${wrongId}`)
+            .set('Authorization', token)
+            .end((err,res)=>{
+            expect(res.body.message).to.equal('Invalid id '+ `${wrongId}`);
+            done();
+        })
+    })
+
+    it('Should return message fail of delete skill without Authorization' , function(done){
+        chai.request(app).delete(`/api/admin/skills/${skillID}`)
+        .end((err,res) => {
+            expect(res.body.status).to.equal('fail');
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
             done();
         })
     })
