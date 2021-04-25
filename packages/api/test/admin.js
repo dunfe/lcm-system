@@ -51,6 +51,15 @@ describe('Check Admin API', () => {
             })
     })
 
+    it('Should return message fail of all skill without Authorization' , function(done){
+        chai.request(app).get('/api/admin/skills')
+        .end((err,res) => {
+            expect(res.body.status).to.equal('fail');
+            expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+            done();
+        })
+    })
+
     it('Should return skill with id input', function(done){
             chai.request(app).get(`/api/admin/skills/${skillID}`)
             .set('Authorization', token)
