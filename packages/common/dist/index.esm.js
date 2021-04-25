@@ -1,5 +1,5 @@
 import * as React from 'react';
-import React__default, { useContext, useState, useRef, useEffect, useMemo as useMemo$1, useCallback, forwardRef, useImperativeHandle, useLayoutEffect as useLayoutEffect$1, createContext, Component } from 'react';
+import React__default, { useContext, useState as useState$1, useRef, useEffect as useEffect$1, useMemo as useMemo$1, useCallback, forwardRef, useImperativeHandle, useLayoutEffect as useLayoutEffect$1, createContext, Component } from 'react';
 import { jsx as jsx$1, jsxs } from 'react/jsx-runtime';
 import ReactDOM from 'react-dom';
 import '@ant-design/icons/es/components/Context';
@@ -2743,13 +2743,13 @@ function useTranslation(ns) {
     return i18n.getFixedT(null, i18nOptions.nsMode === 'fallback' ? namespaces : namespaces[0]);
   }
 
-  var _useState = useState(getT),
+  var _useState = useState$1(getT),
       _useState2 = _slicedToArray$4(_useState, 2),
       t = _useState2[0],
       setT = _useState2[1];
 
   var isMounted = useRef(true);
-  useEffect(function () {
+  useEffect$1(function () {
     var bindI18n = i18nOptions.bindI18n,
         bindI18nStore = i18nOptions.bindI18nStore;
     isMounted.current = true;
@@ -2777,7 +2777,7 @@ function useTranslation(ns) {
     };
   }, [i18n, namespaces.join()]);
   var isInitial = useRef(true);
-  useEffect(function () {
+  useEffect$1(function () {
     if (isMounted.current && !isInitial.current) {
       setT(getT);
     }
@@ -3249,6 +3249,16 @@ var Done$1 = "Đã xong";
 var Disconnect$1 = "Ngắt kết nối";
 var Connect$1 = "Kết nối";
 var Chat$1 = "Trò chuyện";
+var Edit$1 = "Chỉnh sửa";
+var Delete$1 = "Xoá";
+var Billing$1 = "Thanh toán";
+var Note$1 = "Ghi chú";
+var No$1 = "Không";
+var Action$1 = "Hành động";
+var Add$1 = "Thêm";
+var Submit$1 = "Thanh toán";
+var Country$1 = "Quốc gia";
+var Postcode$1 = "Mã bưu điện";
 var vi = {
 	Failed: Failed$1,
 	Login: Login$1,
@@ -3319,7 +3329,7 @@ var vi = {
 	Guide: Guide$1,
 	"Ask a question for help": "Đặt câu hỏi để được trợ giúp",
 	"Your questions": "Câu hỏi của bạn",
-	"Use your mouse then click onto the card and swipe to right to choose, left to ignore": "Use your mouse then click onto the card and swipe to right to choose, left to ignore",
+	"Use your mouse then click onto the card and swipe to right to choose, left to ignore": "Sử dụng chuột, sau đó nhấp vào thẻ và vuốt sang phải để chọn, sang trái để bỏ qua",
 	"Setting your account": "Cài đặt tài khoản",
 	"Selected this question": "Đã chọn",
 	Mentee: Mentee$1,
@@ -3331,7 +3341,36 @@ var vi = {
 	Disconnect: Disconnect$1,
 	Connect: Connect$1,
 	Chat: Chat$1,
-	"The password must contain at least 1 lowercase alphabetical character": "Mật khẩu phải chứa ít nhất một ký tự viết thường"
+	"The password must contain at least 1 lowercase alphabetical character": "Mật khẩu phải chứa ít nhất một kí tự viết thường",
+	Edit: Edit$1,
+	Delete: Delete$1,
+	Billing: Billing$1,
+	"Become a Mentor": "Trở thành người hướng dẫn",
+	"Title is require and title must less than 50 character": "Tiêu đề phải có ít nhất 50 kí tự",
+	"You must enter something": "Bạn không được để trống",
+	"Time Available": "Thời gian",
+	Note: Note$1,
+	"Note must not longer than 100 character": "Ghi chú không được dài quá 100 kí tự",
+	No: No$1,
+	Action: Action$1,
+	"Your session": "Session của bạn",
+	"Join session": "Vào Session",
+	"Please set at least 10 point": "Bạn phải nhập tối thiếu 10 point",
+	"Point must be between 10 and 1000": "Nhập point ít nhất là 10 và tối đa là 1000",
+	"You must add some amount": "Bạn phải nhập số tiền",
+	Add: Add$1,
+	"Card Number": "Số thẻ",
+	Submit: Submit$1,
+	"Expiration date": "Ngày hết hạn",
+	Country: Country$1,
+	Postcode: Postcode$1,
+	"Your favorite mentor": "Mentor yêu thích",
+	"Full name": "Họ và tên",
+	"Date of birth": "Ngày sinh",
+	"Invalid Date": "Ngày sinh không hợp lệ",
+	"Old password": "Mật khẩu cũ",
+	"New Password": "Mật khẩu mới",
+	"Confirm Password": "Xác nhận mật khẩu"
 };
 
 var Failed = "Failed";
@@ -3374,6 +3413,16 @@ var Done = "Done";
 var Disconnect = "Disconnect";
 var Connect = "Connect";
 var Chat = "Chat";
+var Edit = "Edit";
+var Delete = "Delete";
+var Billing = "Billing";
+var Note = "Note";
+var No = "No";
+var Action = "Action";
+var Add = "Add";
+var Submit = "Submit";
+var Country = "Country";
+var Postcode = "Postcode";
 var en = {
 	Failed: Failed,
 	Login: Login,
@@ -3456,7 +3505,36 @@ var en = {
 	Disconnect: Disconnect,
 	Connect: Connect,
 	Chat: Chat,
-	"The password must contain at least 1 lowercase alphabetical character": "The password must contain at least 1 lowercase alphabetical character"
+	"The password must contain at least 1 lowercase alphabetical character": "The password must contain at least 1 lowercase alphabetical character",
+	Edit: Edit,
+	Delete: Delete,
+	Billing: Billing,
+	"Become a Mentor": "Become a Mentor",
+	"Title is require and title must less than 50 character": "Title is require and title must less than 50 character",
+	"You must enter something": "You must enter something",
+	"Time Available": "Time Available",
+	Note: Note,
+	"Note must not longer than 100": "Note must not longer than 100",
+	No: No,
+	Action: Action,
+	"Your session": "Your session",
+	"Join session": "Join session",
+	"Please set at least 10 point": "Please set at least 10 point",
+	"Point must be between 10 and 1000": "Point must be between 10 and 1000",
+	"You must add some amount": "You must add some amount",
+	Add: Add,
+	"Card Number": "Card Number",
+	Submit: Submit,
+	"Expiration date": "Expiration date",
+	Country: Country,
+	Postcode: Postcode,
+	"Your favorite mentor": "Your favorite mentor",
+	"Full name": "Full name",
+	"Date of birth": "Date of birth",
+	"Invalid Date": "Invalid Date",
+	"Old password": "Old password",
+	"New Password": "New Password",
+	"Confirm Password": "Confirm Password"
 };
 
 var resources = {
@@ -3521,13 +3599,27 @@ var LogoContainer = function () {
         } }, { children: jsx$1("img", { src: 'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/Logo2_xnkzp1.svg', alt: 'logo' }, void 0) }), void 0));
 };
 
-var InAppLogo = function () {
+var useState = React.useState, useEffect = React.useEffect;
+var InAppLogo = function (props) {
+    var collapsed = props.collapsed;
+    var _a = useState(200), width = _a[0], setWidth = _a[1];
+    var _b = useState('https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg'), imgUrl = _b[0], setImgUrl = _b[1];
+    useEffect(function () {
+        if (collapsed) {
+            setWidth(80);
+            setImgUrl('https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/Only_logo_rjicn5.svg');
+        }
+        else {
+            setWidth(200);
+            setImgUrl('https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg');
+        }
+    }, [collapsed]);
     return (jsx$1("div", __assign({ style: {
-            width: 200,
+            width: width,
             height: 100,
             display: 'grid',
             placeItems: 'center',
-        } }, { children: jsx$1("img", { alt: 'in-app-logo', width: 200, height: 60, src: 'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg' }, void 0) }), void 0));
+        } }, { children: jsx$1("img", { alt: 'in-app-logo', width: width - 20, height: 60, src: imgUrl }, void 0) }), void 0));
 };
 
 function _extends$2() {
@@ -6707,12 +6799,12 @@ function RawList(props, ref) {
   var useVirtual = !!(virtual !== false && height && itemHeight);
   var inVirtual = useVirtual && data && itemHeight * data.length > height;
 
-  var _useState = useState(0),
+  var _useState = useState$1(0),
       _useState2 = _slicedToArray$1(_useState, 2),
       scrollTop = _useState2[0],
       setScrollTop = _useState2[1];
 
-  var _useState3 = useState(false),
+  var _useState3 = useState$1(false),
       _useState4 = _slicedToArray$1(_useState3, 2),
       scrollMoving = _useState4[0],
       setScrollMoving = _useState4[1];
@@ -7966,7 +8058,7 @@ function Item(props) {
  */
 
 function useBatchFrameState() {
-  var _useState = useState({}),
+  var _useState = useState$1({}),
       _useState2 = _slicedToArray$4(_useState, 2),
       forceUpdate = _useState2[1];
 
@@ -7974,7 +8066,7 @@ function useBatchFrameState() {
   var destroyRef = useRef(false);
   var walkingIndex = 0;
   var beforeFrameId = 0;
-  useEffect(function () {
+  useEffect$1(function () {
     return function () {
       destroyRef.current = true;
     };
@@ -8063,17 +8155,17 @@ function Overflow(props, ref) {
       suffixWidth = _createUseState10[0],
       setSuffixWidth = _createUseState10[1];
 
-  var _useState = useState(null),
+  var _useState = useState$1(null),
       _useState2 = _slicedToArray$4(_useState, 2),
       suffixFixedStart = _useState2[0],
       setSuffixFixedStart = _useState2[1];
 
-  var _useState3 = useState(0),
+  var _useState3 = useState$1(0),
       _useState4 = _slicedToArray$4(_useState3, 2),
       displayCount = _useState4[0],
       setDisplayCount = _useState4[1];
 
-  var _useState5 = useState(false),
+  var _useState5 = useState$1(false),
       _useState6 = _slicedToArray$4(_useState5, 2),
       restReady = _useState6[0],
       setRestReady = _useState6[1];
@@ -8418,12 +8510,12 @@ var SelectSelector = function SelectSelector(props) {
       onInputCompositionEnd = props.onInputCompositionEnd;
   var measureRef = React.useRef(null);
 
-  var _useState = useState(0),
+  var _useState = useState$1(0),
       _useState2 = _slicedToArray$4(_useState, 2),
       inputWidth = _useState2[0],
       setInputWidth = _useState2[1];
 
-  var _useState3 = useState(false),
+  var _useState3 = useState$1(false),
       _useState4 = _slicedToArray$4(_useState3, 2),
       focused = _useState4[0],
       setFocused = _useState4[1];
@@ -8873,10 +8965,10 @@ var Portal$1 = forwardRef(function (props, ref) {
   } // [Legacy] Used by `rc-trigger`
 
 
-  useEffect(function () {
+  useEffect$1(function () {
     didUpdate === null || didUpdate === void 0 ? void 0 : didUpdate(props);
   });
-  useEffect(function () {
+  useEffect$1(function () {
     return function () {
       var _containerRef$current, _containerRef$current2;
 
@@ -9009,7 +9101,7 @@ var STEP_ACTIVATED = 'end';
 function useMountStatus(defaultValue) {
   var destroyRef = useRef(false);
 
-  var _useState = useState(defaultValue),
+  var _useState = useState$1(defaultValue),
       _useState2 = _slicedToArray$4(_useState, 2),
       val = _useState2[0],
       setVal = _useState2[1];
@@ -9020,7 +9112,7 @@ function useMountStatus(defaultValue) {
     }
   }
 
-  useEffect(function () {
+  useEffect$1(function () {
     return function () {
       destroyRef.current = true;
     };
@@ -9028,7 +9120,7 @@ function useMountStatus(defaultValue) {
   return [val, setValue];
 }
 
-var useIsomorphicLayoutEffect = canUseDom() ? useLayoutEffect$1 : useEffect;
+var useIsomorphicLayoutEffect = canUseDom() ? useLayoutEffect$1 : useEffect$1;
 
 var useNextFrame = (function () {
   var nextFrameRef = React.useRef(null);
@@ -9342,7 +9434,7 @@ function useStatus(supportMotion, visible, getElement, _ref) {
   }, [visible]); // ============================ Effect ============================
   // Reset when motion changed
 
-  useEffect(function () {
+  useEffect$1(function () {
     if ( // Cancel appear
     status === STATUS_APPEAR && !motionAppear || // Cancel enter
     status === STATUS_ENTER && !motionEnter || // Cancel leave
@@ -9350,14 +9442,14 @@ function useStatus(supportMotion, visible, getElement, _ref) {
       setStatus(STATUS_NONE);
     }
   }, [motionAppear, motionEnter, motionLeave]);
-  useEffect(function () {
+  useEffect$1(function () {
     return function () {
       clearTimeout(deadlineRef.current);
       destroyedRef.current = true;
     };
   }, []); // Trigger `onVisibleChanged`
 
-  useEffect(function () {
+  useEffect$1(function () {
     if (asyncVisible !== undefined && status === STATUS_NONE) {
       onVisibleChanged === null || onVisibleChanged === void 0 ? void 0 : onVisibleChanged(asyncVisible);
     }
@@ -12191,7 +12283,7 @@ function _asyncToGenerator(fn) {
 
 var StatusQueue = ['measure', 'align', null, 'motion'];
 var useVisibleStatus = (function (visible, doMeasure) {
-  var _useState = useState(null),
+  var _useState = useState$1(null),
       _useState2 = _slicedToArray$4(_useState, 2),
       status = _useState2[0],
       setInternalStatus = _useState2[1];
@@ -12229,11 +12321,11 @@ var useVisibleStatus = (function (visible, doMeasure) {
   } // Init status
 
 
-  useEffect(function () {
+  useEffect$1(function () {
     setStatus('measure');
   }, [visible]); // Go next status
 
-  useEffect(function () {
+  useEffect$1(function () {
     switch (status) {
       case 'measure':
         doMeasure();
@@ -12263,7 +12355,7 @@ var useVisibleStatus = (function (visible, doMeasure) {
       })));
     }
   }, [status]);
-  useEffect(function () {
+  useEffect$1(function () {
     return function () {
       destroyRef.current = true;
       cancelRaf();
@@ -12335,7 +12427,7 @@ var PopupInner = /*#__PURE__*/React.forwardRef(function (props, ref) {
   var alignRef = useRef();
   var elementRef = useRef();
 
-  var _useState = useState(),
+  var _useState = useState$1(),
       _useState2 = _slicedToArray$4(_useState, 2),
       alignedClassName = _useState2[0],
       setAlignedClassName = _useState2[1]; // ======================= Measure ========================
@@ -12548,12 +12640,12 @@ var Popup = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       mobile = _ref.mobile,
       props = _objectWithoutProperties$2(_ref, ["visible", "mobile"]);
 
-  var _useState = useState(visible),
+  var _useState = useState$1(visible),
       _useState2 = _slicedToArray$4(_useState, 2),
       innerVisible = _useState2[0],
       serInnerVisible = _useState2[1];
 
-  var _useState3 = useState(false),
+  var _useState3 = useState$1(false),
       _useState4 = _slicedToArray$4(_useState3, 2),
       inMobile = _useState4[0],
       setInMobile = _useState4[1];
@@ -12564,7 +12656,7 @@ var Popup = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   // And this also delay set `innerVisible` to avoid popup component render flash
 
 
-  useEffect(function () {
+  useEffect$1(function () {
     serInnerVisible(visible);
 
     if (visible && mobile) {
@@ -13698,12 +13790,12 @@ function generateSelector(config) {
         cancelSetMockFocused = _useDelayReset2[2]; // Inner id for accessibility usage. Only work in client side
 
 
-    var _useState = useState(),
+    var _useState = useState$1(),
         _useState2 = _slicedToArray$4(_useState, 2),
         innerId = _useState2[0],
         setInnerId = _useState2[1];
 
-    useEffect(function () {
+    useEffect$1(function () {
       setInnerId("rc_select_".concat(getUUID()));
     }, []);
     var mergedId = id || innerId; // optionLabelProp
@@ -13719,12 +13811,12 @@ function generateSelector(config) {
     var isMultiple = mode === 'tags' || mode === 'multiple';
     var mergedShowSearch = showSearch !== undefined ? showSearch : isMultiple || mode === 'combobox'; // ======================== Mobile ========================
 
-    var _useState3 = useState(false),
+    var _useState3 = useState$1(false),
         _useState4 = _slicedToArray$4(_useState3, 2),
         mobile = _useState4[0],
         setMobile = _useState4[1];
 
-    useEffect(function () {
+    useEffect$1(function () {
       // Only update on the client side
       setMobile(isMobile());
     }, []); // ============================== Ref ===============================
@@ -13766,12 +13858,12 @@ function generateSelector(config) {
     }, [mergedRawValue]); // ============================= Option =============================
     // Set by option list active, it will merge into search input when mode is `combobox`
 
-    var _useState5 = useState(null),
+    var _useState5 = useState$1(null),
         _useState6 = _slicedToArray$4(_useState5, 2),
         activeValue = _useState6[0],
         setActiveValue = _useState6[1];
 
-    var _useState7 = useState(''),
+    var _useState7 = useState$1(''),
         _useState8 = _slicedToArray$4(_useState7, 2),
         innerSearchValue = _useState8[0],
         setInnerSearchValue = _useState8[1];
@@ -13840,7 +13932,7 @@ function generateSelector(config) {
     var displayFlattenOptions = useMemo$1(function () {
       return flattenOptions(displayOptions, props);
     }, [displayOptions]);
-    useEffect(function () {
+    useEffect$1(function () {
       if (listRef.current && listRef.current.scrollTo) {
         listRef.current.scrollTo(0);
       }
@@ -13900,7 +13992,7 @@ function generateSelector(config) {
     }; // We need cache options here in case user update the option list
 
 
-    var _useState9 = useState([]),
+    var _useState9 = useState$1([]),
         _useState10 = _slicedToArray$4(_useState9, 2),
         prevValueOptions = _useState10[0],
         setPrevValueOptions = _useState10[1];
@@ -14095,13 +14187,13 @@ function generateSelector(config) {
     }; // Close dropdown when disabled change
 
 
-    useEffect(function () {
+    useEffect$1(function () {
       if (innerOpen && !!disabled) {
         setInnerOpen(false);
       }
     }, [disabled]); // Close will clean up single mode search text
 
-    useEffect(function () {
+    useEffect$1(function () {
       if (!mergedOpen && !isMultiple && mode !== 'combobox') {
         triggerSearch('', false, false);
       }
@@ -14228,7 +14320,7 @@ function generateSelector(config) {
     };
 
     var activeTimeoutIds = [];
-    useEffect(function () {
+    useEffect$1(function () {
       return function () {
         activeTimeoutIds.forEach(function (timeoutId) {
           return clearTimeout(timeoutId);
@@ -14270,7 +14362,7 @@ function generateSelector(config) {
     }; // ========================= Accessibility ==========================
 
 
-    var _useState11 = useState(0),
+    var _useState11 = useState$1(0),
         _useState12 = _slicedToArray$4(_useState11, 2),
         accessibilityIndex = _useState12[0],
         setAccessibilityIndex = _useState12[1];
@@ -14290,12 +14382,12 @@ function generateSelector(config) {
     }; // ============================= Popup ==============================
 
 
-    var _useState13 = useState(null),
+    var _useState13 = useState$1(null),
         _useState14 = _slicedToArray$4(_useState13, 2),
         containerWidth = _useState14[0],
         setContainerWidth = _useState14[1];
 
-    var _useState15 = useState({}),
+    var _useState15 = useState$1({}),
         _useState16 = _slicedToArray$4(_useState15, 2),
         forceUpdate = _useState16[1]; // We need force update here since popup dom is render async
 

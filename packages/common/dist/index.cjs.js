@@ -3288,6 +3288,16 @@ var Done$1 = "Đã xong";
 var Disconnect$1 = "Ngắt kết nối";
 var Connect$1 = "Kết nối";
 var Chat$1 = "Trò chuyện";
+var Edit$1 = "Chỉnh sửa";
+var Delete$1 = "Xoá";
+var Billing$1 = "Thanh toán";
+var Note$1 = "Ghi chú";
+var No$1 = "Không";
+var Action$1 = "Hành động";
+var Add$1 = "Thêm";
+var Submit$1 = "Thanh toán";
+var Country$1 = "Quốc gia";
+var Postcode$1 = "Mã bưu điện";
 var vi = {
 	Failed: Failed$1,
 	Login: Login$1,
@@ -3358,7 +3368,7 @@ var vi = {
 	Guide: Guide$1,
 	"Ask a question for help": "Đặt câu hỏi để được trợ giúp",
 	"Your questions": "Câu hỏi của bạn",
-	"Use your mouse then click onto the card and swipe to right to choose, left to ignore": "Use your mouse then click onto the card and swipe to right to choose, left to ignore",
+	"Use your mouse then click onto the card and swipe to right to choose, left to ignore": "Sử dụng chuột, sau đó nhấp vào thẻ và vuốt sang phải để chọn, sang trái để bỏ qua",
 	"Setting your account": "Cài đặt tài khoản",
 	"Selected this question": "Đã chọn",
 	Mentee: Mentee$1,
@@ -3370,7 +3380,36 @@ var vi = {
 	Disconnect: Disconnect$1,
 	Connect: Connect$1,
 	Chat: Chat$1,
-	"The password must contain at least 1 lowercase alphabetical character": "Mật khẩu phải chứa ít nhất một ký tự viết thường"
+	"The password must contain at least 1 lowercase alphabetical character": "Mật khẩu phải chứa ít nhất một kí tự viết thường",
+	Edit: Edit$1,
+	Delete: Delete$1,
+	Billing: Billing$1,
+	"Become a Mentor": "Trở thành người hướng dẫn",
+	"Title is require and title must less than 50 character": "Tiêu đề phải có ít nhất 50 kí tự",
+	"You must enter something": "Bạn không được để trống",
+	"Time Available": "Thời gian",
+	Note: Note$1,
+	"Note must not longer than 100 character": "Ghi chú không được dài quá 100 kí tự",
+	No: No$1,
+	Action: Action$1,
+	"Your session": "Session của bạn",
+	"Join session": "Vào Session",
+	"Please set at least 10 point": "Bạn phải nhập tối thiếu 10 point",
+	"Point must be between 10 and 1000": "Nhập point ít nhất là 10 và tối đa là 1000",
+	"You must add some amount": "Bạn phải nhập số tiền",
+	Add: Add$1,
+	"Card Number": "Số thẻ",
+	Submit: Submit$1,
+	"Expiration date": "Ngày hết hạn",
+	Country: Country$1,
+	Postcode: Postcode$1,
+	"Your favorite mentor": "Mentor yêu thích",
+	"Full name": "Họ và tên",
+	"Date of birth": "Ngày sinh",
+	"Invalid Date": "Ngày sinh không hợp lệ",
+	"Old password": "Mật khẩu cũ",
+	"New Password": "Mật khẩu mới",
+	"Confirm Password": "Xác nhận mật khẩu"
 };
 
 var Failed = "Failed";
@@ -3413,6 +3452,16 @@ var Done = "Done";
 var Disconnect = "Disconnect";
 var Connect = "Connect";
 var Chat = "Chat";
+var Edit = "Edit";
+var Delete = "Delete";
+var Billing = "Billing";
+var Note = "Note";
+var No = "No";
+var Action = "Action";
+var Add = "Add";
+var Submit = "Submit";
+var Country = "Country";
+var Postcode = "Postcode";
 var en = {
 	Failed: Failed,
 	Login: Login,
@@ -3495,7 +3544,36 @@ var en = {
 	Disconnect: Disconnect,
 	Connect: Connect,
 	Chat: Chat,
-	"The password must contain at least 1 lowercase alphabetical character": "The password must contain at least 1 lowercase alphabetical character"
+	"The password must contain at least 1 lowercase alphabetical character": "The password must contain at least 1 lowercase alphabetical character",
+	Edit: Edit,
+	Delete: Delete,
+	Billing: Billing,
+	"Become a Mentor": "Become a Mentor",
+	"Title is require and title must less than 50 character": "Title is require and title must less than 50 character",
+	"You must enter something": "You must enter something",
+	"Time Available": "Time Available",
+	Note: Note,
+	"Note must not longer than 100": "Note must not longer than 100",
+	No: No,
+	Action: Action,
+	"Your session": "Your session",
+	"Join session": "Join session",
+	"Please set at least 10 point": "Please set at least 10 point",
+	"Point must be between 10 and 1000": "Point must be between 10 and 1000",
+	"You must add some amount": "You must add some amount",
+	Add: Add,
+	"Card Number": "Card Number",
+	Submit: Submit,
+	"Expiration date": "Expiration date",
+	Country: Country,
+	Postcode: Postcode,
+	"Your favorite mentor": "Your favorite mentor",
+	"Full name": "Full name",
+	"Date of birth": "Date of birth",
+	"Invalid Date": "Invalid Date",
+	"Old password": "Old password",
+	"New Password": "New Password",
+	"Confirm Password": "Confirm Password"
 };
 
 var resources = {
@@ -3560,13 +3638,27 @@ var LogoContainer = function () {
         } }, { children: jsxRuntime.jsx("img", { src: 'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/Logo2_xnkzp1.svg', alt: 'logo' }, void 0) }), void 0));
 };
 
-var InAppLogo = function () {
+var useState = React__namespace.useState, useEffect = React__namespace.useEffect;
+var InAppLogo = function (props) {
+    var collapsed = props.collapsed;
+    var _a = useState(200), width = _a[0], setWidth = _a[1];
+    var _b = useState('https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg'), imgUrl = _b[0], setImgUrl = _b[1];
+    useEffect(function () {
+        if (collapsed) {
+            setWidth(80);
+            setImgUrl('https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/Only_logo_rjicn5.svg');
+        }
+        else {
+            setWidth(200);
+            setImgUrl('https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg');
+        }
+    }, [collapsed]);
     return (jsxRuntime.jsx("div", __assign({ style: {
-            width: 200,
+            width: width,
             height: 100,
             display: 'grid',
             placeItems: 'center',
-        } }, { children: jsxRuntime.jsx("img", { alt: 'in-app-logo', width: 200, height: 60, src: 'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619186953/logo/No_target_line_hlhrqn.svg' }, void 0) }), void 0));
+        } }, { children: jsxRuntime.jsx("img", { alt: 'in-app-logo', width: width - 20, height: 60, src: imgUrl }, void 0) }), void 0));
 };
 
 function _extends$2() {
