@@ -158,16 +158,16 @@ describe('Check Admin API', () => {
         })
     })
 
-    // it('Update mentor by id', function(done){
-    //     chai.request(app).put(`/api/admin/mentors/${mentorID}`)
-    //     .set('Authorization', token)
-    //     .send({ level: '1'})
-    //     .end((err,res) => {
-    //         expect(res.status).to.equal(200);
-    //         expect(res.body.data.level).to.equal(1);
-    //         done();
-    //     })
-    // })
+    it('Update mentor by id', function(done){
+        chai.request(app).put(`/api/admin/mentors/${mentorID}`)
+        .set('Authorization', token)
+        .send({ level: '1'})
+        .end((err,res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.data.level).to.equal(1);
+            done();
+        })
+    })
 
     //QUESTION
 
