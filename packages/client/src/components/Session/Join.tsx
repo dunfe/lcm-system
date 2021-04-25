@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { PlayCircleOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
-interface IRoom {
+export interface IRoom {
     menteeInfo: {
         _id: string
         displayName: string

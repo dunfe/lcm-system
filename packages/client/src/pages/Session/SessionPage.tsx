@@ -2,10 +2,12 @@ import * as React from 'react'
 import {
     Button,
     Card,
+    Divider,
     Layout,
     message,
     Modal,
     Rate,
+    Space,
     Tabs,
     Typography,
 } from 'antd'
@@ -19,7 +21,7 @@ import { useRole } from '../../utils/hooks/useRole'
 import { useHistory, useParams } from 'react-router-dom'
 import Report from '../../components/Session/Report'
 import EndSessionFooter from '../../components/Session/EndSessionFooter'
-import { useMentorId } from '../../utils/hooks/useMentorId'
+import { IRoom } from '../../components/Session/Join'
 
 const { Sider, Content } = Layout
 const { TabPane } = Tabs
@@ -27,10 +29,10 @@ const { TabPane } = Tabs
 const { Text } = Typography
 
 const { useState, useEffect } = React
+
 const SessionPage = () => {
     const { t } = useTranslation()
     const { id } = useParams() as any
-    const mentorId = useMentorId(id)
     const instance = useAPI()
     const role = useRole()
     const history = useHistory()
@@ -39,6 +41,7 @@ const SessionPage = () => {
     const [rating, setRating] = useState(false)
     const [star, setStar] = useState(0)
     const [endMode, setEndMode] = useState('rate')
+    const [roomDetail, setRoomDetail] = useState<IRoom>()
 
     const handleDisconnect = () => {
         if (role === 'mentee') {
@@ -70,7 +73,16 @@ const SessionPage = () => {
         if (endMode === 'rate') {
             setRating(false)
             setConnected(false)
-            history.push('/')
+            instance
+                .post(`/api/users/colab-room/${id}`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        message.success(t('Ended')).then(() => {
+                            history.push('/')
+                        })
+                    }
+                })
+                .catch((error) => message.error(error.response.data.message))
         } else {
             setEndMode('rate')
         }
@@ -79,7 +91,7 @@ const SessionPage = () => {
     useEffect(() => {
         if (star > 0) {
             instance
-                .post(`/api/users/mentor/rate/${mentorId}`, {
+                .post(`/api/users/mentor/rate/${roomDetail?.mentorInfo._id}`, {
                     star,
                 })
                 .then((response) => {
@@ -92,6 +104,21 @@ const SessionPage = () => {
                 .catch((error) => console.error(error))
         }
     }, [star])
+
+    useEffect(() => {
+        if (id) {
+            instance
+                .get(`/api/users/colab-room/${id}`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setRoomDetail(response.data.data)
+                    }
+                })
+                .catch((error) => message.error(error.response.data.message))
+        } else {
+            history.push('/session')
+        }
+    }, [id])
 
     return (
         <Layout className="session-layout">
@@ -162,7 +189,16 @@ const SessionPage = () => {
                         marginTop: 20,
                     }}
                 >
-                    <Text>Room: {id}</Text>
+                    <Space>
+                        <Text>Room: {id}</Text>
+                        <Text>
+                            Mentor: {roomDetail?.mentorInfo.displayName}
+                        </Text>
+                        <Text>
+                            Mentee: {roomDetail?.menteeInfo.displayName}
+                        </Text>
+                    </Space>
+                    <Divider />
                     {connected ? (
                         <Button onClick={handleDisconnect}>
                             {t('Disconnect')}
