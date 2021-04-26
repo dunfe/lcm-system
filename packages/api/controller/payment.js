@@ -132,8 +132,8 @@ export const deleteCard = async (req, res) => {
 export const createPayemnt = async (req, res) => {
     let userId = await useridFromToken(req, res);
     const currentMentee = await User.findById(userId);
-    console.log("\n\n Body Passed:", req.body);
-    const { amount,currency} = req.body;
+    // console.log("\n\n Body Passed:", req.body);
+    const { amount, currency } = req.body;
     const {
         cardNumber,
         cardExpMonth,
@@ -146,6 +146,8 @@ export const createPayemnt = async (req, res) => {
     if (!cardNumber || !cardExpMonth || !cardExpYear || !cardCVC) {
         return res.status(400).send({
             Error: "Necessary Card Details are required",
+            status: "fail",
+            message:"Necessary Card Details are required"
         });
     }
     try {
@@ -171,16 +173,20 @@ export const createPayemnt = async (req, res) => {
         });
 
         if (charge.status === "succeeded") {
-            return res.status(200).send({ Success: charge });
+            return res
+            .status(200)
+            .send({ Success: charge, status:"Payment Success"});
 
         } else {
             return res
                 .status(400)
-                .send({ Error: "Please try again later" });
+                .send({ Error: "Please try again later", status:"fail" });
         }
     } catch (error) {
         return res.status(400).send({
+            status:"fail",
             Error: error.raw.message,
+            message:"Necessary Card Details are required"
         });
     }
 }
