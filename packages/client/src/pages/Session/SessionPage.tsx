@@ -7,7 +7,6 @@ import {
     message,
     Modal,
     Rate,
-    Space,
     Tabs,
     Typography,
 } from 'antd'
@@ -184,12 +183,12 @@ const SessionPage = () => {
                     bordered={false}
                     style={{
                         width: 302,
-                        height: 182,
+                        height: 250,
                         margin: 'auto',
                         marginTop: 20,
                     }}
                 >
-                    <Space>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <Text>Room: {id}</Text>
                         <Text>
                             Mentor: {roomDetail?.mentorInfo.displayName}
@@ -197,7 +196,8 @@ const SessionPage = () => {
                         <Text>
                             Mentee: {roomDetail?.menteeInfo.displayName}
                         </Text>
-                    </Space>
+                    </div>
+
                     <Divider />
                     {connected ? (
                         <Button onClick={handleDisconnect}>
