@@ -4005,6 +4005,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@twilio/conversations@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@twilio/conversations@npm:1.1.0"
+  dependencies:
+    babel-runtime: ^6.26.0
+    iso8601-duration: ^1.2.0
+    loglevel: ^1.6.6
+    operation-retrier: ^3.0.0
+    platform: ^1.3.5
+    rfc6902: ^3.0.2
+    twilio-mcs-client: ^0.3.3
+    twilio-notifications: ^0.5.11
+    twilio-sync: ^0.12.4
+    twilsock: ^0.5.14
+    uuid: ^3.3.2
+  checksum: 8eeea94b6843972cc852294e9f0edd5744aa7618fd2bb34287bdd281b56a6e56dac71f775142e80d75e90c11ceaf6fb2906dbfb6357fff2f760b3cde3880c292
+  languageName: node
+  linkType: hard
+
 "@twilio/webrtc@npm:4.3.2":
   version: 4.3.2
   resolution: "@twilio/webrtc@npm:4.3.2"
@@ -8352,6 +8371,7 @@ __metadata:
     "@testing-library/jest-dom": ^5.11.9
     "@testing-library/react": ^11.2.5
     "@testing-library/user-event": ^12.8.3
+    "@twilio/conversations": ^1.1.0
     "@types/eslint-plugin-prettier": ^3
     "@types/jest": ^24.0.0
     "@types/js-cookie": ^2
@@ -15587,6 +15607,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"iso8601-duration@npm:^1.2.0":
+  version: 1.3.0
+  resolution: "iso8601-duration@npm:1.3.0"
+  checksum: a509af05cac51ff101225546d1f0b2e27a24a733578a28895e085fcf4e39b0d74d71d2ac46e68372ab05876b56678477cfb78ddeb9d67b1dd510566fcaaf85f5
+  languageName: node
+  linkType: hard
+
 "isobject@npm:^2.0.0":
   version: 2.1.0
   resolution: "isobject@npm:2.1.0"
@@ -15697,6 +15724,13 @@ fsevents@^1.2.7:
     html-escaper: ^2.0.0
     istanbul-lib-report: ^3.0.0
   checksum: d4ed416e13fe0fc709566439086660ddab58dce9d6a655053c5315715aac8225bc7e9fcae553c2c3d8cc66cd4b59498a50b92d543a4820c5be0e5ee30178cdf0
+  languageName: node
+  linkType: hard
+
+"javascript-state-machine@npm:^3.0.1":
+  version: 3.1.0
+  resolution: "javascript-state-machine@npm:3.1.0"
+  checksum: 511a34ca54dc1cfc8930325950682fff2caab2fa95ad0008977b5bd697baeb8e04bb0a1aaf3f6e571079a1193252ed2cc2b997d5e370fbdec9c99326b3ec49e2
   languageName: node
   linkType: hard
 
@@ -17483,7 +17517,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"loglevel@npm:^1.6.8":
+"loglevel@npm:^1.6.3, loglevel@npm:^1.6.4, loglevel@npm:^1.6.6, loglevel@npm:^1.6.8":
   version: 1.7.1
   resolution: "loglevel@npm:1.7.1"
   checksum: abee97e346afb3c7e4130eff3025b4e8da1450cf92495bd12f3cc5faff46d6f658f73529c21e7d75634677f48ab1e14ceb5167d1952f53e8aceba5cb795029c2
@@ -19506,6 +19540,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"operation-retrier@npm:^3.0.0, operation-retrier@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "operation-retrier@npm:3.0.1"
+  checksum: 2323b138acfcfe87660898874ec779e407611cef1770dafded73417e169d9ed27f576d9a6d68c90b08f3618b7d9784faed3b72de1341583acafb1918238524ec
+  languageName: node
+  linkType: hard
+
 "opn@npm:^5.5.0":
   version: 5.5.0
   resolution: "opn@npm:5.5.0"
@@ -20488,6 +20529,13 @@ fsevents@^1.2.7:
   dependencies:
     find-up: ^3.0.0
   checksum: df82763250b5283c175918f9410f9651afc1750f951249b31c7c49a6918d9faf13a9ef11e9355cbb0d4d5039a5c9d4c7162755b3e6c26235d2e3baea086e4a54
+  languageName: node
+  linkType: hard
+
+"platform@npm:^1.3.5, platform@npm:^1.3.6":
+  version: 1.3.6
+  resolution: "platform@npm:1.3.6"
+  checksum: d4d10d5a55476c6d369b03e02b31df50a4e7f1c565efabe707379b8a119709fb2a66dec090ab7fe520a30b767fe3791e3c4a5aba985918e51a17df45e469189f
   languageName: node
   linkType: hard
 
@@ -24401,6 +24449,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"rfc6902@npm:^3.0.2":
+  version: 3.1.1
+  resolution: "rfc6902@npm:3.1.1"
+  checksum: 0e8da2c1660706d3c3ba135af65ee5bd25fe6002ef96df8127cd26fcb2d820cf2b213c1b04f971b6564034d84a7ce1ed13a5bda65881bd876c9825fc4b7d97e8
+  languageName: node
+  linkType: hard
+
 "rgb-regex@npm:^1.0.1":
   version: 1.0.1
   resolution: "rgb-regex@npm:1.0.1"
@@ -27476,6 +27531,43 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"twilio-mcs-client@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "twilio-mcs-client@npm:0.3.3"
+  dependencies:
+    loglevel: ^1.6.4
+    operation-retrier: ^3.0.1
+    xmlhttprequest: ^1.8.0
+  checksum: 9979ead6d30dda3f68988b0d533a0e26d37924fc5eac0e7f7280e7359ed7962e7bcaa024f5f6a44d2f02afa3521e076da9776380a16936060d2a67d02d3d51e6
+  languageName: node
+  linkType: hard
+
+"twilio-notifications@npm:^0.5.11":
+  version: 0.5.12
+  resolution: "twilio-notifications@npm:0.5.12"
+  dependencies:
+    loglevel: ^1.6.3
+    operation-retrier: ^3.0.0
+    twilsock: ^0.6.2
+    uuid: ^3.2.1
+  checksum: a1bae6df116fe95abcecc258eb29fe6f638b94977a3392bec7150aeac4ba423c7e84230da22c3448e5dccd933e3bb6f7290bda38094bd372c39a9059142acb81
+  languageName: node
+  linkType: hard
+
+"twilio-sync@npm:^0.12.4":
+  version: 0.12.4
+  resolution: "twilio-sync@npm:0.12.4"
+  dependencies:
+    loglevel: ^1.6.3
+    operation-retrier: ^3.0.0
+    platform: ^1.3.5
+    twilio-notifications: ^0.5.11
+    twilsock: ^0.5.14
+    uuid: ^3.3.2
+  checksum: 376b560baa4614ad9ee297a6e2ecbe3a5446dc2bb0f4888e56d79c6ec12ba75f3e5049787ed2eccae1ad7cf1a53d94ff7aa54da794824f7949771a68a54aaca7
+  languageName: node
+  linkType: hard
+
 "twilio-video@npm:^2.13.1":
   version: 2.13.1
   resolution: "twilio-video@npm:2.13.1"
@@ -27507,6 +27599,34 @@ resolve@^2.0.0-next.3:
     "@types/express": ^4.17.7
     "@types/qs": 6.9.4
   checksum: ddf9d4d8c6db577a4309abbd76b7c04abc9f6a46bb6912087974c891ba061ca9a18b9cfcfb4ee290994d36fba8949ebabc044f39e6f01700491217c6d0c236ad
+  languageName: node
+  linkType: hard
+
+"twilsock@npm:^0.5.14":
+  version: 0.5.14
+  resolution: "twilsock@npm:0.5.14"
+  dependencies:
+    javascript-state-machine: ^3.0.1
+    loglevel: ^1.6.3
+    operation-retrier: ^3.0.0
+    platform: ^1.3.5
+    uuid: ^3.2.1
+    ws: ^5.1.0
+  checksum: 7aed53c9eaff515a11969269b67e140b700b1bd81debc7383ba0ad17671b17d55c458a90629715dab14b9c8f15de1cf7886ca3f36ab61c65418409f843308c15
+  languageName: node
+  linkType: hard
+
+"twilsock@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "twilsock@npm:0.6.2"
+  dependencies:
+    javascript-state-machine: ^3.0.1
+    loglevel: ^1.6.3
+    operation-retrier: ^3.0.0
+    platform: ^1.3.6
+    uuid: ^3.2.1
+    ws: ^5.1.0
+  checksum: c4eb3cdec6201ee40ee0c797c275e4baaa9ad7b27335b8c9442d53748ba594cd29b75f7fce2dacc2d1ba2cd72843aa48bb194376a667d337cebd92a2bdda4335
   languageName: node
   linkType: hard
 
@@ -28315,7 +28435,7 @@ typescript@~3.8.2:
   languageName: node
   linkType: hard
 
-"uuid@npm:^3.3.2, uuid@npm:^3.4.0":
+"uuid@npm:^3.2.1, uuid@npm:^3.3.2, uuid@npm:^3.4.0":
   version: 3.4.0
   resolution: "uuid@npm:3.4.0"
   bin:
@@ -29318,6 +29438,15 @@ typescript@~3.8.2:
     safe-buffer: ~5.1.0
     ultron: ~1.1.0
   checksum: a7a1e5e6f011a45588bb79ddd0ce5c281db4f48c4e89158702372ebab9c9849bb15c4e23d30229b332f66a3a8430a81eb3a7d44f131ade6954add7f9c2b53212
+  languageName: node
+  linkType: hard
+
+"ws@npm:^5.1.0":
+  version: 5.2.2
+  resolution: "ws@npm:5.2.2"
+  dependencies:
+    async-limiter: ~1.0.0
+  checksum: c8217b54821ac9109bd395029487fd2a577867d6227624079dfa04c927728be13fdbe43070b2d349e9360d7dd17416c33362ba1062bff3bd9ddab6e9a9272915
   languageName: node
   linkType: hard
 
