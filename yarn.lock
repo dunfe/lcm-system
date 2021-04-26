@@ -4496,7 +4496,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
+"@types/prop-types@npm:*, @types/prop-types@npm:^15":
   version: 15.7.3
   resolution: "@types/prop-types@npm:15.7.3"
   checksum: bd0eab69d5120ad3784d0c9985f902653d5924707a7f2b3702a330e762dfd61b6494954cb54ad0c52b918ffd6f1e7e27c9270e4442bc15250de348596f2f60cb
@@ -6788,6 +6788,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"attr-accept@npm:^2.2.1":
+  version: 2.2.2
+  resolution: "attr-accept@npm:2.2.2"
+  checksum: e9c5d3580f6cae9c5c25c5c9c8660d344dd8bed25e77df7515c046864fe1aa4bb245e743ad46f55b85443ff53c95e378b3203c3e83f2168a2557e94d0552d458
+  languageName: node
+  linkType: hard
+
 "autoprefixer@npm:^10.1.0":
   version: 10.2.5
   resolution: "autoprefixer@npm:10.2.5"
@@ -8744,6 +8751,7 @@ __metadata:
     "@testing-library/jest-dom": ^5.11.4
     "@testing-library/react": ^11.1.0
     "@testing-library/user-event": ^12.1.10
+    "@twilio/conversations": ^1.1.0
     "@types/babel__core": ^7
     "@types/babel__preset-env": ^7
     "@types/eslint": ^7
@@ -8751,6 +8759,7 @@ __metadata:
     "@types/jest": ^26.0.15
     "@types/node": ^12.0.0
     "@types/prettier": ^2.2.3
+    "@types/prop-types": ^15
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
     "@types/react-syntax-highlighter": ^13.5.0
@@ -8772,6 +8781,8 @@ __metadata:
     microbundle: ^0.13.0
     npm-run-all: ^4.1.5
     prettier: ^2.2.1
+    prop-types: ^15.7.2
+    react-dropzone: ^11.3.2
     react-i18next: ^11.8.13
     react-markdown: ^6.0.1
     react-scripts: 4.0.3
@@ -12676,6 +12687,15 @@ __metadata:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: 0272335818c26e5c78a9f972ce779c8ed508e815329e4ace4d55045100140d89460d72eec1af78400dd04f2d16e28e29b3649433804619653cf044220afdf45d
+  languageName: node
+  linkType: hard
+
+"file-selector@npm:^0.2.2":
+  version: 0.2.4
+  resolution: "file-selector@npm:0.2.4"
+  dependencies:
+    tslib: ^2.0.3
+  checksum: 45258fb1218ba9362e1fd0fdfd25e40b18fd2473adf8a45436245a78310dc76d2fdde95463afe1f4e9e8c0ef178837eb0e5335978c0db348bc1dec425e510429
   languageName: node
   linkType: hard
 
@@ -23016,6 +23036,19 @@ fsevents@^1.2.7:
   peerDependencies:
     react: 17.0.2
   checksum: 960a74ff6670766846a73097a599115963df1574833c59ca0c2fd909758ebe7a6214cd14f5e6aa63ce846d8f39fde7f3b80474ccfcfadc45dd7f3246364718c6
+  languageName: node
+  linkType: hard
+
+"react-dropzone@npm:^11.3.2":
+  version: 11.3.2
+  resolution: "react-dropzone@npm:11.3.2"
+  dependencies:
+    attr-accept: ^2.2.1
+    file-selector: ^0.2.2
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">= 16.8"
+  checksum: 805c53808fbd3040edccdc3fef8418e0bc3d3bafe79ab47335de25fc419b9b93ba14d375795f7cc9ae418c175b1c7f26dc784550be1087375cf67171a5cc4053
   languageName: node
   linkType: hard
 
