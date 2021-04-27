@@ -34,10 +34,6 @@ const Skills = (props: IProps) => {
     const dispatch = useDispatch()
     const [CVUrl, setCVUrl] = useState('')
 
-    const handleChange = (selected: string[]) => {
-        console.log(selected)
-    }
-
     const beforeUpload = (file) => {
         const isPDF = file.type === 'application/pdf'
         if (!isPDF) {
@@ -76,6 +72,10 @@ const Skills = (props: IProps) => {
         }
     }, [])
 
+    useEffect(() => {
+        console.log(CVUrl)
+    }, [CVUrl])
+
     return (
         <Form
             form={form}
@@ -98,13 +98,10 @@ const Skills = (props: IProps) => {
                     style={{ width: '100%' }}
                     options={skills}
                     placeholder={trans('Choose your skills')}
-                    onChange={handleChange}
                 />
             </Form.Item>
-            <Form.Item name={'cv'} noStyle hidden>
-                <Input value={CVUrl} />
-            </Form.Item>
             <Form.Item
+                name={'cv'}
                 label={trans('Your resume')}
                 rules={[
                     {

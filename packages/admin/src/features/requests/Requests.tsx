@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { Table, Space, Modal, Button, message, Tag } from 'antd'
-import axios from 'axios'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectRequests, updateRequests } from './requestsSlice'
 import { requestStatus } from '../../utils/requestStatus'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
-import { useToken } from '../../utils/hooks/useToken'
+import { useTrans } from 'common'
+import { useAPI } from '../../utils/hooks/useAPI'
+import dayjs from 'dayjs'
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 
 const { useState, useEffect } = React
 const { confirm } = Modal
@@ -16,14 +18,15 @@ const Requests = () => {
     const data = useSelector(selectRequests)
     const [current, setCurrent] = useState(1)
     const [total, setTotal] = useState(0)
-    const token = useToken()
+    const trans = useTrans()
+    const instance = useAPI()
 
-    const instance = axios.create({
-        baseURL: 'https://livecoding.me',
-        headers: {
-            Authorization: token,
-        },
-    })
+    const [selectedId, setSelectedId] = useState('')
+    const [resumeView, setResumeView] = useState(false)
+    const [resumeUrl, setResumeUrl] = useState('')
+
+    const [numPages, setNumPages] = useState(null)
+    const [pageNumber, setPageNumber] = useState(1)
 
     const columns = [
         {
@@ -35,10 +38,37 @@ const Requests = () => {
             responsive: ['lg'] as Breakpoint[],
         },
         {
-            title: 'Title',
+            title: trans('User'),
+            dataIndex: 'createdName',
+            key: 'createdName',
+            responsive: ['sm'] as Breakpoint[],
+        },
+        {
+            title: trans('Title'),
             dataIndex: 'title',
             key: 'title',
+            responsive: ['md'] as Breakpoint[],
+        },
+        {
+            title: trans('Create at'),
+            dataIndex: 'createAt',
+            key: 'createAt',
+            responsive: ['md'] as Breakpoint[],
+            render(text) {
+                return dayjs(text).format('LLLL')
+            },
+        },
+        {
+            title: trans('Resume'),
+            key: 'resume',
             responsive: ['sm'] as Breakpoint[],
+            render(record) {
+                return (
+                    <Button onClick={() => onResumeView(record._id)}>
+                        {trans('View')}
+                    </Button>
+                )
+            },
         },
         {
             title: 'Status',
@@ -80,6 +110,19 @@ const Requests = () => {
             responsive: ['sm'] as Breakpoint[],
         },
     ]
+
+    const onDocumentLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages)
+    }
+
+    const onResumeView = (id: string) => {
+        setSelectedId(id)
+        setResumeView(true)
+    }
+
+    const onResumeViewCancel = () => {
+        setResumeView(false)
+    }
 
     const onApprove = (id: string) => {
         instance
@@ -137,8 +180,41 @@ const Requests = () => {
         getData()
     }, [current])
 
+    useEffect(() => {
+        if (selectedId !== '') {
+            const selectedUser = data.filter((item) => item._id === selectedId)
+
+            if (selectedUser.length > 0) {
+                setResumeUrl(selectedUser[0].cv)
+            }
+        }
+    }, [selectedId])
+
     return (
         <>
+            <Modal
+                title={'Resume'}
+                visible={resumeView}
+                onCancel={onResumeViewCancel}
+                footer={
+                    <Button onClick={onResumeViewCancel}>
+                        {trans('Cancel')}
+                    </Button>
+                }
+            >
+                <Document
+                    file={resumeUrl}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                >
+                    <Page pageNumber={pageNumber} />
+                </Document>
+                <p>
+                    Page {pageNumber} of {numPages}
+                </p>
+                <Button onClick={() => setPageNumber(pageNumber + 1)}>
+                    {trans('Next')}
+                </Button>
+            </Modal>
             <Table
                 columns={columns}
                 expandable={{
