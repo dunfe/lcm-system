@@ -39,6 +39,63 @@ describe('Mentee payment method', () => {
             })
     })
 
+    it('Should return message success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '4242424242424242',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return message fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '4242424242424243',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
+                done();
+            })
+    })
+
+    it('Should return message fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '4242424242424242',
+                cardExpMonth: '15',
+                cardExpYear: '2023',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
+                done();
+            })
+    })
+
     it('Should return message fail to Create point', function (done) {
         chai.request(app).post(`/api/users/payment`)
             .set('Authorization', token)
@@ -92,6 +149,44 @@ describe('Mentee payment method', () => {
             })
             .end((err,res) => {
                 expect(res.body.message).to.equal('Invalid Token. Maybe you are not logged in! Please log in to get acces or double check your token');
+                done();
+        })
+    })
+
+    it('Should return status false when Create point without Authorization', function(done) {
+        chai.request(app).post(`/api/users/payment`)
+            // .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '4242424242424243',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err,res) => {
+                expect(res.body.status).to.equal('fail');
+                done();
+        })
+    })
+
+    it('Should return status false when Create point without Authorization', function(done) {
+        chai.request(app).post(`/api/users/payment`)
+            // .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '4242424242424243',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err,res) => {
+                expect(400);
                 done();
         })
     })
