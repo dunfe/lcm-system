@@ -20,7 +20,7 @@ const videoToken = (identity, room) => {
     if (typeof room !== 'undefined') {
         client.conversations.conversations
             .create({
-                uniqueName: room,
+                uniqueName: 'Test create conversation',
                 friendlyName: 'Conversation'
             })
             .then(conversation => temp = conversation);
