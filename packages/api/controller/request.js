@@ -38,7 +38,7 @@ export const registerMentorRequest = async (req, res) => {
         title: 'Đăng kí mentor',
         createdId: user._id,
         createdName: user.fullname,
-        content: req.body.content,
+        content: 'Đăng kí mentor',
         cv: req.body.cv,
         createdAt: Date.now()
     });
