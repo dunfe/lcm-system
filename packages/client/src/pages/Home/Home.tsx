@@ -26,9 +26,14 @@ const HomePage = () => {
         title: '',
         subtitle: '',
     })
+    const [collapsed, setCollapsed] = useState(false)
 
     const onSelect = ({ selectedKeys }: any) => {
         setSelectedKeys(selectedKeys)
+    }
+
+    const onCollapse = (value) => {
+        setCollapsed(value)
     }
 
     useEffect(() => {
@@ -89,8 +94,13 @@ const HomePage = () => {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible theme={'dark'}>
-                <InAppLogo />
+            <Sider
+                onCollapse={onCollapse}
+                collapsed={collapsed}
+                collapsible
+                theme={'dark'}
+            >
+                <InAppLogo collapsed={collapsed} />
                 {role === 'mentee' ? (
                     <MenteeMenu
                         selectedKeys={selectedKeys}

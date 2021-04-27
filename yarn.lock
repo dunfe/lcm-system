@@ -3055,29 +3055,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/rehype-highlight-code-block@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@mapbox/rehype-highlight-code-block@npm:1.0.0"
-  dependencies:
-    hast-util-from-parse5: ^2.0.1
-    hast-util-to-string: ^1.0.0
-    parse5: ^3.0.2
-    unist-util-visit: ^1.1.3
-  checksum: 8be8b3570c6b3baaeaf2097ca0ed8df8fa1541ca12a738a654d0000c0fe8f3b25c722db343b5dbb77828f79e9c0213dbef110fb0a967b3553a1f9d8399013390
-  languageName: node
-  linkType: hard
-
-"@mapbox/rehype-prism@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "@mapbox/rehype-prism@npm:0.6.0"
-  dependencies:
-    hast-util-to-string: ^1.0.4
-    refractor: ^3.3.1
-    unist-util-visit: ^2.0.3
-  checksum: e9d2c7c15b55e65fca55f6cf7bf2bc7fa302d033a87f61a2fc39f3472e0f53f6812fd99d59b7587c06d6c1803d776a7c55e9fbbee3ac5066380aa06464c0b9fa
-  languageName: node
-  linkType: hard
-
 "@mdn/browser-compat-data@npm:^2.0.7":
   version: 2.0.7
   resolution: "@mdn/browser-compat-data@npm:2.0.7"
@@ -4025,6 +4002,25 @@ __metadata:
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
   checksum: d030f3fb14e0373dbf5005d8f696ff34fda87bf56744bea611fc737449bfc0687ebcb28ee8ba4c6624877f51b18d701c0d417d793f406006a192f4721911d048
+  languageName: node
+  linkType: hard
+
+"@twilio/conversations@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@twilio/conversations@npm:1.1.0"
+  dependencies:
+    babel-runtime: ^6.26.0
+    iso8601-duration: ^1.2.0
+    loglevel: ^1.6.6
+    operation-retrier: ^3.0.0
+    platform: ^1.3.5
+    rfc6902: ^3.0.2
+    twilio-mcs-client: ^0.3.3
+    twilio-notifications: ^0.5.11
+    twilio-sync: ^0.12.4
+    twilsock: ^0.5.14
+    uuid: ^3.3.2
+  checksum: 8eeea94b6843972cc852294e9f0edd5744aa7618fd2bb34287bdd281b56a6e56dac71f775142e80d75e90c11ceaf6fb2906dbfb6357fff2f760b3cde3880c292
   languageName: node
   linkType: hard
 
@@ -7970,13 +7966,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"camelcase@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "camelcase@npm:3.0.0"
-  checksum: 7993433f5bc180928f70399b06a0f11a02840bfe027e51a7e6c1b4f68c5c3119a58ec64e17b3112acab9ba420a97613956a0a2cf65f6fc8247fc9938aee64de6
-  languageName: node
-  linkType: hard
-
 "camelcase@npm:^4.0.0, camelcase@npm:^4.1.0":
   version: 4.1.0
   resolution: "camelcase@npm:4.1.0"
@@ -8376,14 +8365,13 @@ __metadata:
   resolution: "client@workspace:packages/client"
   dependencies:
     "@craco/craco": ^6.1.1
-    "@mapbox/rehype-highlight-code-block": ^1.0.0
-    "@mapbox/rehype-prism": ^0.6.0
     "@monaco-editor/react": ^4.1.1
     "@reduxjs/toolkit": ^1.2.5
     "@testing-library/dom": ^7.30.0
     "@testing-library/jest-dom": ^5.11.9
     "@testing-library/react": ^11.2.5
     "@testing-library/user-event": ^12.8.3
+    "@twilio/conversations": ^1.1.0
     "@types/eslint-plugin-prettier": ^3
     "@types/jest": ^24.0.0
     "@types/js-cookie": ^2
@@ -8426,8 +8414,6 @@ __metadata:
     react-syntax-highlighter: ^15.4.3
     react-use-gesture: ^9.1.3
     redux: ^4.0.5
-    rehype-highlight: ^4.1.0
-    remark-rehype: ^8.1.0
     socket.io-client: ^4.0.1
     styled-components: ^5.2.1
     twilio-video: ^2.13.1
@@ -13948,60 +13934,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"hast-util-from-parse5@npm:^2.0.1":
-  version: 2.1.0
-  resolution: "hast-util-from-parse5@npm:2.1.0"
-  dependencies:
-    camelcase: ^3.0.0
-    hastscript: ^3.0.0
-    property-information: ^3.1.0
-    vfile-location: ^2.0.0
-  checksum: 4ea2e4937a44369d5c2198c6a7f79a4c1a7cb0d95e31081bab223bd5b301e3c9f29a8fde146d0fea796a80d427d0a97cf9ee2d61a0450d408cfe37d5b970d239
-  languageName: node
-  linkType: hard
-
-"hast-util-is-element@npm:^1.0.0":
-  version: 1.1.0
-  resolution: "hast-util-is-element@npm:1.1.0"
-  checksum: fb8241c9a0ef166f4fc812f30148573e80db44f0c99dedbcff69016800edcb7c9383abf0789d8cd1389c0ec8a75efd078bbdb75254db9aec6cb5d599c7672244
-  languageName: node
-  linkType: hard
-
 "hast-util-parse-selector@npm:^2.0.0":
   version: 2.2.5
   resolution: "hast-util-parse-selector@npm:2.2.5"
   checksum: a9f5dc8f7d0c72e2934c3eda4eb9794dd522c595676ee3ef71fd42aacd8f9faff6a5130f6afa3878037f2a4a1cf8877010fe0f9278a0f86c6148a92815aae312
-  languageName: node
-  linkType: hard
-
-"hast-util-to-string@npm:^1.0.0, hast-util-to-string@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "hast-util-to-string@npm:1.0.4"
-  checksum: a18dddd5e1bddb162893b12c4163d16ff27c0cbe31564aab0f8e443997d810cc85d5110e10c34911a3d5dbb011a2193dbdfb5eb4ed0ce5ea0f14e7f3e226ca06
-  languageName: node
-  linkType: hard
-
-"hast-util-to-text@npm:^2.0.0":
-  version: 2.0.1
-  resolution: "hast-util-to-text@npm:2.0.1"
-  dependencies:
-    hast-util-is-element: ^1.0.0
-    repeat-string: ^1.0.0
-    unist-util-find-after: ^3.0.0
-  checksum: 4f945792aa92e2bc77280ddc306505ad806e0a327d6ed55f457c01656415cdc95d2fcf16b6790877ea31753dfc891736cdb4b81270656b5c8caad63a56af74ef
-  languageName: node
-  linkType: hard
-
-"hastscript@npm:^3.0.0":
-  version: 3.1.0
-  resolution: "hastscript@npm:3.1.0"
-  dependencies:
-    camelcase: ^3.0.0
-    comma-separated-tokens: ^1.0.0
-    hast-util-parse-selector: ^2.0.0
-    property-information: ^3.0.0
-    space-separated-tokens: ^1.0.0
-  checksum: 709175952bc7f35285c5929db01e9f64c084d524e88d2d91b131def494c0a4099abcd2c4b285a8d4a5b8cf29c425a12e265b04d42246e57fea833881fd3dec45
   languageName: node
   linkType: hard
 
@@ -15671,6 +15607,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"iso8601-duration@npm:^1.2.0":
+  version: 1.3.0
+  resolution: "iso8601-duration@npm:1.3.0"
+  checksum: a509af05cac51ff101225546d1f0b2e27a24a733578a28895e085fcf4e39b0d74d71d2ac46e68372ab05876b56678477cfb78ddeb9d67b1dd510566fcaaf85f5
+  languageName: node
+  linkType: hard
+
 "isobject@npm:^2.0.0":
   version: 2.1.0
   resolution: "isobject@npm:2.1.0"
@@ -15781,6 +15724,13 @@ fsevents@^1.2.7:
     html-escaper: ^2.0.0
     istanbul-lib-report: ^3.0.0
   checksum: d4ed416e13fe0fc709566439086660ddab58dce9d6a655053c5315715aac8225bc7e9fcae553c2c3d8cc66cd4b59498a50b92d543a4820c5be0e5ee30178cdf0
+  languageName: node
+  linkType: hard
+
+"javascript-state-machine@npm:^3.0.1":
+  version: 3.1.0
+  resolution: "javascript-state-machine@npm:3.1.0"
+  checksum: 511a34ca54dc1cfc8930325950682fff2caab2fa95ad0008977b5bd697baeb8e04bb0a1aaf3f6e571079a1193252ed2cc2b997d5e370fbdec9c99326b3ec49e2
   languageName: node
   linkType: hard
 
@@ -17567,7 +17517,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"loglevel@npm:^1.6.8":
+"loglevel@npm:^1.6.3, loglevel@npm:^1.6.4, loglevel@npm:^1.6.6, loglevel@npm:^1.6.8":
   version: 1.7.1
   resolution: "loglevel@npm:1.7.1"
   checksum: abee97e346afb3c7e4130eff3025b4e8da1450cf92495bd12f3cc5faff46d6f658f73529c21e7d75634677f48ab1e14ceb5167d1952f53e8aceba5cb795029c2
@@ -17625,7 +17575,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lowlight@npm:^1.10.0, lowlight@npm:^1.17.0":
+"lowlight@npm:^1.17.0":
   version: 1.20.0
   resolution: "lowlight@npm:1.20.0"
   dependencies:
@@ -19590,6 +19540,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"operation-retrier@npm:^3.0.0, operation-retrier@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "operation-retrier@npm:3.0.1"
+  checksum: 2323b138acfcfe87660898874ec779e407611cef1770dafded73417e169d9ed27f576d9a6d68c90b08f3618b7d9784faed3b72de1341583acafb1918238524ec
+  languageName: node
+  linkType: hard
+
 "opn@npm:^5.5.0":
   version: 5.5.0
   resolution: "opn@npm:5.5.0"
@@ -20101,15 +20058,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"parse5@npm:^3.0.2":
-  version: 3.0.3
-  resolution: "parse5@npm:3.0.3"
-  dependencies:
-    "@types/node": "*"
-  checksum: 47086524700bc3f0806e2dec819a93a71684931736393bfb454a0c9fb58861710248f21ad2fc351ce9639e1158db07bca05ac9df79dfaad6eeb3a9a7d9482ec7
-  languageName: node
-  linkType: hard
-
 "parseqs@npm:0.0.6":
   version: 0.0.6
   resolution: "parseqs@npm:0.0.6"
@@ -20581,6 +20529,13 @@ fsevents@^1.2.7:
   dependencies:
     find-up: ^3.0.0
   checksum: df82763250b5283c175918f9410f9651afc1750f951249b31c7c49a6918d9faf13a9ef11e9355cbb0d4d5039a5c9d4c7162755b3e6c26235d2e3baea086e4a54
+  languageName: node
+  linkType: hard
+
+"platform@npm:^1.3.5, platform@npm:^1.3.6":
+  version: 1.3.6
+  resolution: "platform@npm:1.3.6"
+  checksum: d4d10d5a55476c6d369b03e02b31df50a4e7f1c565efabe707379b8a119709fb2a66dec090ab7fe520a30b767fe3791e3c4a5aba985918e51a17df45e469189f
   languageName: node
   linkType: hard
 
@@ -21904,13 +21859,6 @@ fsevents@^1.2.7:
     object-assign: ^4.1.1
     react-is: ^16.8.1
   checksum: a440dd406c5cf53bf39f3e898d2c65178511d34ca3c8c789b30c177992408b9e4273969726b274719aa69ccce5ab34b2fd8caa60b90f23cd2e910cdcf682de52
-  languageName: node
-  linkType: hard
-
-"property-information@npm:^3.0.0, property-information@npm:^3.1.0":
-  version: 3.2.0
-  resolution: "property-information@npm:3.2.0"
-  checksum: f42fcd5e67568205e8689a33c5e660b6ca22953a03c6173f225bf81e4b3bd0de43314df3efaa109bd8a646e599f52065e1e005bee8b42949fd33430d753e5939
   languageName: node
   linkType: hard
 
@@ -23759,7 +23707,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"refractor@npm:^3.2.0, refractor@npm:^3.3.1":
+"refractor@npm:^3.2.0":
   version: 3.3.1
   resolution: "refractor@npm:3.3.1"
   dependencies:
@@ -23933,17 +23881,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"rehype-highlight@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "rehype-highlight@npm:4.1.0"
-  dependencies:
-    hast-util-to-text: ^2.0.0
-    lowlight: ^1.10.0
-    unist-util-visit: ^2.0.0
-  checksum: 8c8c47421c30920d228c54cae9b528396d138fc4e542e1db6bb33f58fb599bfc0dfac23fe0f91dddc1625df51ca876fc8751bb4e77b7d6c669a08c1b37f1fa86
-  languageName: node
-  linkType: hard
-
 "relateurl@npm:^0.2.7":
   version: 0.2.7
   resolution: "relateurl@npm:0.2.7"
@@ -24030,7 +23967,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"remark-rehype@npm:^8.0.0, remark-rehype@npm:^8.1.0":
+"remark-rehype@npm:^8.0.0":
   version: 8.1.0
   resolution: "remark-rehype@npm:8.1.0"
   dependencies:
@@ -24135,7 +24072,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"repeat-string@npm:^1.0.0, repeat-string@npm:^1.5.4, repeat-string@npm:^1.6.1":
+"repeat-string@npm:^1.5.4, repeat-string@npm:^1.6.1":
   version: 1.6.1
   resolution: "repeat-string@npm:1.6.1"
   checksum: 99c431ba7bef7a5d39819d562ebca89206368b45f73213677a3b562e25b5dd272d9e6a2ca8105001df14b6fc8cc71f0b10258c86e16cf8a256318fac1ddc8a77
@@ -24509,6 +24446,13 @@ resolve@^2.0.0-next.3:
     convert-source-map: ^0.3.3
     css: ^2.0.0
   checksum: fffaf7b8df23f304a9c2a58f9ded2a696f0b6ce36d92e38cb70bd769c992290dee9cbbf7b6aed089f0287d59a7954636092f43aefe2ab49ade926600ace19ffe
+  languageName: node
+  linkType: hard
+
+"rfc6902@npm:^3.0.2":
+  version: 3.1.1
+  resolution: "rfc6902@npm:3.1.1"
+  checksum: 0e8da2c1660706d3c3ba135af65ee5bd25fe6002ef96df8127cd26fcb2d820cf2b213c1b04f971b6564034d84a7ce1ed13a5bda65881bd876c9825fc4b7d97e8
   languageName: node
   linkType: hard
 
@@ -27587,6 +27531,43 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"twilio-mcs-client@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "twilio-mcs-client@npm:0.3.3"
+  dependencies:
+    loglevel: ^1.6.4
+    operation-retrier: ^3.0.1
+    xmlhttprequest: ^1.8.0
+  checksum: 9979ead6d30dda3f68988b0d533a0e26d37924fc5eac0e7f7280e7359ed7962e7bcaa024f5f6a44d2f02afa3521e076da9776380a16936060d2a67d02d3d51e6
+  languageName: node
+  linkType: hard
+
+"twilio-notifications@npm:^0.5.11":
+  version: 0.5.12
+  resolution: "twilio-notifications@npm:0.5.12"
+  dependencies:
+    loglevel: ^1.6.3
+    operation-retrier: ^3.0.0
+    twilsock: ^0.6.2
+    uuid: ^3.2.1
+  checksum: a1bae6df116fe95abcecc258eb29fe6f638b94977a3392bec7150aeac4ba423c7e84230da22c3448e5dccd933e3bb6f7290bda38094bd372c39a9059142acb81
+  languageName: node
+  linkType: hard
+
+"twilio-sync@npm:^0.12.4":
+  version: 0.12.4
+  resolution: "twilio-sync@npm:0.12.4"
+  dependencies:
+    loglevel: ^1.6.3
+    operation-retrier: ^3.0.0
+    platform: ^1.3.5
+    twilio-notifications: ^0.5.11
+    twilsock: ^0.5.14
+    uuid: ^3.3.2
+  checksum: 376b560baa4614ad9ee297a6e2ecbe3a5446dc2bb0f4888e56d79c6ec12ba75f3e5049787ed2eccae1ad7cf1a53d94ff7aa54da794824f7949771a68a54aaca7
+  languageName: node
+  linkType: hard
+
 "twilio-video@npm:^2.13.1":
   version: 2.13.1
   resolution: "twilio-video@npm:2.13.1"
@@ -27618,6 +27599,34 @@ resolve@^2.0.0-next.3:
     "@types/express": ^4.17.7
     "@types/qs": 6.9.4
   checksum: ddf9d4d8c6db577a4309abbd76b7c04abc9f6a46bb6912087974c891ba061ca9a18b9cfcfb4ee290994d36fba8949ebabc044f39e6f01700491217c6d0c236ad
+  languageName: node
+  linkType: hard
+
+"twilsock@npm:^0.5.14":
+  version: 0.5.14
+  resolution: "twilsock@npm:0.5.14"
+  dependencies:
+    javascript-state-machine: ^3.0.1
+    loglevel: ^1.6.3
+    operation-retrier: ^3.0.0
+    platform: ^1.3.5
+    uuid: ^3.2.1
+    ws: ^5.1.0
+  checksum: 7aed53c9eaff515a11969269b67e140b700b1bd81debc7383ba0ad17671b17d55c458a90629715dab14b9c8f15de1cf7886ca3f36ab61c65418409f843308c15
+  languageName: node
+  linkType: hard
+
+"twilsock@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "twilsock@npm:0.6.2"
+  dependencies:
+    javascript-state-machine: ^3.0.1
+    loglevel: ^1.6.3
+    operation-retrier: ^3.0.0
+    platform: ^1.3.6
+    uuid: ^3.2.1
+    ws: ^5.1.0
+  checksum: c4eb3cdec6201ee40ee0c797c275e4baaa9ad7b27335b8c9442d53748ba594cd29b75f7fce2dacc2d1ba2cd72843aa48bb194376a667d337cebd92a2bdda4335
   languageName: node
   linkType: hard
 
@@ -28040,15 +28049,6 @@ typescript@~3.8.2:
   languageName: node
   linkType: hard
 
-"unist-util-find-after@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "unist-util-find-after@npm:3.0.0"
-  dependencies:
-    unist-util-is: ^4.0.0
-  checksum: afad28f7bc9f7e51eaba215eb9d00d3e04f75b26be0b9f5851c42c5275850d497f6d7181340d98d419a04f48806c01dd90a3bee47630ae65183dfb1c65d2dd2d
-  languageName: node
-  linkType: hard
-
 "unist-util-find-all-after@npm:^1.0.2":
   version: 1.0.5
   resolution: "unist-util-find-all-after@npm:1.0.5"
@@ -28130,7 +28130,7 @@ typescript@~3.8.2:
   languageName: node
   linkType: hard
 
-"unist-util-visit@npm:^1.1.0, unist-util-visit@npm:^1.1.3":
+"unist-util-visit@npm:^1.1.0":
   version: 1.4.1
   resolution: "unist-util-visit@npm:1.4.1"
   dependencies:
@@ -28139,7 +28139,7 @@ typescript@~3.8.2:
   languageName: node
   linkType: hard
 
-"unist-util-visit@npm:^2.0.0, unist-util-visit@npm:^2.0.3":
+"unist-util-visit@npm:^2.0.0":
   version: 2.0.3
   resolution: "unist-util-visit@npm:2.0.3"
   dependencies:
@@ -28435,7 +28435,7 @@ typescript@~3.8.2:
   languageName: node
   linkType: hard
 
-"uuid@npm:^3.3.2, uuid@npm:^3.4.0":
+"uuid@npm:^3.2.1, uuid@npm:^3.3.2, uuid@npm:^3.4.0":
   version: 3.4.0
   resolution: "uuid@npm:3.4.0"
   bin:
@@ -29438,6 +29438,15 @@ typescript@~3.8.2:
     safe-buffer: ~5.1.0
     ultron: ~1.1.0
   checksum: a7a1e5e6f011a45588bb79ddd0ce5c281db4f48c4e89158702372ebab9c9849bb15c4e23d30229b332f66a3a8430a81eb3a7d44f131ade6954add7f9c2b53212
+  languageName: node
+  linkType: hard
+
+"ws@npm:^5.1.0":
+  version: 5.2.2
+  resolution: "ws@npm:5.2.2"
+  dependencies:
+    async-limiter: ~1.0.0
+  checksum: c8217b54821ac9109bd395029487fd2a577867d6227624079dfa04c927728be13fdbe43070b2d349e9360d7dd17416c33362ba1062bff3bd9ddab6e9a9272915
   languageName: node
   linkType: hard
 

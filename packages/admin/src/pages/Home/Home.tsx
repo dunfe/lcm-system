@@ -30,6 +30,7 @@ export function HomePage() {
         subtitle: '',
     })
     const [addModalVisible, setAddModalVisible] = useState(false)
+    const [collapsed, setCollapsed] = useState(false)
 
     const token = useToken()
     const role = useRole()
@@ -116,14 +117,14 @@ export function HomePage() {
         <Layout style={{ minHeight: '100vh' }}>
             <Layout>
                 <Sider
-                    breakpoint="lg"
-                    collapsedWidth="0"
-                    onCollapse={(collapsed, type) => {
-                        console.log(collapsed, type)
+                    collapsible
+                    collapsed={collapsed}
+                    onCollapse={(collapsed) => {
+                        setCollapsed(collapsed)
                     }}
                     theme="dark"
                 >
-                    <InAppLogo />
+                    <InAppLogo collapsed={collapsed} />
                     <Menu
                         theme="dark"
                         mode="inline"
