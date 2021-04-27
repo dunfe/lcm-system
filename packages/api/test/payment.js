@@ -701,6 +701,44 @@ describe('Mentee payment method', () => {
             })
     })
 
+    it('Should return status "200" success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '378282246310005',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return status "400" fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '378282246310005',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '45645',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
+                done();
+            })
+    })
+
     //American Express another card
     it('Should return status success to Create point', function (done) {
         chai.request(app).post(`/api/users/payment`)
@@ -774,6 +812,44 @@ describe('Mentee payment method', () => {
             })
             .end((err, res) => {
                 expect(res.body.message).to.equal('Payment Success');
+                done();
+            })
+    })
+
+    it('Should return status "200" success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '371449635398431',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return status "400" fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '371449635398431',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '45645',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
                 done();
             })
     })
@@ -855,6 +931,44 @@ describe('Mentee payment method', () => {
             })
     })
 
+    it('Should return status "200" success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6011111111111117',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return status "400" fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6011111111111117',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '45645',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
+                done();
+            })
+    })
+
     //Discover another card
     it('Should return status fail to Create point', function (done) {
         chai.request(app).post(`/api/users/payment`)
@@ -928,6 +1042,44 @@ describe('Mentee payment method', () => {
             })
             .end((err, res) => {
                 expect(res.body.message).to.equal('Payment Success');
+                done();
+            })
+    })
+
+    it('Should return status "200" success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6011000990139424',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return status "400" fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6011000990139424',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '45645',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
                 done();
             })
     })
@@ -1009,6 +1161,44 @@ describe('Mentee payment method', () => {
             })
     })
 
+    it('Should return status "200" success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '3056930009020004',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return status "400" fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '3056930009020004',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '45645',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
+                done();
+            })
+    })
+
     //Diners Club (14 digit card)
     it('Should return status fail to Create point', function (done) {
         chai.request(app).post(`/api/users/payment`)
@@ -1082,6 +1272,274 @@ describe('Mentee payment method', () => {
             })
             .end((err, res) => {
                 expect(res.body.message).to.equal('Payment Success');
+                done();
+            })
+    })
+
+    it('Should return status "200" success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '36227206271667',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return status "400" fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '36227206271667',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '45645',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
+                done();
+            })
+    })
+
+    //JCB
+    it('Should return status fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '3566002020360505',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(res.body.status).to.equal('fail');
+                done();
+            })
+    })
+
+    it('Should return status success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '3566002020360505',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'usd',
+            })
+            .end((err, res) => {
+                expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('Should return message "Necessary Card Details are required" to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '3566002020360505',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(res.body.message).to.equal('Necessary Card Details are required');
+                done();
+            })
+    })
+
+    it('Should return message "Payement Success" to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '3566002020360505',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'usd',
+            })
+            .end((err, res) => {
+                expect(res.body.message).to.equal('Payment Success');
+                done();
+            })
+    })
+
+    it('Should return status "200" success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '3566002020360505',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return status "400" fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '3566002020360505',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '45645',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
+                done();
+            })
+    })
+
+    //UnionPay
+    it('Should return status fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6200000000000005',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(res.body.status).to.equal('fail');
+                done();
+            })
+    })
+
+    it('Should return status success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6200000000000005',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'usd',
+            })
+            .end((err, res) => {
+                expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('Should return message "Necessary Card Details are required" to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6200000000000005',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(res.body.message).to.equal('Necessary Card Details are required');
+                done();
+            })
+    })
+
+    it('Should return message "Payement Success" to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6200000000000005',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'usd',
+            })
+            .end((err, res) => {
+                expect(res.body.message).to.equal('Payment Success');
+                done();
+            })
+    })
+
+    it('Should return status "200" success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6200000000000005',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(200);
+                done();
+            })
+    })
+
+    it('Should return status "400" fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '6200000000000005',
+                cardExpMonth: '08',
+                cardExpYear: '2023',
+                cardCVC: '45645',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(400);
                 done();
             })
     })
