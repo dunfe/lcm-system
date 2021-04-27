@@ -115,7 +115,7 @@ export const selectQuestion = async (req, res) => {
     var ques = await Question.findById(req.params.id)
     var mentee = await User.findById(ques.menteeId)
 
-    let room
+    let room = new colabRoom();
     client.conversations.conversations
         .create({
             friendlyName: 'Conversation',
@@ -141,9 +141,8 @@ export const selectQuestion = async (req, res) => {
                 },
                 ...conversation,
             })
+            room.save()
         })
-
-    room.save()
 
     var notify1 = new Notify({
         title: currUser.fullname + ' đã chọn giải đáp câu hỏi: \'' + ques.title + '\' của bạn',
