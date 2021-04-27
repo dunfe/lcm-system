@@ -61,6 +61,234 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@antv/adjust@npm:^0.2.1":
+  version: 0.2.3
+  resolution: "@antv/adjust@npm:0.2.3"
+  dependencies:
+    "@antv/util": ~2.0.0
+    tslib: ^1.10.0
+  checksum: 2426fe1c2c06a087de73b6527f707673a31c8b6cc5d7f13d98988b5c3c38891fcfeff03631520d5dad83b48922708a07c1e4a8079d995b1b9c2a6d90656c85d7
+  languageName: node
+  linkType: hard
+
+"@antv/attr@npm:^0.3.1":
+  version: 0.3.2
+  resolution: "@antv/attr@npm:0.3.2"
+  dependencies:
+    "@antv/color-util": ^2.0.1
+    "@antv/util": ~2.0.0
+    tslib: ^1.10.0
+  checksum: b1447325ae30a2f24b8acb40019624279255845055c68ae544a6bb24afafa71ad25592b2b693e52415513195c0d5aeac08d35dff2bbc940bbacc9e37ef7c60e1
+  languageName: node
+  linkType: hard
+
+"@antv/color-util@npm:^2.0.1, @antv/color-util@npm:^2.0.2":
+  version: 2.0.6
+  resolution: "@antv/color-util@npm:2.0.6"
+  dependencies:
+    "@antv/util": ^2.0.9
+    tslib: ^2.0.3
+  checksum: b90169fccdaaeb46287d9cf7df3acadc11047099572158d4bec1c166ae919eb8180481c3456d21e12a0a5690aacdc60ed54b9e9b319e2c78cfa795a9c56fa1df
+  languageName: node
+  linkType: hard
+
+"@antv/component@npm:^0.8.7":
+  version: 0.8.11
+  resolution: "@antv/component@npm:0.8.11"
+  dependencies:
+    "@antv/dom-util": ~2.0.1
+    "@antv/g-base": 0.5.6
+    "@antv/matrix-util": ^3.1.0-beta.1
+    "@antv/path-util": ~2.0.7
+    "@antv/scale": ~0.3.1
+    "@antv/util": ~2.0.0
+    fecha: ~4.2.0
+    tslib: ^2.0.3
+  checksum: 364fd268e9e0a7b776cf132ae987e3a5211e7d3d9fa509bdc637a0f89360368bed8fcebf0ffa5d07896bb9a43972740a147f51ebd30c56b71132d2822e602457
+  languageName: node
+  linkType: hard
+
+"@antv/coord@npm:^0.3.0":
+  version: 0.3.1
+  resolution: "@antv/coord@npm:0.3.1"
+  dependencies:
+    "@antv/matrix-util": ^3.1.0-beta.2
+    "@antv/util": ~2.0.12
+    tslib: ^2.1.0
+  checksum: 60e83a7147b81295f76ef7e549244b6a8c1f2bc97ea95fd414eef23269e21e084f1904af5f900a0877c0b3f617eb66e02695ffdad45762b4f4d4293e32555994
+  languageName: node
+  linkType: hard
+
+"@antv/dom-util@npm:^2.0.2, @antv/dom-util@npm:~2.0.1":
+  version: 2.0.3
+  resolution: "@antv/dom-util@npm:2.0.3"
+  dependencies:
+    tslib: ^2.0.3
+  checksum: 0ad03865c783b57e8da0abded5bcb7b6d22ded709dc19a1debf5f4bb618fb1fbdb27ba7b1a3dec3e7be449ebe80f3818564c4a875aed0943c3d885adf819d73c
+  languageName: node
+  linkType: hard
+
+"@antv/event-emitter@npm:^0.1.1, @antv/event-emitter@npm:^0.1.2, @antv/event-emitter@npm:~0.1.0":
+  version: 0.1.2
+  resolution: "@antv/event-emitter@npm:0.1.2"
+  checksum: a90ecc00be4da2404f3a617f72011967ab315046fd13f9d15132432cf36a5d258a8dcfb6b8f593f5bd0733863e335ed1c912b4ce87ad1c245fbc0140f28d1eba
+  languageName: node
+  linkType: hard
+
+"@antv/g-base@npm:0.5.6":
+  version: 0.5.6
+  resolution: "@antv/g-base@npm:0.5.6"
+  dependencies:
+    "@antv/event-emitter": ^0.1.1
+    "@antv/g-math": ^0.1.6
+    "@antv/matrix-util": ^3.1.0-beta.1
+    "@antv/path-util": ~2.0.5
+    "@antv/util": ~2.0.0
+    "@types/d3-timer": ^2.0.0
+    d3-ease: ^1.0.5
+    d3-interpolate: ^1.3.2
+    d3-timer: ^1.0.9
+    detect-browser: ^5.1.0
+    tslib: ^2.0.3
+  checksum: 4801f2b6318cc2acef71dd9aef57d46c8de68fba0596b7eb8d9c312ee72bc5897c151ffcc48fbfec28a44dcdaf4190623228514657ca2b2c322d7012649a2857
+  languageName: node
+  linkType: hard
+
+"@antv/g-base@npm:^0.5.3, @antv/g-base@npm:~0.5.6":
+  version: 0.5.9
+  resolution: "@antv/g-base@npm:0.5.9"
+  dependencies:
+    "@antv/event-emitter": ^0.1.1
+    "@antv/g-math": ^0.1.6
+    "@antv/matrix-util": ^3.1.0-beta.1
+    "@antv/path-util": ~2.0.5
+    "@antv/util": ~2.0.0
+    "@types/d3-timer": ^2.0.0
+    d3-ease: ^1.0.5
+    d3-interpolate: ^1.3.2
+    d3-timer: ^1.0.9
+    detect-browser: ^5.1.0
+    tslib: ^2.0.3
+  checksum: 5c982b0703ba4ed79f4cea79791236f627660a4e94d7c8b75f768acd6220ac53f95f34f0fd11a842b01d5c7f7e6c9ba13158130d40ac967834eb22529b349b49
+  languageName: node
+  linkType: hard
+
+"@antv/g-canvas@npm:~0.5.10":
+  version: 0.5.10
+  resolution: "@antv/g-canvas@npm:0.5.10"
+  dependencies:
+    "@antv/g-base": ^0.5.3
+    "@antv/g-math": ^0.1.6
+    "@antv/matrix-util": ^3.1.0-beta.1
+    "@antv/path-util": ~2.0.5
+    "@antv/util": ~2.0.0
+    gl-matrix: ^3.0.0
+    tslib: ^2.0.3
+  checksum: fcfd75fd3ec807b690eed2a2982f8566a6382a5f77a7c2cf8bd19190580a0d6eedb9014e7317a38bc589d3199ced58ee01466d22a7dd053122eed3ec23ee10f3
+  languageName: node
+  linkType: hard
+
+"@antv/g-math@npm:^0.1.6":
+  version: 0.1.7
+  resolution: "@antv/g-math@npm:0.1.7"
+  dependencies:
+    "@antv/util": ~2.0.0
+    gl-matrix: ^3.0.0
+  checksum: 03bc03f924bc52734376d1877f4deb80eb3750f0e2561f1389fed01b74042592fd3d5d4fed0675fa221049d332d2cc6697643bf92cbe137d485904c9bd29eb34
+  languageName: node
+  linkType: hard
+
+"@antv/g-svg@npm:~0.5.6":
+  version: 0.5.6
+  resolution: "@antv/g-svg@npm:0.5.6"
+  dependencies:
+    "@antv/g-base": ^0.5.3
+    "@antv/g-math": ^0.1.6
+    "@antv/util": ~2.0.0
+    detect-browser: ^5.0.0
+    tslib: ^2.0.3
+  checksum: 7e3c1cbe8a3e48cda09a6cb6b6574def4e08bde3fdcc06157f196e65c6dd06b9390b986fbc157a7a6216ffab2dab939de622144f3ad7ef40d9f8ead76b08a64a
+  languageName: node
+  linkType: hard
+
+"@antv/g2@npm:^4.1.0":
+  version: 4.1.16
+  resolution: "@antv/g2@npm:4.1.16"
+  dependencies:
+    "@antv/adjust": ^0.2.1
+    "@antv/attr": ^0.3.1
+    "@antv/color-util": ^2.0.2
+    "@antv/component": ^0.8.7
+    "@antv/coord": ^0.3.0
+    "@antv/dom-util": ^2.0.2
+    "@antv/event-emitter": ~0.1.0
+    "@antv/g-base": ~0.5.6
+    "@antv/g-canvas": ~0.5.10
+    "@antv/g-svg": ~0.5.6
+    "@antv/matrix-util": ^3.1.0-beta.1
+    "@antv/path-util": ^2.0.3
+    "@antv/scale": ^0.3.7
+    "@antv/util": ~2.0.5
+    tslib: ^2.0.0
+  checksum: f473567235077d0b92059b948524ff6a7b312b39b4705d84361cc1b81a87180ed7e16921f5f32e534101f835f67d3dd29306330c37dbbcb0edf712dd3d94c41c
+  languageName: node
+  linkType: hard
+
+"@antv/g2plot@npm:^2.3.19":
+  version: 2.3.19
+  resolution: "@antv/g2plot@npm:2.3.19"
+  dependencies:
+    "@antv/event-emitter": ^0.1.2
+    "@antv/g2": ^4.1.0
+    d3-hierarchy: ^2.0.0
+    d3-regression: ^1.3.5
+    size-sensor: ^1.0.1
+    tslib: ^2.0.3
+  checksum: 6d9f78ebf29aa3675446d528c25a20801573af8263da47dbd6025b20bc969fc177a058aeccce907c610b23250ac2faa36fb0ba2fd878e2894c01519bb4c84f7d
+  languageName: node
+  linkType: hard
+
+"@antv/matrix-util@npm:^3.1.0-beta.1, @antv/matrix-util@npm:^3.1.0-beta.2":
+  version: 3.1.0-beta.2
+  resolution: "@antv/matrix-util@npm:3.1.0-beta.2"
+  dependencies:
+    "@antv/util": ^2.0.9
+    gl-matrix: ^3.3.0
+    tslib: ^1.10.0
+  checksum: 346134c9173131e1e8556d30cc9a3ec474b7d8782aa814f6eb6408ea0fb407244922e42421696b4d6e19fade3edf80068c517ec568fd2b26e6f0957fcc62fbf8
+  languageName: node
+  linkType: hard
+
+"@antv/path-util@npm:^2.0.3, @antv/path-util@npm:~2.0.5, @antv/path-util@npm:~2.0.7":
+  version: 2.0.9
+  resolution: "@antv/path-util@npm:2.0.9"
+  dependencies:
+    "@antv/util": ^2.0.9
+    tslib: ^2.0.3
+  checksum: 5cb6b4a3b8a089d1ba96374026ed90385fd206fbf08efd78587ac626b2ae090961454d27928f839e1f12f20fb2aae125b899194f52a1bd908e0c1d58d9986235
+  languageName: node
+  linkType: hard
+
+"@antv/scale@npm:^0.3.7, @antv/scale@npm:~0.3.1":
+  version: 0.3.9
+  resolution: "@antv/scale@npm:0.3.9"
+  dependencies:
+    "@antv/util": ~2.0.3
+    fecha: ~4.2.0
+    tslib: ^2.0.0
+  checksum: 41f817635dc33dcb1c8377bd2d8d671a9d38cce7ef75e252b0332e2b5938c03f42c808a2ed06a861558a35e32bd820fc3bcd19ef23e22e69f9199fd2111090b9
+  languageName: node
+  linkType: hard
+
+"@antv/util@npm:^2.0.9, @antv/util@npm:~2.0.0, @antv/util@npm:~2.0.12, @antv/util@npm:~2.0.3, @antv/util@npm:~2.0.5":
+  version: 2.0.13
+  resolution: "@antv/util@npm:2.0.13"
+  dependencies:
+    tslib: ^2.0.3
+  checksum: 88d119ce4268aae7ffbb19c437eaa94ab817e0c49560d127f1b407339f6da087e3cd8266bd2c658666efda7a8b3e875602889b91b55446473d75dbe303afd831
+  languageName: node
+  linkType: hard
+
 "@babel/cli@npm:^7.13.14":
   version: 7.13.14
   resolution: "@babel/cli@npm:7.13.14"
@@ -4165,6 +4393,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/d3-timer@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@types/d3-timer@npm:2.0.0"
+  checksum: 00956fc6f416e096ee05f7e031bf5d9a21074bca5a987065df3c2284e4fd5b2fb154c0691edf08cc0664302f3387a5ec5e0e596807ea04cdcb9a3e9d9bf27de4
+  languageName: node
+  linkType: hard
+
 "@types/eslint-plugin-prettier@npm:^3, @types/eslint-plugin-prettier@npm:^3.1.0":
   version: 3.1.0
   resolution: "@types/eslint-plugin-prettier@npm:3.1.0"
@@ -4489,6 +4724,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pdfjs-dist@npm:*":
+  version: 2.7.1
+  resolution: "@types/pdfjs-dist@npm:2.7.1"
+  checksum: ddb0ff722b936e30c9a17490020558d16d447698a671216caf752a4fdf721484a8b24b946a0285668f577e741719eab14089d3ace797882b944432f6e6ddba4a
+  languageName: node
+  linkType: hard
+
 "@types/prettier@npm:^2, @types/prettier@npm:^2.0.0, @types/prettier@npm:^2.2.3":
   version: 2.2.3
   resolution: "@types/prettier@npm:2.2.3"
@@ -4496,7 +4738,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
+"@types/prop-types@npm:*, @types/prop-types@npm:^15":
   version: 15.7.3
   resolution: "@types/prop-types@npm:15.7.3"
   checksum: bd0eab69d5120ad3784d0c9985f902653d5924707a7f2b3702a330e762dfd61b6494954cb54ad0c52b918ffd6f1e7e27c9270e4442bc15250de348596f2f60cb
@@ -4548,6 +4790,16 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: b7aaa3aa2d81cd3b14a0e77a858de86934a3400f4ec35945117edb3979b8a41130e70b8a27241de295195e365962a9b5bc149a2a029d23795fd0f6c740d1de77
+  languageName: node
+  linkType: hard
+
+"@types/react-pdf@npm:^5":
+  version: 5.0.2
+  resolution: "@types/react-pdf@npm:5.0.2"
+  dependencies:
+    "@types/pdfjs-dist": "*"
+    "@types/react": "*"
+  checksum: edbe76f4df7432735e9729f85c3601978c2796f3d4eba97147896cd9d717a71a00df0b00733bef710c7901eb0344f6aa1c79e4037695a44160acfda5edffc8d3
   languageName: node
   linkType: hard
 
@@ -5917,6 +6169,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "admin@workspace:packages/admin"
   dependencies:
+    "@antv/g2plot": ^2.3.19
     "@craco/craco": ^6.1.1
     "@reduxjs/toolkit": ^1.2.5
     "@testing-library/jest-dom": ^4.2.4
@@ -5931,6 +6184,7 @@ __metadata:
     "@types/prettier": ^2.2.3
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
+    "@types/react-pdf": ^5
     "@types/react-redux": ^7.1.7
     "@types/react-router-dom": ^5.1.7
     "@types/styled-components": ^5.1.9
@@ -5950,6 +6204,7 @@ __metadata:
     prettier: ^2.2.1
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-pdf: ^5.2.0
     react-redux: ^7.2.0
     react-router-dom: ^5.2.0
     react-scripts: 4.0.3
@@ -6386,6 +6641,7 @@ __metadata:
     socket.io-client: ^4.0.1
     stripe: ^8.138.0
     supertest: ^6.1.3
+    twilio: ^3.61.0
     validator: ^13.5.2
   languageName: unknown
   linkType: soft
@@ -6785,6 +7041,13 @@ __metadata:
   version: 1.0.0
   resolution: "atomic-sleep@npm:1.0.0"
   checksum: 2c6fa68cafef5ec1501245da00cde40b8f7ac71428bd727a923ea883b81ad643667a85677056cd663ad3ca584a49dbeb3a1bd4e6c70c1e9e36afd71b6e36ef96
+  languageName: node
+  linkType: hard
+
+"attr-accept@npm:^2.2.1":
+  version: 2.2.2
+  resolution: "attr-accept@npm:2.2.2"
+  checksum: e9c5d3580f6cae9c5c25c5c9c8660d344dd8bed25e77df7515c046864fe1aa4bb245e743ad46f55b85443ff53c95e378b3203c3e83f2168a2557e94d0552d458
   languageName: node
   linkType: hard
 
@@ -8744,6 +9007,7 @@ __metadata:
     "@testing-library/jest-dom": ^5.11.4
     "@testing-library/react": ^11.1.0
     "@testing-library/user-event": ^12.1.10
+    "@twilio/conversations": ^1.1.0
     "@types/babel__core": ^7
     "@types/babel__preset-env": ^7
     "@types/eslint": ^7
@@ -8751,6 +9015,7 @@ __metadata:
     "@types/jest": ^26.0.15
     "@types/node": ^12.0.0
     "@types/prettier": ^2.2.3
+    "@types/prop-types": ^15
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
     "@types/react-syntax-highlighter": ^13.5.0
@@ -8772,6 +9037,8 @@ __metadata:
     microbundle: ^0.13.0
     npm-run-all: ^4.1.5
     prettier: ^2.2.1
+    prop-types: ^15.7.2
+    react-dropzone: ^11.3.2
     react-i18next: ^11.8.13
     react-markdown: ^6.0.1
     react-scripts: 4.0.3
@@ -9867,6 +10134,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"d3-color@npm:1":
+  version: 1.4.1
+  resolution: "d3-color@npm:1.4.1"
+  checksum: a579fdc2f4ec50980e32d0ac5212c3023ee9c6a7555ae698278f05c9f7d06322f83dde01253f672f9f9fd05d8860f0256d25aee999a0d32cf4111d731413f5da
+  languageName: node
+  linkType: hard
+
+"d3-ease@npm:^1.0.5":
+  version: 1.0.7
+  resolution: "d3-ease@npm:1.0.7"
+  checksum: c35f083c586421cb49da5789ee13a250e8f34638484be4ed2b15f7079acd40b19dc858c0969d0004734847ec0dca8484ad1611726b8cb06587e28f7031d9160a
+  languageName: node
+  linkType: hard
+
+"d3-hierarchy@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "d3-hierarchy@npm:2.0.0"
+  checksum: 6fa4f8393444072c1466478e1baf1551857a6d6a797bbfb7b28bbe6322f288749ecdd6e1801b9c1978614c8a4664115aeda836dab8c8bd0829df75e6ac965f40
+  languageName: node
+  linkType: hard
+
+"d3-interpolate@npm:^1.3.2":
+  version: 1.4.0
+  resolution: "d3-interpolate@npm:1.4.0"
+  dependencies:
+    d3-color: 1
+  checksum: beea08fb3a712ccb992082c058a96a108f31692bbcecbf8029539ff378747b666fd0f33798b313835a2cb019e399a30fd1f5b643822f1cc0be3c86b4fe4730c7
+  languageName: node
+  linkType: hard
+
+"d3-regression@npm:^1.3.5":
+  version: 1.3.9
+  resolution: "d3-regression@npm:1.3.9"
+  checksum: b86db7c1a6144be77f77b2f76444859dc7b7bdd1d444cc5afa9ad489f0b62be6eb0143c1c1bc3ab12869f0d30f32254102a5b15714c32c64cab9861209763640
+  languageName: node
+  linkType: hard
+
+"d3-timer@npm:^1.0.9":
+  version: 1.0.10
+  resolution: "d3-timer@npm:1.0.10"
+  checksum: e302132e1fc8989a5693fc7d265a034d7634ec87a1a8ed85e5959715d9da413971d9289f0ef304c67397d2acb4ebebd99f5adf0c8819929b8f6c588a1fd01d36
+  languageName: node
+  linkType: hard
+
 "d@npm:1, d@npm:^1.0.1":
   version: 1.0.1
   resolution: "d@npm:1.0.1"
@@ -10312,6 +10623,13 @@ __metadata:
   version: 1.0.4
   resolution: "destroy@npm:1.0.4"
   checksum: 5a516fc5a8a8089eecdac11da2339353542be7a71102dc5a1372ef6161501bf5c1ee59ff9f8a3f5f14cc8c88594d606f855f816d46a228ee5e0e5cb2b543534b
+  languageName: node
+  linkType: hard
+
+"detect-browser@npm:^5.0.0, detect-browser@npm:^5.1.0":
+  version: 5.2.0
+  resolution: "detect-browser@npm:5.2.0"
+  checksum: 8d25ed366c13c13d88f800152ce1b47ee6eb0ce52e6c55380593bec5e112a1dbd65c1c0c2e42737d379e1ab3fce7fc6a4cf38431d7233884e1dca0c1bc6348c6
   languageName: node
   linkType: hard
 
@@ -12595,6 +12913,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fecha@npm:~4.2.0":
+  version: 4.2.1
+  resolution: "fecha@npm:4.2.1"
+  checksum: 17e08368e29422fa46df0ec9a3c6b471e7de37552fba1450313baafd10a92ac0dcfa788d3258d91da86e70306ab05edf10068d3c6a42a22d1348ce5d87095a39
+  languageName: node
+  linkType: hard
+
 "figgy-pudding@npm:^3.5.1":
   version: 3.5.2
   resolution: "figgy-pudding@npm:3.5.2"
@@ -12676,6 +13001,15 @@ __metadata:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: 0272335818c26e5c78a9f972ce779c8ed508e815329e4ace4d55045100140d89460d72eec1af78400dd04f2d16e28e29b3649433804619653cf044220afdf45d
+  languageName: node
+  linkType: hard
+
+"file-selector@npm:^0.2.2":
+  version: 0.2.4
+  resolution: "file-selector@npm:0.2.4"
+  dependencies:
+    tslib: ^2.0.3
+  checksum: 45258fb1218ba9362e1fd0fdfd25e40b18fd2473adf8a45436245a78310dc76d2fdde95463afe1f4e9e8c0ef178837eb0e5335978c0db348bc1dec425e510429
   languageName: node
   linkType: hard
 
@@ -13462,6 +13796,13 @@ fsevents@^1.2.7:
   dependencies:
     ini: ^1.3.2
   checksum: ef296938992352fe55ef67c4ede360a194ef501cf29a53b2cbc73d30a37c76259192ce6a20d7e8fe0711fe4f67fad713adb75a17ae90795bd159a8b4f10f8fc0
+  languageName: node
+  linkType: hard
+
+"gl-matrix@npm:^3.0.0, gl-matrix@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "gl-matrix@npm:3.3.0"
+  checksum: d75bac9b6b40d6a97c8fd507e76129dae91d84685d5eaf622600ddc811f31fe89d917bb5ddbf8575ce19cf7a993a10bcd5db138ba9bdf2630cf53ec43dc7afa0
   languageName: node
   linkType: hard
 
@@ -17655,6 +17996,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"make-cancellable-promise@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "make-cancellable-promise@npm:1.0.0"
+  checksum: 0ee86eb49c0207a8416d9ebf1119c9318579b3c411daffc4b11fd981e51c0c47d16188de0756c3dae19d57551598f7b77bb670ca55958014c984b143811d705b
+  languageName: node
+  linkType: hard
+
 "make-dir@npm:^2.0.0, make-dir@npm:^2.1.0":
   version: 2.1.0
   resolution: "make-dir@npm:2.1.0"
@@ -17671,6 +18019,13 @@ fsevents@^1.2.7:
   dependencies:
     semver: ^6.0.0
   checksum: 54b6f186c209c1b133d0d1710e6b04c41ebfcb0dac699e5a369ea1223f22c0574ef820b91db37cae6c245f5bda8aff9bfec94f6c23e7d75970446b34a58a79b0
+  languageName: node
+  linkType: hard
+
+"make-event-props@npm:^1.1.0":
+  version: 1.2.0
+  resolution: "make-event-props@npm:1.2.0"
+  checksum: 628334a87740fe02801b987c84c339b19697ff5d99a375c7793c0165d5bf5018f77ffffe8eb9f2bd4098c515e4c96bb231c7080340fa58a50c34b2bf5d2d6554
   languageName: node
   linkType: hard
 
@@ -17964,10 +18319,24 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"merge-class-names@npm:^1.1.1":
+  version: 1.4.0
+  resolution: "merge-class-names@npm:1.4.0"
+  checksum: b8453886475ac1510901437b5f3e845046389b8f3452c472aecb29a945440a934f386587d386965075afa3eebf3252d13c375a2ce0f12a71d1e5c29a57089e68
+  languageName: node
+  linkType: hard
+
 "merge-descriptors@npm:1.0.1":
   version: 1.0.1
   resolution: "merge-descriptors@npm:1.0.1"
   checksum: 2d2a09eaac840a7ceac7a13b44b7c8abf3ecccd93a609c3525d8290cb5d814336cc7c0b1dd485ae3bc471ed354eeefb153475ce2e1604ccdf79eebe74021c192
+  languageName: node
+  linkType: hard
+
+"merge-refs@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "merge-refs@npm:1.0.0"
+  checksum: 75e0b1a301e3ac9f057e4f4f8fc5c286af169e5cc7afc0786653ee7e7d338b8756c6b10a934793dfb80a9fbdb7bf2b002ddb173b0106329dfcf27909550a62fc
   languageName: node
   linkType: hard
 
@@ -20346,6 +20715,13 @@ fsevents@^1.2.7:
     safe-buffer: ^5.0.1
     sha.js: ^2.4.8
   checksum: 780dd6d50e750d302651638ff1edfe899d3a345e702f6c36fbdbdef3cfefd12d3d76698565022f4cd97d3f8ced5098f4ae2fdd067d3e1fca2849a70eb60e7620
+  languageName: node
+  linkType: hard
+
+"pdfjs-dist@npm:2.5.207":
+  version: 2.5.207
+  resolution: "pdfjs-dist@npm:2.5.207"
+  checksum: b1a1536d46507493316cdb1f90e103f95a1538353c592c5b31a70bff39d4a10ee731541705d95aa36b7293ffca8af2203af2a86af1761fae75b65b1be196c147
   languageName: node
   linkType: hard
 
@@ -23019,6 +23395,19 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-dropzone@npm:^11.3.2":
+  version: 11.3.2
+  resolution: "react-dropzone@npm:11.3.2"
+  dependencies:
+    attr-accept: ^2.2.1
+    file-selector: ^0.2.2
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">= 16.8"
+  checksum: 805c53808fbd3040edccdc3fef8418e0bc3d3bafe79ab47335de25fc419b9b93ba14d375795f7cc9ae418c175b1c7f26dc784550be1087375cf67171a5cc4053
+  languageName: node
+  linkType: hard
+
 "react-error-overlay@npm:^6.0.9":
   version: 6.0.9
   resolution: "react-error-overlay@npm:6.0.9"
@@ -23134,6 +23523,25 @@ fsevents@^1.2.7:
     prop-types: ^15.5.10
     react-tween-state: ^0.1.5
   checksum: 04e7da88ba5d3e2c26a4523525c45aa85914b7fc3337adcc5c5576c83ab8bb8f953a51810fc642cf13142cd1c2547273fb87a4f2574f1ee850916a716100c4c2
+  languageName: node
+  linkType: hard
+
+"react-pdf@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "react-pdf@npm:5.2.0"
+  dependencies:
+    "@babel/runtime": ^7.0.0
+    make-cancellable-promise: ^1.0.0
+    make-event-props: ^1.1.0
+    merge-class-names: ^1.1.1
+    merge-refs: ^1.0.0
+    pdfjs-dist: 2.5.207
+    prop-types: ^15.6.2
+    worker-loader: ^3.0.0
+  peerDependencies:
+    react: ^16.3.0 || ^17.0.0-0
+    react-dom: ^16.3.0 || ^17.0.0-0
+  checksum: aa7247a29b77b4617c7c8259098ad6f6ae77b6aa8b3d94528e03cbbbf375931e4f3d2ce4edabca697487bf28d0db79c86599654fac7624bf4cdd4b019b382638
   languageName: node
   linkType: hard
 
@@ -25516,6 +25924,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"size-sensor@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "size-sensor@npm:1.0.1"
+  checksum: d99febc95401b542caaba246861cbb0cdffc4ac5a93608340c99336d653fa558d9dd6bb181c6e414c61f6913ff4cb936a4a9b4c69160e108507fdf742c72414e
+  languageName: node
+  linkType: hard
+
 "slash@npm:^2.0.0":
   version: 2.0.0
   resolution: "slash@npm:2.0.0"
@@ -27476,7 +27891,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.1, tslib@npm:^2.0.3":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0":
   version: 2.2.0
   resolution: "tslib@npm:2.2.0"
   checksum: 2d35468c470410871c5246e43f12dcb6d0fc363b617c176f26443b9530e5c5ee8448966892a42956168d8f495da7865bda33dfe82c26c91991e28999974a618f
@@ -27599,6 +28014,25 @@ resolve@^2.0.0-next.3:
     "@types/express": ^4.17.7
     "@types/qs": 6.9.4
   checksum: ddf9d4d8c6db577a4309abbd76b7c04abc9f6a46bb6912087974c891ba061ca9a18b9cfcfb4ee290994d36fba8949ebabc044f39e6f01700491217c6d0c236ad
+  languageName: node
+  linkType: hard
+
+"twilio@npm:^3.61.0":
+  version: 3.61.0
+  resolution: "twilio@npm:3.61.0"
+  dependencies:
+    axios: ^0.21.1
+    dayjs: ^1.8.29
+    https-proxy-agent: ^5.0.0
+    jsonwebtoken: ^8.5.1
+    lodash: ^4.17.19
+    q: 2.0.x
+    qs: ^6.9.4
+    rootpath: ^0.1.2
+    scmp: ^2.1.0
+    url-parse: ^1.5.0
+    xmlbuilder: ^13.0.2
+  checksum: ad2eacf515ed1b0619b72f46317b5cdd6d4a6853ec4e8f76016b639a440c02284a421d331be582688f477a53c84ce553891646bdbf26398c9a9c86562851cf03
   languageName: node
   linkType: hard
 
@@ -29280,6 +29714,18 @@ typescript@~3.8.2:
   dependencies:
     errno: ~0.1.7
   checksum: ef76a6892bdf6a4231e6d657c13e2e960278535915d6235d9e0e3e23b65da94a56e5bed17ac5fda282370601d4cd18f4cba9552aa52f4fa9a25cc9fd3fcf58a9
+  languageName: node
+  linkType: hard
+
+"worker-loader@npm:^3.0.0":
+  version: 3.0.8
+  resolution: "worker-loader@npm:3.0.8"
+  dependencies:
+    loader-utils: ^2.0.0
+    schema-utils: ^3.0.0
+  peerDependencies:
+    webpack: ^4.0.0 || ^5.0.0
+  checksum: 42e93da80473b886b25084f6e15f696a1afe0d00559370a138805f9ddc368ba676436abfe147f4cdb5255716b56bf6f3bc8926364d68e27216189cea95d416cf
   languageName: node
   linkType: hard
 

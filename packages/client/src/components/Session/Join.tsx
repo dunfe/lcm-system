@@ -10,11 +10,13 @@ export interface IRoom {
         _id: string
         displayName: string
         level: number
+        avatar: string
     }
     mentorInfo: {
         _id: string
         displayName: string
         level: number
+        avatar: string
     }
     questionInfo: {
         _id: string
@@ -70,11 +72,13 @@ const Join = () => {
                         </Link>,
                     ]}
                     extra={
-                        <img
-                            width={272}
-                            alt="logo"
-                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                        />
+                        item.mentorInfo.avatar ? (
+                            <img
+                                width={272}
+                                alt="avatar"
+                                src={item.mentorInfo.avatar}
+                            />
+                        ) : null
                     }
                 >
                     <List.Item.Meta title={item.questionInfo.title} />

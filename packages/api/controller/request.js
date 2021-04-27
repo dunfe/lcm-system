@@ -27,7 +27,7 @@ export const registerMentorRequest = async (req, res) => {
     var userId = await useridFromToken(req,res);
     const user = await User.findById(userId);
     const formInput = {
-      skill: req.body.skill,
+      skill: req.body.skills,
       bio: req.body.bio,
       github: req.body.github,
       detail: {currentJob: req.body.currentJob, achievement: req.body.achievement},
@@ -44,7 +44,7 @@ export const registerMentorRequest = async (req, res) => {
     });
     User.findByIdAndUpdate(userId,{$set: formInput}, { new: true}, (err, doc) => {
       if(!err) {
-         
+         console.log(formInput)
       } else {
           return res.status(400).json({
               status: 'fail',

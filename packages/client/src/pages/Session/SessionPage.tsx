@@ -9,11 +9,6 @@ import {
     Rate,
     Tabs,
     Typography,
-    List,
-    Form,
-    Input,
-    Comment,
-    Avatar,
 } from 'antd'
 import styled from 'styled-components'
 import './SessionPage.css'
@@ -26,30 +21,11 @@ import { useHistory, useParams } from 'react-router-dom'
 import Report from '../../components/Session/Report'
 import EndSessionFooter from '../../components/Session/EndSessionFooter'
 import { IRoom } from '../../components/Session/Join'
-import { useTrans } from 'common'
+import ConversationsApp from '../../components/Conversation/ConversationsApp'
 import { useFullname } from '../../utils/hooks/useFullname'
-import Client, { Client as ConversationsClient } from '@twilio/conversations'
-import ConversationsList from '../../components/Session/ConversationList'
-
-interface IConversation {
-    status: string
-    statusString: string
-    name: string
-    loggedIn: boolean
-    token: string
-    conversationsReady: boolean
-    conversations: any
-    selectedConversationSid: string
-    newMessage: string
-}
-
-interface IMessageList {
-    messages: string[]
-}
 
 const { Sider, Content } = Layout
 const { TabPane } = Tabs
-const { TextArea } = Input
 const { Text } = Typography
 
 const { useState, useEffect } = React
@@ -60,28 +36,14 @@ const SessionPage = () => {
     const instance = useAPI()
     const role = useRole()
     const history = useHistory()
-    const trans = useTrans()
     const name = useFullname()
-    const loggedIn = name !== null
 
     const [connected, setConnected] = useState(true)
     const [rating, setRating] = useState(false)
     const [star, setStar] = useState(0)
     const [endMode, setEndMode] = useState('rate')
     const [roomDetail, setRoomDetail] = useState<IRoom>()
-    const [videoCall, setVideoCall] = useState(false)
-    const [conversation, setConversation] = useState<IConversation>({
-        status: '',
-        statusString: '',
-        name: name!,
-        loggedIn,
-        token: '',
-        conversationsReady: false,
-        conversations: [],
-        selectedConversationSid: '',
-        newMessage: '',
-    })
-    const [conversationsClient, setConversationsClient] = useState<Client>()
+    const [token, setToken] = useState('')
 
     const handleDisconnect = () => {
         if (role === 'mentee') {
@@ -145,34 +107,6 @@ const SessionPage = () => {
         }
     }, [star])
 
-    const handleChange = (event) => {
-        setConversation({
-            ...conversation,
-            newMessage: event.target.value,
-        })
-    }
-
-    const Editor = ({ onChange, onSubmit, value }) => (
-        <>
-            <Form.Item>
-                <TextArea rows={4} onChange={onChange} value={value} />
-            </Form.Item>
-            <Form.Item>
-                <Button htmlType="submit" onClick={onSubmit} type="primary">
-                    Add Comment
-                </Button>
-            </Form.Item>
-        </>
-    )
-
-    const handleSendMessage = () => {
-        const message = conversation.newMessage
-        setConversation({
-            ...conversation,
-            newMessage: '',
-        })
-    }
-
     useEffect(() => {
         if (id) {
             instance
@@ -187,75 +121,6 @@ const SessionPage = () => {
             history.push('/session')
         }
     }, [id])
-
-    conversationsClient?.on('connectionStateChanged', (state) => {
-        if (state === 'connecting')
-            setConversation({
-                ...conversation,
-                statusString: 'Connecting to Twilio…',
-                status: 'default',
-            })
-        if (state === 'connected') {
-            setConversation({
-                ...conversation,
-                statusString: 'You are connected.',
-                status: 'success',
-            })
-        }
-        if (state === 'disconnecting')
-            setConversation({
-                ...conversation,
-                statusString: 'Disconnecting from Twilio…',
-                conversationsReady: false,
-                status: 'default',
-            })
-        if (state === 'disconnected')
-            setConversation({
-                ...conversation,
-                statusString: 'Disconnected.',
-                conversationsReady: false,
-                status: 'warning',
-            })
-        if (state === 'denied')
-            setConversation({
-                ...conversation,
-                statusString: 'Failed to connect.',
-                conversationsReady: false,
-                status: 'error',
-            })
-    })
-    conversationsClient?.on('conversationJoined', (thisConversation) => {
-        setConversation({
-            ...conversation,
-            conversations: [...conversation.conversations, thisConversation],
-        })
-    })
-    conversationsClient?.on('conversationLeft', (thisConversation) => {
-        setConversation({
-            ...conversation,
-            conversations: conversation.conversations.filter(
-                (it) => it !== thisConversation
-            ),
-        })
-    })
-
-    useEffect(() => {
-        const initConversations = async () => {
-            const _conversationsClient = await ConversationsClient.create(
-                conversation.token
-            )
-
-            if (_conversationsClient) {
-                setConversationsClient(_conversationsClient)
-                setConversation({ ...conversation, status: 'Connected' })
-            }
-        }
-        initConversations().then(() => {
-            if (conversationsClient) {
-                message.success(trans('Connected to room'))
-            }
-        })
-    }, [])
 
     return (
         <Layout className="session-layout">
@@ -304,21 +169,21 @@ const SessionPage = () => {
                 <Tabs defaultActiveKey="1">
                     <TabPane tab={t('Real-time Collaborative Editor')} key="1">
                         <TabContent>
-                            <RCE />
+                            {roomDetail?._id ? (
+                                <RCE id={roomDetail._id} />
+                            ) : (
+                                'Loading'
+                            )}
                         </TabContent>
                     </TabPane>
                     <TabPane tab={t('Video/Audio Call')} key="2">
                         <TabContent>
-                            {videoCall ? (
-                                <VideoChat />
-                            ) : (
-                                <Button
-                                    type={'primary'}
-                                    onClick={() => setVideoCall(true)}
-                                >
-                                    {trans('Start video call')}
-                                </Button>
-                            )}
+                            <VideoChat token={token} setToken={setToken} />
+                        </TabContent>
+                    </TabPane>
+                    <TabPane tab={t('Conversation')} key="3">
+                        <TabContent>
+                            <ConversationsApp name={name} token={token} />
                         </TabContent>
                     </TabPane>
                 </Tabs>
@@ -365,34 +230,7 @@ const SessionPage = () => {
                         marginBottom: 20,
                     }}
                 >
-                    <>
-                        {conversation.conversations.length > 0 && (
-                            <ConversationsList
-                                conversations={conversation.conversations}
-                                onConversationClick={(item) => {
-                                    setConversation({
-                                        ...conversation,
-                                        selectedConversationSid: item.sid,
-                                    })
-                                }}
-                            />
-                        )}
-                        <Comment
-                            avatar={
-                                <Avatar
-                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                    alt="Han Solo"
-                                />
-                            }
-                            content={
-                                <Editor
-                                    onChange={handleChange}
-                                    onSubmit={handleSendMessage}
-                                    value={conversation.newMessage}
-                                />
-                            }
-                        />
-                    </>
+                    Chat
                 </Card>
             </Sider>
         </Layout>
