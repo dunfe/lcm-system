@@ -1,5 +1,17 @@
 import * as React from 'react'
-import { Table, Space, Modal, Form, Input, Button, message, Tag, Descriptions, Rate, Popconfirm } from 'antd'
+import {
+    Table,
+    Space,
+    Modal,
+    Form,
+    Input,
+    Button,
+    message,
+    Tag,
+    Descriptions,
+    Rate,
+    Popconfirm,
+} from 'antd'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,8 +19,8 @@ import { selectMentees, updateMentees } from './menteesSlice'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 interface IProps {
-    visible: boolean;
-    setVisible: (state: boolean) => void;
+    visible: boolean
+    setVisible: (state: boolean) => void
 }
 
 const { useState, useEffect } = React
@@ -51,9 +63,7 @@ const Mentees = (props: IProps) => {
             dataIndex: 'fullname',
             key: 'fullname',
             render(text: string, record: any) {
-                return (
-                    <a onClick={() => onViewDetail(record._id)}>{text}</a>
-                )
+                return <a onClick={() => onViewDetail(record._id)}>{text}</a>
             },
             responsive: ['md'] as Breakpoint[],
         },
@@ -62,7 +72,6 @@ const Mentees = (props: IProps) => {
             dataIndex: 'email',
             key: 'email',
             responsive: ['sm'] as Breakpoint[],
-
         },
         {
             title: 'Role',
@@ -82,10 +91,19 @@ const Mentees = (props: IProps) => {
             dataIndex: 'action',
             key: 'action',
             render(text: string, record: any) {
-                return <Space size='middle' key={record._id}>
-                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
-                    {record.role === 'banned' ? unban(record._id) : ban(record._id)}
-                </Space>
+                return (
+                    <Space size="middle" key={record._id}>
+                        <Button
+                            type={'primary'}
+                            onClick={() => onEdit(record._id)}
+                        >
+                            Edit
+                        </Button>
+                        {record.role === 'banned'
+                            ? unban(record._id)
+                            : ban(record._id)}
+                    </Space>
+                )
             },
             responsive: ['sm'] as Breakpoint[],
         },
@@ -99,9 +117,9 @@ const Mentees = (props: IProps) => {
                 okText="Yes"
                 cancelText="No"
             >
-                <Button >Unban</Button>
+                <Button>Unban</Button>
             </Popconfirm>
-            )
+        )
     }
 
     const ban = (id: string) => {
@@ -112,7 +130,7 @@ const Mentees = (props: IProps) => {
                 okText="Yes"
                 cancelText="No"
             >
-                <Button >Ban</Button>
+                <Button>Ban</Button>
             </Popconfirm>
         )
     }
@@ -123,20 +141,27 @@ const Mentees = (props: IProps) => {
     }
 
     const onUnban = (id: string) => {
-        instance.post(`/api/admin/users/unban/${id}`).then((response) => {
-            if (response.status === 200) {
-                message.success('Unbanned')
-            }
-        }).then(() => getData()).catch((error) => console.error(error.message))
+        instance
+            .post(`/api/admin/users/unban/${id}`)
+            .then((response) => {
+                if (response.status === 200) {
+                    message.success('Unbanned')
+                }
+            })
+            .then(() => getData())
+            .catch((error) => console.error(error.message))
     }
 
     const onBan = (id: string) => {
-
-        instance.post(`/api/admin/users/${id}`).then((response) => {
-            if (response.status === 200) {
-                message.success('Banned')
-            }
-        }).then(() => getData()).catch((error) => console.error(error.message))
+        instance
+            .post(`/api/admin/users/${id}`)
+            .then((response) => {
+                if (response.status === 200) {
+                    message.success('Banned')
+                }
+            })
+            .then(() => getData())
+            .catch((error) => console.error(error.message))
     }
 
     const onPageChange = (page: number) => {
@@ -161,24 +186,30 @@ const Mentees = (props: IProps) => {
     }
 
     const getData = () => {
-        instance.get(`/api/admin/users?page=${current}`).then((response) => {
-            dispatch(updateMentees(response.data.results))
-            setTotal(response.data.totalItem)
-        }).catch((error) => console.error(error.message))
+        instance
+            .get(`/api/admin/users?page=${current}`)
+            .then((response) => {
+                dispatch(updateMentees(response.data.results))
+                setTotal(response.data.totalItem)
+            })
+            .catch((error) => console.error(error.message))
     }
 
     const onFinish = (values: any) => {
         setConfirmLoading(true)
 
         if (mode === 'update' && updateId !== '') {
-            instance.put(`/api/admin/users/${updateId}`, values).then((response) => {
-                if (response.status === 200) {
-                    message.success('Cập nhật thành công').then(() => {
-                        setVisible(false)
-                    })
-                }
-            }).then(() => getData(),
-            ).catch((error) => message.error(error.message))
+            instance
+                .put(`/api/admin/users/${updateId}`, values)
+                .then((response) => {
+                    if (response.status === 200) {
+                        message.success('Cập nhật thành công').then(() => {
+                            setVisible(false)
+                        })
+                    }
+                })
+                .then(() => getData())
+                .catch((error) => message.error(error.message))
         }
 
         setConfirmLoading(false)
@@ -248,12 +279,29 @@ const Mentees = (props: IProps) => {
                         {itemDetail?.detail.totalQuestion}
                     </Descriptions.Item>
                     <Descriptions.Item label={'Rate'}>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <Space><Rate value={5} /> {itemDetail?.rate.totalRating5}</Space>
-                            <Space><Rate value={4} /> {itemDetail?.rate.totalRating4}</Space>
-                            <Space><Rate value={3} /> {itemDetail?.rate.totalRating3}</Space>
-                            <Space><Rate value={2} /> {itemDetail?.rate.totalRating2}</Space>
-                            <Space><Rate value={1} /> {itemDetail?.rate.totalRating1}</Space>
+                        <div
+                            style={{ display: 'flex', flexDirection: 'column' }}
+                        >
+                            <Space>
+                                <Rate value={5} />{' '}
+                                {itemDetail?.rate.totalRating5}
+                            </Space>
+                            <Space>
+                                <Rate value={4} />{' '}
+                                {itemDetail?.rate.totalRating4}
+                            </Space>
+                            <Space>
+                                <Rate value={3} />{' '}
+                                {itemDetail?.rate.totalRating3}
+                            </Space>
+                            <Space>
+                                <Rate value={2} />{' '}
+                                {itemDetail?.rate.totalRating2}
+                            </Space>
+                            <Space>
+                                <Rate value={1} />{' '}
+                                {itemDetail?.rate.totalRating1}
+                            </Space>
                         </div>
                     </Descriptions.Item>
                     <Descriptions.Item label={'Phone'} span={2}>
@@ -271,7 +319,7 @@ const Mentees = (props: IProps) => {
                 </Descriptions>
             </Modal>
             <Modal
-                title='Sửa thông tin'
+                title="Sửa thông tin"
                 visible={visible}
                 footer={null}
                 confirmLoading={confirmLoading}
@@ -279,32 +327,39 @@ const Mentees = (props: IProps) => {
             >
                 <Form
                     {...layout}
-                    name='add'
+                    name="add"
                     form={form}
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label='Tên'
-                        name='fullname'
-                        rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}
+                        label="Tên"
+                        name="fullname"
+                        rules={[
+                            { required: true, message: 'Vui lòng nhập tên!' },
+                        ]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                        <Button type='primary' htmlType='submit'>
+                        <Button type="primary" htmlType="submit">
                             Cập nhật
                         </Button>
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
-                current: current,
-                total,
-                onChange: onPageChange,
-                defaultPageSize: 10,
-            }} />
+            <Table
+                columns={columns}
+                dataSource={data}
+                rowKey={'_id'}
+                pagination={{
+                    current: current,
+                    total,
+                    onChange: onPageChange,
+                    defaultPageSize: 10,
+                }}
+            />
         </>
     )
 }

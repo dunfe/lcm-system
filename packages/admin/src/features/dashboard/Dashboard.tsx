@@ -1,6 +1,6 @@
 import { Row, Col, Card, Table, Tag } from 'antd'
-import * as React from "react";
-import "./Dashboard.css";
+import * as React from 'react'
+import './Dashboard.css'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectSkills, updateSkills } from '../skills/skillsSlice'
@@ -11,13 +11,13 @@ import { selectQuestions, updateQuestions } from '../questions/questionsSlice'
 import { status } from '../../utils/status'
 
 interface IDashboard {
-    "totalUser": number,
-    "totalMentor": number,
-    "totalQuestion": number,
-    "totalSkill": number
+    totalUser: number
+    totalMentor: number
+    totalQuestion: number
+    totalSkill: number
 }
 
-const {useEffect, useState} = React
+const { useEffect, useState } = React
 
 const Dashboard = () => {
     const instance = useAPI()
@@ -28,10 +28,10 @@ const Dashboard = () => {
     const dispatch = useDispatch()
 
     const [total, setTotal] = useState<IDashboard>({
-        "totalUser": 0,
-        "totalMentor": 0,
-        "totalQuestion": 0,
-        "totalSkill": 0
+        totalUser: 0,
+        totalMentor: 0,
+        totalQuestion: 0,
+        totalSkill: 0,
     })
 
     const questionsColumns = [
@@ -62,7 +62,7 @@ const Dashboard = () => {
                     }
                 })
             },
-        }
+        },
     ]
 
     const menteesColumns = [
@@ -89,11 +89,11 @@ const Dashboard = () => {
             key: 'role',
             render(text: string) {
                 return (
-                  <Tag color={text === 'banned' ? 'red': 'green'}>
-                      {text}
-                  </Tag>
+                    <Tag color={text === 'banned' ? 'red' : 'green'}>
+                        {text}
+                    </Tag>
                 )
-            }
+            },
         },
     ]
     const skillsColumns = [
@@ -125,25 +125,40 @@ const Dashboard = () => {
     ]
 
     useEffect(() => {
-        instance.get(`/api/admin/questions`).then((response) => {
-            dispatch(updateQuestions(response.data.results));
-        }).catch((error) => console.error(error.message))
+        instance
+            .get(`/api/admin/questions`)
+            .then((response) => {
+                dispatch(updateQuestions(response.data.results))
+            })
+            .catch((error) => console.error(error.message))
 
-        instance.get(`/api/admin/mentors`).then((response) => {
-            dispatch(updateMentors(response.data.results));
-        }).catch((error) => console.error(error.message))
+        instance
+            .get(`/api/admin/mentors`)
+            .then((response) => {
+                dispatch(updateMentors(response.data.results))
+            })
+            .catch((error) => console.error(error.message))
 
-        instance.get(`/api/admin/users`).then((response) => {
-            dispatch(updateMentees(response.data.results))
-        }).catch((error) => console.error(error.message))
+        instance
+            .get(`/api/admin/users`)
+            .then((response) => {
+                dispatch(updateMentees(response.data.results))
+            })
+            .catch((error) => console.error(error.message))
 
-        instance.get('/api/admin/skills').then((response) => {
-            dispatch(updateSkills(response.data.skill))
-        }).catch((error) => console.error(error.message))
+        instance
+            .get('/api/admin/skills')
+            .then((response) => {
+                dispatch(updateSkills(response.data.skill))
+            })
+            .catch((error) => console.error(error.message))
 
-        instance.get('/api/admin/dashboard').then((response) => {
-            setTotal(response.data)
-        }).catch((error) => console.error(error))
+        instance
+            .get('/api/admin/dashboard')
+            .then((response) => {
+                setTotal(response.data)
+            })
+            .catch((error) => console.error(error))
     }, [])
 
     return (
@@ -170,20 +185,36 @@ const Dashboard = () => {
                     </Card>
                 </Col>
             </Row>
-            <Card title="Danh sách kỹ năng" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                <Table columns={skillsColumns}  dataSource={skills}/>
+            <Card
+                title="Danh sách kỹ năng"
+                bordered={false}
+                style={{ marginTop: 24, marginBottom: 24 }}
+            >
+                <Table columns={skillsColumns} dataSource={skills} />
             </Card>
-            <Card title="Danh sách câu hỏi" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                <Table columns={questionsColumns}  dataSource={questions}/>
+            <Card
+                title="Danh sách câu hỏi"
+                bordered={false}
+                style={{ marginTop: 24, marginBottom: 24 }}
+            >
+                <Table columns={questionsColumns} dataSource={questions} />
             </Card>
-            <Card title="Danh sách mentor" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                <Table columns={menteesColumns}  dataSource={mentors}/>
+            <Card
+                title="Danh sách mentor"
+                bordered={false}
+                style={{ marginTop: 24, marginBottom: 24 }}
+            >
+                <Table columns={menteesColumns} dataSource={mentors} />
             </Card>
-            <Card title="Danh sách mentee" bordered={false} style={{marginTop: 24, marginBottom: 24}}>
-                <Table columns={menteesColumns}  dataSource={mentees}/>
+            <Card
+                title="Danh sách mentee"
+                bordered={false}
+                style={{ marginTop: 24, marginBottom: 24 }}
+            >
+                <Table columns={menteesColumns} dataSource={mentees} />
             </Card>
         </div>
     )
-};
+}
 
-export default Dashboard;
+export default Dashboard

@@ -9,9 +9,9 @@ import { selectSkills, updateSkills } from './skillsSlice'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 interface IProps {
-    onAdd: (state: any) => Promise<any>;
-    visible: boolean;
-    setVisible: (state: boolean) => void;
+    onAdd: (state: any) => Promise<any>
+    visible: boolean
+    setVisible: (state: boolean) => void
 }
 
 const { useState, useEffect } = React
@@ -41,7 +41,7 @@ const Skills = (props: IProps) => {
     const instance = axios.create({
         baseURL: 'https://livecoding.me',
         headers: {
-            'Authorization': auth?.user?.user.token,
+            Authorization: auth?.user?.user.token,
         },
     })
 
@@ -74,10 +74,19 @@ const Skills = (props: IProps) => {
             dataIndex: 'action',
             key: 'action',
             render(text: string, record: any) {
-                return <Space size='middle' key={record._id}>
-                    <Button type={'primary'} onClick={() => onEdit(record._id)}>Edit</Button>
-                    <Button danger onClick={() => onDelete(record._id)}>Delete</Button>
-                </Space>
+                return (
+                    <Space size="middle" key={record._id}>
+                        <Button
+                            type={'primary'}
+                            onClick={() => onEdit(record._id)}
+                        >
+                            Edit
+                        </Button>
+                        <Button danger onClick={() => onDelete(record._id)}>
+                            Delete
+                        </Button>
+                    </Space>
+                )
             },
             responsive: ['sm'] as Breakpoint[],
         },
@@ -89,12 +98,15 @@ const Skills = (props: IProps) => {
             icon: <DeleteOutlined />,
             content: 'Hành động này không thể khôi phục',
             onOk() {
-                instance.delete(`/api/admin/skills/${id}`).then((response) => {
-                    if (response.status === 200) {
-                        getData()
-                        message.success('Xoá thành công').then()
-                    }
-                }).catch((error) => message.error(error.message))
+                instance
+                    .delete(`/api/admin/skills/${id}`)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            getData()
+                            message.success('Xoá thành công').then()
+                        }
+                    })
+                    .catch((error) => message.error(error.message))
             },
             onCancel() {
                 console.log('Huỷ')
@@ -119,32 +131,40 @@ const Skills = (props: IProps) => {
     }
 
     const getData = () => {
-        instance.get('/api/admin/skills').then((response) => {
-            dispatch(updateSkills(response.data.skill))
-        }).catch((error) => console.error(error.message))
+        instance
+            .get('/api/admin/skills')
+            .then((response) => {
+                dispatch(updateSkills(response.data.skill))
+            })
+            .catch((error) => console.error(error.message))
     }
 
     const onFinish = (values: any) => {
         setConfirmLoading(true)
 
         if (mode === 'update' && updateId !== '') {
-            instance.put(`/api/admin/skills/${updateId}`, values).then((response) => {
-                if (response.status === 200) {
-                    getData()
-                    message.success('Cập nhật thành công').then(() => {
-                        setVisible(false)
-                    })
-                }
-            }).catch((error) => message.error(error.response.data.message))
+            instance
+                .put(`/api/admin/skills/${updateId}`, values)
+                .then((response) => {
+                    if (response.status === 200) {
+                        getData()
+                        message.success('Cập nhật thành công').then(() => {
+                            setVisible(false)
+                        })
+                    }
+                })
+                .catch((error) => message.error(error.response.data.message))
         } else {
-            onAdd(values).then((response) => {
-                if (response.status === 200) {
-                    getData()
-                    message.success('Thêm thành công').then(() => {
-                        setVisible(false)
-                    })
-                }
-            }).catch((error) => message.error(error.response.data.message))
+            onAdd(values)
+                .then((response) => {
+                    if (response.status === 200) {
+                        getData()
+                        message.success('Thêm thành công').then(() => {
+                            setVisible(false)
+                        })
+                    }
+                })
+                .catch((error) => message.error(error.response.data.message))
         }
 
         setConfirmLoading(false)
@@ -173,7 +193,7 @@ const Skills = (props: IProps) => {
     return (
         <>
             <Modal
-                title='Thêm kỹ năng'
+                title="Thêm kỹ năng"
                 visible={visible}
                 footer={null}
                 confirmLoading={confirmLoading}
@@ -181,30 +201,40 @@ const Skills = (props: IProps) => {
             >
                 <Form
                     {...layout}
-                    name='add'
+                    name="add"
                     form={form}
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label='Tên'
-                        name='name'
-                        rules={[{ required: true, message: 'Vui lòng nhập tên kỹ năng' }]}
+                        label="Tên"
+                        name="name"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập tên kỹ năng',
+                            },
+                        ]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item {...tailLayout}>
-                        <Button type='primary' htmlType='submit'>
+                        <Button type="primary" htmlType="submit">
                             {mode === 'add' ? 'Thêm' : 'Cập nhật'}
                         </Button>
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table columns={columns} dataSource={data} rowKey={'_id'} pagination={{
-                current: current,
-                onChange: onPageChange,
-                defaultPageSize: 10,
-            }} />
+            <Table
+                columns={columns}
+                dataSource={data}
+                rowKey={'_id'}
+                pagination={{
+                    current: current,
+                    onChange: onPageChange,
+                    defaultPageSize: 10,
+                }}
+            />
         </>
     )
 }

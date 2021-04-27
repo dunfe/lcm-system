@@ -79,7 +79,7 @@
 
   "Ask a question for help": "Đặt câu hỏi để được trợ giúp",
   "Your questions": "Câu hỏi của bạn",
-  "Use your mouse then click onto the card and swipe to right to choose, left to ignore": "Use your mouse then click onto the card and swipe to right to choose, left to ignore",
+  "Use your mouse then click onto the card and swipe to right to choose, left to ignore": "Sử dụng chuột, sau đó nhấp vào thẻ và vuốt sang phải để chọn, sang trái để bỏ qua",
   "Setting your account": "Cài đặt tài khoản",
   "Selected this question": "Đã chọn",
   "Mentee": "Mentee",
@@ -95,5 +95,36 @@
   "Connect": "Kết nối",
   "Chat": "Trò chuyện",
 
-  "The password must contain at least 1 lowercase alphabetical character": "Mật khẩu phải chứa ít nhất một ký tự viết thường"
+  "The password must contain at least 1 lowercase alphabetical character": "Mật khẩu phải chứa ít nhất một kí tự viết thường",
+  "Edit":"Chỉnh sửa",
+  "Delete":"Xoá",
+  "Billing":"Thanh toán",
+  "Become a Mentor":"Trở thành người hướng dẫn",
+  "Title is require and title must less than 50 character":"Tiêu đề phải có ít nhất 50 kí tự",
+  "You must enter something":"Bạn không được để trống",
+  "Time Available": "Thời gian",
+  "Note":"Ghi chú",
+  "Note must not longer than 100 character":"Ghi chú không được dài quá 100 kí tự",
+  "No":"Không",
+  "Action":"Hành động",
+  "Your session":"Session của bạn",
+  "Join session":"Vào Session",
+
+  "Please set at least 10 point": "Bạn phải nhập tối thiếu 10 point",
+  "Point must be between 10 and 1000":"Nhập point ít nhất là 10 và tối đa là 1000",
+  "You must add some amount":"Bạn phải nhập số tiền",
+  "Add":"Thêm",
+  "Card Number":"Số thẻ",
+  "Submit":"Thanh toán",
+  "Expiration date":"Ngày hết hạn",
+  "Country":"Quốc gia",
+  "Postcode":"Mã bưu điện",
+  "Your favorite mentor":"Mentor yêu thích",
+  "Full name":"Họ và tên",
+  "Date of birth":"Ngày sinh",
+  "Invalid Date":"Ngày sinh không hợp lệ",
+
+  "Old password":"Mật khẩu cũ",
+  "New Password":"Mật khẩu mới",
+  "Confirm Password":"Xác nhận mật khẩu"
 }
