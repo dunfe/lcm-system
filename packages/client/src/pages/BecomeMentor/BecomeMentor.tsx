@@ -50,8 +50,10 @@ const BecomeMentor = () => {
         skill
             .validateFields()
             .then((values) => {
+                const cv = values.cv.file.response.url
+                const _values = { ...values, cv }
                 instance
-                    .post('/api/users/mentor/register', values)
+                    .post('/api/users/mentor/register', _values)
                     .then((response) => {
                         if (response.status === 200) {
                             setFinish({ ...finish, skill: true })
