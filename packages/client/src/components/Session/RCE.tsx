@@ -5,15 +5,15 @@ import { MonacoBinding } from 'y-monaco'
 import { useAuth } from '../../utils/hooks/useAuth'
 import Editor from '@monaco-editor/react'
 
-const RCE = () => {
+interface IProps {
+    id: string
+}
+const RCE = (props: IProps) => {
     const auth = useAuth()
+    const { id } = props
 
     const ydoc = new Y.Doc()
-    const provider = new WebsocketProvider(
-        'wss://y.livecoding.me',
-        'monaco-demo',
-        ydoc
-    )
+    const provider = new WebsocketProvider('wss://y.livecoding.me', id, ydoc)
     const ytext = ydoc.getText('monaco')
 
     const awareness = provider.awareness

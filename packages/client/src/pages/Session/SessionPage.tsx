@@ -169,7 +169,11 @@ const SessionPage = () => {
                 <Tabs defaultActiveKey="1">
                     <TabPane tab={t('Real-time Collaborative Editor')} key="1">
                         <TabContent>
-                            <RCE />
+                            {roomDetail?._id ? (
+                                <RCE id={roomDetail._id} />
+                            ) : (
+                                'Loading'
+                            )}
                         </TabContent>
                     </TabPane>
                     <TabPane tab={t('Video/Audio Call')} key="2">

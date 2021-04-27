@@ -1,4 +1,4 @@
-import { Row, Col, Card, Table, Tag } from 'antd'
+import { Row, Col, Card, Table, Typography } from 'antd'
 import * as React from 'react'
 import './Dashboard.css'
 import { useAPI } from '../../utils/hooks/useAPI'
@@ -8,7 +8,10 @@ import dayjs from 'dayjs'
 import { selectMentees, updateMentees } from '../mentees/menteesSlice'
 import { selectMentors, updateMentors } from '../mentors/mentorsSlice'
 import { selectQuestions, updateQuestions } from '../questions/questionsSlice'
-import { status } from '../../utils/status'
+import { Line, Pie } from '@antv/g2plot'
+import { useCount } from '../../utils/hooks/useCount'
+import { useStatus } from '../../utils/hooks/useStatus'
+import { useRoleStatus } from '../../utils/hooks/useRoleStatus'
 
 interface IDashboard {
     totalUser: number
@@ -18,6 +21,7 @@ interface IDashboard {
 }
 
 const { useEffect, useState } = React
+const { Title } = Typography
 
 const Dashboard = () => {
     const instance = useAPI()
@@ -34,68 +38,6 @@ const Dashboard = () => {
         totalSkill: 0,
     })
 
-    const questionsColumns = [
-        {
-            title: 'No',
-            width: '5%',
-            render(text: string, record: any, index: number) {
-                return index + 1
-            },
-        },
-        {
-            title: 'Title',
-            dataIndex: 'title',
-            key: 'title',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            render: (text: string, record: any) => {
-                return status.map((item) => {
-                    if (item.value === record.status) {
-                        return (
-                            <Tag color={item.color} key={record._id}>
-                                {record.status}
-                            </Tag>
-                        )
-                    }
-                })
-            },
-        },
-    ]
-
-    const menteesColumns = [
-        {
-            title: 'No',
-            width: '5%',
-            render(text: string, record: any, index: number) {
-                return index + 1
-            },
-        },
-        {
-            title: 'Tên',
-            dataIndex: 'fullname',
-            key: 'fullname',
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-        },
-        {
-            title: 'Role',
-            dataIndex: 'role',
-            key: 'role',
-            render(text: string) {
-                return (
-                    <Tag color={text === 'banned' ? 'red' : 'green'}>
-                        {text}
-                    </Tag>
-                )
-            },
-        },
-    ]
     const skillsColumns = [
         {
             title: 'No',
@@ -123,6 +65,86 @@ const Dashboard = () => {
             },
         },
     ]
+
+    useEffect(() => {
+        if (questions.length > 0) {
+            const _data = useCount(questions)
+            const _status = useStatus(questions)
+
+            const line = new Line('questions', {
+                data: Object.values(_data),
+                xField: 'date',
+                yField: 'count',
+                height: 100,
+                yAxis: {
+                    tickCount: 2,
+                },
+                smooth: true,
+            })
+
+            const pie = new Pie('questions-pie', {
+                data: Object.values(_status),
+                angleField: 'value',
+                colorField: 'type',
+            })
+
+            pie.render()
+            line.render()
+        }
+    }, [questions])
+
+    useEffect(() => {
+        if (mentees.length > 0) {
+            const _data = useCount(mentees)
+            const _status = useRoleStatus(mentees)
+
+            const line = new Line('mentees', {
+                data: Object.values(_data),
+                xField: 'date',
+                yField: 'count',
+                height: 100,
+                yAxis: {
+                    tickCount: 2,
+                },
+                smooth: true,
+            })
+
+            const pie = new Pie('mentees-pie', {
+                data: Object.values(_status),
+                angleField: 'value',
+                colorField: 'type',
+            })
+
+            pie.render()
+            line.render()
+        }
+    }, [mentees])
+
+    useEffect(() => {
+        if (mentors.length > 0) {
+            const _data = useCount(mentors)
+            const _status = useRoleStatus(mentors)
+
+            const line = new Line('mentors', {
+                data: Object.values(_data),
+                xField: 'date',
+                yField: 'count',
+                height: 100,
+                yAxis: {
+                    tickCount: 2,
+                },
+                smooth: true,
+            })
+            const pie = new Pie('mentors-pie', {
+                data: Object.values(_status),
+                angleField: 'value',
+                colorField: 'type',
+            })
+
+            pie.render()
+            line.render()
+        }
+    }, [mentors])
 
     useEffect(() => {
         instance
@@ -166,22 +188,54 @@ const Dashboard = () => {
             <Row gutter={16}>
                 <Col span={6}>
                     <Card title="Số lượng mentee" bordered={false}>
-                        {total.totalUser}
+                        <Title level={2}>{total.totalUser}</Title>
+                        <div id={'mentees'} />
                     </Card>
                 </Col>
                 <Col span={6}>
-                    <Card title="Câu hỏi tháng này" bordered={false}>
-                        {total.totalQuestion}
+                    <Card title="Số lượng câu hỏi" bordered={false}>
+                        <Title level={2}>{total.totalQuestion}</Title>
+                        <div id={'questions'} />
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card title="Số lượng mentor" bordered={false}>
-                        {total.totalMentor}
+                        <Title level={2}>{total.totalMentor}</Title>
+                        <div id={'mentors'} />
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card title="Số lượng skill" bordered={false}>
-                        {total.totalSkill}
+                        <Title level={2}>{total.totalSkill}</Title>
+                    </Card>
+                </Col>
+            </Row>
+            <Row gutter={24}>
+                <Col span={8}>
+                    <Card
+                        title="Danh sách câu hỏi"
+                        bordered={false}
+                        style={{ marginTop: 24, marginBottom: 24 }}
+                    >
+                        <div id={'questions-pie'} />
+                    </Card>
+                </Col>
+                <Col span={8}>
+                    <Card
+                        title="Danh sách mentor"
+                        bordered={false}
+                        style={{ marginTop: 24, marginBottom: 24 }}
+                    >
+                        <div id={'mentors-pie'} />
+                    </Card>
+                </Col>
+                <Col span={8}>
+                    <Card
+                        title="Danh sách mentee"
+                        bordered={false}
+                        style={{ marginTop: 24, marginBottom: 24 }}
+                    >
+                        <div id={'mentees-pie'} />
                     </Card>
                 </Col>
             </Row>
@@ -191,27 +245,6 @@ const Dashboard = () => {
                 style={{ marginTop: 24, marginBottom: 24 }}
             >
                 <Table columns={skillsColumns} dataSource={skills} />
-            </Card>
-            <Card
-                title="Danh sách câu hỏi"
-                bordered={false}
-                style={{ marginTop: 24, marginBottom: 24 }}
-            >
-                <Table columns={questionsColumns} dataSource={questions} />
-            </Card>
-            <Card
-                title="Danh sách mentor"
-                bordered={false}
-                style={{ marginTop: 24, marginBottom: 24 }}
-            >
-                <Table columns={menteesColumns} dataSource={mentors} />
-            </Card>
-            <Card
-                title="Danh sách mentee"
-                bordered={false}
-                style={{ marginTop: 24, marginBottom: 24 }}
-            >
-                <Table columns={menteesColumns} dataSource={mentees} />
             </Card>
         </div>
     )
