@@ -3,12 +3,16 @@ import Room from './Room'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useUsername } from '../../utils/hooks/useUsername'
 
-const { useEffect, useState } = React
+interface IProps {
+    token: string
+    setToken: (state: string) => void
+}
+const { useEffect } = React
 
-const VideoChat = () => {
+const VideoChat = (props: IProps) => {
+    const { token, setToken } = props
     const instance = useAPI()
     const username = useUsername()
-    const [token, setToken] = useState('')
     const roomName = 'room'
 
     // const handleLogout = useCallback((event) => {
