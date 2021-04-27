@@ -1009,4 +1009,80 @@ describe('Mentee payment method', () => {
             })
     })
 
+    //Diners Club (14 digit card)
+    it('Should return status fail to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '36227206271667',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(res.body.status).to.equal('fail');
+                done();
+            })
+    })
+
+    it('Should return status success to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '36227206271667',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'usd',
+            })
+            .end((err, res) => {
+                expect(res.body.status).to.equal('success');
+                done();
+            })
+    })
+
+    it('Should return message "Necessary Card Details are required" to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '36227206271667',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'vnd',
+            })
+            .end((err, res) => {
+                expect(res.body.message).to.equal('Necessary Card Details are required');
+                done();
+            })
+    })
+
+    it('Should return message "Payement Success" to Create point', function (done) {
+        chai.request(app).post(`/api/users/payment`)
+            .set('Authorization', token)
+            .send({
+                amount: 100000,
+                cardNumber: '36227206271667',
+                cardExpMonth: '07',
+                cardExpYear: '2022',
+                cardCVC: '456',
+                country: 'Viet Nam',
+                posttalCode: '100000',
+                currency: 'usd',
+            })
+            .end((err, res) => {
+                expect(res.body.message).to.equal('Payment Success');
+                done();
+            })
+    })
 })
