@@ -13,7 +13,6 @@ import {
 import styled from 'styled-components'
 import './SessionPage.css'
 import RCE from '../../components/Session/RCE'
-import VideoChat from '../../components/Session/VideoChat'
 import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useRole } from '../../utils/hooks/useRole'
@@ -23,6 +22,7 @@ import EndSessionFooter from '../../components/Session/EndSessionFooter'
 import { IRoom } from '../../components/Session/Join'
 import ConversationsApp from '../../components/Conversation/ConversationsApp'
 import { useFullname } from '../../utils/hooks/useFullname'
+import VideoApp from '../../components/Video'
 
 const { Sider, Content } = Layout
 const { TabPane } = Tabs
@@ -43,7 +43,7 @@ const SessionPage = () => {
     const [star, setStar] = useState(0)
     const [endMode, setEndMode] = useState('rate')
     const [roomDetail, setRoomDetail] = useState<IRoom>()
-    const [token, setToken] = useState('')
+    const [token] = useState('')
 
     const handleDisconnect = () => {
         if (role === 'mentee') {
@@ -178,7 +178,7 @@ const SessionPage = () => {
                     </TabPane>
                     <TabPane tab={t('Video/Audio Call')} key="2">
                         <TabContent>
-                            <VideoChat token={token} setToken={setToken} />
+                            <VideoApp />
                         </TabContent>
                     </TabPane>
                     <TabPane tab={t('Conversation')} key="3">
