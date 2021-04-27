@@ -6386,6 +6386,7 @@ __metadata:
     socket.io-client: ^4.0.1
     stripe: ^8.138.0
     supertest: ^6.1.3
+    twilio: ^3.61.0
     validator: ^13.5.2
   languageName: unknown
   linkType: soft
@@ -27632,6 +27633,25 @@ resolve@^2.0.0-next.3:
     "@types/express": ^4.17.7
     "@types/qs": 6.9.4
   checksum: ddf9d4d8c6db577a4309abbd76b7c04abc9f6a46bb6912087974c891ba061ca9a18b9cfcfb4ee290994d36fba8949ebabc044f39e6f01700491217c6d0c236ad
+  languageName: node
+  linkType: hard
+
+"twilio@npm:^3.61.0":
+  version: 3.61.0
+  resolution: "twilio@npm:3.61.0"
+  dependencies:
+    axios: ^0.21.1
+    dayjs: ^1.8.29
+    https-proxy-agent: ^5.0.0
+    jsonwebtoken: ^8.5.1
+    lodash: ^4.17.19
+    q: 2.0.x
+    qs: ^6.9.4
+    rootpath: ^0.1.2
+    scmp: ^2.1.0
+    url-parse: ^1.5.0
+    xmlbuilder: ^13.0.2
+  checksum: ad2eacf515ed1b0619b72f46317b5cdd6d4a6853ec4e8f76016b639a440c02284a421d331be582688f477a53c84ce553891646bdbf26398c9a9c86562851cf03
   languageName: node
   linkType: hard
 
