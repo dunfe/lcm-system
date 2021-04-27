@@ -1,20 +1,20 @@
-import {Route, Switch} from "react-router-dom";
-import {Layout} from "antd";
-import * as React from "react";
-import Dashboard from "../../features/dashboard/Dashboard";
-import styled from "styled-components/macro";
+import { Route, Switch } from 'react-router-dom'
+import { Layout } from 'antd'
+import * as React from 'react'
+import Dashboard from '../../features/dashboard/Dashboard'
+import styled from 'styled-components/macro'
 import Feedbacks from '../../features/feedbacks/Feedbacks'
 import Requests from '../../features/requests/Requests'
 import { useRole } from '../../utils/hooks/useRole'
 
 interface IProps {
-    path: string;
-    addModalVisible: boolean;
-    onAdd: (state: any) => Promise<any>;
-    setAddModalVisible: (state: boolean) => void;
+    path: string
+    addModalVisible: boolean
+    onAdd: (state: any) => Promise<any>
+    setAddModalVisible: (state: boolean) => void
 }
 
-const {Content} = Layout;
+const { Content } = Layout
 
 const Skills = React.lazy(() => import('../../features/skills/Skills'))
 const Questions = React.lazy(() => import('../../features/questions/Questions'))
@@ -23,17 +23,17 @@ const Mentors = React.lazy(() => import('../../features/mentors/Mentors'))
 const Points = React.lazy(() => import('../../features/points/Points'))
 
 const HomeContent = (props: IProps) => {
-    const {path, addModalVisible, setAddModalVisible, onAdd} = props;
+    const { path, addModalVisible, setAddModalVisible, onAdd } = props
     const role = useRole()
 
     return (
-        <Content style={{margin: '24px 16px 0'}}>
+        <Content style={{ margin: '24px 16px 0' }}>
             <Switch>
-                {
-                    role === 'admin' ?                 <Route exact path={path}>
-                        <Dashboard/>
-                    </Route> : null
-                }
+                {role === 'admin' ? (
+                    <Route exact path={path}>
+                        <Dashboard />
+                    </Route>
+                ) : null}
 
                 <Route exact path={`/requests`}>
                     <ContentWrapper>
@@ -42,7 +42,11 @@ const HomeContent = (props: IProps) => {
                 </Route>
                 <Route path={`/skills`}>
                     <ContentWrapper>
-                        <Skills onAdd={onAdd} visible={addModalVisible} setVisible={setAddModalVisible}/>
+                        <Skills
+                            onAdd={onAdd}
+                            visible={addModalVisible}
+                            setVisible={setAddModalVisible}
+                        />
                     </ContentWrapper>
                 </Route>
                 <Route path={`/questions`}>
@@ -52,12 +56,18 @@ const HomeContent = (props: IProps) => {
                 </Route>
                 <Route path={`/mentees`}>
                     <ContentWrapper>
-                        <Mentees visible={addModalVisible} setVisible={setAddModalVisible}/>
+                        <Mentees
+                            visible={addModalVisible}
+                            setVisible={setAddModalVisible}
+                        />
                     </ContentWrapper>
                 </Route>
                 <Route path={`/mentors`}>
                     <ContentWrapper>
-                        <Mentors visible={addModalVisible} setVisible={setAddModalVisible}/>
+                        <Mentors
+                            visible={addModalVisible}
+                            setVisible={setAddModalVisible}
+                        />
                     </ContentWrapper>
                 </Route>
                 <Route path={`/feedbacks`}>
@@ -73,7 +83,7 @@ const HomeContent = (props: IProps) => {
             </Switch>
         </Content>
     )
-};
+}
 
 const ContentWrapper = styled.div`
     padding: 24px;
@@ -81,4 +91,4 @@ const ContentWrapper = styled.div`
     background-color: white;
 `
 
-export default HomeContent;
+export default HomeContent

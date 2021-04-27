@@ -20,6 +20,8 @@ module.exports = {
     },
     plugins: ['react', '@typescript-eslint', 'import'],
     rules: {
+        'react/no-children-prop': 'off',
+        'react/prop-types': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',

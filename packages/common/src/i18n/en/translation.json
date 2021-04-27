@@ -94,5 +94,37 @@
   "Connect": "Connect",
   "Chat": "Chat",
 
-  "The password must contain at least 1 lowercase alphabetical character": "The password must contain at least 1 lowercase alphabetical character"
+  "The password must contain at least 1 lowercase alphabetical character": "The password must contain at least 1 lowercase alphabetical character",
+  "Edit":"Edit",
+  "Delete":"Delete",
+  "Billing":"Billing",
+  "Become a Mentor":"Become a Mentor",
+  "Title is require and title must less than 50 character":"Title is require and title must less than 50 character",
+  "You must enter something":"You must enter something",
+  "Time Available":"Time Available",
+
+  "Note":"Note",
+  "Note must not longer than 100":"Note must not longer than 100",
+  "No":"No",
+  "Action":"Action",
+  "Your session":"Your session",
+  "Join session":"Join session",
+
+  "Please set at least 10 point":"Please set at least 10 point",
+  "Point must be between 10 and 1000":"Point must be between 10 and 1000",
+  "You must add some amount":"You must add some amount",
+  "Add":"Add",
+  "Card Number":"Card Number",
+  "Submit":"Submit",
+  "Expiration date":"Expiration date",
+  "Country":"Country",
+  "Postcode":"Postcode",
+  "Your favorite mentor":"Your favorite mentor",
+  "Full name":"Full name",
+  "Date of birth":"Date of birth",
+  "Invalid Date":"Invalid Date",
+
+  "Old password":"Old password",
+  "New Password":"New Password",
+  "Confirm Password":"Confirm Password"
 }

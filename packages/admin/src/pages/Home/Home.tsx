@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { Layout, Menu } from 'antd'
 import {
-    DashboardOutlined, FormOutlined, TeamOutlined, CheckCircleOutlined, DollarCircleOutlined,
+    DashboardOutlined,
+    FormOutlined,
+    TeamOutlined,
+    CheckCircleOutlined,
+    DollarCircleOutlined,
 } from '@ant-design/icons'
 import HeaderComponent from '../../components/Header/Header'
-import {
-    Link, useHistory, useRouteMatch,
-} from 'react-router-dom'
+import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import HomeContent from '../../components/Home/Content'
 import PageHeaderComponent from '../../components/Header/PageHeader'
 import axios from 'axios'
@@ -28,6 +30,7 @@ export function HomePage() {
         subtitle: '',
     })
     const [addModalVisible, setAddModalVisible] = useState(false)
+    const [collapsed, setCollapsed] = useState(false)
 
     const token = useToken()
     const role = useRole()
@@ -35,7 +38,7 @@ export function HomePage() {
     const instance = axios.create({
         baseURL: 'https://livecoding.me',
         headers: {
-            'Authorization': token,
+            Authorization: token,
         },
     })
 
@@ -114,52 +117,84 @@ export function HomePage() {
         <Layout style={{ minHeight: '100vh' }}>
             <Layout>
                 <Sider
-                    breakpoint='lg'
-                    collapsedWidth='0'
-                    onCollapse={(collapsed, type) => {
-                        console.log(collapsed, type)
+                    collapsible
+                    collapsed={collapsed}
+                    onCollapse={(collapsed) => {
+                        setCollapsed(collapsed)
                     }}
-                    theme='dark'
+                    theme="dark"
                 >
-                    <InAppLogo />
-                    <Menu theme='dark' mode='inline' onSelect={onSelect}
-                          selectedKeys={selectedKeys}>
-                        {
-                            role === 'admin' ? <Menu.Item key='/' icon={<DashboardOutlined />}>
+                    <InAppLogo collapsed={collapsed} />
+                    <Menu
+                        theme="dark"
+                        mode="inline"
+                        onSelect={onSelect}
+                        selectedKeys={selectedKeys}
+                    >
+                        {role === 'admin' ? (
+                            <Menu.Item key="/" icon={<DashboardOutlined />}>
                                 <Link to={`/`}>Dashboard</Link>
-                            </Menu.Item> : null
-                        }
+                            </Menu.Item>
+                        ) : null}
 
-                        <Menu.Item key='/requests' icon={<FormOutlined />}>
+                        <Menu.Item key="/requests" icon={<FormOutlined />}>
                             <Link to={`/requests`}>Quản lý yêu cầu</Link>
                         </Menu.Item>
-                        {role === 'admin' ? <>
-                            <Menu.Item key='/skills' icon={<FormOutlined />}>
-                                <Link to={`/skills`}>Quản lý kỹ năng</Link>
+                        {role === 'admin' ? (
+                            <>
+                                <Menu.Item
+                                    key="/skills"
+                                    icon={<FormOutlined />}
+                                >
+                                    <Link to={`/skills`}>Quản lý kỹ năng</Link>
+                                </Menu.Item>
+                                <Menu.Item
+                                    key="/questions"
+                                    icon={<FormOutlined />}
+                                >
+                                    <Link to={`/questions`}>
+                                        Quản lý câu hỏi
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item
+                                    key="/mentees"
+                                    icon={<TeamOutlined />}
+                                >
+                                    <Link to={`/mentees`}>Quản lý Mentee</Link>
+                                </Menu.Item>
+                                <Menu.Item
+                                    key="/mentors"
+                                    icon={<TeamOutlined />}
+                                >
+                                    <Link to={`/mentors`}>Quản lý Mentor</Link>
+                                </Menu.Item>
+                            </>
+                        ) : (
+                            <Menu.Item
+                                key="/points"
+                                icon={<DollarCircleOutlined />}
+                            >
+                                <Link to={`/points`}>Quản lý Point</Link>
                             </Menu.Item>
-                            <Menu.Item key='/questions' icon={<FormOutlined />}>
-                                <Link to={`/questions`}>Quản lý câu hỏi</Link>
-                            </Menu.Item>
-                            <Menu.Item key='/mentees' icon={<TeamOutlined />}>
-                                <Link to={`/mentees`}>Quản lý Mentee</Link>
-                            </Menu.Item>
-                            <Menu.Item key='/mentors' icon={<TeamOutlined />}>
-                                <Link to={`/mentors`}>Quản lý Mentor</Link>
-                            </Menu.Item>
-                        </> : <Menu.Item key='/points' icon={<DollarCircleOutlined />}>
-                            <Link to={`/points`}>Quản lý Point</Link>
-                        </Menu.Item>}
+                        )}
 
-                        <Menu.Item key='/feedbacks' icon={<CheckCircleOutlined />}>
+                        <Menu.Item
+                            key="/feedbacks"
+                            icon={<CheckCircleOutlined />}
+                        >
                             <Link to={`/feedbacks`}>Quản lý Feedback</Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>
                     <HeaderComponent />
-                    {selectedKeys[0] !== '/' ?
-                        <PageHeaderComponent title={pageHeader.title} subTitle={pageHeader.subtitle}
-                                             onAdd={setAddModalVisible} /> : null}
+                    {selectedKeys[0] !== '/' ? (
+                        <PageHeaderComponent
+                            title={pageHeader.title}
+                            subTitle={pageHeader.subtitle}
+                            onAdd={setAddModalVisible}
+                        />
+                    ) : null}
                     <HomeContent {...HomeContentProps} />
                 </Layout>
             </Layout>
