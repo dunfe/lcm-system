@@ -48,7 +48,7 @@ export const registerMentorRequest = async (req, res) => {
       } else {
           return res.status(400).json({
               status: 'fail',
-              message: 'Something wrong, try again later'
+              message: 'User wrong, try again later'
           })
       };
   });
