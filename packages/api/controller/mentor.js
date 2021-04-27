@@ -7,6 +7,7 @@ import { promisify } from 'util'
 import jwt from 'jsonwebtoken'
 import colabRoom from '../models/collabRoom.js'
 import Notify from '../models/noti.js'
+import twilio from 'twilio'
 
 dotenv.config()
 const router = express.Router()
@@ -14,7 +15,7 @@ const ObjectId = mongoose.Types.ObjectId
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID
 const authToken = process.env.TWILIO_AUTH_TOKEN
-const client = require('twilio')(accountSid, authToken)
+const client = new twilio(accountSid, authToken)
 
 export function getAllMentor (model) {
     return async (req, res) => {
