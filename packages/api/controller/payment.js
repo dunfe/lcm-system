@@ -147,7 +147,7 @@ export const createPayemnt = async (req, res) => {
         return res.status(400).send({
             Error: "Necessary Card Details are required",
             status: "fail",
-            message:"Necessary Card Details are required"
+            message: "Necessary Card Details are required"
         });
     }
     try {
@@ -174,19 +174,19 @@ export const createPayemnt = async (req, res) => {
 
         if (charge.status === "succeeded") {
             return res
-            .status(200)
-            .send({ Success: charge, status:"Payment Success"});
+                .status(200)
+                .send({ Success: charge, status: "success", message: "Payment Success" });
 
         } else {
             return res
                 .status(400)
-                .send({ Error: "Please try again later", status:"fail" });
+                .send({ Error: "Please try again later", status: "fail" });
         }
     } catch (error) {
         return res.status(400).send({
-            status:"fail",
+            status: "fail",
             Error: error.raw.message,
-            message:"Necessary Card Details are required"
+            message: "Necessary Card Details are required"
         });
     }
 }
