@@ -3,7 +3,7 @@ import { RootState } from '../../app/store'
 import { IUserDetail } from '../mentors/mentorsSlice'
 
 interface PointsState {
-    list: IUserDetail[];
+    list: IUserDetail[]
 }
 
 const initialState: PointsState = {

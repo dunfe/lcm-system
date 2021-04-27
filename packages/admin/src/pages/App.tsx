@@ -13,15 +13,18 @@ const { Suspense } = React
 
 function App(): JSX.Element {
     return (
-        <Suspense fallback={
-            <StyledLoading>
-                <Spin tip={'Loading...'} />
-            </StyledLoading>}>
+        <Suspense
+            fallback={
+                <StyledLoading>
+                    <Spin tip={'Loading...'} />
+                </StyledLoading>
+            }
+        >
             <ProvideAuth>
                 <BrowserRouter>
                     <Switch>
-                        <Route path='/login' component={LoginPage} />
-                        <PrivateRoute path='/'>
+                        <Route path="/login" component={LoginPage} />
+                        <PrivateRoute path="/">
                             <HomePage />
                         </PrivateRoute>
                         <Route component={NotFoundPage} />
@@ -33,12 +36,12 @@ function App(): JSX.Element {
 }
 
 export const StyledLoading = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
 `
 
 export default App

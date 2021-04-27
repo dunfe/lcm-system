@@ -4,9 +4,11 @@ import skillsReducer from '../features/skill/skillsSlice'
 import questionReducer from '../pages/Question/questionSlice'
 import addQuestionReducer from '../pages/Question/addQuestionSlice'
 import updateQuestionReducer from '../pages/Question/updateQuestionSlice'
+import userReducer from '../pages/Dashboard/userSlice'
 
 export const store = configureStore({
     reducer: {
+        user: userReducer,
         skills: skillsReducer,
         addQuestion: addQuestionReducer,
         updateQuestion: updateQuestionReducer,

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
 const usePasswordRule = () => {
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     return [
         {

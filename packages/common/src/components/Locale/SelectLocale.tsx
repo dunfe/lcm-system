@@ -7,7 +7,7 @@ import 'antd/es/config-provider/index'
 const { Option } = Select
 
 const SelectLocale = () => {
-    const {t, i18n} = useTranslation()
+    const { t, i18n } = useTranslation()
 
     const onLocaleChange = (value: string) => {
         i18n.changeLanguage(value).then(() => {
@@ -16,11 +16,7 @@ const SelectLocale = () => {
     }
 
     return (
-        <Select
-            defaultValue="vi"
-            size={'small'}
-            onChange={onLocaleChange}
-        >
+        <Select defaultValue="vi" size={'small'} onChange={onLocaleChange}>
             <Option value="vi">VI</Option>
             <Option value="en">EN</Option>
         </Select>
