@@ -21,6 +21,28 @@ const colabRoomSchema = new mongoose.Schema({
     createAt: {
         type: Date,
         default: Date.now()
+    },
+    sid: String,
+    account_sid: String,
+    chat_service_sid: String,
+    messaging_service_sid: String,
+    friendly_name: String,
+    unique_name: String,
+    attributes: {
+        topic: String
+    },
+    date_created: String,
+    date_updated: String,
+    state: String,
+    timers: {
+        date_inactive: String,
+        date_closed: String
+    },
+    url: String,
+    links: {
+        participants: String,
+        messages: String,
+        webhooks: String
     }
 })
 
