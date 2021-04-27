@@ -11,9 +11,19 @@ const generateToken = () => {
         );
 };
 
+const client = require('twilio')('ACe4e5788f7c163a9995c6bce28c02ccb1', '1cf734bf54f34b7af1123e7f1dadb6e0');
+
+let temp;
+
 const videoToken = (identity, room) => {
     let videoGrant;
     if (typeof room !== 'undefined') {
+        client.conversations.conversations
+            .create({
+                uniqueName: room,
+                friendlyName: 'Conversation'
+            })
+            .then(conversation => temp = conversation);
         videoGrant = new VideoGrant({ room });
     } else {
         videoGrant = new VideoGrant();
