@@ -252,38 +252,6 @@ const Billing = () => {
                                             <Radio value="usd">USD</Radio>
                                         </Radio.Group>
                                     </Form.Item>
-                                    <Form.Item
-                                        name="method"
-                                        label="Payment method"
-                                        initialValue={'visa'}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please pick a payment method!',
-                                            },
-                                        ]}
-                                    >
-                                        <Radio.Group style={{ width: '100%' }}>
-                                            <Radio.Button
-                                                value="visa"
-                                                style={{
-                                                    width: 'calc(50% - 4px)',
-                                                }}
-                                            >
-                                                Visa
-                                            </Radio.Button>
-                                            <Radio.Button
-                                                value="mastercard"
-                                                style={{
-                                                    width: 'calc(50% + 4px)',
-                                                }}
-                                            >
-                                                Mastercard
-                                            </Radio.Button>
-                                        </Radio.Group>
-                                    </Form.Item>
-
                                     <Form.Item {...tailLayout}>
                                         <Button
                                             type="primary"
