@@ -111,9 +111,7 @@ const SessionPage = () => {
         <Layout className="session-layout">
             <Content
                 style={{
-                    marginTop: 20,
-                    marginLeft: 20,
-                    marginBottom: 20,
+                    margin: 24,
                     height: 'calc(100vh - 40px)',
                     backgroundColor: 'white',
                 }}
