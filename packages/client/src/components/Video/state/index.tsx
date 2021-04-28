@@ -62,7 +62,7 @@ export default function AppStateProvider(props: React.PropsWithChildren<any>) {
     contextValue = {
         ...contextValue,
         getToken: async (user_identity, room_name) => {
-            const endpoint = 'http://localhost:3006/video/token'
+            const endpoint = 'http://localhost:3006/room/token'
 
             return fetch(endpoint, {
                 method: 'POST',
@@ -70,9 +70,8 @@ export default function AppStateProvider(props: React.PropsWithChildren<any>) {
                     'content-type': 'application/json',
                 },
                 body: JSON.stringify({
-                    identity: user_identity,
-                    room: room_name,
-                    create_conversation: true,
+                    user_identity,
+                    room_name,
                 }),
             })
                 .then((res) => res.json())

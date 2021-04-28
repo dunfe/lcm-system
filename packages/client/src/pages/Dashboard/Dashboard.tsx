@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Row, Col, Card, Table, message, Tag } from 'antd'
+import { Row, Col, Card, Table, message, Tag, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { IQuestion } from '../Question/questionSlice'
@@ -10,7 +10,7 @@ import { getUserDetail, selectUser } from './userSlice'
 import { useToken } from '../../utils/hooks/useToken'
 
 const { useEffect, useState } = React
-
+const { Title } = Typography
 const Dashboard = () => {
     const { t } = useTranslation()
     const instance = useAPI()
@@ -86,7 +86,7 @@ const Dashboard = () => {
                     <Row gutter={18}>
                         <Col span={8}>
                             <Card title={t('Balance')} bordered={false}>
-                                {user?.currentPoint}
+                                <Title>{user?.currentPoint}</Title>
                             </Card>
                         </Col>
                         <Col span={8}>
@@ -94,12 +94,12 @@ const Dashboard = () => {
                                 title={t('This month questions')}
                                 bordered={false}
                             >
-                                {t('This month questions')}
+                                <Title>10</Title>
                             </Card>
                         </Col>
                         <Col span={8}>
                             <Card title={t('Favorite Mentor')} bordered={false}>
-                                {user?.favoriteMentor.length}
+                                <Title> {user?.favoriteMentor.length}</Title>
                             </Card>
                         </Col>
                     </Row>
