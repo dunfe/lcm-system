@@ -6,6 +6,7 @@ import RoomNameScreen from './RoomNameScreen/RoomNameScreen'
 import { useAppState } from '../../state'
 import { useParams } from 'react-router-dom'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
+import { useFullname } from '../../../../utils/hooks/useFullname'
 
 export enum Steps {
     roomNameStep,
@@ -18,7 +19,7 @@ export default function PreJoinScreens() {
     const { URLRoomName } = useParams() as any
     const [step, setStep] = useState(Steps.roomNameStep)
 
-    const [name, setName] = useState<string>(user?.displayName || '')
+    const [name, setName] = useState<string>(useFullname() || '')
     const [roomName, setRoomName] = useState<string>('')
 
     const [mediaError, setMediaError] = useState<Error>()

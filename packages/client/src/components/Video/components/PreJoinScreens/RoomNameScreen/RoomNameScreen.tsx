@@ -84,6 +84,7 @@ export default function RoomNameScreen({
                                 Your Name
                             </InputLabel>
                             <TextField
+                                disabled
                                 id="input-user-name"
                                 variant="outlined"
                                 fullWidth
@@ -98,6 +99,7 @@ export default function RoomNameScreen({
                             Room Name
                         </InputLabel>
                         <TextField
+                            disabled
                             autoCapitalize="false"
                             id="input-room-name"
                             variant="outlined"

@@ -78,14 +78,13 @@ export const ChatProvider: React.FC = ({ children }) => {
     useEffect(() => {
         if (room && chatClient) {
             chatClient
-                .getConversationByUniqueName(room.name)
+                .getConversationByUniqueName(room.sid)
                 .then((newConversation) => {
-                    // @ts-ignore
+                    //@ts-ignore
                     window.chatConversation = newConversation
                     setConversation(newConversation)
                 })
-                .catch((error) => {
-                    console.error(error)
+                .catch(() => {
                     onError(
                         new Error(
                             'There was a problem getting the Conversation associated with this room.'
