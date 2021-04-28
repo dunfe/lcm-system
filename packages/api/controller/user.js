@@ -10,7 +10,7 @@ import Mentor from '../models/mentor.js';
 import Skill from '../models/skill.js';
 import cloudinary from '../utils/cloudinary.js';
 import validate from '../validator/user.validation.js';
-
+import {countQuesiton,countQuesitonbyStatus} from '../controller/admin.js';
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -19,6 +19,34 @@ export const getSignToken = user => {
         id: user._id
     }, process.env.SECRET_KEY, { expiresIn: '60d' });
 };
+
+export const dashboardMentee = async (req,res) =>{
+    let userId = await useridFromToken(req, res);
+    let CurrUser = await User.findById(userId);
+    const results = {}
+    let lineTableQuestion = [],lineTableSelectedQuestion = [],circleQuestion = [],AllQuestion,AllQuestionbyStatus;
+    if(CurrUser.role == 'mentor'){
+        AllQuestion = await Question.find({receivedBy: userId}).select('createAt -_id')
+        AllQuestionbyStatus = await Question.find({receivedBy: userId}).select('status -_id')
+        lineTableSelectedQuestion = Object.values(countQuesiton(AllQuestion));
+        circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
+        results.lineTableSelectedQuestion = lineTableSelectedQuestion;
+        results.circleQuestion = circleQuestion;
+        console.log(results);
+    }else if(CurrUser.role == 'mentee'){
+        AllQuestion = await Question.find({menteeId: userId}).select('createAt -_id')
+        AllQuestionbyStatus = await Question.find({menteeId: userId}).select('status -_id')
+        lineTableQuestion = Object.values(countQuesiton(AllQuestion));
+        circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
+        results.lineTableQuestion = lineTableQuestion;
+        results.circleQuestion = circleQuestion;
+        console.log(results);
+    }
+    return res.status(200).json({
+        status: 'success',
+        data: results
+    });
+}
 
 export function getAllMentee(model) {
     return async (req, res) => {

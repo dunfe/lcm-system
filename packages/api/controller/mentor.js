@@ -107,7 +107,7 @@ export const selectQuestion = async (req, res) => {
     if (count > 5) {
         return res.status(400).json({
             status: 'fail',
-            message: 'bạn chưa hoàn thành 5 câu hỏi đã chọn trước đó, vui lòng hoàn thành trước khi chọn câu hỏi tiếp theo!!',
+            message: 'bạn chưa hoàn thành 6 câu hỏi đã chọn trước đó, vui lòng hoàn thành trước khi chọn câu hỏi tiếp theo!!',
         })
     }
     var userId = await useridFromToken(req, res)
