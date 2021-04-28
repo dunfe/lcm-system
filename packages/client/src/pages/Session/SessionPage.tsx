@@ -1,19 +1,8 @@
 import * as React from 'react'
-import {
-    Button,
-    Card,
-    Divider,
-    Layout,
-    message,
-    Modal,
-    Rate,
-    Tabs,
-    Typography,
-} from 'antd'
+import { Button, Layout, message, Modal, Rate, Tabs } from 'antd'
 import styled from 'styled-components'
 import './SessionPage.css'
 import RCE from '../../components/Session/RCE'
-import VideoChat from '../../components/Session/VideoChat'
 import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useRole } from '../../utils/hooks/useRole'
@@ -21,12 +10,10 @@ import { useHistory, useParams } from 'react-router-dom'
 import Report from '../../components/Session/Report'
 import EndSessionFooter from '../../components/Session/EndSessionFooter'
 import { IRoom } from '../../components/Session/Join'
-import ConversationsApp from '../../components/Conversation/ConversationsApp'
-import { useFullname } from '../../utils/hooks/useFullname'
+import VideoApp from '../../components/Video'
 
-const { Sider, Content } = Layout
+const { Content } = Layout
 const { TabPane } = Tabs
-const { Text } = Typography
 
 const { useState, useEffect } = React
 
@@ -36,14 +23,12 @@ const SessionPage = () => {
     const instance = useAPI()
     const role = useRole()
     const history = useHistory()
-    const name = useFullname()
 
     const [connected, setConnected] = useState(true)
     const [rating, setRating] = useState(false)
     const [star, setStar] = useState(0)
     const [endMode, setEndMode] = useState('rate')
     const [roomDetail, setRoomDetail] = useState<IRoom>()
-    const [token, setToken] = useState('')
 
     const handleDisconnect = () => {
         if (role === 'mentee') {
@@ -51,10 +36,6 @@ const SessionPage = () => {
         } else {
             setConnected(false)
         }
-    }
-
-    const handleConnect = () => {
-        setConnected(true)
     }
 
     const handleStarChange = (_star) => {
@@ -89,6 +70,10 @@ const SessionPage = () => {
             setEndMode('rate')
         }
     }
+
+    useEffect(() => {
+        console.log(connected)
+    }, [connected])
 
     useEffect(() => {
         if (star > 0) {
@@ -178,61 +163,17 @@ const SessionPage = () => {
                     </TabPane>
                     <TabPane tab={t('Video/Audio Call')} key="2">
                         <TabContent>
-                            <VideoChat token={token} setToken={setToken} />
-                        </TabContent>
-                    </TabPane>
-                    <TabPane tab={t('Conversation')} key="3">
-                        <TabContent>
-                            <ConversationsApp name={name} token={token} />
+                            <VideoApp />
                         </TabContent>
                     </TabPane>
                 </Tabs>
             </Content>
-            <Sider width={342} className={'session-sider'}>
-                <Card
-                    className={'session-time'}
-                    title={t('Session')}
-                    bordered={false}
-                    style={{
-                        width: 302,
-                        height: 250,
-                        margin: 'auto',
-                        marginTop: 20,
-                    }}
-                >
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <Text>Room: {id}</Text>
-                        <Text>
-                            Mentor: {roomDetail?.mentorInfo.displayName}
-                        </Text>
-                        <Text>
-                            Mentee: {roomDetail?.menteeInfo.displayName}
-                        </Text>
-                    </div>
-
-                    <Divider />
-                    {connected ? (
-                        <Button onClick={handleDisconnect}>
-                            {t('Disconnect')}
-                        </Button>
-                    ) : (
-                        <Button onClick={handleConnect}>{t('Connect')}</Button>
-                    )}
-                </Card>
-                <Card
-                    className={'session-chat'}
-                    title={t('Chat')}
-                    bordered={false}
-                    style={{
-                        width: 302,
-                        margin: 'auto',
-                        marginTop: 20,
-                        marginBottom: 20,
-                    }}
-                >
-                    Chat
-                </Card>
-            </Sider>
+            <Button
+                onClick={handleDisconnect}
+                style={{ position: 'absolute', top: 24, right: 24 }}
+            >
+                {t('Disconnect')}
+            </Button>
         </Layout>
     )
 }

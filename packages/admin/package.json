@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@antv/g2plot": "^2.3.19",
+    "@ant-design/charts": "^1.1.2",
     "@craco/craco": "^6.1.1",
     "@reduxjs/toolkit": "^1.2.5",
     "@testing-library/jest-dom": "^4.2.4",

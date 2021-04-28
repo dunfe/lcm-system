@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import { selectMentees, updateMentees } from '../mentees/menteesSlice'
 import { selectMentors, updateMentors } from '../mentors/mentorsSlice'
 import { selectQuestions, updateQuestions } from '../questions/questionsSlice'
-import { Line, Pie } from '@antv/g2plot'
+import { Line, Pie } from '@ant-design/charts'
 import { useCount } from '../../utils/hooks/useCount'
 import { useStatus } from '../../utils/hooks/useStatus'
 import { useRoleStatus } from '../../utils/hooks/useRoleStatus'
@@ -37,6 +37,69 @@ const Dashboard = () => {
         totalQuestion: 0,
         totalSkill: 0,
     })
+    const [questionData, setQuestionData] = useState<Record<string, any>[]>([])
+    const [questionStatusData, setQuestionStatusData] = useState<
+        Record<string, any>[]
+    >([])
+    const [menteesData, setMenteesData] = useState<Record<string, any>[]>([])
+    const [menteesStatusData, setMenteesStatusData] = useState<
+        Record<string, any>[]
+    >([])
+    const [mentorsData, setMentorsData] = useState<Record<string, any>[]>([])
+    const [mentorsStatusData, setMentorsStatusData] = useState<
+        Record<string, any>[]
+    >([])
+
+    const questionsConfig = {
+        data: questionData,
+        xField: 'date',
+        yField: 'count',
+        height: 100,
+        yAxis: {
+            tickCount: 2,
+        },
+        smooth: true,
+    }
+
+    const menteesConfig = {
+        data: menteesData,
+        xField: 'date',
+        yField: 'count',
+        height: 100,
+        yAxis: {
+            tickCount: 2,
+        },
+        smooth: true,
+    }
+
+    const questionsPieConfig = {
+        data: questionStatusData,
+        angleField: 'value',
+        colorField: 'type',
+    }
+
+    const menteesPie = {
+        data: menteesStatusData,
+        angleField: 'value',
+        colorField: 'type',
+    }
+
+    const mentorsConfig = {
+        data: mentorsData,
+        xField: 'date',
+        yField: 'count',
+        height: 100,
+        yAxis: {
+            tickCount: 2,
+        },
+        smooth: true,
+    }
+
+    const mentorsPie = {
+        data: mentorsStatusData,
+        angleField: 'value',
+        colorField: 'type',
+    }
 
     const skillsColumns = [
         {
@@ -70,26 +133,8 @@ const Dashboard = () => {
         if (questions.length > 0) {
             const _data = useCount(questions)
             const _status = useStatus(questions)
-
-            const line = new Line('questions', {
-                data: Object.values(_data),
-                xField: 'date',
-                yField: 'count',
-                height: 100,
-                yAxis: {
-                    tickCount: 2,
-                },
-                smooth: true,
-            })
-
-            const pie = new Pie('questions-pie', {
-                data: Object.values(_status),
-                angleField: 'value',
-                colorField: 'type',
-            })
-
-            pie.render()
-            line.render()
+            setQuestionData(Object.values(_data))
+            setQuestionStatusData(Object.values(_status))
         }
     }, [questions])
 
@@ -98,25 +143,8 @@ const Dashboard = () => {
             const _data = useCount(mentees)
             const _status = useRoleStatus(mentees)
 
-            const line = new Line('mentees', {
-                data: Object.values(_data),
-                xField: 'date',
-                yField: 'count',
-                height: 100,
-                yAxis: {
-                    tickCount: 2,
-                },
-                smooth: true,
-            })
-
-            const pie = new Pie('mentees-pie', {
-                data: Object.values(_status),
-                angleField: 'value',
-                colorField: 'type',
-            })
-
-            pie.render()
-            line.render()
+            setMenteesData(Object.values(_data))
+            setMenteesStatusData(Object.values(_status))
         }
     }, [mentees])
 
@@ -124,25 +152,8 @@ const Dashboard = () => {
         if (mentors.length > 0) {
             const _data = useCount(mentors)
             const _status = useRoleStatus(mentors)
-
-            const line = new Line('mentors', {
-                data: Object.values(_data),
-                xField: 'date',
-                yField: 'count',
-                height: 100,
-                yAxis: {
-                    tickCount: 2,
-                },
-                smooth: true,
-            })
-            const pie = new Pie('mentors-pie', {
-                data: Object.values(_status),
-                angleField: 'value',
-                colorField: 'type',
-            })
-
-            pie.render()
-            line.render()
+            setMentorsData(Object.values(_data))
+            setMentorsStatusData(Object.values(_status))
         }
     }, [mentors])
 
@@ -190,18 +201,19 @@ const Dashboard = () => {
                     <Card title="Số lượng mentee" bordered={false}>
                         <Title level={2}>{total.totalUser}</Title>
                         <div id={'mentees'} />
+                        <Line {...menteesConfig} />
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card title="Số lượng câu hỏi" bordered={false}>
                         <Title level={2}>{total.totalQuestion}</Title>
-                        <div id={'questions'} />
+                        <Line {...questionsConfig} />
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card title="Số lượng mentor" bordered={false}>
                         <Title level={2}>{total.totalMentor}</Title>
-                        <div id={'mentors'} />
+                        <Line {...mentorsConfig} />
                     </Card>
                 </Col>
                 <Col span={6}>
@@ -217,7 +229,7 @@ const Dashboard = () => {
                         bordered={false}
                         style={{ marginTop: 24, marginBottom: 24 }}
                     >
-                        <div id={'questions-pie'} />
+                        <Pie {...questionsPieConfig} />
                     </Card>
                 </Col>
                 <Col span={8}>
@@ -226,7 +238,7 @@ const Dashboard = () => {
                         bordered={false}
                         style={{ marginTop: 24, marginBottom: 24 }}
                     >
-                        <div id={'mentors-pie'} />
+                        <Pie {...mentorsPie} />
                     </Card>
                 </Col>
                 <Col span={8}>
@@ -235,7 +247,7 @@ const Dashboard = () => {
                         bordered={false}
                         style={{ marginTop: 24, marginBottom: 24 }}
                     >
-                        <div id={'mentees-pie'} />
+                        <Pie {...menteesPie} />
                     </Card>
                 </Col>
             </Row>
