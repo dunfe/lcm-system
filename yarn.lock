@@ -22322,6 +22322,16 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"payment@workspace:packages/payment":
+  version: 0.0.0-use.local
+  resolution: "payment@workspace:packages/payment"
+  dependencies:
+    "@types/express": ^4
+    express: ^4.17.1
+    stripe: ^8.145.0
+  languageName: unknown
+  linkType: soft
+
 "pbkdf2@npm:^3.0.3":
   version: 3.1.1
   resolution: "pbkdf2@npm:3.1.1"
@@ -28748,6 +28758,16 @@ resolve@^2.0.0-next.3:
     "@types/node": ">=8.1.0"
     qs: ^6.6.0
   checksum: 5993dd2c25d0cec4c4f7630ae38af0b827a5564e330ab5c77faf7828a176e583ce906ee16f1b4e91e383a6ca9fbf926f00c95915ab8e08e8104ff9bf2549a376
+  languageName: node
+  linkType: hard
+
+"stripe@npm:^8.145.0":
+  version: 8.145.0
+  resolution: "stripe@npm:8.145.0"
+  dependencies:
+    "@types/node": ">=8.1.0"
+    qs: ^6.6.0
+  checksum: a399ff192de3397b72b8f004dff0f3c9a2746e648ab4cf097b5093abfb866ab3065779e04c1ddb1da4cd5abe05773730febf5515f6a7765643bb589a8594ffe1
   languageName: node
   linkType: hard
 
