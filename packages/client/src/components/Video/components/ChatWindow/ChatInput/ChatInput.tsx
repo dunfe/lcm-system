@@ -1,92 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Button, CircularProgress, Grid, makeStyles } from '@material-ui/core'
+import React from 'react'
 import { Conversation } from '@twilio/conversations/lib/conversation'
-import FileAttachmentIcon from '../../../icons/FileAttachmentIcon'
-import { isMobile } from '../../../utils'
-import SendMessageIcon from '../../../icons/SendMessageIcon'
-import Snackbar from '../../Snackbar/Snackbar'
-import { Input } from 'antd'
-
-const useStyles = makeStyles({
-    chatInputContainer: {
-        borderTop: '1px solid #e4e7e9',
-        borderBottom: '1px solid #e4e7e9',
-        padding: '1em 1.2em 1em',
-    },
-    textArea: {
-        padding: '0.75em 1em',
-        marginTop: '0.4em',
-        width: '100%',
-        border: '0',
-        resize: 'none',
-        fontSize: '14px',
-        fontFamily: 'Inter',
-    },
-    button: {
-        padding: '0.56em',
-        minWidth: 'auto',
-        '&:disabled': {
-            background: 'none',
-            '& path': {
-                fill: '#d8d8d8',
-            },
-        },
-    },
-    buttonContainer: {
-        margin: '1em 0 0 1em',
-        display: 'flex',
-    },
-    fileButtonContainer: {
-        position: 'relative',
-        marginRight: '1em',
-    },
-    fileButtonLoadingSpinner: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        marginTop: -12,
-        marginLeft: -12,
-    },
-})
+import { Button, Input, message } from 'antd'
+import { useTrans } from 'common'
+import { LinkOutlined } from '@ant-design/icons'
 
 interface ChatInputProps {
     conversation: Conversation
     isChatWindowOpen: boolean
 }
 
+const { useEffect, useRef, useState } = React
+
 const ALLOWED_FILE_TYPES =
     'audio/*, image/*, text/*, video/*, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document .xslx, .ppt, .pdf, .key, .svg, .csv'
 
-export default function ChatInput({
-    conversation,
-    isChatWindowOpen,
-}: ChatInputProps) {
-    const classes = useStyles()
+export default function ChatInput({ conversation }: ChatInputProps) {
     const [messageBody, setMessageBody] = useState('')
     const [isSendingFile, setIsSendingFile] = useState(false)
     const [fileSendError, setFileSendError] = useState<string | null>(null)
     const isValidMessage = /\S/.test(messageBody)
-    const textInputRef = useRef<HTMLTextAreaElement>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    useEffect(() => {
-        if (isChatWindowOpen) {
-            // When the chat window is opened, we will focus on the text input.
-            // This is so the user doesn't have to click on it to begin typing a message.
-            textInputRef.current?.focus()
-        }
-    }, [isChatWindowOpen])
+    const trans = useTrans()
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (event) => {
         setMessageBody(event.target.value)
     }
 
-    // ensures pressing enter + shift creates a new line, so that enter on its own only sends the message:
     const handleReturnKeyPress = (event: React.KeyboardEvent) => {
-        if (!isMobile && event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault()
-            handleSendMessage(messageBody)
-        }
+        event.preventDefault()
+        handleSendMessage(messageBody)
     }
 
     const handleSendMessage = (message: string) => {
@@ -123,75 +66,56 @@ export default function ChatInput({
         }
     }
 
+    useEffect(() => {
+        if (fileSendError) {
+            message.error(trans('Failed to send file'))
+        }
+    }, [fileSendError])
+
     return (
-        <div className={classes.chatInputContainer}>
-            <Snackbar
-                open={Boolean(fileSendError)}
-                headline="Error"
-                message={fileSendError || ''}
-                variant="error"
-                handleClose={() => setFileSendError(null)}
-            />
-            <Input.TextArea
-                autoSize={{
-                    minRows: 1,
-                    maxRows: 3,
+        <div
+            style={{
+                position: 'fixed',
+                bottom: 0,
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+                width: 450,
+                height: 50,
+                background: 'white',
+            }}
+        >
+            <Button
+                style={{
+                    marginRight: 12,
                 }}
-                className={classes.textArea}
-                aria-label="chat input"
-                placeholder="Write a message..."
-                onKeyPress={handleReturnKeyPress}
-                onChange={handleChange}
-                value={messageBody}
-                data-cy-chat-input
-                ref={textInputRef}
+                onClick={() => fileInputRef.current?.click()}
+                shape="circle"
+                icon={<LinkOutlined />}
+                loading={isSendingFile}
             />
-            <Grid
-                container
-                alignItems="flex-end"
-                justify="flex-end"
-                wrap="nowrap"
+            <input
+                ref={fileInputRef}
+                type="file"
+                style={{ display: 'none' }}
+                onChange={handleSendFile}
+                value={''}
+                accept={ALLOWED_FILE_TYPES}
+            />
+            <Input
+                value={messageBody}
+                onChange={handleChange}
+                placeholder={trans('Type something')}
+                onPressEnter={handleReturnKeyPress}
+            />
+            <Button
+                type="primary"
+                onClick={() => handleSendMessage(messageBody)}
+                disabled={!isValidMessage}
+                data-cy-send-message-button
             >
-                {/* Since the file input element is invisible, we can hardcode an empty string as its value.
-        This allows users to upload the same file multiple times. */}
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    style={{ display: 'none' }}
-                    onChange={handleSendFile}
-                    value={''}
-                    accept={ALLOWED_FILE_TYPES}
-                />
-                <div className={classes.buttonContainer}>
-                    <div className={classes.fileButtonContainer}>
-                        <Button
-                            className={classes.button}
-                            onClick={() => fileInputRef.current?.click()}
-                            disabled={isSendingFile}
-                        >
-                            <FileAttachmentIcon />
-                        </Button>
-
-                        {isSendingFile && (
-                            <CircularProgress
-                                size={24}
-                                className={classes.fileButtonLoadingSpinner}
-                            />
-                        )}
-                    </div>
-
-                    <Button
-                        className={classes.button}
-                        onClick={() => handleSendMessage(messageBody)}
-                        color="primary"
-                        variant="contained"
-                        disabled={!isValidMessage}
-                        data-cy-send-message-button
-                    >
-                        <SendMessageIcon />
-                    </Button>
-                </div>
-            </Grid>
+                {trans('Send')}
+            </Button>
         </div>
     )
 }

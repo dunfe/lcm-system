@@ -1,125 +1,69 @@
 import React from 'react'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 
-import Button from '@material-ui/core/Button'
 import EndCallButton from '../Buttons/EndCallButton/EndCallButton'
-import { isMobile } from '../../utils'
 import Menu from './Menu/Menu'
 import useRoomState from '../../hooks/useRoomState/useRoomState'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
-import { Typography, Grid, Hidden } from '@material-ui/core'
 import ToggleAudioButton from '../Buttons/ToggleAudioButton/ToggleAudioButton'
 import ToggleChatButton from '../Buttons/ToggleChatButton/ToggleChatButton'
 import ToggleVideoButton from '../Buttons/ToggleVideoButton/ToggleVideoButton'
 import ToggleScreenShareButton from '../Buttons/ToogleScreenShareButton/ToggleScreenShareButton'
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
+import { Row, Col, Typography, Space } from 'antd'
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        container: {
-            backgroundColor: theme.palette.background.default,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: `${theme.footerHeight}px`,
-            position: 'fixed',
-            display: 'flex',
-            padding: '0 1.43em',
-            zIndex: 10,
-            [theme.breakpoints.down('sm' as Breakpoint)]: {
-                height: `${theme.mobileFooterHeight}px`,
-                padding: 0,
-            },
-        },
-        screenShareBanner: {
-            position: 'fixed',
-            zIndex: 10,
-            bottom: `${theme.footerHeight}px`,
-            left: 0,
-            right: 0,
-            height: '104px',
-            background: 'rgba(0, 0, 0, 0.5)',
-            '& h6': {
-                color: 'white',
-            },
-            '& button': {
-                background: 'white',
-                color: theme.brand,
-                border: `2px solid ${theme.brand}`,
-                margin: '0 2em',
-                '&:hover': {
-                    color: '#600101',
-                    border: `2px solid #600101`,
-                    background: '#FFE9E7',
-                },
-            },
-        },
-        hideMobile: {
-            display: 'initial',
-            [theme.breakpoints.down('sm' as Breakpoint)]: {
-                display: 'none',
-            },
-        },
-    })
-)
-
-export default function MenuBar() {
-    const classes = useStyles()
-    const { isSharingScreen, toggleScreenShare } = useVideoContext()
+const { Text } = Typography
+const MenuBar = () => {
     const roomState = useRoomState()
     const isReconnecting = roomState === 'reconnecting'
     const { room } = useVideoContext()
 
     return (
-        <>
-            {isSharingScreen && (
-                <Grid
-                    container
-                    justify="center"
-                    alignItems="center"
-                    className={classes.screenShareBanner}
+        <Row
+            align={'middle'}
+            justify={'center'}
+            style={{
+                background: 'white',
+                height: 50,
+                display: 'fixed',
+                bottom: 0,
+            }}
+        >
+            <Col
+                span={6}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                }}
+            >
+                <Text
+                    style={{
+                        paddingLeft: 24,
+                    }}
                 >
-                    <Typography variant="h6">
-                        You are sharing your screen
-                    </Typography>
-                    <Button onClick={() => toggleScreenShare()}>
-                        Stop Sharing
-                    </Button>
-                </Grid>
-            )}
-            <footer className={classes.container}>
-                <Grid container justify="space-around" alignItems="center">
-                    <Hidden smDown>
-                        <Grid style={{ flex: 1 }}>
-                            <Typography variant="body1">
-                                {room!.name}
-                            </Typography>
-                        </Grid>
-                    </Hidden>
-                    <Grid item>
-                        <Grid container justify="center">
-                            <ToggleAudioButton disabled={isReconnecting} />
-                            <ToggleVideoButton disabled={isReconnecting} />
-                            {!isSharingScreen && !isMobile && (
-                                <ToggleScreenShareButton
-                                    disabled={isReconnecting}
-                                />
-                            )}
-                            {process.env
-                                .REACT_APP_DISABLE_TWILIO_CONVERSATIONS !==
-                                'true' && <ToggleChatButton />}
-                        </Grid>
-                    </Grid>
-                    <Hidden smDown>
-                        <Grid style={{ flex: 1 }}>
-                            <Grid container justify="flex-end">
-                                <Menu />
-                                <EndCallButton />
-                            </Grid>
-                        </Grid>
-                    </Hidden>
-                </Grid>
-            </footer>
-        </>
+                    Room: {room!.name}
+                </Text>
+            </Col>
+            <Col flex="auto">
+                <Space>
+                    <ToggleAudioButton disabled={isReconnecting} />
+                    <ToggleVideoButton disabled={isReconnecting} />
+                    <ToggleScreenShareButton disabled={isReconnecting} />
+                    <ToggleChatButton />
+                </Space>
+            </Col>
+            <Col
+                span={6}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    paddingRight: 24,
+                }}
+            >
+                <Menu />
+                <EndCallButton />
+            </Col>
+        </Row>
     )
 }
+
+export default MenuBar

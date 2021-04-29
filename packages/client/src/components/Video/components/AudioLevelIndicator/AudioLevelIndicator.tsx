@@ -11,7 +11,7 @@ const getUniqueClipId = () => clipId++
 const AudioContext = window.AudioContext || window.webkitAudioContext
 let audioContext: AudioContext
 
-export function initializeAnalyser(stream: MediaStream) {
+function initializeAnalyser(stream: MediaStream) {
     audioContext = audioContext || new AudioContext()
     const audioSource = audioContext.createMediaStreamSource(stream)
 

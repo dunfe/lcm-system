@@ -1,17 +1,14 @@
 import React, { PropsWithChildren } from 'react'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import enhanceMessage from './enhanceMessage'
 import { TwilioError } from 'twilio-video'
+import { Modal, Typography } from 'antd'
 
 interface ErrorDialogProps {
     dismissError: any
     error: TwilioError | Error | null
 }
+
+const { Text, Title } = Typography
 
 function ErrorDialog({
     dismissError,
@@ -21,31 +18,19 @@ function ErrorDialog({
     const enhancedMessage = enhanceMessage(message, code)
 
     return (
-        <Dialog
-            open={error !== null}
-            onClose={() => dismissError()}
-            fullWidth={true}
-            maxWidth="xs"
+        <Modal
+            visible={error !== null}
+            onCancel={() => dismissError()}
+            onOk={() => dismissError()}
         >
-            <DialogTitle>ERROR</DialogTitle>
-            <DialogContent>
-                <DialogContentText>{enhancedMessage}</DialogContentText>
-                {Boolean(code) && (
-                    <pre>
-                        <code>Error Code: {code}</code>
-                    </pre>
-                )}
-            </DialogContent>
-            <DialogActions>
-                <Button
-                    onClick={() => dismissError()}
-                    color="primary"
-                    autoFocus
-                >
-                    OK
-                </Button>
-            </DialogActions>
-        </Dialog>
+            <Title>ERROR</Title>
+            <Text>{enhancedMessage}</Text>
+            {Boolean(code) && (
+                <pre>
+                    <code>Error Code: {code}</code>
+                </pre>
+            )}
+        </Modal>
     )
 }
 

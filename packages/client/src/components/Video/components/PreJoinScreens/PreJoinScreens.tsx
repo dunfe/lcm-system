@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FormEvent } from 'react'
+import React from 'react'
 import DeviceSelectionScreen from './DeviceSelectionScreen/DeviceSelectionScreen'
 import IntroContainer from '../IntroContainer/IntroContainer'
 import MediaErrorSnackbar from './MediaErrorSnackbar/MediaErrorSnackbar'
@@ -13,13 +13,15 @@ export enum Steps {
     deviceSelectionStep,
 }
 
-export default function PreJoinScreens() {
+const { useState, useEffect } = React
+
+const PreJoinScreens = () => {
     const { user } = useAppState()
     const { getAudioAndVideoTracks } = useVideoContext()
     const { URLRoomName } = useParams() as any
     const [step, setStep] = useState(Steps.roomNameStep)
 
-    const [name, setName] = useState<string>(useFullname() || '')
+    const [name] = useState<string>(useFullname() || '')
     const [roomName, setRoomName] = useState<string>('')
 
     const [mediaError, setMediaError] = useState<Error>()
@@ -43,18 +45,7 @@ export default function PreJoinScreens() {
         }
     }, [getAudioAndVideoTracks, step, mediaError])
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        // If this app is deployed as a twilio function, don't change the URL because routing isn't supported.
-        if (!window.location.origin.includes('twil.io')) {
-            window.history.replaceState(
-                null,
-                '',
-                window.encodeURI(
-                    `/room/${roomName}${window.location.search || ''}`
-                )
-            )
-        }
+    const handleSubmit = () => {
         setStep(Steps.deviceSelectionStep)
     }
 
@@ -65,8 +56,6 @@ export default function PreJoinScreens() {
                 <RoomNameScreen
                     name={name}
                     roomName={roomName}
-                    setName={setName}
-                    setRoomName={setRoomName}
                     handleSubmit={handleSubmit}
                 />
             )}
@@ -81,3 +70,5 @@ export default function PreJoinScreens() {
         </IntroContainer>
     )
 }
+
+export default PreJoinScreens

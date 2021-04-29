@@ -3,27 +3,16 @@ import {
     DEFAULT_VIDEO_CONSTRAINTS,
     SELECTED_VIDEO_INPUT_KEY,
 } from '../../../constants'
-import { FormControl, MenuItem, Typography, Select } from '@material-ui/core'
 import { LocalVideoTrack } from 'twilio-video'
-import { makeStyles } from '@material-ui/core/styles'
 import VideoTrack from '../../VideoTrack/VideoTrack'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useMediaStreamTrack from '../../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import { Select, Typography } from 'antd'
 
-const useStyles = makeStyles({
-    preview: {
-        width: '300px',
-        maxHeight: '200px',
-        margin: '0.5em auto',
-        '& video': {
-            maxHeight: '200px',
-        },
-    },
-})
+const { Text } = Typography
 
 export default function VideoInputList() {
-    const classes = useStyles()
     const { videoInputDevices } = useDevices()
     const { localTracks } = useVideoContext()
 
@@ -48,38 +37,32 @@ export default function VideoInputList() {
         })
     }
 
+    const videoOptions = videoInputDevices.map((device) => {
+        return {
+            label: device.label,
+            value: device.deviceId,
+        }
+    })
+
     return (
         <div>
             {localVideoTrack && (
-                <div className={classes.preview}>
+                <div>
                     <VideoTrack isLocal track={localVideoTrack} />
                 </div>
             )}
             {videoInputDevices.length > 1 ? (
-                <FormControl fullWidth>
-                    <Typography variant="subtitle2" gutterBottom>
-                        Video Input
-                    </Typography>
+                <>
+                    <Text>Video Input</Text>
                     <Select
-                        onChange={(e) => replaceTrack(e.target.value as string)}
+                        onChange={(e) => replaceTrack(e)}
                         value={localVideoInputDeviceId || ''}
-                        variant="outlined"
-                    >
-                        {videoInputDevices.map((device) => (
-                            <MenuItem
-                                value={device.deviceId}
-                                key={device.deviceId}
-                            >
-                                {device.label}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                        options={videoOptions}
+                    />
+                </>
             ) : (
                 <>
-                    <Typography variant="subtitle2" gutterBottom>
-                        Video Input
-                    </Typography>
+                    <Text>Video Input</Text>
                     <Typography>
                         {localVideoTrack?.mediaStreamTrack.label ||
                             'No Local Video'}

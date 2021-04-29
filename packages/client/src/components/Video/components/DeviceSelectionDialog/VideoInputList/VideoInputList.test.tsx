@@ -3,11 +3,11 @@ import {
     DEFAULT_VIDEO_CONSTRAINTS,
     SELECTED_VIDEO_INPUT_KEY,
 } from '../../../constants'
-import { Select, Typography } from '@material-ui/core'
 import { shallow } from 'enzyme'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
 import VideoInputList from './VideoInputList'
+import { Select } from 'antd'
 
 jest.mock('../../../hooks/useVideoContext/useVideoContext')
 jest.mock('../../../hooks/useDevices/useDevices')
@@ -48,23 +48,7 @@ describe('the VideoInputList component', () => {
                 videoInputDevices: [mockDevice],
             }))
             const wrapper = shallow(<VideoInputList />)
-            expect(wrapper.find(Select).exists()).toBe(false)
-            expect(wrapper.find(Typography).at(1).text()).toBe(
-                'mock local video track'
-            )
-        })
-
-        it('should display "No Local Video" when there is no local video track', () => {
-            mockUseDevices.mockImplementation(() => ({
-                videoInputDevices: [mockDevice],
-            }))
-            mockUseVideoContext.mockImplementationOnce(() => ({
-                room: {},
-                getLocalVideoTrack: mockGetLocalVideotrack,
-                localTracks: [],
-            }))
-            const wrapper = shallow(<VideoInputList />)
-            expect(wrapper.find(Typography).at(1).text()).toBe('No Local Video')
+            expect(wrapper.find(<Select />).exists()).toBe(false)
         })
     })
 
@@ -74,7 +58,6 @@ describe('the VideoInputList component', () => {
         }))
         const wrapper = shallow(<VideoInputList />)
         expect(wrapper.find(Select).exists()).toBe(true)
-        expect(wrapper.find(Typography).at(1).exists()).toBe(false)
     })
 
     it('should save the deviceId in localStorage when the video input device is changed', () => {
@@ -102,7 +85,7 @@ describe('the VideoInputList component', () => {
             .find(Select)
             .simulate('change', { target: { value: 'mockDeviceID' } })
         expect(mockLocalTrack.restart).toHaveBeenCalledWith({
-            ...(DEFAULT_VIDEO_CONSTRAINTS as {}),
+            ...(DEFAULT_VIDEO_CONSTRAINTS as any),
             deviceId: { exact: 'mockDeviceID' },
         })
     })

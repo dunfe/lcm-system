@@ -1,13 +1,4 @@
 import React from 'react'
-import {
-    makeStyles,
-    Typography,
-    Grid,
-    Button,
-    Theme,
-    Hidden,
-} from '@material-ui/core'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import LocalVideoPreview from './LocalVideoPreview/LocalVideoPreview'
 import SettingsMenu from './SettingsMenu/SettingsMenu'
 import { Steps } from '../PreJoinScreens'
@@ -16,49 +7,8 @@ import ToggleVideoButton from '../../Buttons/ToggleVideoButton/ToggleVideoButton
 import { useAppState } from '../../../state'
 import useChatContext from '../../../hooks/useChatContext/useChatContext'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
-
-const useStyles = makeStyles((theme: Theme) => ({
-    gutterBottom: {
-        marginBottom: '1em',
-    },
-    marginTop: {
-        marginTop: '1em',
-    },
-    deviceButton: {
-        width: '100%',
-        border: '2px solid #aaa',
-        margin: '1em 0',
-    },
-    localPreviewContainer: {
-        paddingRight: '2em',
-        [theme.breakpoints.down('sm' as Breakpoint)]: {
-            padding: '0 2.5em',
-        },
-    },
-    joinButtons: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        [theme.breakpoints.down('sm' as Breakpoint)]: {
-            flexDirection: 'column-reverse',
-            width: '100%',
-            '& button': {
-                margin: '0.5em 0',
-            },
-        },
-    },
-    mobileButtonBar: {
-        [theme.breakpoints.down('sm' as Breakpoint)]: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            margin: '1.5em 0 1em',
-        },
-    },
-    mobileButton: {
-        padding: '0.8em 0',
-        margin: 0,
-    },
-}))
+import { useTrans } from 'common'
+import { Button, Col, Row, Space, Spin } from 'antd'
 
 interface DeviceSelectionScreenProps {
     name: string
@@ -66,12 +16,9 @@ interface DeviceSelectionScreenProps {
     setStep: (step: Steps) => void
 }
 
-export default function DeviceSelectionScreen({
-    name,
-    roomName,
-    setStep,
-}: DeviceSelectionScreenProps) {
-    const classes = useStyles()
+const DeviceSelectionScreen = (props: DeviceSelectionScreenProps) => {
+    const { name, roomName, setStep } = props
+
     const { getToken, isFetching } = useAppState()
     const { connect: chatConnect } = useChatContext()
     const {
@@ -79,6 +26,8 @@ export default function DeviceSelectionScreen({
         isAcquiringLocalTracks,
         isConnecting,
     } = useVideoContext()
+
+    const trans = useTrans()
     const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting
 
     const handleJoin = () => {
@@ -90,96 +39,52 @@ export default function DeviceSelectionScreen({
     }
 
     if (isFetching || isConnecting) {
-        return (
-            <Grid
-                container
-                justify="center"
-                alignItems="center"
-                direction="column"
-                style={{ height: '100%' }}
-            >
-                <div>
-                    <CircularProgress variant="indeterminate" />
-                </div>
-                <div>
-                    <Typography
-                        variant="body2"
-                        style={{ fontWeight: 'bold', fontSize: '16px' }}
-                    >
-                        Joining Meeting
-                    </Typography>
-                </div>
-            </Grid>
-        )
+        return <Spin tip={trans('Loading...')} />
     }
 
     return (
-        <>
-            <Typography variant="h5" className={classes.gutterBottom}>
-                Join {roomName}
-            </Typography>
-
-            <Grid container justify="center">
-                <Grid item md={7} sm={12} xs={12}>
-                    <div className={classes.localPreviewContainer}>
-                        <LocalVideoPreview identity={name} />
-                    </div>
-                    <div className={classes.mobileButtonBar}>
-                        <Hidden mdUp>
-                            <ToggleAudioButton
-                                className={classes.mobileButton}
-                                disabled={disableButtons}
-                            />
-                            <ToggleVideoButton
-                                className={classes.mobileButton}
-                                disabled={disableButtons}
-                            />
-                        </Hidden>
-                        <SettingsMenu
-                            mobileButtonClass={classes.mobileButton}
-                        />
-                    </div>
-                </Grid>
-                <Grid item md={5} sm={12} xs={12}>
-                    <Grid
-                        container
-                        direction="column"
-                        justify="space-between"
-                        style={{ height: '100%' }}
+        <Row style={{ width: 500 }}>
+            <Col span={12}>
+                <Space
+                    direction={'vertical'}
+                    style={{ width: '100%', margin: 'auto' }}
+                >
+                    <LocalVideoPreview identity={name} />
+                    <SettingsMenu />
+                </Space>
+            </Col>
+            <Col span={12}>
+                <Row
+                    style={{
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Space
+                        direction={'vertical'}
+                        style={{ display: 'flex', alignItems: 'center' }}
                     >
-                        <div>
-                            <Hidden smDown>
-                                <ToggleAudioButton
-                                    className={classes.deviceButton}
-                                    disabled={disableButtons}
-                                />
-                                <ToggleVideoButton
-                                    className={classes.deviceButton}
-                                    disabled={disableButtons}
-                                />
-                            </Hidden>
-                        </div>
-                        <div className={classes.joinButtons}>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => setStep(Steps.roomNameStep)}
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                data-cy-join-now
-                                onClick={handleJoin}
-                                disabled={disableButtons}
-                            >
-                                Join Now
-                            </Button>
-                        </div>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </>
+                        <ToggleAudioButton disabled={disableButtons} />
+                        <ToggleVideoButton disabled={disableButtons} />
+                    </Space>
+                    <Space style={{ margin: 'auto' }}>
+                        <Button onClick={() => setStep(Steps.roomNameStep)}>
+                            {trans('Cancel')}
+                        </Button>
+                        <Button
+                            type={'primary'}
+                            onClick={handleJoin}
+                            disabled={disableButtons}
+                        >
+                            {trans('Join Now')}
+                        </Button>
+                    </Space>
+                </Row>
+            </Col>
+        </Row>
     )
 }
+
+export default DeviceSelectionScreen

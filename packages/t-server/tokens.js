@@ -27,7 +27,7 @@ const videoToken = (identity, room) => {
     return token;
 };
 
-const roomToken = (user_identity, room_name, create_room, create_conversation) => {
+const roomToken = async (user_identity, room_name, create_room, create_conversation) => {
 
     if (typeof create_room !== 'boolean') {
         return
@@ -50,29 +50,29 @@ const roomToken = (user_identity, room_name, create_room, create_conversation) =
 
         try {
             // See if a room already exists
-            room = client.video.rooms(room_name).fetch().then((room) => room);
+            room = await client.video.rooms(room_name).fetch().then((room) => room);
         } catch (e) {
             try {
                 // If room doesn't exist, create it
-                room = client.video.rooms.create({ uniqueName: room_name, type: 'peer-to-peer' }).then((room) => room);
+                room = await client.video.rooms.create({ uniqueName: room_name, type: 'peer-to-peer' }).then((room) => room);
             } catch (e) {
                 return
             }
         }
 
         if (create_conversation) {
-            const conversationsClient = client.conversations.services('IS8e42f6fd58a94399b10b2df5c8e412ba');
+            const conversationsClient = await client.conversations.services('IS8e42f6fd58a94399b10b2df5c8e412ba');
 
             try {
                 // See if conversation already exists
-                conversationsClient.conversations(room.sid).fetch().then((conversation) => conversation);
+                await  conversationsClient.conversations(room.sid).fetch().then((conversation) => conversation);
             } catch (e) {
                 try {
                     // If conversation doesn't exist, create it.
                     // Here we add a timer to close the conversation after the maximum length of a room (24 hours).
                     // This helps to clean up old conversations since there is a limit that a single participant
                     // can not be added to more than 1,000 open conversations.
-                    conversationsClient.conversations.create({ uniqueName: room.sid, 'timers.closed': 'P1D' }).then((conversation) => conversation);
+                    await conversationsClient.conversations.create({ uniqueName: room.sid, 'timers.closed': 'P1D' }).then((conversation) => conversation);
                 } catch (e) {
                     return
                 }
@@ -80,7 +80,7 @@ const roomToken = (user_identity, room_name, create_room, create_conversation) =
 
             try {
                 // Add participant to conversation
-                conversationsClient.conversations(room.sid).participants.create({ identity: user_identity }).then((participants) => participants);
+                await conversationsClient.conversations(room.sid).participants.create({ identity: user_identity }).then((participants) => participants);
             } catch (e) {
                 // Ignore "Participant already exists" error (50433)
                 if (e.code !== 50433) {

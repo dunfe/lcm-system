@@ -1,7 +1,9 @@
 import React from 'react'
-import { FormControl, MenuItem, Typography, Select } from '@material-ui/core'
 import { useAppState } from '../../../state'
 import useDevices from '../../../hooks/useDevices/useDevices'
+import { Select, Typography } from 'antd'
+
+const { Text } = Typography
 
 export default function AudioOutputList() {
     const { audioOutputDevices } = useDevices()
@@ -10,36 +12,35 @@ export default function AudioOutputList() {
         (device) => device.deviceId === activeSinkId
     )?.label
 
+    const audioOptions = audioOutputDevices.map((device) => {
+        return {
+            label: device.label,
+            value: device.deviceId,
+        }
+    })
+
     return (
         <div className="inputSelect">
             {audioOutputDevices.length > 1 ? (
-                <FormControl fullWidth>
-                    <Typography variant="subtitle2" gutterBottom>
-                        Audio Output
-                    </Typography>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <Text>Audio Output</Text>
                     <Select
-                        onChange={(e) =>
-                            setActiveSinkId(e.target.value as string)
-                        }
+                        onChange={(e) => setActiveSinkId(e)}
                         value={activeSinkId}
-                        variant="outlined"
-                    >
-                        {audioOutputDevices.map((device) => (
-                            <MenuItem
-                                value={device.deviceId}
-                                key={device.deviceId}
-                            >
-                                {device.label}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                        options={audioOptions}
+                    />
+                </div>
             ) : (
                 <>
-                    <Typography variant="subtitle2">Audio Output</Typography>
-                    <Typography>
+                    <Text>Audio Output</Text>
+                    <Text>
                         {activeOutputLabel || 'System Default Audio Output'}
-                    </Typography>
+                    </Text>
                 </>
             )}
         </div>
