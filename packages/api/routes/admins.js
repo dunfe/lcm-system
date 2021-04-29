@@ -4,7 +4,7 @@ import Report from '../models/report.js'
 import User from '../models/user.js'; 
 import Question from '../models/question.js'
 import { getAllMentee, getUserById, countAllRecord,banUserById, updateUserById, unbanUserById } from '../controller/user.js';
-import { getAllMentor, getMentorById, getMentorByName, updateMentorById, delMentorById} from '../controller/mentor.js';
+import { getAllMentor, getMentorById, getMentorByName,getUserByEmail, updateMentorById, delMentorById} from '../controller/mentor.js';
 import { createQuestion, getAllQuestions, getQuestionById, updateQuestionById, delQuestionById } from '../controller/question.js';
 import { getAllRequest, getRequestById, confirmRequestMentorRegister, delRequest} from '../controller/request.js';
 import { protect, restrictTo} from '../controller/auth.js';
@@ -26,6 +26,7 @@ router.post('/users/unban/:id', protect, restrictTo('admin'), unbanUserById);
 router.get("/mentors", protect, restrictTo('admin'), getAllMentor(User));
 router.get("/mentors/:id", protect, restrictTo('admin'), getMentorById);
 router.get("/search/mentors",protect,restrictTo('admin'),getMentorByName(User));
+router.get("/search/users",protect,restrictTo('admin','staff'),getUserByEmail(User));
 router.put('/mentors/:id', protect, restrictTo('admin'), updateMentorById);
 router.delete('/mentors/:id', protect, restrictTo('admin'), delMentorById);
 

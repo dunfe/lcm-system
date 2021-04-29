@@ -32,7 +32,6 @@ export const dashboardMentee = async (req,res) =>{
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
         results.lineTableSelectedQuestion = lineTableSelectedQuestion;
         results.circleQuestion = circleQuestion;
-        console.log(results);
     }else if(CurrUser.role == 'mentee'){
         AllQuestion = await Question.find({menteeId: userId}).select('createAt -_id')
         AllQuestionbyStatus = await Question.find({menteeId: userId}).select('status -_id')
@@ -40,7 +39,6 @@ export const dashboardMentee = async (req,res) =>{
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
         results.lineTableQuestion = lineTableQuestion;
         results.circleQuestion = circleQuestion;
-        console.log(results);
     }
     return res.status(200).json({
         status: 'success',

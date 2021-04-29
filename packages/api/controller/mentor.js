@@ -251,6 +251,47 @@ export function getMentorByName (model) {
     }
 }
 
+export function getUserByEmail (model) {
+    return async (req, res) => {
+        const email = req.query.email
+
+        let page = parseInt(req.query.page) || 1
+        const limit = 10
+        const results = {}
+        const data = await model.find({
+            'email': { '$regex': new RegExp(email, 'i') }
+        })
+        const totalPage = Math.ceil(data.length / limit)
+        results.totalPage = totalPage
+        results.totalItem = data.length
+        if (page < 1 || page > totalPage) page = 1
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
+
+        if (endIndex < data.length) {
+            results.next = {
+                page: page + 1,
+                limit: limit,
+            }
+        }
+
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit,
+            }
+        }
+        try {
+            results.results = await model.find({
+                'email': { '$regex': new RegExp(email, 'i') }
+            }).limit(limit).skip(startIndex).exec()
+            return res.status(200).json(results)
+        } catch (e) {
+            res.status(500).json({ message: e.message })
+        }
+    }
+}
+
 export const totalMentor = (req, res) => {
     Mentor.aggregate([
         {
