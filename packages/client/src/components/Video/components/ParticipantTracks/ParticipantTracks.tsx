@@ -19,13 +19,13 @@ interface ParticipantTracksProps {
  *  and the Publication component renders Tracks.
  */
 
-export default function ParticipantTracks({
+const ParticipantTracks = ({
     participant,
     videoOnly,
     enableScreenShare,
     videoPriority,
     isLocalParticipant,
-}: ParticipantTracksProps) {
+}: ParticipantTracksProps) => {
     const publications = usePublications(participant)
 
     let filteredPublications
@@ -58,3 +58,5 @@ export default function ParticipantTracks({
         </>
     )
 }
+
+export default ParticipantTracks

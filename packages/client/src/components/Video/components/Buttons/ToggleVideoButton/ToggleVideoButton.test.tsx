@@ -21,21 +21,21 @@ describe('the ToggleVideoButton component', () => {
     })
 
     it('should render correctly when video is enabled', () => {
-        mockUseLocalVideoToggle.mockImplementation(() => [true, () => {}])
+        mockUseLocalVideoToggle.mockImplementation(() => [true])
         const wrapper = shallow(<ToggleVideoButton />)
         expect(wrapper.prop('startIcon')).toEqual(<VideoOnIcon />)
         expect(wrapper.text()).toBe('Stop Video')
     })
 
     it('should render correctly when video is disabled', () => {
-        mockUseLocalVideoToggle.mockImplementation(() => [false, () => {}])
+        mockUseLocalVideoToggle.mockImplementation(() => [false])
         const wrapper = shallow(<ToggleVideoButton />)
         expect(wrapper.prop('startIcon')).toEqual(<VideoOffIcon />)
         expect(wrapper.text()).toBe('Start Video')
     })
 
     it('should render correctly when no video devices exist', () => {
-        mockUseLocalVideoToggle.mockImplementation(() => [true, () => {}])
+        mockUseLocalVideoToggle.mockImplementation(() => [true])
         mockUseDevices.mockImplementationOnce(() => ({
             hasVideoInputDevices: false,
         }))

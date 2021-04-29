@@ -1,54 +1,38 @@
 import React from 'react'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import ChatWindowHeader from './ChatWindowHeader/ChatWindowHeader'
 import ChatInput from './ChatInput/ChatInput'
-import clsx from 'clsx'
 import MessageList from './MessageList/MessageList'
 import useChatContext from '../../hooks/useChatContext/useChatContext'
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
+import { Drawer } from 'antd'
+import { useTrans } from 'common'
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        chatWindowContainer: {
-            background: '#FFFFFF',
-            zIndex: 100,
-            display: 'flex',
-            flexDirection: 'column',
-            borderLeft: '1px solid #E4E7E9',
-            [theme.breakpoints.down('sm' as Breakpoint)]: {
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-            },
-        },
-        hide: {
-            display: 'none',
-        },
-    })
-)
-
-// In this component, we are toggling the visibility of the ChatWindow with CSS instead of
-// conditionally rendering the component in the DOM. This is done so that the ChatWindow is
-// not unmounted while a file upload is in progress.
-
-export default function ChatWindow() {
-    const classes = useStyles()
-    const { isChatWindowOpen, messages, conversation } = useChatContext()
-
+const ChatWindow = () => {
+    const {
+        isChatWindowOpen,
+        messages,
+        conversation,
+        setIsChatWindowOpen,
+    } = useChatContext()
+    const trans = useTrans()
     return (
-        <aside
-            className={clsx(classes.chatWindowContainer, {
-                [classes.hide]: !isChatWindowOpen,
-            })}
+        <Drawer
+            width={500}
+            title={trans('Chat')}
+            visible={isChatWindowOpen}
+            onClose={() => setIsChatWindowOpen(false)}
         >
-            <ChatWindowHeader />
-            <MessageList messages={messages} />
+            <div
+                style={{
+                    marginBottom: 50,
+                }}
+            >
+                <MessageList messages={messages} />
+            </div>
             <ChatInput
                 conversation={conversation!}
                 isChatWindowOpen={isChatWindowOpen}
             />
-        </aside>
+        </Drawer>
     )
 }
+
+export default ChatWindow

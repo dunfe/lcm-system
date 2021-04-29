@@ -82,7 +82,7 @@ const MediaErrorSnackbar = ({ error }: { error?: Error }) => {
     )
 
     const openNotification = () => {
-        notification.open({
+        notification.warning({
             message: headline,
             description: message,
         })

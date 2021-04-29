@@ -1,6 +1,5 @@
 import React from 'react'
 import MenuBar from './components/MenuBar/MenuBar'
-import MobileTopMenuBar from './components/MobileTopMenuBar/MobileTopMenuBar'
 import PreJoinScreens from './components/PreJoinScreens/PreJoinScreens'
 import ReconnectingNotification from './components/ReconnectingNotification/ReconnectingNotification'
 import Room from './components/Room/Room'
@@ -21,7 +20,6 @@ export default function VideoAppComponent() {
             ) : (
                 <StyledMain>
                     <ReconnectingNotification />
-                    <MobileTopMenuBar />
                     <Room />
                     <MenuBar />
                 </StyledMain>
@@ -36,6 +34,6 @@ const StyledVideoAppComponent = styled.div`
 
 const StyledMain = styled.div`
     overflow: hidden;
-    padding-bottom: 72px;
+    padding-bottom: 50px;
     background: black;
 `
