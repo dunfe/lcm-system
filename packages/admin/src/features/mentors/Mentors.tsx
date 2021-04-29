@@ -10,6 +10,7 @@ import {
     Tag,
     Descriptions,
     Rate,
+    Popconfirm,
 } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
@@ -17,6 +18,7 @@ import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectMentors, updateMentors } from './mentorsSlice'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
+import { useTrans } from 'common'
 
 interface IProps {
     visible: boolean
@@ -49,6 +51,8 @@ const Mentors = (props: IProps) => {
     const [detail, setDetail] = useState(false)
     const [total, setTotal] = useState(0)
     const [form] = useForm()
+
+    const trans = useTrans()
 
     const auth = useAuth()
     const instance = axios.create({
@@ -105,17 +109,28 @@ const Mentors = (props: IProps) => {
                             type={'primary'}
                             onClick={() => onEdit(record._id)}
                         >
-                            Edit
+                            {trans('Edit')}
                         </Button>
-                        <Button danger onClick={() => onBan(record._id)}>
-                            Ban
-                        </Button>
+                        {record.role === 'banned' ? null : ban(record._id)}
                     </Space>
                 )
             },
             responsive: ['sm'] as Breakpoint[],
         },
     ]
+
+    const ban = (id: string) => {
+        return (
+            <Popconfirm
+                title={trans('Are you sure?')}
+                onConfirm={() => onBan(id)}
+                okText="Yes"
+                cancelText="No"
+            >
+                <Button danger>{trans('Ban')}</Button>
+            </Popconfirm>
+        )
+    }
 
     const onViewDetail = (id: string) => {
         setUpdateId(id)
@@ -343,6 +358,7 @@ const Mentors = (props: IProps) => {
                 dataSource={data}
                 rowKey={'_id'}
                 pagination={{
+                    showSizeChanger: false,
                     current: current,
                     total,
                     onChange: onPageChange,

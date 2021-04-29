@@ -17,6 +17,7 @@ import { IUserDetail } from '../../../../client/src/utils/hooks/useUserInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectMentees, updateMentees } from './menteesSlice'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
+import { useTrans } from 'common'
 
 interface IProps {
     visible: boolean
@@ -47,6 +48,8 @@ const Mentees = (props: IProps) => {
     const [detail, setDetail] = useState(false)
 
     const [form] = useForm()
+
+    const trans = useTrans()
 
     const instance = useAPI()
     const columns = [
@@ -97,7 +100,7 @@ const Mentees = (props: IProps) => {
                             type={'primary'}
                             onClick={() => onEdit(record._id)}
                         >
-                            Edit
+                            {trans('Edit')}
                         </Button>
                         {record.role === 'banned'
                             ? unban(record._id)
@@ -112,12 +115,12 @@ const Mentees = (props: IProps) => {
     const unban = (id: string) => {
         return (
             <Popconfirm
-                title={'Are you sure?'}
+                title={trans('Are you sure?')}
                 onConfirm={() => onUnban(id)}
                 okText="Yes"
                 cancelText="No"
             >
-                <Button>Unban</Button>
+                <Button danger>{trans('Unban')}</Button>
             </Popconfirm>
         )
     }
@@ -125,12 +128,12 @@ const Mentees = (props: IProps) => {
     const ban = (id: string) => {
         return (
             <Popconfirm
-                title={'Are you sure?'}
+                title={trans('Are you sure?')}
                 onConfirm={() => onBan(id)}
                 okText="Yes"
                 cancelText="No"
             >
-                <Button>Ban</Button>
+                <Button danger>{trans('Ban')}</Button>
             </Popconfirm>
         )
     }
@@ -354,6 +357,7 @@ const Mentees = (props: IProps) => {
                 dataSource={data}
                 rowKey={'_id'}
                 pagination={{
+                    showSizeChanger: false,
                     current: current,
                     total,
                     onChange: onPageChange,
