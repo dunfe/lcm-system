@@ -111,9 +111,7 @@ const SessionPage = () => {
         <Layout className="session-layout">
             <Content
                 style={{
-                    marginTop: 20,
-                    marginLeft: 20,
-                    marginBottom: 20,
+                    margin: 24,
                     height: 'calc(100vh - 40px)',
                     backgroundColor: 'white',
                 }}
@@ -151,7 +149,7 @@ const SessionPage = () => {
                         <Report />
                     )}
                 </Modal>
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1" className={'session-tab'}>
                     <TabPane tab={t('Real-time Collaborative Editor')} key="1">
                         <TabContent>
                             {roomDetail?._id ? (
@@ -169,10 +167,11 @@ const SessionPage = () => {
                 </Tabs>
             </Content>
             <Button
+                danger
                 onClick={handleDisconnect}
-                style={{ position: 'absolute', top: 24, right: 24 }}
+                style={{ position: 'absolute', top: 30, right: 30 }}
             >
-                {t('Disconnect')}
+                {t('End session')}
             </Button>
         </Layout>
     )

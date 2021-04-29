@@ -1,11 +1,11 @@
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { Button } from '@material-ui/core'
 import { EventEmitter } from 'events'
 import { shallow, mount } from 'enzyme'
 
 import ToggleChatButton, { ANIMATION_DURATION } from './ToggleChatButton'
 import useChatContext from '../../../hooks/useChatContext/useChatContext'
+import { Button } from 'antd'
 
 jest.mock('../../../hooks/useChatContext/useChatContext')
 const mockUseChatContext = useChatContext as jest.Mock<any>
@@ -36,7 +36,7 @@ describe('the ToggleChatButton component', () => {
 
     it('should call the correct toggle function when clicked', () => {
         const wrapper = shallow(<ToggleChatButton />)
-        wrapper.find(Button).simulate('click')
+        wrapper.find(<Button />).simulate('click')
         expect(mockToggleChatWindow).toHaveBeenCalledWith(true)
     })
 

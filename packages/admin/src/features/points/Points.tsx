@@ -26,6 +26,8 @@ const layout = {
     wrapperCol: { span: 24 },
 }
 
+const { Search } = Input
+
 const Points = () => {
     const dispatch = useDispatch()
     const data = useSelector(selectPoints)
@@ -244,6 +246,14 @@ const Points = () => {
         }
     }
 
+    const onSearch = (value) => {
+        instance.get(`/api/admin/search/users?email=${value}`).then((response) => {
+            if (response.status === 200) {
+                dispatch(updatePoints(response.data.))
+            }
+        })
+    }
+
     useEffect(() => {
         if (!expandId || expandId === '') {
             return
@@ -292,6 +302,11 @@ const Points = () => {
 
     return (
         <>
+            <Search
+                placeholder='Search by email'
+                onSearch={onSearch}
+                enterButton
+            />
             <Table
                 columns={columns}
                 expandable={{ expandedRowRender, onExpand }}

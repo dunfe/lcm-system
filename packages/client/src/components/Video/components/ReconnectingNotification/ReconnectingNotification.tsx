@@ -1,16 +1,19 @@
 import React from 'react'
-import Snackbar from '../Snackbar/Snackbar'
 import useRoomState from '../../hooks/useRoomState/useRoomState'
+import { notification } from 'antd'
 
+const { useEffect } = React
 export default function ReconnectingNotification() {
     const roomState = useRoomState()
 
-    return (
-        <Snackbar
-            variant="error"
-            headline="Connection Lost:"
-            message="Reconnecting to room..."
-            open={roomState === 'reconnecting'}
-        />
-    )
+    useEffect(() => {
+        if (roomState === 'reconnecting') {
+            notification.warning({
+                message: 'Connection Lost',
+                description: 'Reconnecting to room...',
+            })
+        }
+    })
+
+    return <></>
 }

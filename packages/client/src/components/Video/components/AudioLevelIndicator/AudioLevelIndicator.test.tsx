@@ -2,7 +2,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import AudioLevelIndicator from './AudioLevelIndicator'
-import MicOff from '@material-ui/icons/MicOff'
 import useIsTrackEnabled from '../../hooks/useIsTrackEnabled/useIsTrackEnabled'
 
 jest.mock('../../hooks/useIsTrackEnabled/useIsTrackEnabled')
@@ -33,7 +32,6 @@ describe('the AudioLevelIndicator component', () => {
         const wrapper = shallow(<AudioLevelIndicator color="#123456" />)
 
         it('should render the audio level icon', () => {
-            expect(wrapper.exists(MicOff)).toBe(false)
             expect(wrapper.exists('[data-test-audio-indicator]')).toBe(true)
         })
 
