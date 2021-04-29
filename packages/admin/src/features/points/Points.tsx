@@ -16,6 +16,8 @@ import { selectPoints, updatePoints } from './pointsSlice'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { status } from '../../utils/status'
 import dayjs from 'dayjs'
+import Timezone from 'dayjs/plugin/timezone'
+import UTC from 'dayjs/plugin/utc'
 import { useForm } from 'antd/es/form/Form'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
@@ -27,6 +29,10 @@ const layout = {
 }
 
 const { Search } = Input
+
+dayjs.extend(UTC)
+dayjs.extend(Timezone)
+dayjs.tz.guess()
 
 const Points = () => {
     const dispatch = useDispatch()
@@ -44,6 +50,7 @@ const Points = () => {
     const [expandId, setExpandId] = useState('')
     const [pointOutData, setPointOutData] = useState([])
     const [pointInData, setPointInData] = useState([])
+    const [expandedRows, setExpandedRows] = useState<string[]>([])
 
     const columns = [
         {
@@ -142,6 +149,9 @@ const Points = () => {
             })
             .then(() => {
                 getData()
+                getExpandPointOutData()
+                getExpandPointInData()
+                form.resetFields()
                 setIsModalVisible(false)
             })
     }
@@ -167,7 +177,7 @@ const Points = () => {
                 dataIndex: 'createAt',
                 key: 'createAt',
                 render(text: string) {
-                    return dayjs(text).format('LLLL')
+                    return dayjs(text).local().format('LLLL')
                 },
                 responsive: ['lg'] as Breakpoint[],
             },
@@ -242,59 +252,71 @@ const Points = () => {
 
     const onExpand = (expanded: boolean, record: any) => {
         if (expanded && record._id) {
+            setExpandedRows([record._id])
             setExpandId(record._id)
         }
     }
 
+    const getExpandPointOutData = () => {
+        instance
+            .get(`/api/staff/viewPointOut/${expandId}`)
+            .then((response) => {
+                const results = response.data.data.pointOutHistory.map(
+                    (item: any) => {
+                        return {
+                            ...item,
+                            type: 'out',
+                        }
+                    }
+                )
+                setPointOutData(results)
+            })
+            .catch((error) => console.error(error.message))
+    }
+
+    const getExpandPointInData = () => {
+        instance
+            .get(`/api/staff/viewPointIn/${expandId}`)
+            .then((response) => {
+                const results = response.data.data.pointInHistory.map(
+                    (item: any) => {
+                        return {
+                            ...item,
+                            type: 'in',
+                        }
+                    }
+                )
+                setPointInData(results)
+            })
+            .catch((error) => console.error(error.message))
+    }
+
     const onSearch = (value) => {
-        instance.get(`/api/admin/search/users?email=${value}`).then((response) => {
-            if (response.status === 200) {
-                dispatch(updatePoints(response.data.))
-            }
-        })
+        if (value) {
+            instance
+                .get(`/api/admin/search/users?email=${value}`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        dispatch(updatePoints(response.data.results))
+                        setTotal(response.data.totalItem)
+                    }
+                })
+                .catch((error) => message.error(error))
+        }
     }
 
     useEffect(() => {
         if (!expandId || expandId === '') {
             return
         }
-        const getExpandPointOutData = () => {
-            instance
-                .get(`/api/staff/viewPointOut/${expandId}`)
-                .then((response) => {
-                    const results = response.data.data.pointOutHistory.map(
-                        (item: any) => {
-                            return {
-                                ...item,
-                                type: 'out',
-                            }
-                        }
-                    )
-                    setPointOutData(results)
-                })
-                .catch((error) => console.error(error.message))
-        }
-
-        const getExpandPointInData = () => {
-            instance
-                .get(`/api/staff/viewPointIn/${expandId}`)
-                .then((response) => {
-                    const results = response.data.data.pointInHistory.map(
-                        (item: any) => {
-                            return {
-                                ...item,
-                                type: 'in',
-                            }
-                        }
-                    )
-                    setPointInData(results)
-                })
-                .catch((error) => console.error(error.message))
-        }
 
         getExpandPointInData()
         getExpandPointOutData()
     }, [expandId])
+
+    useEffect(() => {
+        console.log(pointInData)
+    }, [pointInData])
 
     useEffect(() => {
         getData()
@@ -303,16 +325,24 @@ const Points = () => {
     return (
         <>
             <Search
-                placeholder='Search by email'
+                style={{
+                    paddingBottom: 12,
+                }}
+                placeholder={'Enter email'}
                 onSearch={onSearch}
                 enterButton
             />
             <Table
                 columns={columns}
-                expandable={{ expandedRowRender, onExpand }}
+                expandable={{
+                    expandedRowKeys: expandedRows,
+                    expandedRowRender,
+                    onExpand,
+                }}
                 dataSource={data}
                 rowKey={'_id'}
                 pagination={{
+                    showSizeChanger: false,
                     current: current,
                     total,
                     onChange: onPageChange,
@@ -341,15 +371,6 @@ const Points = () => {
                         ]}
                     >
                         <InputNumber />
-                    </Form.Item>
-                    <Form.Item
-                        label="Method"
-                        name="method"
-                        rules={[
-                            { required: true, message: 'Please input method!' },
-                        ]}
-                    >
-                        <Input />
                     </Form.Item>
                     <Form.Item label="Note" name="note">
                         <Input />
