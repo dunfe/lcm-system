@@ -10,6 +10,7 @@ import {
     Tag,
     Descriptions,
     Rate,
+    Popconfirm,
 } from 'antd'
 import axios from 'axios'
 import { useAuth } from '../../utils/hooks/useAuth'
@@ -107,7 +108,7 @@ const Mentors = (props: IProps) => {
                         >
                             Edit
                         </Button>
-                        <Button danger onClick={() => onBan(record._id)}>
+                        <Button danger onClick={() => ban(record._id)}>
                             Ban
                         </Button>
                     </Space>
@@ -116,6 +117,19 @@ const Mentors = (props: IProps) => {
             responsive: ['sm'] as Breakpoint[],
         },
     ]
+
+    const ban = (id: string) => {
+        return (
+            <Popconfirm
+                title={'Are you sure?'}
+                onConfirm={() => onBan(id)}
+                okText="Yes"
+                cancelText="No"
+            >
+                <Button>Ban</Button>
+            </Popconfirm>
+        )
+    }
 
     const onViewDetail = (id: string) => {
         setUpdateId(id)
