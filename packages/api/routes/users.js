@@ -1,5 +1,5 @@
 import express from 'express';
-import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite, uploadAvatar} from '../controller/user.js';
+import {changePassword,viewUserInfo,editProfileUserById,addFavoriteMentorById,viewListFavoriteMentor,countMentorFaverite, uploadAvatar,dashboardMentee} from '../controller/user.js';
 import {forgotPassword, resetPassword} from '../controller/auth.js'
 import {ratingMentor} from '../controller/mentor.js';
 import {createQuestion,viewListNewOrdoingQuestion, viewListDoneQuestion, getQuestionById, updateQuestionById, delQuestionById,viewListQuestionById} from '../controller/question.js'
@@ -23,6 +23,8 @@ import {createPayemnt} from '../controller/payment.js';
 dotenv.config();
 
 const router = express.Router();
+
+router.get('/dashboard',protect, restrictTo('mentee', 'mentor'),dashboardMentee);
 
 router.post('/register',async (req, res, next) => {
         passport.authenticate(
