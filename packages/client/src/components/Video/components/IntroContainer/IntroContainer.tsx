@@ -10,6 +10,7 @@ const IntroContainer = (props: IntroContainerProps) => {
     return (
         <StyledDiv>
             <Card
+                bordered={false}
                 style={{
                     width: 800,
                     height: 400,
