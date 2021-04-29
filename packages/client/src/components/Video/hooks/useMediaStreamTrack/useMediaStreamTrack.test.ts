@@ -1,6 +1,6 @@
+import useMediaStreamTrack from './useMediaStreamTrack'
 import { act, renderHook } from '@testing-library/react-hooks'
 import EventEmitter from 'events'
-import useMediaStreamTrack from './useMediaStreamTrack'
 
 describe('the useMediaStreamTrack hook', () => {
     let mockTrack: any

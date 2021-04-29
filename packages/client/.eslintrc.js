@@ -29,8 +29,22 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         'import/no-unresolved': 'error',
-        'import/no-unused-modules': [1, { unusedExports: true }],
+        'import/order': [
+            'error',
+            {
+                groups: [
+                    'index',
+                    'sibling',
+                    'parent',
+                    'internal',
+                    'external',
+                    'builtin',
+                    'object',
+                ],
+            },
+        ],
     },
+
     settings: {
         'import/parsers': {
             '@typescript-eslint/parser': ['.ts', '.tsx'],

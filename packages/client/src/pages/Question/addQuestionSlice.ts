@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { IQuestion } from './questionSlice'
 import { RootState } from '../../app/store'
 import { questions } from '../../utils/api/questions'
-import { IQuestion } from './questionSlice'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export interface IAddQuestion {
     token: string

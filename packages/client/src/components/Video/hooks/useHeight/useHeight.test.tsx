@@ -1,6 +1,5 @@
-import { act, renderHook } from '@testing-library/react-hooks'
-
 import useHeight from './useHeight'
+import { act, renderHook } from '@testing-library/react-hooks'
 
 describe('the useHeight hook', () => {
     it('should return window.innerHeight', () => {

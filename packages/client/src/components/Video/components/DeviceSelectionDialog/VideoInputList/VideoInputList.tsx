@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
 import {
     DEFAULT_VIDEO_CONSTRAINTS,
     SELECTED_VIDEO_INPUT_KEY,
 } from '../../../constants'
-import { LocalVideoTrack } from 'twilio-video'
 import VideoTrack from '../../VideoTrack/VideoTrack'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useMediaStreamTrack from '../../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import { LocalVideoTrack } from 'twilio-video'
+import React, { useState } from 'react'
 import { Select, Typography } from 'antd'
 
 const { Text } = Typography

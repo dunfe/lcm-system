@@ -1,6 +1,6 @@
+import Participant from './Participant'
 import * as React from 'react'
 import Video from 'twilio-video'
-import Participant from './Participant'
 
 interface IProps {
     token: string

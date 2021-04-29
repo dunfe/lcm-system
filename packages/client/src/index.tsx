@@ -1,11 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
+import * as serviceWorker from './serviceWorker'
 import App from './pages/App'
 import { store } from './app/store'
 import { Provider } from 'react-redux'
-import * as serviceWorker from './serviceWorker'
 import './i18n/config'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
 
 ReactDOM.render(
     <React.StrictMode>

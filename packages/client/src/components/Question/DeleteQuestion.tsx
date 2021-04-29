@@ -1,8 +1,8 @@
+import { useAPI } from '../../utils/hooks/useAPI'
 import * as React from 'react'
 import { DeleteOutlined } from '@ant-design/icons'
 import { message, Modal } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { useAPI } from '../../utils/hooks/useAPI'
 
 const { confirm } = Modal
 

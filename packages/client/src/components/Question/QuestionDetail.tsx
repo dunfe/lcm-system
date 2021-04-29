@@ -1,10 +1,10 @@
+import CustomFooter from './CustomFooter'
+import { useAPI } from '../../utils/hooks/useAPI'
+import AddQuestion from '../../pages/Add/AddQuestion'
 import * as React from 'react'
 import { Descriptions, Modal, Skeleton } from 'antd'
-import { useAPI } from '../../utils/hooks/useAPI'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
-import CustomFooter from './CustomFooter'
-import AddQuestion from '../../pages/Add/AddQuestion'
 import { Preview } from 'common'
 
 interface IProps {

@@ -1,11 +1,11 @@
-import React from 'react'
-import { act } from 'react-dom/test-utils'
-import { EventEmitter } from 'events'
-import { shallow, mount } from 'enzyme'
-
 import ToggleChatButton, { ANIMATION_DURATION } from './ToggleChatButton'
 import useChatContext from '../../../hooks/useChatContext/useChatContext'
+import React from 'react'
+import { act } from 'react-dom/test-utils'
+import { shallow, mount } from 'enzyme'
+
 import { Button } from 'antd'
+import { EventEmitter } from 'events'
 
 jest.mock('../../../hooks/useChatContext/useChatContext')
 const mockUseChatContext = useChatContext as jest.Mock<any>

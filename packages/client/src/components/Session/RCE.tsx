@@ -1,8 +1,8 @@
+import { useAuth } from '../../utils/hooks/useAuth'
 import * as React from 'react'
 import { WebsocketProvider } from 'y-websocket'
 import * as Y from 'yjs'
 import { MonacoBinding } from 'y-monaco'
-import { useAuth } from '../../utils/hooks/useAuth'
 import Editor from '@monaco-editor/react'
 
 interface IProps {

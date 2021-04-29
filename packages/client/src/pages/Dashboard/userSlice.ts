@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { IUserDetail } from '../../utils/hooks/useUserInfo'
 import { users } from '../../utils/api/user'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 interface IUserState {
     user: IUserDetail | null

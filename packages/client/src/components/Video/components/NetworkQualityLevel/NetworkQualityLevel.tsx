@@ -1,6 +1,6 @@
+import useParticipantNetworkQualityLevel from '../../hooks/useParticipantNetworkQualityLevel/useParticipantNetworkQualityLevel'
 import React from 'react'
 import { Participant } from 'twilio-video'
-import useParticipantNetworkQualityLevel from '../../hooks/useParticipantNetworkQualityLevel/useParticipantNetworkQualityLevel'
 
 const STEP = 3
 const BARS_ARRAY = [0, 1, 2, 3, 4]

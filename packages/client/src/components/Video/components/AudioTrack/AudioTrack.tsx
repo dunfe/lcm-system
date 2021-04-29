@@ -1,6 +1,6 @@
+import { useAppState } from '../../state'
 import { useEffect, useRef } from 'react'
 import { AudioTrack as IAudioTrack } from 'twilio-video'
-import { useAppState } from '../../state'
 
 interface AudioTrackProps {
     track: IAudioTrack

@@ -1,4 +1,3 @@
-import React from 'react'
 import LocalVideoPreview from './LocalVideoPreview/LocalVideoPreview'
 import SettingsMenu from './SettingsMenu/SettingsMenu'
 import { Steps } from '../PreJoinScreens'
@@ -7,6 +6,7 @@ import ToggleVideoButton from '../../Buttons/ToggleVideoButton/ToggleVideoButton
 import { useAppState } from '../../../state'
 import useChatContext from '../../../hooks/useChatContext/useChatContext'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import React from 'react'
 import { useTrans } from 'common'
 import { Button, Col, Row, Space, Spin } from 'antd'
 

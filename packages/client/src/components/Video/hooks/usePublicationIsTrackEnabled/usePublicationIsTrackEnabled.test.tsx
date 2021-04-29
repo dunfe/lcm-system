@@ -1,6 +1,6 @@
+import usePublicationIsTrackEnabled from './usePublicationIsTrackEnabled'
 import { act, renderHook } from '@testing-library/react-hooks'
 import EventEmitter from 'events'
-import usePublicationIsTrackEnabled from './usePublicationIsTrackEnabled'
 
 describe('the usePublicationIsTrackEnabled hook', () => {
     let mockTrack: any

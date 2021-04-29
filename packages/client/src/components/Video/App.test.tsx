@@ -1,11 +1,11 @@
-import React from 'react'
 import App from './App'
 import MenuBar from './components/MenuBar/MenuBar'
 import PreJoinScreens from './components/PreJoinScreens/PreJoinScreens'
 import Room from './components/Room/Room'
-import { shallow } from 'enzyme'
 import useHeight from './hooks/useHeight/useHeight'
 import useRoomState from './hooks/useRoomState/useRoomState'
+import { shallow } from 'enzyme'
+import React from 'react'
 
 jest.mock('./hooks/useRoomState/useRoomState')
 jest.mock('./hooks/useHeight/useHeight')

@@ -1,12 +1,11 @@
-import React from 'react'
-
 import MainParticipantInfo from './MainParticipantInfo'
-import { shallow } from 'enzyme'
 import useIsTrackSwitchedOff from '../../hooks/useIsTrackSwitchedOff/useIsTrackSwitchedOff'
 import usePublications from '../../hooks/usePublications/usePublications'
 import useTrack from '../../hooks/useTrack/useTrack'
 import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
+import { shallow } from 'enzyme'
+import React from 'react'
 import { UserOutlined } from '@ant-design/icons'
 
 jest.mock(

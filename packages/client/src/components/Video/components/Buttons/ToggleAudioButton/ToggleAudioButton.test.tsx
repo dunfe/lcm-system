@@ -1,11 +1,11 @@
-import React from 'react'
-import { shallow } from 'enzyme'
+import ToggleAudioButton from './ToggleAudioButton'
 import useLocalAudioToggle from '../../../hooks/useLocalAudioToggle/useLocalAudioToggle'
 
 import MicIcon from '../../../icons/MicIcon'
 import MicOffIcon from '../../../icons/MicOffIcon'
-import ToggleAudioButton from './ToggleAudioButton'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import { shallow } from 'enzyme'
+import React from 'react'
 
 jest.mock('../../../hooks/useLocalAudioToggle/useLocalAudioToggle')
 jest.mock('../../../hooks/useVideoContext/useVideoContext')

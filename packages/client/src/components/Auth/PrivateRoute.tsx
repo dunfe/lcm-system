@@ -1,5 +1,5 @@
 import { useAuth } from '../../utils/hooks/useAuth'
-import { Route, Redirect } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import * as React from 'react'
 import { Spin } from 'antd'
 import styled from 'styled-components'

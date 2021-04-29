@@ -1,7 +1,7 @@
-import React from 'react'
-import { render } from '@testing-library/react'
 import AudioTrack from './AudioTrack'
 import { useAppState } from '../../state'
+import React from 'react'
+import { render } from '@testing-library/react'
 
 const audioEl = document.createElement('audio')
 audioEl.setSinkId = jest.fn()

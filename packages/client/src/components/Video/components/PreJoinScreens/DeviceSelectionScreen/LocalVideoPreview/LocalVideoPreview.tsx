@@ -1,8 +1,8 @@
-import React from 'react'
 import LocalAudioLevelIndicator from '../../../LocalAudioLevelIndicator/LocalAudioLevelIndicator'
-import { LocalVideoTrack } from 'twilio-video'
 import VideoTrack from '../../../VideoTrack/VideoTrack'
 import useVideoContext from '../../../../hooks/useVideoContext/useVideoContext'
+import { LocalVideoTrack } from 'twilio-video'
+import React from 'react'
 import { UserOutlined } from '@ant-design/icons'
 import { Typography } from 'antd'
 

@@ -1,7 +1,7 @@
 import { isMobile } from '../../../utils'
-import { useEffect, useRef } from 'react'
 import useLocalVideoToggle from '../../../hooks/useLocalVideoToggle/useLocalVideoToggle'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import { useEffect, useRef } from 'react'
 
 /* 
   This component adds a visibilitychange handler to the document when

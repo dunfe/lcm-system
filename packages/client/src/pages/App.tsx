@@ -1,14 +1,14 @@
-import React from 'react'
-import './App.css'
+import LoginPage from './Login/LoginPage'
+import BecomeMentor from './BecomeMentor/BecomeMentor'
 import { ProvideAuth } from '../utils/hooks/useAuth'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { PrivateRoute, StyledLoading } from '../components/Auth/PrivateRoute'
 import { NotFoundPage } from '../components/NotFoundPage'
-import LoginPage from './Login/LoginPage'
 import { ConfigProvider, Spin } from 'antd'
-import viVN from 'antd/lib/locale/vi_VN'
 import { useTranslation } from 'react-i18next'
-import BecomeMentor from './BecomeMentor/BecomeMentor'
+import React from 'react'
+import './App.css'
+import viVN from 'antd/lib/locale/vi_VN'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 const { Suspense, lazy } = React
 

@@ -1,6 +1,6 @@
+import useTrack from './useTrack'
 import { act, renderHook } from '@testing-library/react-hooks'
 import EventEmitter from 'events'
-import useTrack from './useTrack'
 
 describe('the useTrack hook', () => {
     let mockPublication: any

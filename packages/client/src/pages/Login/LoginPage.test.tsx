@@ -1,5 +1,5 @@
-import { render, screen, within } from '@testing-library/react'
 import LoginPage from './LoginPage'
+import { render, screen, within } from '@testing-library/react'
 import React from 'react'
 
 test('should show login form', () => {

@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react'
 import { IVideoTrack } from '../../types'
-import { Track } from 'twilio-video'
 import useMediaStreamTrack from '../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 import useVideoTrackDimensions from '../../hooks/useVideoTrackDimensions/useVideoTrackDimensions'
+import { Track } from 'twilio-video'
+import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components/macro'
 
 interface VideoTrackProps {

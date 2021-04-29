@@ -1,4 +1,11 @@
-import React from 'react'
+import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator'
+import NetworkQualityLevel from '../NetworkQualityLevel/NetworkQualityLevel'
+
+import useIsTrackSwitchedOff from '../../hooks/useIsTrackSwitchedOff/useIsTrackSwitchedOff'
+import usePublications from '../../hooks/usePublications/usePublications'
+import useTrack from '../../hooks/useTrack/useTrack'
+import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting'
+import { Typography } from 'antd'
 import {
     LocalAudioTrack,
     LocalVideoTrack,
@@ -6,15 +13,7 @@ import {
     RemoteAudioTrack,
     RemoteVideoTrack,
 } from 'twilio-video'
-
-import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator'
-import NetworkQualityLevel from '../NetworkQualityLevel/NetworkQualityLevel'
-import { Typography } from 'antd'
-
-import useIsTrackSwitchedOff from '../../hooks/useIsTrackSwitchedOff/useIsTrackSwitchedOff'
-import usePublications from '../../hooks/usePublications/usePublications'
-import useTrack from '../../hooks/useTrack/useTrack'
-import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting'
+import React from 'react'
 import {
     DesktopOutlined,
     UserOutlined,

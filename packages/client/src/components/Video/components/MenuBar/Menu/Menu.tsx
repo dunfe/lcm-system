@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import DeviceSelectionDialog from '../../DeviceSelectionDialog/DeviceSelectionDialog'
+import React, { useState } from 'react'
 import { Button } from 'antd'
 import { useTrans } from 'common'
 import { SettingOutlined } from '@ant-design/icons'

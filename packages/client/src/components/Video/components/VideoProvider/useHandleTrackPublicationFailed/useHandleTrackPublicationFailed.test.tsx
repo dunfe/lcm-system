@@ -1,7 +1,6 @@
+import useHandleTrackPublicationFailed from './useHandleTrackPublicationFailed'
 import { act, renderHook } from '@testing-library/react-hooks'
 import EventEmitter from 'events'
-
-import useHandleTrackPublicationFailed from './useHandleTrackPublicationFailed'
 
 function MockRoom() {
     const mockRoom = new EventEmitter() as any

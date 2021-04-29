@@ -1,11 +1,11 @@
+import { useAuth } from '../../utils/hooks/useAuth'
+import { passwordRule } from '../../utils/rules/passwordRule'
 import { Button, Checkbox, Form, Input, message } from 'antd'
 import * as React from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAuth } from '../../utils/hooks/useAuth'
 import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { passwordRule } from '../../utils/rules/passwordRule'
 import { useFullnameRule } from 'common'
 
 const layout = {

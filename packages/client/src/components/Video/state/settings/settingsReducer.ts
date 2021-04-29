@@ -1,5 +1,5 @@
-import { isMobile } from '../../utils'
 import { RenderDimensionValue } from './renderDimensions'
+import { isMobile } from '../../utils'
 import { Track, VideoBandwidthProfileOptions } from 'twilio-video'
 
 export interface Settings {

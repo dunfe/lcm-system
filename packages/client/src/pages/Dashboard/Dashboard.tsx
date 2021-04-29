@@ -1,10 +1,10 @@
+import { getUserDetail, selectUser } from './userSlice'
+import { useAPI } from '../../utils/hooks/useAPI'
+import { useToken } from '../../utils/hooks/useToken'
 import * as React from 'react'
 import { Row, Col, Card, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { useAPI } from '../../utils/hooks/useAPI'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserDetail, selectUser } from './userSlice'
-import { useToken } from '../../utils/hooks/useToken'
 import { Line, Pie } from '@ant-design/charts'
 
 const { useEffect, useState } = React

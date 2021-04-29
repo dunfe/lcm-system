@@ -1,14 +1,14 @@
-import React from 'react'
 // @ts-ignore
-import { act, renderHook } from '@testing-library/react-hooks'
 import { ChatProvider } from './index'
-import { Client } from '@twilio/conversations'
 import {
     mockConversation,
     mockClient,
 } from '../../__mocks__/@twilio/conversations'
 import useChatContext from '../../hooks/useChatContext/useChatContext'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
+import { Client } from '@twilio/conversations'
+import { act, renderHook } from '@testing-library/react-hooks'
+import React from 'react'
 
 jest.mock('@twilio/conversations')
 jest.mock('../../hooks/useVideoContext/useVideoContext')

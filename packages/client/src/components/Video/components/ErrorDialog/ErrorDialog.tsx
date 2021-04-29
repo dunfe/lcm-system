@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from 'react'
 import enhanceMessage from './enhanceMessage'
+import React, { PropsWithChildren } from 'react'
 import { TwilioError } from 'twilio-video'
 import { Modal, Typography } from 'antd'
 

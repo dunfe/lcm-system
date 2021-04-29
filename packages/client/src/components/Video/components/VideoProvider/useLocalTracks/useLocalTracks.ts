@@ -3,13 +3,13 @@ import {
     SELECTED_AUDIO_INPUT_KEY,
     SELECTED_VIDEO_INPUT_KEY,
 } from '../../../constants'
+import useDevices from '../../../hooks/useDevices/useDevices'
 import { useCallback, useState } from 'react'
 import Video, {
     LocalVideoTrack,
     LocalAudioTrack,
     CreateLocalTrackOptions,
 } from 'twilio-video'
-import useDevices from '../../../hooks/useDevices/useDevices'
 
 export default function useLocalTracks() {
     const [audioTrack, setAudioTrack] = useState<LocalAudioTrack>()

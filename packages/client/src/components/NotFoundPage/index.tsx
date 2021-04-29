@@ -1,6 +1,6 @@
+import { P } from './P'
 import * as React from 'react'
 import styled from 'styled-components/macro'
-import { P } from './P'
 import { useTranslation } from 'react-i18next'
 
 export function NotFoundPage() {

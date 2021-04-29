@@ -1,10 +1,9 @@
-import React from 'react'
-
 import MicIcon from '../../../icons/MicIcon'
 import MicOffIcon from '../../../icons/MicOffIcon'
 
 import useLocalAudioToggle from '../../../hooks/useLocalAudioToggle/useLocalAudioToggle'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import React from 'react'
 import { Button } from 'antd'
 import Icon from '@ant-design/icons'
 

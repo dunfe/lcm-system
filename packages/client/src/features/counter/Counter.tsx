@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import {
     decrement,
     increment,
@@ -8,6 +6,8 @@ import {
     selectCount,
 } from './counterSlice'
 import styles from './Counter.module.css'
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 export function Counter(): JSX.Element {
     const count = useSelector(selectCount)

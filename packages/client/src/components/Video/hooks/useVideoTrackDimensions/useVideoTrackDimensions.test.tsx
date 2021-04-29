@@ -1,6 +1,6 @@
+import useVideoTrackDimensions from './useVideoTrackDimensions'
 import { act, renderHook } from '@testing-library/react-hooks'
 import EventEmitter from 'events'
-import useVideoTrackDimensions from './useVideoTrackDimensions'
 
 describe('the useVideoTrackDimensions hook', () => {
     let mockTrack: any

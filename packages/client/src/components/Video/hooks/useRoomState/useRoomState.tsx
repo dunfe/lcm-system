@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import useVideoContext from '../useVideoContext/useVideoContext'
+import { useEffect, useState } from 'react'
 
 type RoomStateType = 'disconnected' | 'connected' | 'reconnecting'
 

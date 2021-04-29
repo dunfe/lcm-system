@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
 import { DEFAULT_VIDEO_CONSTRAINTS } from '../../constants'
-import { LocalVideoTrack } from 'twilio-video'
 import useDevices from '../useDevices/useDevices'
 import useMediaStreamTrack from '../useMediaStreamTrack/useMediaStreamTrack'
 import useVideoContext from '../useVideoContext/useVideoContext'
+import { LocalVideoTrack } from 'twilio-video'
+import { useCallback, useEffect, useState } from 'react'
 
 export default function useFlipCameraToggle() {
     const { localTracks } = useVideoContext()

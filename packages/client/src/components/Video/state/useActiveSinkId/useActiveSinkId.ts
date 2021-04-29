@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
 import { SELECTED_AUDIO_OUTPUT_KEY } from '../../constants'
 import useDevices from '../../hooks/useDevices/useDevices'
+import { useCallback, useEffect, useState } from 'react'
 
 export default function useActiveSinkId() {
     const { audioOutputDevices } = useDevices()

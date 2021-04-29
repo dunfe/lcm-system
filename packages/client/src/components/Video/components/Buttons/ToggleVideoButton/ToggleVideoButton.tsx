@@ -1,10 +1,9 @@
-import React, { useCallback, useRef } from 'react'
-
 import VideoOffIcon from '../../../icons/VideoOffIcon'
 import VideoOnIcon from '../../../icons/VideoOnIcon'
 
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useLocalVideoToggle from '../../../hooks/useLocalVideoToggle/useLocalVideoToggle'
+import React, { useCallback, useRef } from 'react'
 import { Button } from 'antd'
 
 export default function ToggleVideoButton(props: {

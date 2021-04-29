@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { useToken } from './useToken'
+import axios from 'axios'
 
 export const useAPI = () => {
     const token = useToken()

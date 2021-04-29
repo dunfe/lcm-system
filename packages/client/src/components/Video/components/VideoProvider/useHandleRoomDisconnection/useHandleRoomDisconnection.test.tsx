@@ -1,7 +1,7 @@
+import useHandleRoomDisconnection from './useHandleRoomDisconnection'
 import { act, renderHook } from '@testing-library/react-hooks'
 import { Room } from 'twilio-video'
 import EventEmitter from 'events'
-import useHandleRoomDisconnection from './useHandleRoomDisconnection'
 
 const mockOnError = jest.fn()
 const mockRemoveLocalAudioTrack = jest.fn()

@@ -1,3 +1,6 @@
+import { get, selectAllSkills } from '../../features/skill/skillsSlice'
+import { useSkills } from '../../utils/hooks/useSkills'
+import { useToken } from '../../utils/hooks/useToken'
 import * as React from 'react'
 import {
     Button,
@@ -10,11 +13,8 @@ import {
 } from 'antd'
 import { useTrans } from 'common'
 import { useDispatch, useSelector } from 'react-redux'
-import { get, selectAllSkills } from '../../features/skill/skillsSlice'
-import { useSkills } from '../../utils/hooks/useSkills'
 import { useEffect, useState } from 'react'
 import { UploadOutlined } from '@ant-design/icons'
-import { useToken } from '../../utils/hooks/useToken'
 
 interface IProps {
     form: FormInstance

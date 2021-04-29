@@ -1,14 +1,14 @@
-import * as React from 'react'
-import { Form, FormInstance, Input, Radio, Select } from 'antd'
-import { useFullnameRule, usePhoneNumberRule } from 'common'
-import { useTrans } from 'common'
 import { useFullname } from '../../utils/hooks/useFullname'
 import { useUsername } from '../../utils/hooks/useUsername'
 import { useEmail } from '../../utils/hooks/useEmail'
 import { usePhoneNumber } from '../../utils/hooks/usePhoneNumber'
 import DatePicker from '../Custom/DatePicker'
-import dayjs from 'dayjs'
 import { useDOB } from '../../utils/hooks/useDOB'
+import dayjs from 'dayjs'
+import { useTrans } from 'common'
+import { useFullnameRule, usePhoneNumberRule } from 'common'
+import { Form, FormInstance, Input, Radio, Select } from 'antd'
+import * as React from 'react'
 
 interface IProps {
     form: FormInstance

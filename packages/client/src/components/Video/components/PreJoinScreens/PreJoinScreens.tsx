@@ -1,12 +1,12 @@
-import React from 'react'
 import DeviceSelectionScreen from './DeviceSelectionScreen/DeviceSelectionScreen'
-import IntroContainer from '../IntroContainer/IntroContainer'
 import MediaErrorSnackbar from './MediaErrorSnackbar/MediaErrorSnackbar'
 import RoomNameScreen from './RoomNameScreen/RoomNameScreen'
+import IntroContainer from '../IntroContainer/IntroContainer'
 import { useAppState } from '../../state'
-import { useParams } from 'react-router-dom'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
 import { useFullname } from '../../../../utils/hooks/useFullname'
+import { useParams } from 'react-router-dom'
+import React from 'react'
 
 export enum Steps {
     roomNameStep,

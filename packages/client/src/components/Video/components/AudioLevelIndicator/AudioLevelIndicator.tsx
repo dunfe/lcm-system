@@ -1,8 +1,8 @@
+import useIsTrackEnabled from '../../hooks/useIsTrackEnabled/useIsTrackEnabled'
+import useMediaStreamTrack from '../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 import React, { useEffect, useRef, useState } from 'react'
 import { AudioTrack, LocalAudioTrack, RemoteAudioTrack } from 'twilio-video'
 import { interval } from 'd3-timer'
-import useIsTrackEnabled from '../../hooks/useIsTrackEnabled/useIsTrackEnabled'
-import useMediaStreamTrack from '../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 
 let clipId = 0
 const getUniqueClipId = () => clipId++

@@ -1,12 +1,12 @@
-import React from 'react'
+import VideoInputList from './VideoInputList'
 import {
     DEFAULT_VIDEO_CONSTRAINTS,
     SELECTED_VIDEO_INPUT_KEY,
 } from '../../../constants'
-import { shallow } from 'enzyme'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
-import VideoInputList from './VideoInputList'
+import React from 'react'
+import { shallow } from 'enzyme'
 import { Select } from 'antd'
 
 jest.mock('../../../hooks/useVideoContext/useVideoContext')

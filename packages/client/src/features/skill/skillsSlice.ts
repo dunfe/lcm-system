@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { skills } from '../../utils/api/skills'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export interface ISkill {
     createdAt: string

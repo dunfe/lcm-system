@@ -1,6 +1,3 @@
-import React, { createContext, useContext, useReducer, useState } from 'react'
-import { RoomType } from '../types'
-import { TwilioError } from 'twilio-video'
 import {
     settingsReducer,
     initialSettings,
@@ -8,6 +5,9 @@ import {
     SettingsAction,
 } from './settings/settingsReducer'
 import useActiveSinkId from './useActiveSinkId/useActiveSinkId'
+import { RoomType } from '../types'
+import React, { createContext, useContext, useReducer, useState } from 'react'
+import { TwilioError } from 'twilio-video'
 
 export interface StateContextType {
     error: TwilioError | Error | null

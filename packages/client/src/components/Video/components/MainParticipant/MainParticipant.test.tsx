@@ -1,11 +1,11 @@
-import React from 'react'
 import MainParticipant from './MainParticipant'
 import ParticipantTracks from '../ParticipantTracks/ParticipantTracks'
-import { shallow } from 'enzyme'
 import useMainParticipant from '../../hooks/useMainParticipant/useMainParticipant'
 import useSelectedParticipant from '../VideoProvider/useSelectedParticipant/useSelectedParticipant'
 import useScreenShareParticipant from '../../hooks/useScreenShareParticipant/useScreenShareParticipant'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
+import { shallow } from 'enzyme'
+import React from 'react'
 
 jest.mock('../../hooks/useMainParticipant/useMainParticipant')
 jest.mock('../VideoProvider/useSelectedParticipant/useSelectedParticipant')

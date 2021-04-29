@@ -1,5 +1,5 @@
-import React from 'react'
 import useChatContext from '../../../hooks/useChatContext/useChatContext'
+import React from 'react'
 import { Button } from 'antd'
 import { useTrans } from 'common'
 import { MessageOutlined } from '@ant-design/icons'

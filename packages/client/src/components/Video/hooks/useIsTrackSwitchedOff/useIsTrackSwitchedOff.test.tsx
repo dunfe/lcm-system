@@ -1,6 +1,6 @@
+import useIsTrackSwitchedOff from './useIsTrackSwitchedOff'
 import { act, renderHook } from '@testing-library/react-hooks'
 import EventEmitter from 'events'
-import useIsTrackSwitchedOff from './useIsTrackSwitchedOff'
 
 describe('the useIsTrackSwitchedOff hook', () => {
     let mockTrack: any

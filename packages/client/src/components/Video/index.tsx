@@ -1,5 +1,3 @@
-import React from 'react'
-
 import VideoAppComponent from './App'
 import AppStateProvider, { useAppState } from './state'
 import ErrorDialog from './components/ErrorDialog/ErrorDialog'
@@ -9,6 +7,7 @@ import { VideoProvider } from './components/VideoProvider'
 import useConnectionOptions from './utils/useConnectionOptions/useConnectionOptions'
 import UnsupportedBrowserWarning from './components/UnsupportedBrowserWarning/UnsupportedBrowserWarning'
 import { PrivateRoute } from '../Auth/PrivateRoute'
+import * as React from 'react'
 
 const ThisVideoApp = () => {
     const { error, setError } = useAppState()

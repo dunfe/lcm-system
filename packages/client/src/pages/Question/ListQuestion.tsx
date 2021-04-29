@@ -1,10 +1,3 @@
-import * as React from 'react'
-import { Tabs, Table, Skeleton, Modal, message, Tag, Button } from 'antd'
-import { useAPI } from '../../utils/hooks/useAPI'
-import QuestionDetail from '../../components/Question/QuestionDetail'
-import { useTranslation } from 'react-i18next'
-import { DeleteOutlined } from '@ant-design/icons'
-import { useDispatch, useSelector } from 'react-redux'
 import {
     deleteQuestion,
     getDone,
@@ -15,8 +8,15 @@ import {
     selectTotalNewQuestion,
     selectTotalOldQuestion,
 } from './questionSlice'
+import { useAPI } from '../../utils/hooks/useAPI'
+import QuestionDetail from '../../components/Question/QuestionDetail'
 import { useToken } from '../../utils/hooks/useToken'
 import { status } from '../../utils/status'
+import * as React from 'react'
+import { Tabs, Table, Skeleton, Modal, message, Tag, Button } from 'antd'
+import { useTranslation } from 'react-i18next'
+import { DeleteOutlined } from '@ant-design/icons'
+import { useDispatch, useSelector } from 'react-redux'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 
 const { TabPane } = Tabs

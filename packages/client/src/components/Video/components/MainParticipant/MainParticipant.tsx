@@ -1,10 +1,10 @@
 import MainParticipantInfo from '../MainParticipantInfo/MainParticipantInfo'
 import ParticipantTracks from '../ParticipantTracks/ParticipantTracks'
-import React from 'react'
 import useMainParticipant from '../../hooks/useMainParticipant/useMainParticipant'
 import useSelectedParticipant from '../VideoProvider/useSelectedParticipant/useSelectedParticipant'
 import useScreenShareParticipant from '../../hooks/useScreenShareParticipant/useScreenShareParticipant'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
+import React from 'react'
 
 export default function MainParticipant() {
     const mainParticipant = useMainParticipant()

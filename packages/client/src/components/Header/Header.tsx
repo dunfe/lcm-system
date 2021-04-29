@@ -1,3 +1,16 @@
+import { useAuth } from '../../utils/hooks/useAuth'
+import { useFullname } from '../../utils/hooks/useFullname'
+import { useAvatar } from '../../utils/hooks/useAvatar'
+import { useAPI } from '../../utils/hooks/useAPI'
+import { useRole } from '../../utils/hooks/useRole'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/macro'
+import Text from 'antd/es/typography/Text'
+import Title from 'antd/es/typography/Title'
+import { useTrans } from 'common'
+import * as React from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import './Header.css'
 import {
     Avatar,
     Badge,
@@ -9,24 +22,11 @@ import {
     message,
     Select,
 } from 'antd'
-import * as React from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { useAuth } from '../../utils/hooks/useAuth'
 import {
     BellOutlined,
     UserOutlined,
     CheckCircleTwoTone,
 } from '@ant-design/icons'
-import './Header.css'
-import { useFullname } from '../../utils/hooks/useFullname'
-import { useAvatar } from '../../utils/hooks/useAvatar'
-import { useAPI } from '../../utils/hooks/useAPI'
-import { useTranslation } from 'react-i18next'
-import styled from 'styled-components/macro'
-import Text from 'antd/es/typography/Text'
-import Title from 'antd/es/typography/Title'
-import { useTrans } from 'common'
-import { useRole } from '../../utils/hooks/useRole'
 
 interface INotify {
     read: boolean

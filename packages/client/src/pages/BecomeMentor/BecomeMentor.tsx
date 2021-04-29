@@ -1,12 +1,12 @@
+import Info from '../../components/BecomeMentor/Info'
+import Skills from '../../components/BecomeMentor/Skills'
+import Results from '../../components/BecomeMentor/Results'
+import { useAPI } from '../../utils/hooks/useAPI'
 import { Steps, Button, message } from 'antd'
 import * as React from 'react'
 import { useForm } from 'antd/es/form/Form'
 import { LogoContainer, SelectLocale, useTrans } from 'common'
-import Info from '../../components/BecomeMentor/Info'
-import Skills from '../../components/BecomeMentor/Skills'
-import Results from '../../components/BecomeMentor/Results'
 import './BecomeMentor.css'
-import { useAPI } from '../../utils/hooks/useAPI'
 import { useHistory } from 'react-router-dom'
 
 const { Step } = Steps

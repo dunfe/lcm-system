@@ -1,11 +1,11 @@
-import React from 'react'
-import { shallow } from 'enzyme'
+import ToggleVideoButton from './ToggleVideoButton'
 import useLocalVideoToggle from '../../../hooks/useLocalVideoToggle/useLocalVideoToggle'
 
-import ToggleVideoButton from './ToggleVideoButton'
 import VideoOffIcon from '../../../icons/VideoOffIcon'
 import VideoOnIcon from '../../../icons/VideoOnIcon'
 import useDevices from '../../../hooks/useDevices/useDevices'
+import { shallow } from 'enzyme'
+import React from 'react'
 
 jest.mock('../../../hooks/useDevices/useDevices')
 jest.mock('../../../hooks/useLocalVideoToggle/useLocalVideoToggle')

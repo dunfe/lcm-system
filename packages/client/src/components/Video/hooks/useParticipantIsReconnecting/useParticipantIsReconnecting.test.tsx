@@ -1,6 +1,6 @@
+import useParticipantIsReconnecting from './useParticipantIsReconnecting'
 import { act, renderHook } from '@testing-library/react-hooks'
 import EventEmitter from 'events'
-import useParticipantIsReconnecting from './useParticipantIsReconnecting'
 
 describe('the useParticipantIsReconnecting hook', () => {
     let mockParticipant: any

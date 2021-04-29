@@ -1,6 +1,6 @@
+import useConnectionOptions from './useConnectionOptions'
 import { Settings } from '../../state/settings/settingsReducer'
 import { useAppState } from '../../state'
-import useConnectionOptions from './useConnectionOptions'
 
 const mockUseAppState = useAppState as jest.Mock<any>
 jest.mock('../../state')

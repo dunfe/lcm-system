@@ -1,7 +1,7 @@
-import React from 'react'
 import ChatWindow from '../ChatWindow/ChatWindow'
 import ParticipantList from '../ParticipantList/ParticipantList'
 import MainParticipant from '../MainParticipant/MainParticipant'
+import React from 'react'
 
 const Room = () => {
     return (

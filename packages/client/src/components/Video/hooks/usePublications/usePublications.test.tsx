@@ -1,5 +1,5 @@
-import { renderHook, act } from '@testing-library/react-hooks'
 import usePublications from './usePublications'
+import { renderHook, act } from '@testing-library/react-hooks'
 import EventEmitter from 'events'
 
 describe('the usePublications hook', () => {

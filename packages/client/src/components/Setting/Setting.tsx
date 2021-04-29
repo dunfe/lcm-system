@@ -1,9 +1,9 @@
+import InfoSetting from './InfoSetting'
+import SecuritySetting from './SecuritySetting'
 import * as React from 'react'
 import { Menu, Row, Col } from 'antd'
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
-import InfoSetting from './InfoSetting'
 import { useTranslation } from 'react-i18next'
-import SecuritySetting from './SecuritySetting'
 
 const { useState, useEffect } = React
 const Setting = () => {

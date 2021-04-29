@@ -1,12 +1,3 @@
-import React, { createContext, ReactNode, useCallback } from 'react'
-import {
-    CreateLocalTrackOptions,
-    ConnectOptions,
-    LocalAudioTrack,
-    LocalVideoTrack,
-    Room,
-} from 'twilio-video'
-import { ErrorCallback } from '../../types'
 import { SelectedParticipantProvider } from './useSelectedParticipant/useSelectedParticipant'
 
 import AttachVisibilityHandler from './AttachVisibilityHandler/AttachVisibilityHandler'
@@ -16,6 +7,15 @@ import useLocalTracks from './useLocalTracks/useLocalTracks'
 import useRestartAudioTrackOnDeviceChange from './useRestartAudioTrackOnDeviceChange/useRestartAudioTrackOnDeviceChange'
 import useRoom from './useRoom/useRoom'
 import useScreenShareToggle from './useScreenShareToggle/useScreenShareToggle'
+import { ErrorCallback } from '../../types'
+import {
+    CreateLocalTrackOptions,
+    ConnectOptions,
+    LocalAudioTrack,
+    LocalVideoTrack,
+    Room,
+} from 'twilio-video'
+import React, { createContext, ReactNode, useCallback } from 'react'
 
 /*
  *  The hooks used by the VideoProvider component are different than the hooks found in the 'hooks/' directory. The hooks

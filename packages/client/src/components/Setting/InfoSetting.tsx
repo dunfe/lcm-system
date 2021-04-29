@@ -1,3 +1,8 @@
+import { useAPI } from '../../utils/hooks/useAPI'
+import { useToken } from '../../utils/hooks/useToken'
+import { useUserInfo } from '../../utils/hooks/useUserInfo'
+import DatePicker from '../Custom/DatePicker'
+import { selectAllSkills } from '../../features/skill/skillsSlice'
 import * as React from 'react'
 import {
     Row,
@@ -12,15 +17,10 @@ import {
     InputNumber,
 } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { useAPI } from '../../utils/hooks/useAPI'
-import { useToken } from '../../utils/hooks/useToken'
 import { useTranslation } from 'react-i18next'
-import { useUserInfo } from '../../utils/hooks/useUserInfo'
 import { useForm } from 'antd/es/form/Form'
 import dayjs from 'dayjs'
-import DatePicker from '../Custom/DatePicker'
 import { useSelector } from 'react-redux'
-import { selectAllSkills } from '../../features/skill/skillsSlice'
 import { useFullnameRule, usePhoneNumberRule } from 'common'
 
 const layout = {

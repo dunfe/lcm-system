@@ -1,6 +1,6 @@
+import { RoomType } from '../../types'
 import { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { RoomType } from '../../types'
 
 export function getPasscode() {
     const match = window.location.search.match(/passcode=(.*)&?/)

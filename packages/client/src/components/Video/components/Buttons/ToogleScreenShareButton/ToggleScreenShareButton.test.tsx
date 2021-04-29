@@ -1,10 +1,10 @@
-import React from 'react'
-import { mount, shallow } from 'enzyme'
-import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
-
 import ToggleScreenShareButton, {
     SCREEN_SHARE_TEXT,
 } from './ToggleScreenShareButton'
+import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import React from 'react'
+import { mount, shallow } from 'enzyme'
+
 import { Button } from 'antd'
 
 jest.mock('../../../hooks/useScreenShareParticipant/useScreenShareParticipant')

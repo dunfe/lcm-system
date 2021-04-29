@@ -1,10 +1,9 @@
-import React from 'react'
-import { List, Typography } from 'antd'
-
 import conversationsListStyles from './assets/ConversationsList.module.css'
 import conversationsItemStyles from './assets/ConversationsItem.module.css'
 
 import { joinClassNames } from './utils/class-name'
+import { List, Typography } from 'antd'
+import React from 'react'
 
 const { Text } = Typography
 

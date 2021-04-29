@@ -1,9 +1,9 @@
-import { EventEmitter } from 'events'
-import { renderHook } from '@testing-library/react-hooks'
 import useMainParticipant from './useMainParticipant'
 import useSelectedParticipant from '../../components/VideoProvider/useSelectedParticipant/useSelectedParticipant'
 import useVideoContext from '../useVideoContext/useVideoContext'
 import useScreenShareParticipant from '../useScreenShareParticipant/useScreenShareParticipant'
+import { renderHook } from '@testing-library/react-hooks'
+import { EventEmitter } from 'events'
 
 jest.mock('../useVideoContext/useVideoContext')
 jest.mock(

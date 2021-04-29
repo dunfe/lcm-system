@@ -1,12 +1,12 @@
-import * as React from 'react'
-import { Select, Tabs } from 'antd'
-import styled from 'styled-components'
 import SignInComponent from '../../components/Auth/SignInComponent'
 import SignUpComponent from '../../components/Auth/SignUpComponent'
 import QuickLogin from '../../components/Auth/QuickLogin'
 import { Logo } from '../../components/Logo/Logo'
-import { useTranslation } from 'react-i18next'
 import ForgotPassword from '../../components/Auth/ForgotPassword'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { Select, Tabs } from 'antd'
+import * as React from 'react'
 
 const { TabPane } = Tabs
 const { Option } = Select

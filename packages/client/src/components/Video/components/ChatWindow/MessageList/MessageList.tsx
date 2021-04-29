@@ -1,6 +1,6 @@
+import MediaMessage from './MediaMessage/MediaMessage'
 import React from 'react'
 import { Message } from '@twilio/conversations/lib/message'
-import MediaMessage from './MediaMessage/MediaMessage'
 import { Comment } from 'antd'
 
 interface MessageListProps {

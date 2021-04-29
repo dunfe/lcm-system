@@ -1,6 +1,6 @@
-import React from 'react'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import React from 'react'
 import { notification } from 'antd'
 
 const { useEffect } = React

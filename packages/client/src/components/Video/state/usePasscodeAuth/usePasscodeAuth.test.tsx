@@ -1,8 +1,8 @@
+import usePasscodeAuth, { getPasscode, verifyPasscode } from './usePasscodeAuth'
 import React from 'react'
 import { act, renderHook } from '@testing-library/react-hooks'
 import { createBrowserHistory } from 'history'
 import { Router } from 'react-router-dom'
-import usePasscodeAuth, { getPasscode, verifyPasscode } from './usePasscodeAuth'
 
 delete window.location
 // @ts-ignore

@@ -1,3 +1,10 @@
+import { useAPI } from '../../utils/hooks/useAPI'
+import { selectQuestionsStatus } from '../Question/questionSlice'
+import {
+    get,
+    selectAllSkills,
+    selectSkillsStatus,
+} from '../../features/skill/skillsSlice'
 import * as React from 'react'
 import {
     Form,
@@ -14,16 +21,9 @@ import {
 } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useAPI } from '../../utils/hooks/useAPI'
 import { useForm } from 'antd/es/form/Form'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectQuestionsStatus } from '../Question/questionSlice'
-import {
-    get,
-    selectAllSkills,
-    selectSkillsStatus,
-} from '../../features/skill/skillsSlice'
 import { Preview, useTrans } from 'common'
 
 interface IProps {

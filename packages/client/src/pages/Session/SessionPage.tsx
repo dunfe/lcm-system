@@ -1,16 +1,16 @@
-import * as React from 'react'
-import { Button, Layout, message, Modal, Rate, Tabs } from 'antd'
-import styled from 'styled-components'
 import './SessionPage.css'
 import RCE from '../../components/Session/RCE'
-import { useTranslation } from 'react-i18next'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useRole } from '../../utils/hooks/useRole'
-import { useHistory, useParams } from 'react-router-dom'
 import Report from '../../components/Session/Report'
 import EndSessionFooter from '../../components/Session/EndSessionFooter'
 import { IRoom } from '../../components/Session/Join'
 import VideoApp from '../../components/Video'
+import { useHistory, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import * as React from 'react'
+import { Button, Layout, message, Modal, Rate, Tabs } from 'antd'
 
 const { Content } = Layout
 const { TabPane } = Tabs

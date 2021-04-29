@@ -1,9 +1,9 @@
+import { useToken } from '../../utils/hooks/useToken'
+import { useAPI } from '../../utils/hooks/useAPI'
 import * as React from 'react'
 import { Button, Form, Input, message, Upload } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { UploadOutlined } from '@ant-design/icons'
-import { useToken } from '../../utils/hooks/useToken'
-import { useAPI } from '../../utils/hooks/useAPI'
 
 const layout = {
     labelCol: { span: 8 },

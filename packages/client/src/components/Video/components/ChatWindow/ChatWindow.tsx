@@ -1,7 +1,7 @@
-import React from 'react'
 import ChatInput from './ChatInput/ChatInput'
 import MessageList from './MessageList/MessageList'
 import useChatContext from '../../hooks/useChatContext/useChatContext'
+import React from 'react'
 import { Drawer } from 'antd'
 import { useTrans } from 'common'
 

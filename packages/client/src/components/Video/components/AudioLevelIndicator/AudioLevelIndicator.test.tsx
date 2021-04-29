@@ -1,8 +1,7 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-
 import AudioLevelIndicator from './AudioLevelIndicator'
 import useIsTrackEnabled from '../../hooks/useIsTrackEnabled/useIsTrackEnabled'
+import React from 'react'
+import { shallow } from 'enzyme'
 
 jest.mock('../../hooks/useIsTrackEnabled/useIsTrackEnabled')
 

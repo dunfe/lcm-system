@@ -1,7 +1,7 @@
+import { useAPI } from '../../utils/hooks/useAPI'
 import * as React from 'react'
 import { Button, message, Modal } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { useAPI } from '../../utils/hooks/useAPI'
 import { DeleteOutlined } from '@ant-design/icons'
 
 interface IProps {

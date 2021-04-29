@@ -1,8 +1,8 @@
-import React from 'react'
 import AudioOutputList from './AudioOutputList'
-import { shallow } from 'enzyme'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import { useAppState } from '../../../state'
+import { shallow } from 'enzyme'
+import React from 'react'
 import { Select } from 'antd'
 
 jest.mock('../../../state')

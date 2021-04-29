@@ -1,9 +1,8 @@
-import React from 'react'
-import { act, renderHook } from '@testing-library/react-hooks'
-
 import AppStateProvider, { useAppState } from './index'
 import useFirebaseAuth from './useFirebaseAuth/useFirebaseAuth'
 import usePasscodeAuth from './usePasscodeAuth/usePasscodeAuth'
+import { act, renderHook } from '@testing-library/react-hooks'
+import React from 'react'
 
 jest.mock('./useFirebaseAuth/useFirebaseAuth', () =>
     jest.fn(() => ({ user: 'firebaseUser' }))

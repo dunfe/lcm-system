@@ -1,7 +1,7 @@
-import { act, renderHook } from '@testing-library/react-hooks'
-import { SELECTED_AUDIO_OUTPUT_KEY } from '../../constants'
 import useActiveSinkId from './useActiveSinkId'
+import { SELECTED_AUDIO_OUTPUT_KEY } from '../../constants'
 import useDevices from '../../hooks/useDevices/useDevices'
+import { act, renderHook } from '@testing-library/react-hooks'
 
 jest.mock('../../hooks/useDevices/useDevices')
 const mockUseDevices = useDevices as jest.Mock<any>

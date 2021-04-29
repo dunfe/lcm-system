@@ -1,5 +1,5 @@
-import { act, renderHook } from '@testing-library/react-hooks'
 import useDevices from './useDevices'
+import { act, renderHook } from '@testing-library/react-hooks'
 
 const mockDevices = [
     { deviceId: 1, label: '1', kind: 'audioinput' },
