@@ -1,5 +1,5 @@
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
-import React from 'react'
+import * as React from 'react'
 
 import { useTrans } from 'common'
 import { Button } from 'antd'

@@ -24,11 +24,6 @@ mockUseVideoContext.mockImplementation(() => ({
 }))
 
 describe('the useScreenShareParticipant hook', () => {
-    it('return undefined when there are no participants sharing their screen', () => {
-        const { result } = renderHook(useScreenShareParticipant)
-        expect(result.current).toEqual(undefined)
-    })
-
     it('should return the localParticipant when they are sharing their screen', () => {
         const mockRoom = MockRoom()
         mockRoom.localParticipant.tracks = new Map([

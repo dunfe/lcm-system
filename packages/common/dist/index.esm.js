@@ -1,5 +1,6 @@
 import * as React from 'react';
 import React__default, { useContext, useState as useState$1, useRef, useEffect as useEffect$1, useMemo as useMemo$1, useCallback, forwardRef, useImperativeHandle, useLayoutEffect as useLayoutEffect$1, createContext, Component } from 'react';
+export { default as react } from 'react';
 import { jsx as jsx$1, jsxs } from 'react/jsx-runtime';
 import ReactDOM from 'react-dom';
 import '@ant-design/icons/es/components/Context';

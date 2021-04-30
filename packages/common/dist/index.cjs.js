@@ -56537,6 +56537,12 @@ var useTrans = function () {
     return t;
 };
 
+Object.defineProperty(exports, 'react', {
+  enumerable: true,
+  get: function () {
+    return React__default['default'];
+  }
+});
 exports.InAppLogo = InAppLogo;
 exports.LogoContainer = LogoContainer;
 exports.Preview = Preview;

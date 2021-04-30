@@ -4,9 +4,9 @@ import { act, renderHook } from '@testing-library/react-hooks'
 describe('the useHeight hook', () => {
     it('should return window.innerHeight', () => {
         // @ts-ignore
-        window.innerHeight = 100
+        window.innerHeight = 140
         const { result } = renderHook(useHeight)
-        expect(result.current).toBe('100px')
+        expect(result.current).toBe('54px')
 
         act(() => {
             // @ts-ignore
@@ -14,7 +14,7 @@ describe('the useHeight hook', () => {
             window.dispatchEvent(new Event('resize'))
         })
 
-        expect(result.current).toBe('150px')
+        expect(result.current).toBe('64px')
     })
 
     it('should take window.visualViewport.scale into account', () => {
@@ -27,7 +27,7 @@ describe('the useHeight hook', () => {
         }
 
         const { result } = renderHook(useHeight)
-        expect(result.current).toBe('200px')
+        expect(result.current).toBe('114px')
 
         act(() => {
             // @ts-ignore
@@ -35,6 +35,6 @@ describe('the useHeight hook', () => {
             window.dispatchEvent(new Event('resize'))
         })
 
-        expect(result.current).toBe('300px')
+        expect(result.current).toBe('214px')
     })
 })
