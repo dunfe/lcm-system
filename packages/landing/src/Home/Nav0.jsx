@@ -1,6 +1,6 @@
 import React from 'react';
 import TweenOne from 'rc-tween-one';
-import { Menu } from 'antd';
+import { Button, Menu } from 'antd'
 import { getChildrenToRender } from './utils';
 
 const { Item, SubMenu } = Menu;

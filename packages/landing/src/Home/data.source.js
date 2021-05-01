@@ -14,7 +14,7 @@ export const Nav00DataSource = {
         name: 'item0',
         className: 'header0-item',
         children: {
-          href: '#',
+          href: 'https://app.livecoding.me/become-mentor',
           children: [{ children: 'Trở thành người hướng dẫn', name: 'text' }],
         },
       },
@@ -54,7 +54,7 @@ export const Banner50DataSource = {
     children: [
       {
         name: 'title',
-        children: 'Ở đây chúng tôi có người giúp bạn fix bug',
+        children: 'Ở đây chúng tôi giúp bạn xử lý các vấn đề về lập trình',
         className: 'banner5-title kkzlx1xo2dr-editor_css',
       },
       {
@@ -66,7 +66,7 @@ export const Banner50DataSource = {
         name: 'button',
         className: 'banner5-button-wrapper',
         children: {
-          href: '#',
+          href: 'https://app.livecoding.me/',
           className: 'banner5-button',
           type: 'primary',
           children: 'Đặt câu hỏi ngay',
@@ -96,7 +96,7 @@ export const Feature80DataSource = {
       {
         name: 'button',
         className: 'feature8-button',
-        children: { href: '#', children: 'Đăng ký ngay' },
+        children: { href: 'https://app.livecoding.me/login', children: 'Đăng ký ngay' },
       },
     ],
   },
@@ -133,7 +133,7 @@ export const Feature80DataSource = {
                     name: 'image',
                     className: 'feature8-block-image',
                     children:
-                      'https://gw.alipayobjects.com/zos/basement_prod/d8933673-1463-438a-ac43-1a8f193ebf34.svg',
+                      'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619891564/edit_pbzehw.svg',
                   },
                   {
                     name: 'title',
@@ -143,7 +143,7 @@ export const Feature80DataSource = {
                   {
                     name: 'content',
                     className: 'feature8-block-content',
-                    children: 'Thông tin thêm',
+                    children: 'Bắt đầu bằng việc đăng ký tài khoản một cách nhanh chóng.',
                   },
                 ],
               },
@@ -165,7 +165,7 @@ export const Feature80DataSource = {
                     name: 'image',
                     className: 'feature8-block-image',
                     children:
-                      'https://gw.alipayobjects.com/zos/basement_prod/d8933673-1463-438a-ac43-1a8f193ebf34.svg',
+                      'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619891813/paper-plane_iy1gnk.svg',
                   },
                   {
                     name: 'title',
@@ -176,7 +176,7 @@ export const Feature80DataSource = {
                     name: 'content',
                     className: 'feature8-block-content',
                     children:
-                      'Thông tin thêm',
+                      'Chia sẻ khó khăn mà bạn cần trợ giúp.',
                   },
                 ],
               },
@@ -198,7 +198,7 @@ export const Feature80DataSource = {
                     name: 'image',
                     className: 'feature8-block-image',
                     children:
-                      'https://gw.alipayobjects.com/zos/basement_prod/d8933673-1463-438a-ac43-1a8f193ebf34.svg',
+                      'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619891987/magnifying-glass_fbabed.svg',
                   },
                   {
                     name: 'title',
@@ -209,7 +209,7 @@ export const Feature80DataSource = {
                     name: 'content',
                     className: 'feature8-block-content',
                     children:
-                      'Thông tin thêm',
+                      'Ghép cặp với giảng viên sẵn sàng giải đáp giúp bạn.',
                   },
                 ],
               },
@@ -231,18 +231,18 @@ export const Feature80DataSource = {
                     name: 'image',
                     className: 'feature8-block-image',
                     children:
-                      'https://gw.alipayobjects.com/zos/basement_prod/d8933673-1463-438a-ac43-1a8f193ebf34.svg',
+                      'https://res.cloudinary.com/dungnqhe151250/image/upload/v1619892073/chat_r2zyho.svg',
                   },
                   {
                     name: 'title',
                     className: 'feature8-block-title',
-                    children: 'Join Session',
+                    children: 'Giải quyết vấn đề',
                   },
                   {
                     name: 'content',
                     className: 'feature8-block-content',
                     children:
-                      'Thông tin thêm',
+                      'Trao đổi vấn đề trực tiếp với đội ngũ mentor.',
                   },
                 ],
               },
@@ -271,7 +271,7 @@ export const Feature20DataSource = {
   content: {
     className: 'content2-content',
     children:
-      'Sau khi bạn và mentor đã match được với nhau thì hai người có thể vào một session để cùng nhau giải quyết vấn đề',
+      'Sau khi bạn chia sẻ những khó khăn gặp phải, hệ thống sẽ giúp bạn kết nối với giảng viên để cùng nhau giải đáp chi tiết.',
   },
 };
 export const Feature10DataSource = {
@@ -286,7 +286,7 @@ export const Feature10DataSource = {
   content: {
     className: 'content1-content',
     children:
-      'Vấn đề của bạn sẽ được giải quyết trong thời gian ngắn nhất',
+      'Với công nghệ hỗ trợ 2 người đồng thời cùng code trên 1 cửa sổ (Collaborative coding), kết hợp cùng video call, chia sẻ màn hình và chat trên cùng 1 session, chúng tôi sẵn sàng hỗ trợ bạn và giảng viên giải quyết câu hỏi một cách tiện lợi và nhanh chóng.',
   },
 };
 export const Feature21DataSource = {
@@ -316,7 +316,7 @@ export const Content10DataSource = {
   content: {
     className: 'content1-content',
     children:
-      'Ở đâu rẻ hơn chúng tôi hoàn tiền',
+      'Mức phí thanh toán cho câu hỏi sẽ do bạn toàn quyền quyết định và chỉnh sửa.',
   },
 };
 export const Teams10DataSource = {
@@ -460,7 +460,7 @@ export const Footer10DataSource = {
         title: { children: 'Trang chủ' },
         childWrapper: {
           children: [
-            { name: 'link0', href: 'https://mentor.livecoding.me', children: 'Trở thành người hướng dẫn' },
+            { name: 'link0', href: 'https://app.livecoding.me/become-mentor', children: 'Trở thành người hướng dẫn' },
             { name: 'link1', href: '#Feature8_0', children: 'Cách hoạt động' },
             { name: 'link2', href: '#Feature2_0', children: 'Tại sao chọn chúng tôi' },
             { name: 'link3', href: '#Teams1_0', children: 'Ý kiến người dùng' },
@@ -508,7 +508,7 @@ export const Footer10DataSource = {
           children: [
             {
               name: 'content0',
-              children: 'Vấn đề của bạn là trách nhiệm của chúng tôi',
+              children: '',
             },
           ],
         },
@@ -523,7 +523,7 @@ export const Footer10DataSource = {
       <span>
         ©2021 by
         {' '}
-        <a href="https://fb.com/qngnud">LCM</a>
+        <a href="https://app.livecoding.me">LCM</a>
         {' '}
         All Rights
         Reserved
