@@ -1,5 +1,6 @@
 .session-layout > .ant-layout-content > .ant-tabs >.ant-tabs-nav > .ant-tabs-nav-wrap {
     padding-left: 16px;
+
 }
 .session-sider > .ant-layout-sider-children {
     display: flex;
@@ -10,4 +11,11 @@
 }
 .session-sider {
     background-color: #f0f2f5;
+}
+.session-layout {
+    overflow: hidden;
+    height: 100vh;
+}
+.session-tab > .ant-tabs-nav {
+    margin: unset;
 }

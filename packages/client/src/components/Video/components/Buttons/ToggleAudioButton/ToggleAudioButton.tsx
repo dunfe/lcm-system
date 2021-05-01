@@ -1,29 +1,42 @@
 import React from 'react'
 
-import Button from '@material-ui/core/Button'
 import MicIcon from '../../../icons/MicIcon'
 import MicOffIcon from '../../../icons/MicOffIcon'
 
 import useLocalAudioToggle from '../../../hooks/useLocalAudioToggle/useLocalAudioToggle'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import { Button } from 'antd'
+import Icon from '@ant-design/icons'
 
-export default function ToggleAudioButton(props: {
+const ToggleAudioButton = (props: {
     disabled?: boolean
     className?: string
-}) {
+}) => {
     const [isAudioEnabled, toggleAudioEnabled] = useLocalAudioToggle()
     const { localTracks } = useVideoContext()
     const hasAudioTrack = localTracks.some((track) => track.kind === 'audio')
 
     return (
         <Button
-            className={props.className}
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+            type={'text'}
             onClick={toggleAudioEnabled}
             disabled={!hasAudioTrack || props.disabled}
-            startIcon={isAudioEnabled ? <MicIcon /> : <MicOffIcon />}
-            data-cy-audio-toggle
+            icon={
+                isAudioEnabled ? (
+                    <Icon component={MicIcon} />
+                ) : (
+                    <Icon component={MicOffIcon} />
+                )
+            }
         >
             {!hasAudioTrack ? 'No Audio' : isAudioEnabled ? 'Mute' : 'Unmute'}
         </Button>
     )
 }
+
+export default ToggleAudioButton

@@ -29,7 +29,7 @@ export interface StateContextType {
     roomType?: RoomType
 }
 
-export const StateContext = createContext<StateContextType>(null!)
+const StateContext = createContext<StateContextType>(null!)
 
 /*
   The 'react-hooks/rules-of-hooks' linting rules prevent React Hooks fron being called

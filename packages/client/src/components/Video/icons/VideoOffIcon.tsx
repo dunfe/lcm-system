@@ -1,6 +1,7 @@
 import React from 'react'
+import Icon from '@ant-design/icons'
 
-export default function VideoOffIcon() {
+const svg = () => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -24,3 +25,9 @@ export default function VideoOffIcon() {
         </svg>
     )
 }
+
+const VideoOffIcon = () => {
+    return <Icon component={svg} />
+}
+
+export default VideoOffIcon
