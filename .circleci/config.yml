@@ -22,9 +22,9 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "e4:26:29:8d:54:c7:a5:af:8d:40:48:02:f1:8e:27:9f"
-      - run: ssh-keyscan -H $66.42.52.219 >> ~/.ssh/know_hosts
+      - run: ssh-keyscan -H $45.77.45.202 >> ~/.ssh/know_hosts
       - run: chmod 644 ~/.ssh/know_hosts
-      - run: ssh dungnq@66.42.52.219 "./deploy.sh"
+      - run: ssh dungnq@45.77.45.202 "./deploy.sh"
 
 workflows:
   version: 2
