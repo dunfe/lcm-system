@@ -126,5 +126,22 @@
 
   "Old password":"Mật khẩu cũ",
   "New Password":"Mật khẩu mới",
-  "Confirm Password":"Xác nhận mật khẩu"
+  "Confirm Password":"Xác nhận mật khẩu",
+
+  "User":"Người dùng",
+  "Create at":"Thời gian tạo",
+  "Resume":"Sơ yếu lí lịch",
+  "Cancel":"Huỷ bỏ",
+  "Next": "Tiếp",
+  "View":"Xem",
+  "Are you sure":"Bạn có chắc không",
+  "Ban":"Cấm",
+  "Unban":"Huỷ cấm",
+  "Yes":"Có",
+  "Role":"Vai trò",
+
+  "Current Point":"Số Point hiện tại",
+  "Minus":"Trừ Point",
+  "Approve":"Châp thuận",
+  "Resolved":"Đã giải quyết"
 }

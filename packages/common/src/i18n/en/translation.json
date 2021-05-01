@@ -126,5 +126,23 @@
 
   "Old password":"Old password",
   "New Password":"New Password",
-  "Confirm Password":"Confirm Password"
+  "Confirm Password":"Confirm Password",
+  
+  "User":"User",
+  "Create at":"Create at",
+  "Resume":"Resume",
+  "Cancel":"Cancel",
+  "Next": "Next",
+  "View":"View",
+  "Are you sure":"Are you sure",
+  "Ban":"Ban",
+  "Unban":"Unban",
+  "Yes":"Yes",
+  "Role":"Role",
+
+  "Current Point":"Current Point",
+  "Minus":"Minus",
+  "Approve":"Approve",
+  "Resolved":"Resolved"
+
 }
