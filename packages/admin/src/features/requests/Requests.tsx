@@ -25,7 +25,7 @@ const Requests = () => {
     const [resumeView, setResumeView] = useState(false)
     const [resumeUrl, setResumeUrl] = useState('')
 
-    const [numPages, setNumPages] = useState(null)
+    const [numPages, setNumPages] = useState(0)
     const [pageNumber, setPageNumber] = useState(1)
 
     const columns = [
@@ -176,6 +176,29 @@ const Requests = () => {
         <p style={{ margin: 0 }}>{record.content}</p>
     )
 
+    const onNext = () => {
+        if (pageNumber < numPages) {
+            setPageNumber(pageNumber + 1)
+        }
+    }
+
+    const onPrev = () => {
+        if (pageNumber > 1) {
+            setPageNumber(pageNumber - 1)
+        }
+    }
+
+    const documentFooter = () => {
+        if (numPages > 1) {
+            return (
+                <>
+                    <Button onClick={onNext}>{trans('Next')}</Button>
+                    <Button onClick={onPrev}>{trans('Prev')}</Button>
+                </>
+            )
+        }
+    }
+
     useEffect(() => {
         getData()
     }, [current])
@@ -193,6 +216,7 @@ const Requests = () => {
     return (
         <>
             <Modal
+                width={800}
                 title={'Resume'}
                 visible={resumeView}
                 onCancel={onResumeViewCancel}
@@ -211,9 +235,7 @@ const Requests = () => {
                 <p>
                     Page {pageNumber} of {numPages}
                 </p>
-                <Button onClick={() => setPageNumber(pageNumber + 1)}>
-                    {trans('Next')}
-                </Button>
+                {documentFooter()}
             </Modal>
             <Table
                 columns={columns}
