@@ -62,14 +62,29 @@ const Dashboard = () => {
             .get('/api/users/dashboard')
             .then((response) => {
                 if (response.status === 200) {
-                    setQuestions({
-                        line: response.data.data.lineTableQuestion,
-                        pie: response.data.data.circleQuestion,
-                    })
-                    setPoints({
-                        points: response.data.data.lineTablePoint,
-                        currentPoint: response.data.data.currentPoint,
-                    })
+                    const {
+                        lineTableQuestion,
+                        circleQuestion,
+                        lineTablePoint,
+                        currentPoint,
+                    } = response.data.data
+
+                    if (
+                        Array.isArray(lineTableQuestion) &&
+                        Array.isArray(circleQuestion)
+                    ) {
+                        setQuestions({
+                            line: response.data.data.lineTableQuestion,
+                            pie: response.data.data.circleQuestion,
+                        })
+                    }
+
+                    if (Array.isArray(lineTablePoint) && currentPoint) {
+                        setPoints({
+                            points: response.data.data.lineTablePoint,
+                            currentPoint: response.data.data.currentPoint,
+                        })
+                    }
                 }
             })
             .catch((error) => console.error(error))
@@ -91,7 +106,7 @@ const Dashboard = () => {
                                 title={t('This month questions')}
                                 bordered={false}
                             >
-                                <Title>{questions.line.length}</Title>
+                                <Title>{questions?.line?.length}</Title>
                                 <Line {...questionsLineConfig} />
                             </Card>
                         </Col>
