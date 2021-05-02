@@ -80,7 +80,7 @@ async function (req, username, password, done) {
       const checkPassword = await(user.validPassword(password));
 
       if (!checkPassword) {
-        return done(null, false, { message: 'Sai mật khẩu' });
+        return done(null, false, { message: 'Sai tên đăng nhập hoặc mật khẩu' });
       }
 
       return done(null, user);
