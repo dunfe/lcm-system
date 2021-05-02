@@ -1,6 +1,7 @@
+import * as React from 'react'
+
 import useScreenShareParticipant from '../../../hooks/useScreenShareParticipant/useScreenShareParticipant'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
-import React from 'react'
 import { Button, Tooltip } from 'antd'
 import { DesktopOutlined } from '@ant-design/icons'
 

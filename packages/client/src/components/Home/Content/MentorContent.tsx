@@ -1,10 +1,11 @@
+import * as React from 'react'
+
 import Dashboard from '../../../pages/Dashboard/Dashboard'
 import ListQuestion from '../../../pages/Question/ListQuestion'
 import Join from '../../Session/Join'
 import Matching from '../../../pages/Matching/Matching'
 import './MentorContent.css'
 import Setting from '../../Setting/Setting'
-import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 interface IProps {

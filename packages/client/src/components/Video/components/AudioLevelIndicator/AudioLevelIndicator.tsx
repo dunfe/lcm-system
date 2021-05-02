@@ -1,6 +1,7 @@
+import * as React from 'react'
+
 import useIsTrackEnabled from '../../hooks/useIsTrackEnabled/useIsTrackEnabled'
 import useMediaStreamTrack from '../../hooks/useMediaStreamTrack/useMediaStreamTrack'
-import React, { useEffect, useRef, useState } from 'react'
 import { AudioTrack, LocalAudioTrack, RemoteAudioTrack } from 'twilio-video'
 import { interval } from 'd3-timer'
 
@@ -10,6 +11,8 @@ const getUniqueClipId = () => clipId++
 // @ts-ignore
 const AudioContext = window.AudioContext || window.webkitAudioContext
 let audioContext: AudioContext
+
+const { useEffect, useRef, useState } = React
 
 function initializeAnalyser(stream: MediaStream) {
     audioContext = audioContext || new AudioContext()

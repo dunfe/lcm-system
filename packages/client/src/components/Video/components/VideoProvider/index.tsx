@@ -1,3 +1,5 @@
+import React, { createContext, ReactNode, useCallback } from 'react'
+
 import { SelectedParticipantProvider } from './useSelectedParticipant/useSelectedParticipant'
 
 import AttachVisibilityHandler from './AttachVisibilityHandler/AttachVisibilityHandler'
@@ -15,7 +17,6 @@ import {
     LocalVideoTrack,
     Room,
 } from 'twilio-video'
-import React, { createContext, ReactNode, useCallback } from 'react'
 
 /*
  *  The hooks used by the VideoProvider component are different than the hooks found in the 'hooks/' directory. The hooks

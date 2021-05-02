@@ -1,10 +1,5 @@
-import useIsTrackSwitchedOff from '../../hooks/useIsTrackSwitchedOff/useIsTrackSwitchedOff'
-import usePublications from '../../hooks/usePublications/usePublications'
-import useTrack from '../../hooks/useTrack/useTrack'
-import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
-import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting'
-import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator'
-import NetworkQualityLevel from '../NetworkQualityLevel/NetworkQualityLevel'
+import * as React from 'react'
+
 import {
     LocalAudioTrack,
     LocalVideoTrack,
@@ -12,7 +7,15 @@ import {
     RemoteAudioTrack,
     RemoteVideoTrack,
 } from 'twilio-video'
-import React from 'react'
+
+import useIsTrackSwitchedOff from '../../hooks/useIsTrackSwitchedOff/useIsTrackSwitchedOff'
+import usePublications from '../../hooks/usePublications/usePublications'
+import useTrack from '../../hooks/useTrack/useTrack'
+import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
+import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting'
+import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator'
+import NetworkQualityLevel from '../NetworkQualityLevel/NetworkQualityLevel'
+
 import { Typography } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 

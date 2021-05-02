@@ -1,11 +1,7 @@
+import * as React from 'react'
+
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
-import React, {
-    createContext,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from 'react'
+
 import { Client } from '@twilio/conversations'
 import { Conversation } from '@twilio/conversations/lib/conversation'
 import { Message } from '@twilio/conversations/lib/message'
@@ -18,6 +14,8 @@ type ChatContextType = {
     messages: Message[]
     conversation: Conversation | null
 }
+
+const { createContext, useCallback, useEffect, useRef, useState } = React
 
 export const ChatContext = createContext<ChatContextType>(null!)
 

@@ -1,7 +1,8 @@
+import * as React from 'react'
+
 import Room from './Room'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useUsername } from '../../utils/hooks/useUsername'
-import * as React from 'react'
 
 interface IProps {
     token: string

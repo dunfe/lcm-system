@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import {
     DEFAULT_VIDEO_CONSTRAINTS,
     SELECTED_VIDEO_INPUT_KEY,
@@ -7,10 +9,11 @@ import useDevices from '../../../hooks/useDevices/useDevices'
 import useMediaStreamTrack from '../../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
 import { LocalVideoTrack } from 'twilio-video'
-import React, { useState } from 'react'
 import { Select, Typography } from 'antd'
 
 const { Text } = Typography
+
+const { useState } = React
 
 export default function VideoInputList() {
     const { videoInputDevices } = useDevices()

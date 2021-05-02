@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { Result } from 'antd'
 import { useTrans } from 'common'
 

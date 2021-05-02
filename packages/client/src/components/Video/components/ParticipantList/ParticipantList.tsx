@@ -1,10 +1,11 @@
+import * as React from 'react'
+
 import Participant from '../Participant/Participant'
 import useMainParticipant from '../../hooks/useMainParticipant/useMainParticipant'
 import useParticipants from '../../hooks/useParticipants/useParticipants'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
 import useSelectedParticipant from '../VideoProvider/useSelectedParticipant/useSelectedParticipant'
 import useScreenShareParticipant from '../../hooks/useScreenShareParticipant/useScreenShareParticipant'
-import React from 'react'
 
 export default function ParticipantList() {
     const { room } = useVideoContext()

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Media } from '@twilio/conversations/lib/media'
 import { Typography } from 'antd'
 

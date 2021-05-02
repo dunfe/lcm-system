@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import Dashboard from '../../../pages/Dashboard/Dashboard'
 import AddQuestion from '../../../pages/Add/AddQuestion'
 import ListQuestion from '../../../pages/Question/ListQuestion'
@@ -6,7 +8,6 @@ import Setting from '../../Setting/Setting'
 import FavoriteMentor from '../../Setting/FavoriteMentor'
 import Billing from '../../../pages/Billing/Billing'
 import { Route, Switch } from 'react-router-dom'
-import * as React from 'react'
 
 interface IProps {
     path: string

@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator'
 import NetworkQualityLevel from '../NetworkQualityLevel/NetworkQualityLevel'
 
@@ -13,7 +15,6 @@ import {
     RemoteAudioTrack,
     RemoteVideoTrack,
 } from 'twilio-video'
-import React from 'react'
 import {
     DesktopOutlined,
     UserOutlined,

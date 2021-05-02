@@ -1,5 +1,6 @@
+import * as React from 'react'
+
 import useParticipantNetworkQualityLevel from '../../hooks/useParticipantNetworkQualityLevel/useParticipantNetworkQualityLevel'
-import React from 'react'
 import { Participant } from 'twilio-video'
 
 const STEP = 3

@@ -1,6 +1,7 @@
+import * as React from 'react'
+
 import { passwordRule } from '../../utils/rules/passwordRule'
 import { useAPI } from '../../utils/hooks/useAPI'
-import * as React from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { useTranslation } from 'react-i18next'
 

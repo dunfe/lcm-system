@@ -1,5 +1,6 @@
-import Participant from './Participant'
 import * as React from 'react'
+
+import Participant from './Participant'
 import Video from 'twilio-video'
 
 interface IProps {

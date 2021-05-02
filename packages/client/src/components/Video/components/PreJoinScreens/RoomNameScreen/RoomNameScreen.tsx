@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Button, Col, Row, Space, Typography } from 'antd'
 import { useTrans } from 'common'
 

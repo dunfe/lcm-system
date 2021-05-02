@@ -1,5 +1,6 @@
-import { useAuth } from '../../utils/hooks/useAuth'
 import * as React from 'react'
+
+import { useAuth } from '../../utils/hooks/useAuth'
 import { WebsocketProvider } from 'y-websocket'
 import * as Y from 'yjs'
 import { MonacoBinding } from 'y-monaco'

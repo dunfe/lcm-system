@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Conversation } from '@twilio/conversations/lib/conversation'
 import { Button, Input, message } from 'antd'
 import { useTrans } from 'common'

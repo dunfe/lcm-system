@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import MenuBar from './components/MenuBar/MenuBar'
 import PreJoinScreens from './components/PreJoinScreens/PreJoinScreens'
 import ReconnectingNotification from './components/ReconnectingNotification/ReconnectingNotification'
@@ -5,7 +7,6 @@ import Room from './components/Room/Room'
 
 import useHeight from './hooks/useHeight/useHeight'
 import useRoomState from './hooks/useRoomState/useRoomState'
-import React from 'react'
 import styled from 'styled-components/macro'
 
 export default function VideoAppComponent() {

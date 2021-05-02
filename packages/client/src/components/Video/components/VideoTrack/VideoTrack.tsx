@@ -1,8 +1,9 @@
+import * as React from 'react'
+
 import { IVideoTrack } from '../../types'
 import useMediaStreamTrack from '../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 import useVideoTrackDimensions from '../../hooks/useVideoTrackDimensions/useVideoTrackDimensions'
 import { Track } from 'twilio-video'
-import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components/macro'
 
 interface VideoTrackProps {
@@ -10,6 +11,8 @@ interface VideoTrackProps {
     isLocal?: boolean
     priority?: Track.Priority | null
 }
+
+const { useRef, useEffect } = React
 
 export default function VideoTrack({
     track,

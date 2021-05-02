@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { useFullname } from '../../utils/hooks/useFullname'
 import { useUsername } from '../../utils/hooks/useUsername'
 import { useEmail } from '../../utils/hooks/useEmail'
@@ -8,7 +10,6 @@ import dayjs from 'dayjs'
 import { useTrans } from 'common'
 import { useFullnameRule, usePhoneNumberRule } from 'common'
 import { Form, FormInstance, Input, Radio, Select } from 'antd'
-import * as React from 'react'
 
 interface IProps {
     form: FormInstance

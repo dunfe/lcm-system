@@ -29,20 +29,6 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         'import/no-unresolved': 'error',
-        'import/order': [
-            'error',
-            {
-                groups: [
-                    'index',
-                    'sibling',
-                    'parent',
-                    'internal',
-                    'external',
-                    'builtin',
-                    'object',
-                ],
-            },
-        ],
     },
 
     settings: {

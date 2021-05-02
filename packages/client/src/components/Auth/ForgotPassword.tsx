@@ -1,9 +1,10 @@
+import * as React from 'react'
+
 import { useAPI } from '../../utils/hooks/useAPI'
 import { Button, Form, Input, message } from 'antd'
 import { MailOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import * as React from 'react'
 
 interface IProps {
     setActiveKey: (state: string) => void

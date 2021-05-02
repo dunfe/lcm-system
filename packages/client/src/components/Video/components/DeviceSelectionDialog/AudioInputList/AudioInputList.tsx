@@ -1,10 +1,11 @@
+import * as React from 'react'
+
 import AudioLevelIndicator from '../../AudioLevelIndicator/AudioLevelIndicator'
 import { SELECTED_AUDIO_INPUT_KEY } from '../../../constants'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useMediaStreamTrack from '../../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
 import { LocalAudioTrack } from 'twilio-video'
-import React from 'react'
 import { Select, Typography } from 'antd'
 
 const { Text } = Typography

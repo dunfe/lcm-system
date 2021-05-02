@@ -1,5 +1,6 @@
-import { P } from './P'
 import * as React from 'react'
+
+import { P } from './P'
 import styled from 'styled-components/macro'
 import { useTranslation } from 'react-i18next'
 

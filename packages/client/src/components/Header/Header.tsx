@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { useAuth } from '../../utils/hooks/useAuth'
 import { useFullname } from '../../utils/hooks/useFullname'
 import { useAvatar } from '../../utils/hooks/useAvatar'
@@ -8,7 +10,6 @@ import styled from 'styled-components/macro'
 import Text from 'antd/es/typography/Text'
 import Title from 'antd/es/typography/Title'
 import { useTrans } from 'common'
-import * as React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import './Header.css'
 import {

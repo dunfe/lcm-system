@@ -1,6 +1,7 @@
+import * as React from 'react'
+
 import { useAuth } from '../../utils/hooks/useAuth'
 import { Redirect, Route } from 'react-router-dom'
-import * as React from 'react'
 import { Spin } from 'antd'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'

@@ -1,5 +1,6 @@
+import * as React from 'react'
+
 import { PageHeader } from 'antd'
-import React from 'react'
 
 interface IProps {
     title: string

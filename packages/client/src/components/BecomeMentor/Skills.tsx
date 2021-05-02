@@ -1,7 +1,8 @@
+import * as React from 'react'
+
 import { get, selectAllSkills } from '../../features/skill/skillsSlice'
 import { useSkills } from '../../utils/hooks/useSkills'
 import { useToken } from '../../utils/hooks/useToken'
-import * as React from 'react'
 import {
     Button,
     Form,

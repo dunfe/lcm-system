@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { useAPI } from '../../utils/hooks/useAPI'
 import { selectQuestionsStatus } from '../Question/questionSlice'
 import {
@@ -5,7 +7,6 @@ import {
     selectAllSkills,
     selectSkillsStatus,
 } from '../../features/skill/skillsSlice'
-import * as React from 'react'
 import {
     Form,
     Input,

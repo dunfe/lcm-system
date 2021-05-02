@@ -1,6 +1,7 @@
+import * as React from 'react'
+
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
 import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator'
-import React from 'react'
 import { LocalAudioTrack } from 'twilio-video'
 
 export default function LocalAudioLevelIndicator() {

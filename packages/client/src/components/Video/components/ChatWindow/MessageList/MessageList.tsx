@@ -1,5 +1,6 @@
+import * as React from 'react'
+
 import MediaMessage from './MediaMessage/MediaMessage'
-import React from 'react'
 import { Message } from '@twilio/conversations/lib/message'
 import { Comment } from 'antd'
 

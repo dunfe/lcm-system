@@ -1,6 +1,7 @@
+import * as React from 'react'
+
 import InfoSetting from './InfoSetting'
 import SecuritySetting from './SecuritySetting'
-import * as React from 'react'
 import { Menu, Row, Col } from 'antd'
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'

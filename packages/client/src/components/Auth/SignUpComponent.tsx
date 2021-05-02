@@ -1,7 +1,8 @@
+import * as React from 'react'
+
 import { useAuth } from '../../utils/hooks/useAuth'
 import { passwordRule } from '../../utils/rules/passwordRule'
 import { Button, Checkbox, Form, Input, message } from 'antd'
-import * as React from 'react'
 import { useHistory } from 'react-router-dom'
 import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons'
 import styled from 'styled-components'

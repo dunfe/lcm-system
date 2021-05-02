@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import Video from 'twilio-video'
 import { Typography } from 'antd'
 import { useTrans } from 'common'

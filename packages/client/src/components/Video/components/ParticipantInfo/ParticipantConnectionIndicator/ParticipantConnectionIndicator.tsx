@@ -1,5 +1,6 @@
+import * as React from 'react'
+
 import useParticipantIsReconnecting from '../../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting'
-import React from 'react'
 import { Participant } from 'twilio-video'
 import { Tooltip } from 'antd'
 

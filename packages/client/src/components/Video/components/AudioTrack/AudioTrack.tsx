@@ -1,10 +1,13 @@
+import * as React from 'react'
+
 import { useAppState } from '../../state'
-import { useEffect, useRef } from 'react'
 import { AudioTrack as IAudioTrack } from 'twilio-video'
 
 interface AudioTrackProps {
     track: IAudioTrack
 }
+
+const { useEffect, useRef } = React
 
 export default function AudioTrack({ track }: AudioTrackProps) {
     const { activeSinkId } = useAppState()

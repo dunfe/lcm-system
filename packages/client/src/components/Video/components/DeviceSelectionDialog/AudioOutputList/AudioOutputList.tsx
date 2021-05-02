@@ -1,6 +1,7 @@
+import * as React from 'react'
+
 import { useAppState } from '../../../state'
 import useDevices from '../../../hooks/useDevices/useDevices'
-import React from 'react'
 import { Select, Typography } from 'antd'
 
 const { Text } = Typography

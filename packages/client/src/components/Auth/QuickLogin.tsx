@@ -1,7 +1,8 @@
+import * as React from 'react'
+
 import { Facebook } from '../../components/Logo/Facebook'
 import { Google } from '../../components/Logo/Google'
 import { Github } from '../../components/Logo/Github'
-import * as React from 'react'
 import styled from 'styled-components'
 import Icon from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
