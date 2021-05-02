@@ -19,7 +19,22 @@ const Dashboard = () => {
         line: [],
         pie: [],
     })
+    const [points, setPoints] = useState({
+        points: [],
+        currentPoint: 0,
+    })
     const user = useSelector(selectUser)
+
+    const pointsLineConfig = {
+        data: points.points,
+        xField: 'date',
+        yField: 'point',
+        height: 100,
+        yAxis: {
+            tickCount: 2,
+        },
+        smooth: true,
+    }
 
     const questionsLineConfig = {
         data: questions.line,
@@ -51,6 +66,10 @@ const Dashboard = () => {
                         line: response.data.data.lineTableQuestion,
                         pie: response.data.data.circleQuestion,
                     })
+                    setPoints({
+                        points: response.data.data.lineTablePoint,
+                        currentPoint: response.data.data.currentPoint,
+                    })
                 }
             })
             .catch((error) => console.error(error))
@@ -63,7 +82,8 @@ const Dashboard = () => {
                     <Row gutter={18}>
                         <Col span={8}>
                             <Card title={t('Balance')} bordered={false}>
-                                <Title>{user?.currentPoint}</Title>
+                                <Title>{points.currentPoint}</Title>
+                                <Line {...pointsLineConfig} />
                             </Card>
                         </Col>
                         <Col span={8}>
@@ -71,6 +91,7 @@ const Dashboard = () => {
                                 title={t('This month questions')}
                                 bordered={false}
                             >
+                                <Title>{questions.line.length}</Title>
                                 <Line {...questionsLineConfig} />
                             </Card>
                         </Col>
