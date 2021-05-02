@@ -9,7 +9,7 @@ export interface IRequest {
     createdId: string
     createdName: string
     content: string
-    picture: string
+    cv: string
     createAt: string
     __v: number
 }

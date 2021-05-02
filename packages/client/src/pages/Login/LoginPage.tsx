@@ -66,7 +66,7 @@ const StyledTabs = styled(Tabs)`
     width: 360px;
 `
 
-export const LoginPageContainer = styled.div`
+const LoginPageContainer = styled.div`
     display: grid;
     place-items: center;
 `

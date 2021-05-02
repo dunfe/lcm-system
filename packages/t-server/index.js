@@ -2,7 +2,7 @@ const config = require('./config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
-const { videoToken } = require('./tokens');
+const { videoToken, roomToken } = require('./tokens');
 const cors = require('cors');
 
 const app = express();
@@ -15,7 +15,8 @@ const sendTokenResponse = (token, res) => {
     res.set('Content-Type', 'application/json');
     res.send(
         JSON.stringify({
-            token: token.toJwt()
+            token: token.toJwt(),
+            room_type: 'peer-to-peer'
         })
     );
 };
@@ -31,8 +32,21 @@ app.get('/video/token', (req, res) => {
     const room = req.query.room;
     const token = videoToken(identity, room, config);
     sendTokenResponse(token, res);
-
 });
+
+app.post('/room/token', async (req, res) => {
+    const user_identity = req.body.user_identity;
+    const room_name = req.body.room_name;
+
+    const token = await roomToken(user_identity, room_name, true, true)
+      .then((result) => result)
+      .catch((error) => console.log(error));
+
+    if (token) {
+        sendTokenResponse(token, res);
+    }
+});
+
 app.post('/video/token', (req, res) => {
     const identity = req.body.identity;
     const room = req.body.room;

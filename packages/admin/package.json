@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/charts": "^1.1.2",
     "@craco/craco": "^6.1.1",
     "@reduxjs/toolkit": "^1.2.5",
     "@testing-library/jest-dom": "^4.2.4",
@@ -22,6 +23,7 @@
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-pdf": "^5.2.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
@@ -55,6 +57,7 @@
     "@types/js-cookie": "^2",
     "@types/lodash": "^4",
     "@types/prettier": "^2.2.3",
+    "@types/react-pdf": "^5",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9",
     "eslint": "^7.25.0",

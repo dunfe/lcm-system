@@ -1,6 +1,6 @@
 module.exports = {
     env: {
-        browser: false,
+        browser: true,
         node: true,
         es2021: true,
     },
@@ -29,6 +29,7 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         'import/no-unresolved': 'error',
+        'import/no-unused-modules': [1, { unusedExports: true }],
     },
     settings: {
         'import/parsers': {
