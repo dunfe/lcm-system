@@ -39,8 +39,8 @@ export const dashboardMentee = async (req,res) =>{
         AllQuestionbyStatus = await Question.find({receivedBy: userId}).select('status -_id')
         lineTableSelectedQuestion = Object.values(countQuesiton(AllQuestion));
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
-        lỉneTablePoint = Object.values(countPoint(listUser));
-        lỉneTablePoint.reverse();
+        lineTablePoint = Object.values(countPoint(listUser));
+        lineTablePoint.reverse();
         results.lineTableSelectedQuestion = lineTableSelectedQuestion;
         results.circleQuestion = circleQuestion;
         results.lỉneTablePoint = lỉneTablePoint;
@@ -49,8 +49,8 @@ export const dashboardMentee = async (req,res) =>{
         AllQuestionbyStatus = await Question.find({menteeId: userId}).select('status -_id')
         lineTableQuestion = Object.values(countQuesiton(AllQuestion));
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
-        lỉneTablePoint = Object.values(countPoint(listUser));
-        lỉneTablePoint.reverse();
+        lineTablePoint = Object.values(countPoint(listUser));
+        lineTablePoint.reverse();
         results.lineTableQuestion = lineTableQuestion;
         results.circleQuestion = circleQuestion;
         results.lỉneTablePoint = lỉneTablePoint;
