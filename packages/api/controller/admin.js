@@ -71,12 +71,12 @@ export const countQuesitonbyStatus = (data) => {
 export const countPoint = (data) => {
     return data.reduce((result, {createAt,pointAfter}) =>{
         const normalizeDate = dayjs(createAt).format('DD/MM/YYYY')
-        if(result.length === 0) {
-            result['1/1/2021'] = {
-                date: '1/1/2021',
-                point: 0,
-            }
+        
+        result['1/1/2021'] = {
+            date: '1/1/2021',
+            point: 0,
         }
+        
         result[normalizeDate] = result[normalizeDate] || {
             date : normalizeDate,
             point: pointAfter,
