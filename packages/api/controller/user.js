@@ -10,7 +10,7 @@ import Mentor from '../models/mentor.js';
 import Skill from '../models/skill.js';
 import cloudinary from '../utils/cloudinary.js';
 import validate from '../validator/user.validation.js';
-import {countQuesiton,countQuesitonbyStatus,countPoint} from '../controller/admin.js';
+import {countQuesiton, countQuesitonbyStatus, countPoint, countUser, countUserbyRole} from '../controller/admin.js';
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -30,17 +30,17 @@ export const dashboardMentee = async (req,res) =>{
         listUser = listUser.concat(user.pointInHistory);
         listUser = listUser.concat(user.pointOutHistory);
         listUser = listUser.sort(function(a,b){
-            return new Date(b.createAt) - new Date(a.createAt);
+            return new Date(a.createAt) - new Date(b.createAt);
           });
     })
-    let lineTableQuestion = [],lineTableSelectedQuestion = [],circleQuestion = [],AllQuestion,AllQuestionbyStatus,lineTablePoint;
+    let lineTableQuestion = [],circleQuestion = [],AllQuestion,AllQuestionbyStatus,lineTablePoint;
     if(CurrUser.role == 'mentor'){
         AllQuestion = await Question.find({receivedBy: userId}).select('createAt -_id')
         AllQuestionbyStatus = await Question.find({receivedBy: userId}).select('status -_id')
-        lineTableSelectedQuestion = Object.values(countQuesiton(AllQuestion));
+        lineTableQuestion = Object.values(countQuesiton(AllQuestion));
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
         lineTablePoint = Object.values(countPoint(listUser));
-        results.lineTableSelectedQuestion = lineTableSelectedQuestion;
+        results.lineTableQuestion = lineTableQuestion;
         results.circleQuestion = circleQuestion;
         results.lineTablePoint = lineTablePoint;
     }else if(CurrUser.role == 'mentee'){
@@ -145,8 +145,7 @@ export const countAllRecord = async (req, res) => {
         totalQuestion: 0,
         totalSkill: 0
     };
-
-    await User.countDocuments((err, doc) => {
+    await User.find({$or: [{ role: 'mentee' }, { role: 'banned' }]}).countDocuments((err, doc) => {
         if (!err) {
             total_array.totalUser = doc;
         } else {
@@ -176,7 +175,22 @@ export const countAllRecord = async (req, res) => {
             console.log('Error' + JSON.stringify(err, undefined, 2));
         };
     });
-
+    let  AllUser,Allmentee, Allmentor, AllQuestion, AllQuestionbyStatus, lineTableQuestion = [],circleQuestion = [], circleMentee = [], lineTableMentee = [], lineTableMentor = []
+    Allmentee = await User.find({$or: [{ role: 'mentee' }, { role: 'banned' }]}).select('createdAt -_id');
+    Allmentor = await User.find({role: 'mentor'}).select('createdAt -_id');
+    AllQuestion = await Question.find().select('createAt -_id');
+    AllUser = await User.find({$or: [{ role: 'mentee' }, { role: 'banned' }]}).select('role -_id');
+    AllQuestionbyStatus = await Question.find().select('status -_id');
+    lineTableMentee = Object.values(countUser(Allmentee));
+    lineTableMentor = Object.values(countUser(Allmentor));
+    lineTableQuestion = Object.values(countQuesiton(AllQuestion));
+    circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus));
+    circleMentee = Object.values(countUserbyRole(AllUser));
+    total_array.lineTableMentee = lineTableMentee;
+    total_array.lineTableMentor = lineTableMentor;
+    total_array.lineTableQuestion = lineTableQuestion;
+    total_array.circleQuestion = circleQuestion;
+    total_array.circleMentee = circleMentee;
     res.json(total_array);
 
 };

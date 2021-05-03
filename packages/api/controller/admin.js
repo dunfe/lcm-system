@@ -55,6 +55,25 @@ export const countQuesiton = (data) => {
     },{})
 }
 
+export const countUser = (data) => {
+    return data.reduce((result, {createdAt}) =>{
+        const normalizeDate = dayjs(createdAt).format('DD/MM/YYYY')
+        if(result.length === 0) {
+            result['1/1/2021'] = {
+                date: '1/1/2021',
+                count: 0,
+            }
+        }
+        result[normalizeDate] = result[normalizeDate] || {
+            date : normalizeDate,
+            count: 0,
+        }
+
+        result[normalizeDate].count++
+        return result
+    },{})
+}
+
 export const countQuesitonbyStatus = (data) => {
     return data.reduce((result, {status}) =>{
         
@@ -68,15 +87,28 @@ export const countQuesitonbyStatus = (data) => {
     },{})
 }
 
+export const countUserbyRole = (data) => {
+    return data.reduce((result, {role}) =>{
+        
+        result[role] = result[role] || {
+            status : role,
+            count: 0,
+        }
+
+        result[role].count++
+        return result
+    },{})
+}
+
 export const countPoint = (data) => {
     return data.reduce((result, {createAt,pointAfter}) =>{
         const normalizeDate = dayjs(createAt).format('DD/MM/YYYY')
-        if(result.length === 0) {
-            result['1/1/2021'] = {
-                date: '1/1/2021',
-                point: 0,
-            }
+        
+        result['1/1/2021'] = {
+            date: '1/1/2021',
+            point: 0,
         }
+        
         result[normalizeDate] = result[normalizeDate] || {
             date : normalizeDate,
             point: pointAfter,
