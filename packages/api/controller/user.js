@@ -30,18 +30,17 @@ export const dashboardMentee = async (req,res) =>{
         listUser = listUser.concat(user.pointInHistory);
         listUser = listUser.concat(user.pointOutHistory);
         listUser = listUser.sort(function(a,b){
-            return new Date(b.createAt) - new Date(a.createAt);
+            return new Date(a.createAt) - new Date(b.createAt);
           });
     })
-    let lineTableQuestion = [],lineTableSelectedQuestion = [],circleQuestion = [],AllQuestion,AllQuestionbyStatus,lineTablePoint;
+    let lineTableQuestion = [],circleQuestion = [],AllQuestion,AllQuestionbyStatus,lineTablePoint;
     if(CurrUser.role == 'mentor'){
         AllQuestion = await Question.find({receivedBy: userId}).select('createAt -_id')
         AllQuestionbyStatus = await Question.find({receivedBy: userId}).select('status -_id')
-        lineTableSelectedQuestion = Object.values(countQuesiton(AllQuestion));
+        lineTableQuestion = Object.values(countQuesiton(AllQuestion));
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
         lineTablePoint = Object.values(countPoint(listUser));
-        lineTablePoint.reverse();
-        results.lineTableSelectedQuestion = lineTableSelectedQuestion;
+        results.lineTableQuestion = lineTableQuestion;
         results.circleQuestion = circleQuestion;
         results.lineTablePoint = lineTablePoint;
     }else if(CurrUser.role == 'mentee'){
@@ -50,7 +49,6 @@ export const dashboardMentee = async (req,res) =>{
         lineTableQuestion = Object.values(countQuesiton(AllQuestion));
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
         lineTablePoint = Object.values(countPoint(listUser));
-        lineTablePoint.reverse();
         results.lineTableQuestion = lineTableQuestion;
         results.circleQuestion = circleQuestion;
         results.lineTablePoint = lineTablePoint;
