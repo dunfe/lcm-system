@@ -40,6 +40,7 @@ export const dashboardMentee = async (req,res) =>{
         lineTableSelectedQuestion = Object.values(countQuesiton(AllQuestion));
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
         lineTablePoint = Object.values(countPoint(listUser));
+        lineTablePoint.reverse();
         results.lineTableSelectedQuestion = lineTableSelectedQuestion;
         results.circleQuestion = circleQuestion;
         results.lineTablePoint = lineTablePoint;
@@ -49,6 +50,7 @@ export const dashboardMentee = async (req,res) =>{
         lineTableQuestion = Object.values(countQuesiton(AllQuestion));
         circleQuestion = Object.values(countQuesitonbyStatus(AllQuestionbyStatus)); 
         lineTablePoint = Object.values(countPoint(listUser));
+        lineTablePoint.reverse();
         results.lineTableQuestion = lineTableQuestion;
         results.circleQuestion = circleQuestion;
         results.lineTablePoint = lineTablePoint;
