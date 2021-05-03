@@ -20,21 +20,21 @@ describe('the ToggleAudioButton component', () => {
     })
 
     it('should render correctly when audio is enabled', () => {
-        mockUseLocalAudioToggle.mockImplementation(() => [true, () => {}])
+        mockUseLocalAudioToggle.mockImplementation(() => [true])
         const wrapper = shallow(<ToggleAudioButton />)
         expect(wrapper.prop('startIcon')).toEqual(<MicIcon />)
         expect(wrapper.text()).toBe('Mute')
     })
 
     it('should render correctly when audio is disabled', () => {
-        mockUseLocalAudioToggle.mockImplementation(() => [false, () => {}])
+        mockUseLocalAudioToggle.mockImplementation(() => [false])
         const wrapper = shallow(<ToggleAudioButton />)
         expect(wrapper.prop('startIcon')).toEqual(<MicOffIcon />)
         expect(wrapper.text()).toBe('Unmute')
     })
 
     it('should render correctly when there are no audio tracks', () => {
-        mockUseLocalAudioToggle.mockImplementation(() => [true, () => {}])
+        mockUseLocalAudioToggle.mockImplementation(() => [true])
         mockUseVideoContext.mockImplementationOnce(() => ({
             localTracks: [{ kind: 'video' }],
         }))

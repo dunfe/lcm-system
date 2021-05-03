@@ -1,10 +1,7 @@
 import React from 'react'
 import { Message } from '@twilio/conversations/lib/message'
-import MessageInfo from './MessageInfo/MessageInfo'
-import MessageListScrollContainer from './MessageListScrollContainer/MessageListScrollContainer'
-import TextMessage from './TextMessage/TextMessage'
-import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
 import MediaMessage from './MediaMessage/MediaMessage'
+import { Comment } from 'antd'
 
 interface MessageListProps {
     messages: Message[]
@@ -16,44 +13,29 @@ const getFormattedTime = (message?: Message) =>
         .toLowerCase()
 
 export default function MessageList({ messages }: MessageListProps) {
-    const { room } = useVideoContext()
-    const localParticipant = room!.localParticipant
-
     return (
-        <MessageListScrollContainer messages={messages}>
-            {messages.map((message, idx) => {
+        <>
+            {messages.map((message) => {
                 const time = getFormattedTime(message)!
-                const previousTime = getFormattedTime(messages[idx - 1])
 
-                // Display the MessageInfo component when the author or formatted timestamp differs from the previous message
-                const shouldDisplayMessageInfo =
-                    time !== previousTime ||
-                    message.author !== messages[idx - 1]?.author
-
-                const isLocalParticipant =
-                    localParticipant.identity === message.author
+                const content = () => {
+                    if (message.type === 'media') {
+                        return <MediaMessage media={message.media} />
+                    } else {
+                        return message.body
+                    }
+                }
 
                 return (
-                    <React.Fragment key={message.sid}>
-                        {shouldDisplayMessageInfo && (
-                            <MessageInfo
-                                author={message.author}
-                                isLocalParticipant={isLocalParticipant}
-                                dateCreated={time}
-                            />
-                        )}
-                        {message.type === 'text' && (
-                            <TextMessage
-                                body={message.body}
-                                isLocalParticipant={isLocalParticipant}
-                            />
-                        )}
-                        {message.type === 'media' && (
-                            <MediaMessage media={message.media} />
-                        )}
-                    </React.Fragment>
+                    <div key={message.sid}>
+                        <Comment
+                            author={message.author}
+                            content={content()}
+                            datetime={time}
+                        />
+                    </div>
                 )
             })}
-        </MessageListScrollContainer>
+        </>
     )
 }

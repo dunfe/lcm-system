@@ -65,7 +65,7 @@ router.post(
                         async (error) => {
                             if (error) return next(error);
                             if(user.role == 'banned') {
-                                return res.json({
+                                return res.status(500).json({
                                     status: 'banned',
                                     message: 'Người dùng đã bị vô hiệu hóa'
                                 })

@@ -1,5 +1,16 @@
 import * as React from 'react'
-import { Button, Col, Form, Input, Radio, Row, Table, Tabs, Tag } from 'antd'
+import {
+    Button,
+    Col,
+    Form,
+    Input,
+    message,
+    Radio,
+    Row,
+    Table,
+    Tabs,
+    Tag,
+} from 'antd'
 import { useTrans } from 'common'
 import { useForm } from 'antd/es/form/Form'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
@@ -21,7 +32,8 @@ const { useState, useEffect } = React
 
 const Billing = () => {
     const trans = useTrans()
-    const [form] = useForm()
+    const [amountForm] = useForm()
+    const [cardForm] = useForm()
     const instance = useAPI()
 
     const [pointOutData, setPointOutData] = useState([])
@@ -104,8 +116,26 @@ const Billing = () => {
         },
     ]
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values)
+    const onFinish = () => {
+        amountForm.validateFields().then((amountValues) => {
+            cardForm.validateFields().then((cardValues) => {
+                const { amount, currency } = amountValues
+                const data = { ...cardValues, amount, currency }
+
+                instance
+                    .post('/api/users/payment', data)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            message.success(response.data.message)
+                            amountForm.resetFields()
+                            cardForm.resetFields()
+                        }
+                    })
+                    .catch((error) =>
+                        message.error(error.response.data.message)
+                    )
+            })
+        })
     }
 
     const onAmountChange = (event) => {
@@ -115,7 +145,7 @@ const Billing = () => {
             return
         }
 
-        form.setFieldsValue({
+        amountForm.setFieldsValue({
             point: parseInt(value) * 10,
         })
     }
@@ -127,7 +157,7 @@ const Billing = () => {
             return
         }
 
-        form.setFieldsValue({
+        amountForm.setFieldsValue({
             amount: parseInt(value) / 10,
         })
     }
@@ -183,7 +213,7 @@ const Billing = () => {
                         <Row gutter={24}>
                             <Col span={12}>
                                 <Form
-                                    form={form}
+                                    form={amountForm}
                                     name="billing"
                                     className="billing"
                                     onFinish={onFinish}
@@ -252,79 +282,43 @@ const Billing = () => {
                                             <Radio value="usd">USD</Radio>
                                         </Radio.Group>
                                     </Form.Item>
-                                    <Form.Item
-                                        name="method"
-                                        label="Payment method"
-                                        initialValue={'visa'}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please pick a payment method!',
-                                            },
-                                        ]}
-                                    >
-                                        <Radio.Group style={{ width: '100%' }}>
-                                            <Radio.Button
-                                                value="visa"
-                                                style={{
-                                                    width: 'calc(50% - 4px)',
-                                                }}
-                                            >
-                                                Visa
-                                            </Radio.Button>
-                                            <Radio.Button
-                                                value="mastercard"
-                                                style={{
-                                                    width: 'calc(50% + 4px)',
-                                                }}
-                                            >
-                                                Mastercard
-                                            </Radio.Button>
-                                        </Radio.Group>
-                                    </Form.Item>
-
-                                    <Form.Item {...tailLayout}>
-                                        <Button
-                                            type="primary"
-                                            htmlType="submit"
-                                            className="login-form-button"
-                                        >
-                                            {trans('Add')}
-                                        </Button>
-                                    </Form.Item>
                                 </Form>
                             </Col>
                             <Col span={12}>
                                 <Form
+                                    form={cardForm}
                                     {...layout}
                                     name="basic"
                                     onFinish={onFinish}
                                 >
                                     <Form.Item
                                         label={trans('Card Number')}
-                                        name="cardnumber"
+                                        name="cardNumber"
                                         rules={[
                                             {
                                                 required: true,
-                                                message:
-                                                    'Please input your card number!',
+                                                message: trans(
+                                                    'Please input your card number!'
+                                                ),
                                             },
                                         ]}
                                     >
-                                        <Input />
+                                        <Input
+                                            placeholder={trans('Card Number')}
+                                        />
                                     </Form.Item>
 
-                                    <Form.Item label={'Expiration date'}>
+                                    <Form.Item label={trans('Expiration date')}>
                                         <Input.Group compact>
                                             <Form.Item
-                                                name={['card', 'mm']}
+                                                name={'cardExpMonth'}
                                                 noStyle
                                                 rules={[
                                                     {
                                                         required: true,
-                                                        message:
-                                                            'Month of expiration date is required',
+                                                        message: trans(
+                                                            'Month of expiration date is required'
+                                                        ),
                                                     },
                                                 ]}
                                             >
@@ -334,13 +328,14 @@ const Billing = () => {
                                                 />
                                             </Form.Item>
                                             <Form.Item
-                                                name={['card', 'yy']}
+                                                name={'cardExpYear'}
                                                 noStyle
                                                 rules={[
                                                     {
                                                         required: true,
-                                                        message:
-                                                            'Year of expiration date is required',
+                                                        message: trans(
+                                                            'Year of expiration date is required'
+                                                        ),
                                                     },
                                                 ]}
                                             >
@@ -350,13 +345,14 @@ const Billing = () => {
                                                 />
                                             </Form.Item>
                                             <Form.Item
-                                                name={['card', 'cvc']}
+                                                name={'cardCVC'}
                                                 noStyle
                                                 rules={[
                                                     {
                                                         required: true,
-                                                        message:
-                                                            'CVC is required',
+                                                        message: trans(
+                                                            'CVC is required'
+                                                        ),
                                                     },
                                                 ]}
                                             >
@@ -373,7 +369,7 @@ const Billing = () => {
                                     </Form.Item>
                                     <Form.Item
                                         label={'Postcode'}
-                                        name="postcode"
+                                        name="posttalCode"
                                     >
                                         <Input placeholder="Postcode" />
                                     </Form.Item>

@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
-import Snackbar from '../../Snackbar/Snackbar'
+import React from 'react'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
+import { notification } from 'antd'
 
-export function getSnackbarContent(
+const { useEffect } = React
+export const getSnackbarContent = (
     hasAudio: boolean,
     hasVideo: boolean,
     error?: Error
-) {
+) => {
     let headline = ''
     let message = ''
 
@@ -65,15 +66,12 @@ export function getSnackbarContent(
     }
 }
 
-export default function MediaErrorSnackbar({ error }: { error?: Error }) {
+const MediaErrorSnackbar = ({ error }: { error?: Error }) => {
     const { hasAudioInputDevices, hasVideoInputDevices } = useDevices()
 
     const { isAcquiringLocalTracks } = useVideoContext()
 
-    const [isSnackbarDismissed, setIsSnackbarDismissed] = useState(false)
-
     const isSnackbarOpen =
-        !isSnackbarDismissed &&
         !isAcquiringLocalTracks &&
         (Boolean(error) || !hasAudioInputDevices || !hasVideoInputDevices)
 
@@ -83,13 +81,20 @@ export default function MediaErrorSnackbar({ error }: { error?: Error }) {
         error
     )
 
-    return (
-        <Snackbar
-            open={isSnackbarOpen}
-            handleClose={() => setIsSnackbarDismissed(true)}
-            headline={headline}
-            message={message}
-            variant="warning"
-        />
-    )
+    const openNotification = () => {
+        notification.warning({
+            message: headline,
+            description: message,
+        })
+    }
+
+    useEffect(() => {
+        if (isSnackbarOpen) {
+            openNotification()
+        }
+    }, [isSnackbarOpen])
+
+    return <></>
 }
+
+export default MediaErrorSnackbar

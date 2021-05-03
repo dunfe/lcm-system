@@ -1,13 +1,13 @@
 import React from 'react'
 
 import MainParticipantInfo from './MainParticipantInfo'
-import AvatarIcon from '../../icons/AvatarIcon'
 import { shallow } from 'enzyme'
 import useIsTrackSwitchedOff from '../../hooks/useIsTrackSwitchedOff/useIsTrackSwitchedOff'
 import usePublications from '../../hooks/usePublications/usePublications'
 import useTrack from '../../hooks/useTrack/useTrack'
 import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting'
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext'
+import { UserOutlined } from '@ant-design/icons'
 
 jest.mock(
     '../../hooks/useParticipantNetworkQualityLevel/useParticipantNetworkQualityLevel',
@@ -50,7 +50,7 @@ describe('the MainParticipantInfo component', () => {
                 mock children
             </MainParticipantInfo>
         )
-        expect(wrapper.find(AvatarIcon).exists()).toBe(true)
+        expect(wrapper.find(<UserOutlined />).exists()).toBe(true)
     })
 
     it('should not render the AvatarIcon component when video tracks are published', () => {
@@ -64,7 +64,7 @@ describe('the MainParticipantInfo component', () => {
                 mock children
             </MainParticipantInfo>
         )
-        expect(wrapper.find(AvatarIcon).exists()).toBe(false)
+        expect(wrapper.find(<UserOutlined />).exists()).toBe(false)
     })
 
     it('should not render the AvatarIcon component when the user has disabled their video and is sharing their screen', () => {
@@ -78,7 +78,7 @@ describe('the MainParticipantInfo component', () => {
                 mock children
             </MainParticipantInfo>
         )
-        expect(wrapper.find(AvatarIcon).exists()).toBe(false)
+        expect(wrapper.find(<UserOutlined />).exists()).toBe(false)
     })
 
     it('should render the AvatarIcon component when video is switched off', () => {
@@ -90,7 +90,7 @@ describe('the MainParticipantInfo component', () => {
                 mock children
             </MainParticipantInfo>
         )
-        expect(wrapper.find(AvatarIcon).exists()).toBe(true)
+        expect(wrapper.find(<UserOutlined />).exists()).toBe(true)
     })
 
     it('should not render the reconnecting UI when the user is connected', () => {

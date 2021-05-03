@@ -6,7 +6,7 @@ type selectedParticipantContextType = [
     (participant: Participant) => void
 ]
 
-export const selectedParticipantContext = createContext<selectedParticipantContextType>(
+const selectedParticipantContext = createContext<selectedParticipantContextType>(
     null!
 )
 

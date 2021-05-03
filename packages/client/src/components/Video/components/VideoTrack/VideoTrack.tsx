@@ -1,14 +1,9 @@
 import React, { useRef, useEffect } from 'react'
 import { IVideoTrack } from '../../types'
-import { styled } from '@material-ui/core/styles'
 import { Track } from 'twilio-video'
 import useMediaStreamTrack from '../../hooks/useMediaStreamTrack/useMediaStreamTrack'
 import useVideoTrackDimensions from '../../hooks/useVideoTrackDimensions/useVideoTrackDimensions'
-
-const Video = styled('video')({
-    width: '100%',
-    height: '100%',
-})
+import styled from 'styled-components/macro'
 
 interface VideoTrackProps {
     track: IVideoTrack
@@ -55,3 +50,8 @@ export default function VideoTrack({
 
     return <Video ref={ref} style={style} />
 }
+
+const Video = styled.video`
+    width: 100%;
+    height: 100%;
+`

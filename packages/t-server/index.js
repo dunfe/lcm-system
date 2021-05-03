@@ -34,11 +34,17 @@ app.get('/video/token', (req, res) => {
     sendTokenResponse(token, res);
 });
 
-app.post('/room/token', (req, res) => {
+app.post('/room/token', async (req, res) => {
     const user_identity = req.body.user_identity;
     const room_name = req.body.room_name;
-    const token = roomToken(user_identity, room_name, true, true);
-    sendTokenResponse(token, res);
+
+    const token = await roomToken(user_identity, room_name, true, true)
+      .then((result) => result)
+      .catch((error) => console.log(error));
+
+    if (token) {
+        sendTokenResponse(token, res);
+    }
 });
 
 app.post('/video/token', (req, res) => {
