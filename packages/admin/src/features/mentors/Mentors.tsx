@@ -3,7 +3,6 @@ import {
     Table,
     Space,
     Modal,
-    Form,
     Input,
     Button,
     message,
@@ -20,37 +19,19 @@ import { selectMentors, updateMentors } from './mentorsSlice'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 import { useTrans } from 'common'
 
-interface IProps {
-    visible: boolean
-    setVisible: (state: boolean) => void
-}
-
 const { useState, useEffect } = React
-const { useForm } = Form
-
-const layout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 20 },
-}
-const tailLayout = {
-    wrapperCol: { offset: 4, span: 20 },
-}
 
 const { Search } = Input
 
-const Mentors = (props: IProps) => {
-    const { visible, setVisible } = props
+const Mentors = () => {
     const dispatch = useDispatch()
 
     const data = useSelector(selectMentors)
-    const [confirmLoading, setConfirmLoading] = React.useState(false)
-    const [mode, setMode] = useState('add')
     const [updateId, setUpdateId] = useState('')
     const [itemDetail, setItemDetail] = useState<IUserDetail>()
     const [current, setCurrent] = useState(1)
     const [detail, setDetail] = useState(false)
     const [total, setTotal] = useState(0)
-    const [form] = useForm()
 
     const trans = useTrans()
 
@@ -105,12 +86,6 @@ const Mentors = (props: IProps) => {
             render(text: string, record: any) {
                 return (
                     <Space size="middle" key={record._id}>
-                        <Button
-                            type={'primary'}
-                            onClick={() => onEdit(record._id)}
-                        >
-                            {trans('Edit')}
-                        </Button>
                         {record.role === 'banned' ? null : ban(record._id)}
                     </Space>
                 )
@@ -153,18 +128,6 @@ const Mentors = (props: IProps) => {
         setCurrent(page)
     }
 
-    const onEdit = (id: string) => {
-        setMode('update')
-        setUpdateId(id)
-        setVisible(true)
-    }
-
-    const handleCancel = () => {
-        setVisible(false)
-        setMode('add')
-        setUpdateId('')
-    }
-
     const getData = () => {
         instance
             .get(`/api/admin/mentors?page=${current}`)
@@ -178,26 +141,6 @@ const Mentors = (props: IProps) => {
     const handleDetailCancel = () => {
         setDetail(false)
         setUpdateId('')
-    }
-
-    const onFinish = (values: any) => {
-        setConfirmLoading(true)
-
-        if (mode === 'update' && updateId !== '') {
-            instance
-                .put(`/api/admin/mentors/${updateId}`, values)
-                .then((response) => {
-                    if (response.status === 200) {
-                        getData()
-                        message.success('Cập nhật thành công').then(() => {
-                            setVisible(false)
-                        })
-                    }
-                })
-                .catch((error) => message.error(error.message))
-        }
-
-        setConfirmLoading(false)
     }
 
     const onSearch = (value: string) => {
@@ -221,16 +164,8 @@ const Mentors = (props: IProps) => {
     }, [updateId])
 
     useEffect(() => {
-        if (mode === 'update') {
-            form.setFieldsValue(itemDetail)
-        }
-    }, [itemDetail])
-
-    useEffect(() => {
-        if (!visible) {
-            getData()
-        }
-    }, [visible, current])
+        getData()
+    }, [current])
 
     return (
         <>
@@ -312,40 +247,6 @@ const Mentors = (props: IProps) => {
                         <a href={itemDetail?.github}>{itemDetail?.github}</a>
                     </Descriptions.Item>
                 </Descriptions>
-            </Modal>
-            <Modal
-                title="'Sửa thông tin"
-                visible={visible}
-                footer={null}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-            >
-                <Form
-                    {...layout}
-                    name="add"
-                    form={form}
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                >
-                    <Form.Item
-                        label="Tên"
-                        name="fullname"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Vui lòng nhập tên kỹ năng',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
-                            {mode === 'add' ? 'Thêm' : 'Cập nhật'}
-                        </Button>
-                    </Form.Item>
-                </Form>
             </Modal>
             <Search
                 style={{ paddingBottom: 12 }}

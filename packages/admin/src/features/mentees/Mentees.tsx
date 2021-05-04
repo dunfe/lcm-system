@@ -3,7 +3,6 @@ import {
     Table,
     Space,
     Modal,
-    Form,
     Input,
     Button,
     message,
@@ -19,35 +18,18 @@ import { selectMentees, updateMentees } from './menteesSlice'
 import { Breakpoint } from 'antd/es/_util/responsiveObserve'
 import { useTrans } from 'common'
 
-interface IProps {
-    visible: boolean
-    setVisible: (state: boolean) => void
-}
-
 const { useState, useEffect } = React
-const { useForm } = Form
 
-const layout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 20 },
-}
-const tailLayout = {
-    wrapperCol: { offset: 4, span: 20 },
-}
+const { Search } = Input
 
-const Mentees = (props: IProps) => {
-    const { visible, setVisible } = props
+const Mentees = () => {
     const dispatch = useDispatch()
     const data = useSelector(selectMentees)
-    const [confirmLoading, setConfirmLoading] = React.useState(false)
-    const [mode, setMode] = useState('add')
     const [updateId, setUpdateId] = useState('')
     const [itemDetail, setItemDetail] = useState<IUserDetail>()
     const [current, setCurrent] = useState(1)
     const [total, setTotal] = useState(0)
     const [detail, setDetail] = useState(false)
-
-    const [form] = useForm()
 
     const trans = useTrans()
 
@@ -96,12 +78,6 @@ const Mentees = (props: IProps) => {
             render(text: string, record: any) {
                 return (
                     <Space size="middle" key={record._id}>
-                        <Button
-                            type={'primary'}
-                            onClick={() => onEdit(record._id)}
-                        >
-                            {trans('Edit')}
-                        </Button>
                         {record.role === 'banned'
                             ? unban(record._id)
                             : ban(record._id)}
@@ -111,6 +87,16 @@ const Mentees = (props: IProps) => {
             responsive: ['sm'] as Breakpoint[],
         },
     ]
+
+    const onSearch = (value: string) => {
+        instance
+            .get(`/api/admin/search/users?email=${value}`)
+            .then((response) => {
+                dispatch(updateMentees(response.data.results))
+                setTotal(response.data.totalItem)
+            })
+            .catch((error) => console.error(error.message))
+    }
 
     const unban = (id: string) => {
         return (
@@ -171,18 +157,6 @@ const Mentees = (props: IProps) => {
         setCurrent(page)
     }
 
-    const onEdit = (id: string) => {
-        setMode('update')
-        setUpdateId(id)
-        setVisible(true)
-    }
-
-    const handleCancel = () => {
-        setVisible(false)
-        setMode('add')
-        setUpdateId('')
-    }
-
     const handleDetailCancel = () => {
         setDetail(false)
         setUpdateId('')
@@ -198,26 +172,6 @@ const Mentees = (props: IProps) => {
             .catch((error) => console.error(error.message))
     }
 
-    const onFinish = (values: any) => {
-        setConfirmLoading(true)
-
-        if (mode === 'update' && updateId !== '') {
-            instance
-                .put(`/api/admin/users/${updateId}`, values)
-                .then((response) => {
-                    if (response.status === 200) {
-                        message.success('Cập nhật thành công').then(() => {
-                            setVisible(false)
-                        })
-                    }
-                })
-                .then(() => getData())
-                .catch((error) => message.error(error.message))
-        }
-
-        setConfirmLoading(false)
-    }
-
     useEffect(() => {
         if (updateId !== '') {
             instance.get(`/api/admin/users/${updateId}`).then((response) => {
@@ -229,16 +183,8 @@ const Mentees = (props: IProps) => {
     }, [updateId])
 
     useEffect(() => {
-        if (mode === 'update') {
-            form.setFieldsValue(itemDetail)
-        }
-    }, [itemDetail])
-
-    useEffect(() => {
-        if (!visible) {
-            getData()
-        }
-    }, [visible, current])
+        getData()
+    }, [current])
 
     return (
         <>
@@ -321,37 +267,12 @@ const Mentees = (props: IProps) => {
                     </Descriptions.Item>
                 </Descriptions>
             </Modal>
-            <Modal
-                title="Sửa thông tin"
-                visible={visible}
-                footer={null}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-            >
-                <Form
-                    {...layout}
-                    name="add"
-                    form={form}
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                >
-                    <Form.Item
-                        label="Tên"
-                        name="fullname"
-                        rules={[
-                            { required: true, message: 'Vui lòng nhập tên!' },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
-                            Cập nhật
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+            <Search
+                style={{ paddingBottom: 12 }}
+                placeholder={trans('Enter mentee email')}
+                onSearch={onSearch}
+                enterButton
+            />
             <Table
                 columns={columns}
                 dataSource={data}

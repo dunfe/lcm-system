@@ -56,18 +56,12 @@ const HomeContent = (props: IProps) => {
                 </Route>
                 <Route path={`/mentees`}>
                     <ContentWrapper>
-                        <Mentees
-                            visible={addModalVisible}
-                            setVisible={setAddModalVisible}
-                        />
+                        <Mentees />
                     </ContentWrapper>
                 </Route>
                 <Route path={`/mentors`}>
                     <ContentWrapper>
-                        <Mentors
-                            visible={addModalVisible}
-                            setVisible={setAddModalVisible}
-                        />
+                        <Mentors />
                     </ContentWrapper>
                 </Route>
                 <Route path={`/feedbacks`}>
