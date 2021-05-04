@@ -9,8 +9,6 @@ import {
 import useActiveSinkId from './useActiveSinkId/useActiveSinkId'
 import { RoomType } from '../types'
 import { TwilioError } from 'twilio-video'
-import { useUserId } from '../../../utils/hooks/useUserId'
-import { useFullname } from '../../../utils/hooks/useFullname'
 import { useRole } from '../../../utils/hooks/useRole'
 
 const { createContext, useContext, useReducer, useState } = React
@@ -37,15 +35,6 @@ export interface StateContextType {
 
 const StateContext = createContext<StateContextType>(null!)
 
-/*
-  The 'react-hooks/rules-of-hooks' linting rules prevent React Hooks fron being called
-  inside of if() statements. This is because hooks must always be called in the same order
-  every time a component is rendered. The 'react-hooks/rules-of-hooks' rule is disabled below
-  because the "if (process.env.REACT_APP_SET_AUTH === 'firebase')" statements are evaluated
-  at build time (not runtime). If the statement evaluates to false, then the code is not
-  included in the bundle that is produced (due to tree-shaking). Thus, in this instance, it
-  is ok to call hooks inside if() statements.
-*/
 export default function AppStateProvider(props: React.PropsWithChildren<any>) {
     const [error, setError] = useState<TwilioError | null>(null)
     const [isFetching, setIsFetching] = useState(false)
