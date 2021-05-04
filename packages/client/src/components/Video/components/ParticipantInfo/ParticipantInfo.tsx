@@ -67,7 +67,8 @@ export default function ParticipantInfo({
             onClick={onClick}
             data-cy-participant={participant.identity}
             style={{
-                display: 'grid',
+                display: 'flex',
+                flexDirection: 'column',
                 placeItems: 'center',
                 border: '1px solid #fff',
                 margin: 12,
@@ -105,7 +106,6 @@ export default function ParticipantInfo({
                 style={{
                     display: 'grid',
                     placeItems: 'center',
-                    height: '150px',
                 }}
             >
                 {(!isVideoEnabled || isVideoSwitchedOff) && (

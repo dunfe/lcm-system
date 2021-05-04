@@ -9,6 +9,9 @@ import {
 import useActiveSinkId from './useActiveSinkId/useActiveSinkId'
 import { RoomType } from '../types'
 import { TwilioError } from 'twilio-video'
+import { useUserId } from '../../../utils/hooks/useUserId'
+import { useFullname } from '../../../utils/hooks/useFullname'
+import { useRole } from '../../../utils/hooks/useRole'
 
 const { createContext, useContext, useReducer, useState } = React
 
@@ -52,6 +55,8 @@ export default function AppStateProvider(props: React.PropsWithChildren<any>) {
         initialSettings
     )
 
+    const role = useRole()
+
     let contextValue = {
         error,
         setError,
@@ -84,8 +89,12 @@ export default function AppStateProvider(props: React.PropsWithChildren<any>) {
 
     const getToken: StateContextType['getToken'] = (name, room) => {
         setIsFetching(true)
+
         return contextValue
-            .getToken(name, room)
+            .getToken(
+                `${role?.charAt(0).toUpperCase() + role!.slice(1)} ${name}`,
+                room
+            )
             .then((res) => {
                 setIsFetching(false)
                 return res

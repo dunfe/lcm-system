@@ -25,7 +25,7 @@ export default function ParticipantList() {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: 400, padding: '2em' }}>
+            <div style={{ width: 300, padding: '1em' }}>
                 <Participant
                     participant={localParticipant}
                     isLocalParticipant={true}

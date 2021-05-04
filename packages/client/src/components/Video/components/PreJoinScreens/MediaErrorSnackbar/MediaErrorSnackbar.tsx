@@ -13,6 +13,13 @@ export const getSnackbarContent = (
     let headline = ''
     let message = ''
 
+    if (!error) {
+        return {
+            headline,
+            message,
+        }
+    }
+
     switch (true) {
         // This error is emitted when the user or the user's system has denied permission to use the media devices
         case error?.name === 'NotAllowedError':
@@ -83,11 +90,18 @@ const MediaErrorSnackbar = ({ error }: { error?: Error }) => {
     )
 
     const openNotification = () => {
-        notification.warning({
-            message: headline,
-            description: message,
-        })
+        if (headline !== '' && message !== '') {
+            notification.warning({
+                message: headline,
+                description: message,
+            })
+        }
     }
+
+    useEffect(() => {
+        console.log(hasVideoInputDevices)
+        console.log(hasAudioInputDevices)
+    }, [hasAudioInputDevices, hasVideoInputDevices])
 
     useEffect(() => {
         if (isSnackbarOpen) {
