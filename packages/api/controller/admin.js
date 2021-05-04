@@ -39,12 +39,12 @@ export const getAllRole = (req, res) => {
 export const countQuesiton = (data) => {
     return data.reduce((result, {createAt}) =>{
         const normalizeDate = dayjs(createAt).format('DD/MM/YYYY')
-        if(result.length === 0) {
+        
             result['1/1/2021'] = {
                 date: '1/1/2021',
                 count: 0,
             }
-        }
+        
         result[normalizeDate] = result[normalizeDate] || {
             date : normalizeDate,
             count: 0,
