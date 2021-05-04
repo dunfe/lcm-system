@@ -25,19 +25,26 @@ export const createQuestion = async (req, res) => {
         status: req.body.status,
         note: req.body.note,
     });
-    question.save((err, doc) => {
-        if (!err) {
-            return res.status(200).json({
-                status: 'success',
-                data: doc
-            });
-        } else {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Something wrong, try again later'
-            })
-        }
-    });
+    if(mentee.currentPoint < req.body.point){
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Bạn không đủ điểm để tạo câu hỏi!!'
+        })
+    }else{
+        question.save((err, doc) => {
+            if (!err) {
+                return res.status(200).json({
+                    status: 'success',
+                    data: doc
+                });
+            } else {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Something wrong, try again later'
+                })
+            }
+        });
+    }
 };
 
 export function getAllQuestions(model) { 
@@ -288,7 +295,7 @@ export const viewListQuestionForMentor = async (req, res) => {
         results.previous = { page: page - 1 }
     }
     try {
-        results.results = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId }, status: "new" }).sort({ point: 'descending' }).exec();
+        results.results = await Question.find({ skill: { $in: listSkill }, receivedBy: { $ne: userId }, status: "new" }).sort({ createAt: 'descending' }).exec();
         //limit(limit).skip(startIndex)
         return res.status(200).json({
             status: 'success',
