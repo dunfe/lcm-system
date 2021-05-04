@@ -39,6 +39,7 @@ const Billing = () => {
     const [pointOutData, setPointOutData] = useState([])
     const [pointInData, setPointInData] = useState([])
     const [data, setData] = useState([])
+    const [currency, setCurrency] = useState('vnd')
 
     const paymentHistoryColumn = [
         {
@@ -118,6 +119,16 @@ const Billing = () => {
 
     const onFinish = () => {
         amountForm.validateFields().then((amountValues) => {
+            const { amount, currency } = amountValues
+            if (currency === 'vnd' && amount < 10000) {
+                message.error(trans('Please add at least 10000 vnd'))
+                return
+            }
+
+            if (currency === 'usd' && amount < 1) {
+                message.error(trans('Please add at least 1 usd'))
+                return
+            }
             cardForm.validateFields().then((cardValues) => {
                 const { amount, currency } = amountValues
                 const data = { ...cardValues, amount, currency }
@@ -145,8 +156,16 @@ const Billing = () => {
             return
         }
 
+        let point = 0
+
+        if (currency === 'vnd') {
+            point = Math.round(parseInt(value) / 100)
+        } else {
+            point = parseInt(value) * 230
+        }
+
         amountForm.setFieldsValue({
-            point: parseInt(value) * 10,
+            point,
         })
     }
 
@@ -157,9 +176,25 @@ const Billing = () => {
             return
         }
 
+        let amount = 0
+
+        if (currency === 'vnd') {
+            amount = Math.round(parseInt(value) * 100)
+        } else {
+            amount = Math.round(parseInt(value) / 230)
+        }
+
         amountForm.setFieldsValue({
-            amount: parseInt(value) / 10,
+            amount,
         })
+
+        amountForm.setFieldsValue({
+            amount,
+        })
+    }
+
+    const onCurrencyChange = (value) => {
+        setCurrency(value.target.value)
     }
 
     useEffect(() => {
@@ -277,7 +312,11 @@ const Billing = () => {
                                             },
                                         ]}
                                     >
-                                        <Radio.Group style={{ width: '100%' }}>
+                                        <Radio.Group
+                                            style={{ width: '100%' }}
+                                            value={currency}
+                                            onChange={onCurrencyChange}
+                                        >
                                             <Radio value="vnd">VND</Radio>
                                             <Radio value="usd">USD</Radio>
                                         </Radio.Group>
