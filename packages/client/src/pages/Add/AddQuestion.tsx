@@ -19,6 +19,7 @@ import {
     Row,
     Col,
     Typography,
+    message,
 } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -120,8 +121,8 @@ const AddQuestion = (props: IProps) => {
                         })
                     }
                 })
+                .catch((error) => message.error(error.response.data.message))
                 .finally(() => setAddLoading(false))
-                .catch((error) => console.error(error))
         } else {
             instance
                 .put(`/api/users/questions/${selectedId}`, _values)
@@ -138,8 +139,8 @@ const AddQuestion = (props: IProps) => {
                         })
                     }
                 })
+                .catch((error) => message.error(error.response.data.message))
                 .finally(() => setAddLoading(false))
-                .catch((error) => console.error(error))
         }
     }
 
