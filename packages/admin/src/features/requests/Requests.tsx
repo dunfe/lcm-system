@@ -50,6 +50,12 @@ const Requests = () => {
             responsive: ['md'] as Breakpoint[],
         },
         {
+            title: trans('Phone'),
+            dataIndex: 'phone',
+            key: 'phone',
+            responsive: ['md'] as Breakpoint[],
+        },
+        {
             title: trans('Create at'),
             dataIndex: 'createAt',
             key: 'createAt',
