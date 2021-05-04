@@ -5,19 +5,31 @@ import { useAPI } from '../../utils/hooks/useAPI'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectSkills, updateSkills } from '../skills/skillsSlice'
 import dayjs from 'dayjs'
-import { selectMentees, updateMentees } from '../mentees/menteesSlice'
-import { selectMentors, updateMentors } from '../mentors/mentorsSlice'
-import { selectQuestions, updateQuestions } from '../questions/questionsSlice'
+import { updateMentees } from '../mentees/menteesSlice'
+import { updateMentors } from '../mentors/mentorsSlice'
+import { updateQuestions } from '../questions/questionsSlice'
 import { Line, Pie } from '@ant-design/charts'
-import { useCount } from '../../utils/hooks/useCount'
-import { useStatus } from '../../utils/hooks/useStatus'
-import { useRoleStatus } from '../../utils/hooks/useRoleStatus'
+
+interface IStatusCount {
+    status: string
+    count: number
+}
+
+interface IDateCount {
+    date: string
+    count: number
+}
 
 interface IDashboard {
     totalUser: number
     totalMentor: number
     totalQuestion: number
     totalSkill: number
+    lineTableMentee: IDateCount[]
+    lineTableMentor: IDateCount[]
+    lineTableQuestion: IDateCount[]
+    circleQuestion: IStatusCount[]
+    circleMentee: IStatusCount[]
 }
 
 const { useEffect, useState } = React
@@ -26,9 +38,6 @@ const { Title } = Typography
 const Dashboard = () => {
     const instance = useAPI()
     const skills = useSelector(selectSkills)
-    const mentees = useSelector(selectMentees)
-    const mentors = useSelector(selectMentors)
-    const questions = useSelector(selectQuestions)
     const dispatch = useDispatch()
 
     const [total, setTotal] = useState<IDashboard>({
@@ -36,22 +45,15 @@ const Dashboard = () => {
         totalMentor: 0,
         totalQuestion: 0,
         totalSkill: 0,
+        lineTableMentee: [],
+        lineTableMentor: [],
+        lineTableQuestion: [],
+        circleQuestion: [],
+        circleMentee: [],
     })
-    const [questionData, setQuestionData] = useState<Record<string, any>[]>([])
-    const [questionStatusData, setQuestionStatusData] = useState<
-        Record<string, any>[]
-    >([])
-    const [menteesData, setMenteesData] = useState<Record<string, any>[]>([])
-    const [menteesStatusData, setMenteesStatusData] = useState<
-        Record<string, any>[]
-    >([])
-    const [mentorsData, setMentorsData] = useState<Record<string, any>[]>([])
-    const [mentorsStatusData, setMentorsStatusData] = useState<
-        Record<string, any>[]
-    >([])
 
     const questionsConfig = {
-        data: questionData,
+        data: total.lineTableQuestion,
         xField: 'date',
         yField: 'count',
         height: 100,
@@ -62,7 +64,7 @@ const Dashboard = () => {
     }
 
     const menteesConfig = {
-        data: menteesData,
+        data: total.lineTableMentee,
         xField: 'date',
         yField: 'count',
         height: 100,
@@ -73,19 +75,19 @@ const Dashboard = () => {
     }
 
     const questionsPieConfig = {
-        data: questionStatusData,
-        angleField: 'value',
-        colorField: 'type',
+        data: total.circleQuestion,
+        angleField: 'count',
+        colorField: 'status',
     }
 
     const menteesPie = {
-        data: menteesStatusData,
-        angleField: 'value',
-        colorField: 'type',
+        data: total.circleMentee,
+        angleField: 'count',
+        colorField: 'status',
     }
 
     const mentorsConfig = {
-        data: mentorsData,
+        data: total.lineTableMentor,
         xField: 'date',
         yField: 'count',
         height: 100,
@@ -96,9 +98,9 @@ const Dashboard = () => {
     }
 
     const mentorsPie = {
-        data: mentorsStatusData,
-        angleField: 'value',
-        colorField: 'type',
+        data: total.lineTableMentor,
+        angleField: 'count',
+        colorField: 'date',
     }
 
     const skillsColumns = [
@@ -128,34 +130,6 @@ const Dashboard = () => {
             },
         },
     ]
-
-    useEffect(() => {
-        if (questions.length > 0) {
-            const _data = useCount(questions)
-            const _status = useStatus(questions)
-            setQuestionData(Object.values(_data))
-            setQuestionStatusData(Object.values(_status))
-        }
-    }, [questions])
-
-    useEffect(() => {
-        if (mentees.length > 0) {
-            const _data = useCount(mentees)
-            const _status = useRoleStatus(mentees)
-
-            setMenteesData(Object.values(_data))
-            setMenteesStatusData(Object.values(_status))
-        }
-    }, [mentees])
-
-    useEffect(() => {
-        if (mentors.length > 0) {
-            const _data = useCount(mentors)
-            const _status = useRoleStatus(mentors)
-            setMentorsData(Object.values(_data))
-            setMentorsStatusData(Object.values(_status))
-        }
-    }, [mentors])
 
     useEffect(() => {
         instance
