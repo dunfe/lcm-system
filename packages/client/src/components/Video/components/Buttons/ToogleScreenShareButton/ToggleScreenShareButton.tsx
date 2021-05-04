@@ -4,6 +4,7 @@ import useScreenShareParticipant from '../../../hooks/useScreenShareParticipant/
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
 import { Button, Tooltip } from 'antd'
 import { DesktopOutlined } from '@ant-design/icons'
+import { useTrans } from 'common'
 
 export const SCREEN_SHARE_TEXT = 'Share Screen'
 export const SHARE_IN_PROGRESS_TEXT =
@@ -20,14 +21,15 @@ export default function ToggleScreenShareButton(props: { disabled?: boolean }) {
     const isDisabled =
         props.disabled || disableScreenShareButton || !isScreenShareSupported
 
+    const trans = useTrans()
     let tooltipMessage = ''
 
     if (disableScreenShareButton) {
-        tooltipMessage = SHARE_IN_PROGRESS_TEXT
+        tooltipMessage = trans(SHARE_IN_PROGRESS_TEXT)
     }
 
     if (!isScreenShareSupported) {
-        tooltipMessage = SHARE_NOT_SUPPORTED_TEXT
+        tooltipMessage = trans(SHARE_NOT_SUPPORTED_TEXT)
     }
 
     return (
@@ -51,7 +53,7 @@ export default function ToggleScreenShareButton(props: { disabled?: boolean }) {
                     icon={<DesktopOutlined />}
                     data-cy-share-screen
                 >
-                    {SCREEN_SHARE_TEXT}
+                    {trans(SCREEN_SHARE_TEXT)}
                 </Button>
             </span>
         </Tooltip>

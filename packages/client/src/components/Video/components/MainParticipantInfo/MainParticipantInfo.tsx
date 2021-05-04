@@ -18,6 +18,7 @@ import NetworkQualityLevel from '../NetworkQualityLevel/NetworkQualityLevel'
 
 import { Typography } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
+import { useTrans } from 'common'
 
 const { Text } = Typography
 
@@ -44,6 +45,7 @@ const MainParticipantInfo = ({
 
     const videoTrack = useTrack(screenSharePublication || videoPublication)
     const isVideoEnabled = Boolean(videoTrack)
+    const trans = useTrans()
 
     const audioPublication = publications.find((p) => p.kind === 'audio')
     const audioTrack = useTrack(audioPublication) as
@@ -134,7 +136,9 @@ const MainParticipantInfo = ({
                         zIndex: 1,
                     }}
                 >
-                    <Text style={{ color: 'white' }}>Reconnecting...</Text>
+                    <Text style={{ color: 'white' }}>
+                        {trans('Reconnecting...')}
+                    </Text>
                 </div>
             )}
             {children}

@@ -20,6 +20,7 @@ import {
     UserOutlined,
     PushpinOutlined,
 } from '@ant-design/icons'
+import { useTrans } from 'common'
 
 interface ParticipantInfoProps {
     participant: Participant
@@ -45,6 +46,7 @@ export default function ParticipantInfo({
     const videoPublication = publications.find((p) =>
         p.trackName.includes('camera')
     )
+    const trans = useTrans()
 
     const isVideoEnabled = Boolean(videoPublication)
     const isScreenShareEnabled = publications.find((p) =>
@@ -97,7 +99,7 @@ export default function ParticipantInfo({
                         }}
                     >
                         {participant.identity}
-                        {isLocalParticipant && ' (You)'}
+                        {isLocalParticipant && `${trans('You')}`}
                     </Text>
                 </div>
                 <div>{isSelected && <PushpinOutlined />}</div>
@@ -120,7 +122,7 @@ export default function ParticipantInfo({
                 )}
                 {isParticipantReconnecting && (
                     <div>
-                        <Text>Reconnecting...</Text>
+                        <Text>{trans('Reconnecting...')}</Text>
                     </div>
                 )}
                 {children}

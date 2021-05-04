@@ -7,6 +7,7 @@ import useMediaStreamTrack from '../../../hooks/useMediaStreamTrack/useMediaStre
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
 import { LocalAudioTrack } from 'twilio-video'
 import { Select, Typography } from 'antd'
+import { useTrans } from 'common'
 
 const { Text } = Typography
 
@@ -19,7 +20,7 @@ export default function AudioInputList() {
     ) as LocalAudioTrack
     const mediaStreamTrack = useMediaStreamTrack(localAudioTrack)
     const localAudioInputDeviceId = mediaStreamTrack?.getSettings().deviceId
-
+    const trans = useTrans()
     function replaceTrack(newDeviceId: string) {
         window.localStorage.setItem(SELECTED_AUDIO_INPUT_KEY, newDeviceId)
         localAudioTrack?.restart({ deviceId: { exact: newDeviceId } })
@@ -51,7 +52,7 @@ export default function AudioInputList() {
                 ) : (
                     <Text>
                         {localAudioTrack?.mediaStreamTrack.label ||
-                            'No Local Audio'}
+                            trans('No Local Audio')}
                     </Text>
                 )}
                 <AudioLevelIndicator

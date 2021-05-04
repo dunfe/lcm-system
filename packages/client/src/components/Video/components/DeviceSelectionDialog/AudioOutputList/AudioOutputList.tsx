@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useAppState } from '../../../state'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import { Select, Typography } from 'antd'
+import { useTrans } from 'common'
 
 const { Text } = Typography
 
@@ -12,6 +13,7 @@ export default function AudioOutputList() {
     const activeOutputLabel = audioOutputDevices.find(
         (device) => device.deviceId === activeSinkId
     )?.label
+    const trans = useTrans()
 
     const audioOptions = audioOutputDevices.map((device) => {
         return {
@@ -40,7 +42,8 @@ export default function AudioOutputList() {
                 <>
                     <Text>Audio Output</Text>
                     <Text>
-                        {activeOutputLabel || 'System Default Audio Output'}
+                        {activeOutputLabel ||
+                            trans('System Default Audio Output')}
                     </Text>
                 </>
             )}

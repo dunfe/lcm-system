@@ -7,11 +7,13 @@ import useLocalAudioToggle from '../../../hooks/useLocalAudioToggle/useLocalAudi
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
 import { Button } from 'antd'
 import Icon from '@ant-design/icons'
+import { useTrans } from 'common'
 
 const ToggleAudioButton = (props: {
     disabled?: boolean
     className?: string
 }) => {
+    const trans = useTrans()
     const [isAudioEnabled, toggleAudioEnabled] = useLocalAudioToggle()
     const { localTracks } = useVideoContext()
     const hasAudioTrack = localTracks.some((track) => track.kind === 'audio')
@@ -34,7 +36,11 @@ const ToggleAudioButton = (props: {
                 )
             }
         >
-            {!hasAudioTrack ? 'No Audio' : isAudioEnabled ? 'Mute' : 'Unmute'}
+            {!hasAudioTrack
+                ? trans('No Audio')
+                : isAudioEnabled
+                ? trans('Mute')
+                : trans('Unmute')}
         </Button>
     )
 }

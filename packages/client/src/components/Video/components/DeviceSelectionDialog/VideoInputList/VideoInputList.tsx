@@ -10,6 +10,7 @@ import useMediaStreamTrack from '../../../hooks/useMediaStreamTrack/useMediaStre
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext'
 import { LocalVideoTrack } from 'twilio-video'
 import { Select, Typography } from 'antd'
+import { useTrans } from 'common'
 
 const { Text } = Typography
 
@@ -28,6 +29,7 @@ export default function VideoInputList() {
     )
     const localVideoInputDeviceId =
         mediaStreamTrack?.getSettings().deviceId || storedLocalVideoDeviceId
+    const trans = useTrans()
 
     function replaceTrack(newDeviceId: string) {
         // Here we store the device ID in the component state. This is so we can re-render this component display
@@ -68,7 +70,7 @@ export default function VideoInputList() {
                     <Text>Video Input</Text>
                     <Typography>
                         {localVideoTrack?.mediaStreamTrack.label ||
-                            'No Local Video'}
+                            trans('No Local Video')}
                     </Typography>
                 </>
             )}

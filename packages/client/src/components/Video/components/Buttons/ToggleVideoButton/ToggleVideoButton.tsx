@@ -6,6 +6,7 @@ import VideoOnIcon from '../../../icons/VideoOnIcon'
 import useDevices from '../../../hooks/useDevices/useDevices'
 import useLocalVideoToggle from '../../../hooks/useLocalVideoToggle/useLocalVideoToggle'
 import { Button } from 'antd'
+import { useTrans } from 'common'
 
 const { useCallback, useRef } = React
 const ToggleVideoButton = (props: {
@@ -15,6 +16,7 @@ const ToggleVideoButton = (props: {
     const [isVideoEnabled, toggleVideoEnabled] = useLocalVideoToggle()
     const lastClickTimeRef = useRef(0)
     const { hasVideoInputDevices } = useDevices()
+    const trans = useTrans()
 
     const toggleVideo = useCallback(() => {
         if (Date.now() - lastClickTimeRef.current > 500) {
@@ -36,10 +38,10 @@ const ToggleVideoButton = (props: {
             icon={isVideoEnabled ? <VideoOnIcon /> : <VideoOffIcon />}
         >
             {!hasVideoInputDevices
-                ? 'No Video'
+                ? trans('No Video')
                 : isVideoEnabled
-                ? 'Stop Video'
-                : 'Start Video'}
+                ? trans('Stop Video')
+                : trans('Start Video')}
         </Button>
     )
 }

@@ -3298,6 +3298,32 @@ var Add$1 = "Thêm";
 var Submit$1 = "Thanh toán";
 var Country$1 = "Quốc gia";
 var Postcode$1 = "Mã bưu điện";
+var User$1 = "Người dùng";
+var Resume$1 = "Sơ yếu lí lịch";
+var Cancel$1 = "Huỷ bỏ";
+var Next$1 = "Tiếp";
+var View$1 = "Xem";
+var Ban$1 = "Cấm";
+var Unban$1 = "Huỷ cấm";
+var Yes$1 = "Có";
+var Role$1 = "Vai trò";
+var Minus$1 = "Trừ Point";
+var Approve$1 = "Châp thuận";
+var Resolved$1 = "Đã giải quyết";
+var Loading = "Đang tải dữ liệu";
+var Preview$2 = "Xem trước";
+var Save$1 = "Lưu";
+var Continue$1 = "Tiếp tục";
+var Joining$1 = "Tham gia";
+var Audio$1 = "Âm thanh";
+var Video$1 = "Hình ảnh";
+var Report$1 = "Báo cáo";
+var Ended$1 = "Kết thúc";
+var Time$1 = "Thời gian giao dịch";
+var Amount$1 = "Số lượng";
+var Money$1 = "Số tiền";
+var Before$1 = "Trước";
+var After$1 = "Sau";
 var vi = {
 	Failed: Failed$1,
 	Login: Login$1,
@@ -3409,7 +3435,61 @@ var vi = {
 	"Invalid Date": "Ngày sinh không hợp lệ",
 	"Old password": "Mật khẩu cũ",
 	"New Password": "Mật khẩu mới",
-	"Confirm Password": "Xác nhận mật khẩu"
+	"Confirm Password": "Xác nhận mật khẩu",
+	User: User$1,
+	"Create at": "Thời gian tạo",
+	Resume: Resume$1,
+	Cancel: Cancel$1,
+	Next: Next$1,
+	View: View$1,
+	"Are you sure": "Bạn có chắc không",
+	Ban: Ban$1,
+	Unban: Unban$1,
+	Yes: Yes$1,
+	Role: Role$1,
+	"Current Point": "Số Point hiện tại",
+	Minus: Minus$1,
+	Approve: Approve$1,
+	Resolved: Resolved$1,
+	Loading: Loading,
+	"Forgot Password": "Quên mật khẩu",
+	Preview: Preview$2,
+	Save: Save$1,
+	"Please rate this mentor": "Vui lòng đánh giá mentor",
+	"End session": "Kết thúc session",
+	"Your name": "Tên của bạn",
+	Continue: Continue$1,
+	Joining: Joining$1,
+	"No Audio": "Không có âm thanh",
+	Audio: Audio$1,
+	Video: Video$1,
+	"No Video": "Không có hình ảnh",
+	"Audio and Video Settings": "Tuỳ chỉnh âm thanh và hình ảnh",
+	Report: Report$1,
+	Ended: Ended$1,
+	"Make payment": "Thanh toán",
+	"You must add some point": "Bạn phải thêm point",
+	"Please input your card number": "Vui lòng nhập số thẻ của bạn ",
+	"Month of expiration date is required": "Vui lòng nhập tháng hết hạn trên thẻ",
+	"Year of expiration date is required": "Vui lòng nhập năm hết hạn trên thẻ",
+	"CVC is required": "Vui lòng nhập CVC",
+	"Payment history": "Lịch sử giao dịch",
+	Time: Time$1,
+	Amount: Amount$1,
+	Money: Money$1,
+	Before: Before$1,
+	After: After$1,
+	"Please enter your full name": "Vui lòng nhập đầy đủ tên của bạn",
+	"Please input exactly your full name": "Vui lòng nhập chính xác tên đầy đủ của bạn",
+	"Please enter a valid phone number": "Xin vui lòng nhập một số điện thoại hợp lệ",
+	"The password must not contain whitespace": "Mật khẩu không được chứa khoảng trắng",
+	"The password must contain at least 1 uppercase alphabetical": "Mật khẩu phải chứa ít nhất 1 chữ cái viết hoa ",
+	"The password must contain at least 1 numeric character": "Mật khẩu phải chứa ít nhất 1 ký tự số ",
+	"The password must contain at least one special character": "Mật khẩu phải chứa ít nhất một ký tự đặc biệt ",
+	"The password must be eight characters or longer": "Mật khẩu phải có 8 ký tự trở lên ",
+	"Please input your password!": "Vui lòng nhập mật khẩu của bạn!",
+	"Please confirm your password!": "Vui lòng xác nhận mật khẩu của bạn!",
+	"Change password": "Đổi mật khẩu"
 };
 
 var Failed = "Failed";
@@ -3462,6 +3542,31 @@ var Add = "Add";
 var Submit = "Submit";
 var Country = "Country";
 var Postcode = "Postcode";
+var User = "User";
+var Resume = "Resume";
+var Cancel = "Cancel";
+var Next = "Next";
+var View = "View";
+var Ban = "Ban";
+var Unban = "Unban";
+var Yes = "Yes";
+var Role = "Role";
+var Minus = "Minus";
+var Approve = "Approve";
+var Resolved = "Resolved";
+var Preview$1 = "Preview";
+var Save = "Save";
+var Continue = "Continue";
+var Joining = "Joining";
+var Audio = "Audio";
+var Video = "Video";
+var Report = "Report";
+var Ended = "Ended";
+var Time = "Time";
+var Amount = "Amount";
+var Money = "Money";
+var Before = "Before";
+var After = "After";
 var en = {
 	Failed: Failed,
 	Login: Login,
@@ -3573,7 +3678,61 @@ var en = {
 	"Invalid Date": "Invalid Date",
 	"Old password": "Old password",
 	"New Password": "New Password",
-	"Confirm Password": "Confirm Password"
+	"Confirm Password": "Confirm Password",
+	User: User,
+	"Create at": "Create at",
+	Resume: Resume,
+	Cancel: Cancel,
+	Next: Next,
+	View: View,
+	"Are you sure": "Are you sure",
+	Ban: Ban,
+	Unban: Unban,
+	Yes: Yes,
+	Role: Role,
+	"Current Point": "Current Point",
+	Minus: Minus,
+	Approve: Approve,
+	Resolved: Resolved,
+	"Loading...": "Loading...",
+	"Forgot Password": "Forgot Password",
+	Preview: Preview$1,
+	Save: Save,
+	"Please rate this mentor": "Please rate this mentor",
+	"End session": "End session",
+	"Your name": "Your name",
+	Continue: Continue,
+	Joining: Joining,
+	"No Audio": "No Audio",
+	Audio: Audio,
+	Video: Video,
+	"No Video": "No Video",
+	"Audio and Video Settings": "Audio and Video Settings",
+	Report: Report,
+	Ended: Ended,
+	"Make payment": "Make payment",
+	"You must add some point": "You must add some point",
+	"Please input your card number": "Please input your card number",
+	"Month of expiration date is required": "Month of expiration date is required",
+	"Year of expiration date is required": "Year of expiration date is required",
+	"CVC is required": "CVC is required",
+	"Payment history": "Payment history",
+	Time: Time,
+	Amount: Amount,
+	Money: Money,
+	Before: Before,
+	After: After,
+	"Please enter your full name": "Please enter your full name",
+	"Please input exactly your full name": "Please input exactly your full name",
+	"Please enter a valid phone number": "Please enter a valid phone number",
+	"The password must not contain whitespace": "The password must not contain whitespace",
+	"The password must contain at least 1 uppercase alphabetical": "The password must contain at least 1 uppercase alphabetical",
+	"The password must contain at least 1 numeric character": "The password must contain at least 1 numeric character",
+	"The password must contain at least one special character": "The password must contain at least one special character",
+	"The password must be eight characters or longer": "The password must be eight characters or longer",
+	"Please input your password!": "Please input your password!",
+	"Please confirm your password!": "Please confirm your password!",
+	"Change password": "Change password"
 };
 
 var resources = {

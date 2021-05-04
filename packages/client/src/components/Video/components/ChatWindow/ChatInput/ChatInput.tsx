@@ -58,7 +58,6 @@ export default function ChatInput({ conversation }: ChatInputProps) {
                             'There was a problem uploading the file. Please try again.'
                         )
                     }
-                    console.log('Problem sending file: ', e)
                 })
                 .finally(() => {
                     setIsSendingFile(false)
