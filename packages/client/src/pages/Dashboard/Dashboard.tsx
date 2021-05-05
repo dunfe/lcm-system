@@ -2,11 +2,12 @@ import { getUserDetail, selectUser } from './userSlice'
 import { useAPI } from '../../utils/hooks/useAPI'
 import { useToken } from '../../utils/hooks/useToken'
 import * as React from 'react'
-import { Row, Col, Card, Typography } from 'antd'
+import { Row, Col, Card, Typography, Space, Rate } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Line, Pie } from '@ant-design/charts'
 import Guide from './Guide'
+import { useRole } from '../../utils/hooks/useRole'
 
 const { useEffect, useState } = React
 const { Title } = Typography
@@ -15,6 +16,7 @@ const Dashboard = () => {
     const instance = useAPI()
     const dispatch = useDispatch()
     const token = useToken()
+    const role = useRole()
 
     const [questions, setQuestions] = useState({
         line: [],
@@ -112,8 +114,42 @@ const Dashboard = () => {
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title={t('Favorite Mentor')} bordered={false}>
-                                <Title> {user?.favoriteMentor.length}</Title>
+                            <Card
+                                title={t('Favorite Mentor')}
+                                bordered={false}
+                                style={{ height: '100%' }}
+                            >
+                                {role === 'mentee' ? (
+                                    <Title>{user?.favoriteMentor.length}</Title>
+                                ) : (
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                        }}
+                                    >
+                                        <Space>
+                                            <Rate value={5} />{' '}
+                                            {user?.rate.totalRating5}
+                                        </Space>
+                                        <Space>
+                                            <Rate value={4} />{' '}
+                                            {user?.rate.totalRating4}
+                                        </Space>
+                                        <Space>
+                                            <Rate value={3} />{' '}
+                                            {user?.rate.totalRating3}
+                                        </Space>
+                                        <Space>
+                                            <Rate value={2} />{' '}
+                                            {user?.rate.totalRating2}
+                                        </Space>
+                                        <Space>
+                                            <Rate value={1} />{' '}
+                                            {user?.rate.totalRating1}
+                                        </Space>
+                                    </div>
+                                )}
                             </Card>
                         </Col>
                     </Row>
@@ -126,11 +162,7 @@ const Dashboard = () => {
                     </Card>
                 </Col>
                 <Col span={6}>
-                    <Card
-                        title={t('Guide')}
-                        bordered={false}
-                        style={{ height: '90vh' }}
-                    >
+                    <Card title={t('Guide')} bordered={false}>
                         <Guide />
                     </Card>
                 </Col>

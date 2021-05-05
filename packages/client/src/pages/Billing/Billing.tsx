@@ -274,7 +274,7 @@ const Billing = () => {
                                             }}
                                         >
                                             <Input
-                                                placeholder="Amount"
+                                                placeholder={trans('Amount')}
                                                 onChange={onAmountChange}
                                             />
                                         </Form.Item>
@@ -295,7 +295,7 @@ const Billing = () => {
                                             }}
                                         >
                                             <Input
-                                                placeholder="Point"
+                                                placeholder={trans('Point')}
                                                 onChange={onPointChange}
                                             />
                                         </Form.Item>
@@ -303,12 +303,13 @@ const Billing = () => {
                                     <Form.Item
                                         name="currency"
                                         label="Currency"
-                                        initialValue={'vnd'}
+                                        initialValue={'usd'}
                                         rules={[
                                             {
                                                 required: true,
-                                                message:
-                                                    'Please pick a payment method!',
+                                                message: trans(
+                                                    'Please pick a payment method!'
+                                                ),
                                             },
                                         ]}
                                     >
@@ -317,7 +318,6 @@ const Billing = () => {
                                             value={currency}
                                             onChange={onCurrencyChange}
                                         >
-                                            <Radio value="vnd">VND</Radio>
                                             <Radio value="usd">USD</Radio>
                                         </Radio.Group>
                                     </Form.Item>
@@ -404,13 +404,15 @@ const Billing = () => {
                                     </Form.Item>
 
                                     <Form.Item label={'Country'} name="country">
-                                        <Input placeholder="Country" />
+                                        <Input placeholder={trans('Country')} />
                                     </Form.Item>
                                     <Form.Item
-                                        label={'Postcode'}
-                                        name="posttalCode"
+                                        label={trans('Postcode')}
+                                        name="postalCode"
                                     >
-                                        <Input placeholder="Postcode" />
+                                        <Input
+                                            placeholder={trans('Postcode')}
+                                        />
                                     </Form.Item>
 
                                     <Form.Item {...tailLayout}>

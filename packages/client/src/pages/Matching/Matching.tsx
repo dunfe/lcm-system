@@ -8,6 +8,7 @@ import './Matching.css'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import { useTranslation } from 'react-i18next'
+import { Preview } from 'common'
 
 interface IQuestion {
     receivedBy: string[]
@@ -140,7 +141,7 @@ const Matching = () => {
                             {dayjs(item.createAt).format('LLLL')}
                         </Descriptions.Item>
                         <Descriptions.Item label={t('Content')}>
-                            {item.content}
+                            <Preview content={item.content} />
                         </Descriptions.Item>
                     </Descriptions>
                 )

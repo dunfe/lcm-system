@@ -42,7 +42,7 @@ export interface IUserDetail {
     fullname: string
     __v: number
     modifieAt: string
-    favoriteMentor: string[]
+    favoriteMentor: any[]
 }
 
 const { useState, useEffect } = React

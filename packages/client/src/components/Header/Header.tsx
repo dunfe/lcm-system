@@ -127,8 +127,13 @@ const HeaderComponent = (props: IProps) => {
                         <Title level={3}>{t('Your notification')}</Title>
                     </Divider>
                 }
+                style={{
+                    width: 600,
+                    maxHeight: '90vh',
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                }}
                 bordered
-                style={{ width: 550 }}
                 itemLayout="horizontal"
                 dataSource={notify}
                 renderItem={(item) => (
@@ -139,7 +144,12 @@ const HeaderComponent = (props: IProps) => {
                             }
                             title={
                                 item.read ? (
-                                    <Text disabled>{item.title}</Text>
+                                    <Text
+                                        style={{ color: 'gray' }}
+                                        onClick={() => history.push('/session')}
+                                    >
+                                        {item.title}
+                                    </Text>
                                 ) : (
                                     <Text strong>
                                         <a onClick={() => markRead(item._id)}>

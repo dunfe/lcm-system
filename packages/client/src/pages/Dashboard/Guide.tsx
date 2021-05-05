@@ -107,7 +107,7 @@ const Guide = () => {
                     web c&#7911;a m&igrave;nh v&#7899;i mentor &#273;&#7875;
                     nghe gi&#7843;i th&iacute;ch chi ti&#7871;t c&#7911;a
                     v&#7845;n &#273;&#7873; b&#7841;n g&#7863;p ph&#7843;i
-                    t&#7915; mentor. \
+                    t&#7915; mentor.
                 </span>
             </p>
             <p className="c0 c1">

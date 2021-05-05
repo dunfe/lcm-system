@@ -52,7 +52,6 @@ const InfoSetting = () => {
 
     const [loading, setLoading] = useState(false)
     const [imgURL, setImgURL] = useState('')
-    const [skills, setSkills] = useState<{ label: string; value: string }[]>()
     const [skillOptions, setSkillOptions] = useState<
         { label: string; value: string }[]
     >()

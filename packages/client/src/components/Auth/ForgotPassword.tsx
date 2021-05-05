@@ -42,18 +42,16 @@ const ForgotPassword = (props: IProps) => {
                     if (response.status === 200) {
                         setWait(false)
                         setCount(60)
-                        message
-                            .success(
-                                t(
-                                    'Reset successfully! Please check your email to get the new password'
-                                )
-                            )
-                            .then(() => {
-                                setActiveKey('1')
-                            })
+                        message.success(response.data.message).then(() => {
+                            setActiveKey('1')
+                        })
                     }
                 })
-                .catch((error) => console.error(error.response.data.message))
+                .catch((error) => {
+                    setWait(false)
+                    setCount(60)
+                    message.error(error.response.data.message)
+                })
         }
     }
 
