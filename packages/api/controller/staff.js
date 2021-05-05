@@ -143,7 +143,7 @@ export const plusPoint_Transaction = async (req, res) => {
                                     amount : amount, 
                                     ref : user.fullname, 
                                     note : req.body.note}} },
-        { new: false }, (err, doc) => {
+        { new: true }, (err, doc) => {
             if(!err) {
                 
             } else {
