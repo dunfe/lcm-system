@@ -26,7 +26,7 @@ export const get = createAsyncThunk('skills/get', async () => {
 })
 
 export const skillsSlice = createSlice({
-    name: 'questions',
+    name: 'skills',
     initialState,
     reducers: {},
     extraReducers: (builder) => {

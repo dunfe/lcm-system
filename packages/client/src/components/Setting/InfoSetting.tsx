@@ -4,7 +4,7 @@ import { useAPI } from '../../utils/hooks/useAPI'
 import { useToken } from '../../utils/hooks/useToken'
 import { useUserInfo } from '../../utils/hooks/useUserInfo'
 import DatePicker from '../Custom/DatePicker'
-import { selectAllSkills } from '../../features/skill/skillsSlice'
+import { get, selectAllSkills } from '../../features/skill/skillsSlice'
 import {
     Row,
     Col,
@@ -21,7 +21,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'antd/es/form/Form'
 import dayjs from 'dayjs'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useFullnameRule, usePhoneNumberRule } from 'common'
 
 const layout = {
@@ -46,12 +46,16 @@ const InfoSetting = () => {
     const { t } = useTranslation()
     const [form] = useForm()
     const user = useUserInfo()
+    const dispatch = useDispatch()
 
     const _skills = useSelector(selectAllSkills)
 
     const [loading, setLoading] = useState(false)
     const [imgURL, setImgURL] = useState('')
     const [skills, setSkills] = useState<{ label: string; value: string }[]>()
+    const [skillOptions, setSkillOptions] = useState<
+        { label: string; value: string }[]
+    >()
 
     const uploadButton = (
         <div>
@@ -113,13 +117,13 @@ const InfoSetting = () => {
 
     useEffect(() => {
         if (Array.isArray(_skills) && _skills.length > 0) {
-            const data = _skills.map((item) => {
+            const options = _skills.map((item) => {
                 return {
                     label: item.name,
                     value: item.name,
                 }
             })
-            setSkills(data)
+            setSkillOptions(options)
         }
     }, [_skills])
 
@@ -153,6 +157,10 @@ const InfoSetting = () => {
             })
         }
     }, [user])
+
+    useEffect(() => {
+        dispatch(get())
+    }, [])
 
     return (
         <Row gutter={24}>
@@ -208,7 +216,7 @@ const InfoSetting = () => {
                                 <Select
                                     mode="tags"
                                     style={{ width: '100%' }}
-                                    options={skills}
+                                    options={skillOptions}
                                     placeholder={t('Skill')}
                                 />
                             </Form.Item>
