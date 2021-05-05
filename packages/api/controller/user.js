@@ -221,7 +221,7 @@ export const changePassword = async (req, res, next) => {
             }
             
         } else {
-            return res.status(200).json({ 
+            return res.status(400).json({ 
                 status: 'fail',
                 message: 'Incorrect old password'
                 });
