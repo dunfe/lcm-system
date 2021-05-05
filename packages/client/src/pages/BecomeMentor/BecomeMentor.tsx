@@ -43,7 +43,7 @@ const BecomeMentor = () => {
                 setFinish({ ...finish, info: true })
                 setCurrent(current + 1)
             })
-            .catch((error) => message.error(error.message))
+            .catch((error) => console.error(error))
     }
 
     const onSkillFinish = () => {
@@ -64,7 +64,7 @@ const BecomeMentor = () => {
                         message.error(error.response.data.message)
                     )
             })
-            .catch((error) => message.error(error.response.data.message))
+            .catch((error) => console.error(error))
     }
 
     const steps = [
