@@ -19,17 +19,20 @@ const RCE = (props: IProps) => {
     const ydoc = new Y.Doc()
     const provider = new WebsocketProvider('wss://y.livecoding.me', id, ydoc)
 
-    provider.on('change', (evt) => {
-        console.log(evt)
-        setLanguage(evt)
+    const ytext = ydoc.getText('monaco')
+    const ylang = ydoc.getArray('language')
+
+    ylang.observe((event) => {
+        const { insert } = event.delta[0]
+
+        if (insert && insert[0] !== language) {
+            setLanguage(insert[0])
+        }
     })
 
     const onLanguageChange = (value) => {
-        provider.emit('change', [value])
-        setLanguage(value)
+        ylang.insert(0, [value])
     }
-
-    const ytext = ydoc.getText('monaco')
 
     const awareness = provider.awareness
 
