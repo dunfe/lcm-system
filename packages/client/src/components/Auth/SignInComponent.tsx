@@ -5,7 +5,7 @@ import { Button, Checkbox, Form, Input, message } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
+import { useTrans } from 'common'
 
 interface IProps {
     setActiveKey: (state: string) => void
@@ -19,7 +19,7 @@ const SignInComponent = (props: IProps) => {
     const { setActiveKey } = props
     const history = useHistory()
     const auth = useAuth()
-    const { t } = useTranslation()
+    const trans = useTrans()
 
     const onFinish = (values: any) => {
         const { username, password } = values
@@ -27,7 +27,7 @@ const SignInComponent = (props: IProps) => {
         auth.signIn(username, password)
             .then((response) => {
                 if (response) {
-                    message.success(t('Login successfully')).then(() => {
+                    message.success(trans('Login successfully')).then(() => {
                         console.log(response)
                     })
 
@@ -35,14 +35,14 @@ const SignInComponent = (props: IProps) => {
                 }
             })
             .catch((error) => {
-                message.error(t(`Can't Login`)).then(() => {
+                message.error(trans(`Can't Login`)).then(() => {
                     console.error(error)
                 })
             })
     }
 
     const onFinishFailed = (errorInfo: any) => {
-        console.log(t('Failed'), errorInfo)
+        console.log(trans('Failed'), errorInfo)
     }
 
     return (
@@ -59,12 +59,12 @@ const SignInComponent = (props: IProps) => {
                 rules={[
                     {
                         required: true,
-                        message: t('Please enter your username'),
+                        message: trans('Please enter your username'),
                     },
                 ]}
             >
                 <Input
-                    placeholder={t('Username')}
+                    placeholder={trans('Username')}
                     prefix={
                         <UserOutlined
                             className="site-form-item-icon"
@@ -79,13 +79,13 @@ const SignInComponent = (props: IProps) => {
                 rules={[
                     {
                         required: true,
-                        message: t('Please enter your password'),
+                        message: trans('Please enter your password'),
                     },
                 ]}
             >
                 <Input.Password
                     width={'100%'}
-                    placeholder={t('Password')}
+                    placeholder={trans('Password')}
                     prefix={
                         <LockOutlined
                             className="site-form-item-icon"
@@ -97,17 +97,17 @@ const SignInComponent = (props: IProps) => {
 
             <Form.Item wrapperCol={{ span: 24 }}>
                 <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>{t('Remember me')} </Checkbox>
+                    <Checkbox>{trans('Remember me')} </Checkbox>
                 </Form.Item>
 
                 <a onClick={() => setActiveKey('3')} style={{ float: 'right' }}>
-                    {t('Forgot password?')}
+                    {trans('Forgot Password') + '?'}
                 </a>
             </Form.Item>
 
             <Form.Item wrapperCol={{ span: 24 }}>
                 <StyledButton type="primary" htmlType="submit">
-                    {t('Login')}
+                    {trans('Login')}
                 </StyledButton>
             </Form.Item>
         </Form>

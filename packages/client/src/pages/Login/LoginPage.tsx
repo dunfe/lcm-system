@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Select, Tabs } from 'antd'
 import * as React from 'react'
+import { useTrans } from 'common'
 
 const { TabPane } = Tabs
 const { Option } = Select
@@ -14,8 +15,9 @@ const { Option } = Select
 const { useState } = React
 
 const LoginPage = () => {
-    const { t, i18n } = useTranslation()
+    const { i18n } = useTranslation()
     const [activeKey, setActiveKey] = useState('1')
+    const trans = useTrans()
 
     const onLocaleChange = (value) => {
         i18n.changeLanguage(value)
@@ -48,13 +50,13 @@ const LoginPage = () => {
             </LogoContainer>
             <QuickLogin />
             <StyledTabs activeKey={activeKey} onChange={onChange}>
-                <TabPane tab={t('Login')} key="1">
+                <TabPane tab={trans('Login')} key="1">
                     <SignInComponent setActiveKey={setActiveKey} />
                 </TabPane>
-                <TabPane tab={t('Register')} key="2">
+                <TabPane tab={trans('Register')} key="2">
                     <SignUpComponent />
                 </TabPane>
-                <TabPane tab={t('Forgot Password')} key="3">
+                <TabPane tab={trans('Forgot Password')} key="3">
                     <ForgotPassword setActiveKey={setActiveKey} />
                 </TabPane>
             </StyledTabs>

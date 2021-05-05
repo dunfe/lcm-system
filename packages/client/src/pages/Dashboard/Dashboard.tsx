@@ -6,6 +6,7 @@ import { Row, Col, Card, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Line, Pie } from '@ant-design/charts'
+import Guide from './Guide'
 
 const { useEffect, useState } = React
 const { Title } = Typography
@@ -130,7 +131,7 @@ const Dashboard = () => {
                         bordered={false}
                         style={{ height: '90vh' }}
                     >
-                        <h3>{t('Content')}</h3>
+                        <Guide />
                     </Card>
                 </Col>
             </Row>

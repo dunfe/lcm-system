@@ -341,19 +341,19 @@ export const Teams10DataSource = {
               name: 'image',
               className: 'teams1-image',
               children:
-                'https://res.cloudinary.com/dungnqhe151250/image/upload/v1613382868/photo-1554126807-6b10f6f6692a_d2tgm9.jpg',
+                'https://res.cloudinary.com/dungnqhe151250/image/upload/v1620153886/131999275_1144664649300799_2052705464649846513_n_ciurnr.jpg',
             },
-            { name: 'title', className: 'teams1-title', children: 'Nguyễn Quang Dũng' },
+            { name: 'title', className: 'teams1-title', children: 'Nguyễn Mạnh Cường' },
             {
               name: 'content',
               className: 'teams1-job',
-              children: 'Học sinh cấp 1',
+              children: 'VinID Full-stack Developer',
             },
             {
               name: 'content1',
               className: 'teams1-content',
               children:
-                'Hệ thống hoạt động tốt',
+                'Với một giao diện dễ dùng và thân thiện, ứng dụng web này rất hữu ích giúp các bạn học sinh, sinh viên hay mọi người gặp khó khăn trong việc học code. Đặc biệt là phần real-time collaborative editor giúp ích rất nhiều cho các bạn sinh viên về các vấn đề mình gặp phải, để từ đó hiểu kĩ hơn về bản chất vấn đề nhờ có sự giúp đỡ của đội ngũ Mentor rất chất lượng.',
             },
           ],
         },
@@ -369,19 +369,19 @@ export const Teams10DataSource = {
               name: 'image',
               className: 'teams1-image',
               children:
-                'https://res.cloudinary.com/dungnqhe151250/image/upload/v1613382868/photo-1488371934083-edb7857977df_s0zh3f.jpg',
+                'https://res.cloudinary.com/dungnqhe151250/image/upload/v1620083177/image0_tikfhh.jpg',
             },
-            { name: 'title', className: 'teams1-title', children: 'Trần Nguyên Anh' },
+            { name: 'title', className: 'teams1-title', children: 'Nguyễn Bá Sơn' },
             {
               name: 'content',
               className: 'teams1-job',
-              children: 'Tay to Doto',
+              children: 'Thành viên SAP LAB trường ĐH FPT',
             },
             {
               name: 'content1',
               className: 'teams1-content',
               children:
-                'Tôi rất thích ứng dụng này',
+                'Web có hỗ trợ IDE và có thể gọi video, rất hữu ích cho việc giải đáp các câu hỏi.',
             },
           ],
         },
@@ -397,19 +397,19 @@ export const Teams10DataSource = {
               name: 'image',
               className: 'teams1-image',
               children:
-                'https://res.cloudinary.com/dungnqhe151250/image/upload/v1613382868/photo-1507438222021-237ff73669b5_blnesl.jpg',
+                'https://res.cloudinary.com/dungnqhe151250/image/upload/v1620083159/image0_iaetnn.jpg',
             },
-            { name: 'title', className: 'teams1-title', children: 'Bùi Công Ánh' },
+            { name: 'title', className: 'teams1-title', children: 'Nguyễn Hoàng Sơn' },
             {
               name: 'content',
               className: 'teams1-job',
-              children: 'Không rõ',
+              children: 'Thành viên SAP LAB trường ĐH FPT',
             },
             {
               name: 'content1',
               className: 'teams1-content',
               children:
-                'Ứng dụng thật tuyệt vời',
+                'Web có giao diện thân thiện, có thể đặt câu hỏi với nhiều ngôn ngữ lập trình.',
             },
           ],
         },
@@ -425,19 +425,19 @@ export const Teams10DataSource = {
               name: 'image',
               className: 'teams1-image',
               children:
-                'https://res.cloudinary.com/dungnqhe151250/image/upload/v1613382867/photo-1590756252677-8b92843273bf_udm9qc.jpg',
+                'https://res.cloudinary.com/dungnqhe151250/image/upload/v1620083144/image0_p75vc3.jpg',
             },
-            { name: 'title', className: 'teams1-title', children: 'Lê Thành Đạt' },
+            { name: 'title', className: 'teams1-title', children: 'Đoàn Văn Thắng' },
             {
               name: 'content',
               className: 'teams1-job',
-              children: 'Không rõ',
+              children: 'Thành viên SAP LAB trường ĐH FPT',
             },
             {
               name: 'content1',
               className: 'teams1-content',
               children:
-                'Ứng dụng đã cứu sống cuộc đời tôi',
+                'Thiết kế trang web đẹp,  phần real-time collaborative editor khá hữu ích',
             },
           ],
         },

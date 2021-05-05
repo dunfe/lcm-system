@@ -184,7 +184,13 @@ const SignUpComponent = () => {
             >
                 <Checkbox>
                     {t('I have read and agree to')}{' '}
-                    <a href="">{t('The terms and conditions')}</a>
+                    <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://l.facebook.com/l.php?u=https%3A%2F%2Fres.cloudinary.com%2Flcm-system-fpt%2Fimage%2Fupload%2Fv1620212767%2Fprivacy_xhw5as.pdf%3Ffbclid%3DIwAR0vplcUMqE6h0O-qMzAuWtty2wwOJu0Fu_Sjhkm04xtnV3-Xt1PXTsvl8E&h=AT3P4tDjkgIlAPYF-g_0njBhDH95ASUjrnKwpmuf_7dCaGkrW0Y8B2xA_7PWDusSDLZC5ZMkgNqQOVZF24IVHOe3r4ktcWOFyPfBDlQ9AT0CGP95BPuXUaDVcb18N0hYIf7eDg"
+                    >
+                        {t('The terms and conditions')}
+                    </a>
                 </Checkbox>
             </Form.Item>
 
