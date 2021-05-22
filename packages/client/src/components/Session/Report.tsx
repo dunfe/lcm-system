@@ -37,7 +37,7 @@ const Report = () => {
 
     const upload = {
         name: 'img',
-        action: 'https://livecoding.me/api/users/reports/upload-file',
+        action: 'http://localhost:3000/api/users/reports/upload-file',
         headers: {
             Authorization: token!,
         },

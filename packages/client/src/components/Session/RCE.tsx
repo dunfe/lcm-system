@@ -17,7 +17,7 @@ const RCE = (props: IProps) => {
     const [language, setLanguage] = useState('Javascript')
 
     const ydoc = new Y.Doc()
-    const provider = new WebsocketProvider('wss://y.livecoding.me', id, ydoc)
+    const provider = new WebsocketProvider('ws://localhost:3006', id, ydoc)
 
     const ytext = ydoc.getText('monaco')
     const ylang = ydoc.getArray('language')

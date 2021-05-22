@@ -14,7 +14,7 @@ export const Nav00DataSource = {
         name: 'item0',
         className: 'header0-item',
         children: {
-          href: 'https://app.livecoding.me/become-mentor',
+          href: 'http://localhost:3001/become-mentor',
           children: [{ children: 'Trở thành người hướng dẫn', name: 'text' }],
         },
       },
@@ -38,7 +38,7 @@ export const Nav00DataSource = {
         name: 'item3',
         className: 'header0-item',
         children: {
-          href: 'https://app.livecoding.me',
+          href: 'https://localhost:3001',
           children: [{ children: 'Đăng nhập', name: 'text' }],
         },
       },
@@ -66,7 +66,7 @@ export const Banner50DataSource = {
         name: 'button',
         className: 'banner5-button-wrapper',
         children: {
-          href: 'https://app.livecoding.me/',
+          href: 'https://localhost:3001/',
           className: 'banner5-button',
           type: 'primary',
           children: 'Đặt câu hỏi ngay',
@@ -96,7 +96,7 @@ export const Feature80DataSource = {
       {
         name: 'button',
         className: 'feature8-button',
-        children: { href: 'https://app.livecoding.me/login', children: 'Đăng ký ngay' },
+        children: { href: 'https://localhost:3001/login', children: 'Đăng ký ngay' },
       },
     ],
   },

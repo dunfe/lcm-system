@@ -79,7 +79,7 @@ const InfoSetting = () => {
 
     const props = {
         name: 'avatar',
-        action: 'https://livecoding.me/api/users/upload-file',
+        action: 'http://localhost:3000/api/users/upload-file',
         headers: {
             Authorization: token!,
         },

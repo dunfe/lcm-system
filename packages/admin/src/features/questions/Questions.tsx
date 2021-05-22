@@ -19,7 +19,7 @@ const Questions = () => {
     const [current, setCurrent] = useState(1)
 
     const instance = axios.create({
-        baseURL: 'https://livecoding.me',
+        baseURL: 'http://localhost:3000',
         headers: {
             Authorization: token,
         },

@@ -5,7 +5,7 @@ export const useAPI = () => {
     const token = useToken()
 
     return axios.create({
-        baseURL: 'https://livecoding.me',
+        baseURL: 'http://localhost:3000',
         headers: {
             Authorization: token,
         },

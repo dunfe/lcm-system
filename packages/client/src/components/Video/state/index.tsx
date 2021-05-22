@@ -59,7 +59,7 @@ export default function AppStateProvider(props: React.PropsWithChildren<any>) {
     contextValue = {
         ...contextValue,
         getToken: async (user_identity, room_name) => {
-            const endpoint = 'https://t.livecoding.me/room/token'
+            const endpoint = 'http://localhost:3005/room/token'
 
             return fetch(endpoint, {
                 method: 'POST',

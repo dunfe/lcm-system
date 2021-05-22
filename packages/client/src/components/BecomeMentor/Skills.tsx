@@ -50,7 +50,7 @@ const Skills = (props: IProps) => {
 
     const upload = {
         name: 'cv',
-        action: 'https://livecoding.me/api/users/mentor/register/upload-file',
+        action: 'http://localhost:3000/api/users/mentor/register/upload-file',
         headers: {
             Authorization: token!,
         },

@@ -39,7 +39,7 @@ const Skills = (props: IProps) => {
 
     const auth = useAuth()
     const instance = axios.create({
-        baseURL: 'https://livecoding.me',
+        baseURL: 'http://localhost:3000',
         headers: {
             Authorization: auth?.user?.user.token,
         },

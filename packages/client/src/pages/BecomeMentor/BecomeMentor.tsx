@@ -135,7 +135,7 @@ const BecomeMentor = () => {
                     )}
                     {current === steps.length - 1 && (
                         <Button type="primary">
-                            <a href={'https://livecoding.me'}>
+                            <a href={'http://localhost:3001'}>
                                 {trans('Finish')}
                             </a>
                         </Button>

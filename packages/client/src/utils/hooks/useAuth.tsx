@@ -40,7 +40,7 @@ interface IUseAuthType {
 }
 
 const authContext = createContext({})
-const instance = axios.create({ baseURL: 'https://livecoding.me' })
+const instance = axios.create({ baseURL: 'http://localhost:3000' })
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().

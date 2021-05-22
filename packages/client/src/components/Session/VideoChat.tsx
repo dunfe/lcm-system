@@ -23,7 +23,7 @@ const VideoChat = (props: IProps) => {
     useEffect(() => {
         instance
             .post(
-                'https://t.livecoding.me/video/token',
+                'http://localhost:3005/video/token',
                 {
                     identity: username,
                     room: roomName,

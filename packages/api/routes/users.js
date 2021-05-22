@@ -118,8 +118,8 @@ router.get('/google', passport.authenticate('google', { scope:['profile', 'email
 
 router.get('/google/redirect', (req, res, next) =>
     passport.authenticate('google', {
-        successRedirect: 'https://app.livecoding.me',
-        failureRedirect: 'https://app.livecoding.me/login'
+        successRedirect: 'http://localhost:3001',
+        failureRedirect: 'http://localhost:3001/login'
     }, (err, user) => {
         if(user.role == 'banned') {
             return res.json({
@@ -153,7 +153,7 @@ router.get('/google/redirect', (req, res, next) =>
                 data
             }
         }), {domain: '.livecoding.me', secure: true})
-        res.redirect('https://app.livecoding.me');
+        res.redirect('http://localhost:3001');
     })(req, res, next)
 );
 
@@ -162,8 +162,8 @@ router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }))
 
 router.get('/facebook/redirect', (req, res, next) =>
     passport.authenticate('facebook', {
-        successRedirect: 'https://app.livecoding.me',
-        failureRedirect: 'https://app.livecoding.me/login'
+        successRedirect: 'http://localhost:3001',
+        failureRedirect: 'http://localhost:3001/login'
     }, (err, user) => {
         if(user.role == 'banned') {
             return res.json({
@@ -197,7 +197,7 @@ router.get('/facebook/redirect', (req, res, next) =>
                 data
             }
         }), {domain: '.livecoding.me', secure: true})
-        res.redirect('https://app.livecoding.me');
+        res.redirect('http://localhost:3001');
     })(req, res, next)
 );
 
@@ -206,8 +206,8 @@ router.get('/github', passport.authenticate('github', {scope: ['user:email']}));
 
 router.get('/github/redirect', (req, res, next) =>
     passport.authenticate('github', {
-        successRedirect: 'https://app.livecoding.me',
-        failureRedirect: 'https://app.livecoding.me/login'
+        successRedirect: 'http://localhost:3001',
+        failureRedirect: 'http://localhost:3001/login'
     }, (err, user) => {
         if(user.role == 'banned') {
             return res.json({
@@ -241,7 +241,7 @@ router.get('/github/redirect', (req, res, next) =>
                 data
             }
         }), {domain: '.livecoding.me', secure: true})
-        res.redirect('https://app.livecoding.me');
+        res.redirect('http://localhost:3001');
     })(req, res, next)
 );
 
